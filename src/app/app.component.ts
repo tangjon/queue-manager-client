@@ -7,8 +7,10 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  items: Observable<any[]>;
   constructor(db: AngularFireDatabase) {
-
+    const itemRef = db.object('item');
+    itemRef.set({ name: 'new name!' });
   }
   title = 'app';
 }
