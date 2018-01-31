@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import { User } from '../model/user';
 
 @Component({
   selector: 'app-team-manager',
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./team-manager.component.css']
 })
 export class TeamManagerComponent {
+  newUser: User;
   inputName: string;
   inputiNumber: string;
 
@@ -25,10 +27,8 @@ export class TeamManagerComponent {
   // TODO Create user model
   addItem(fName: string, iNumber: string) {
     if (fName && iNumber) {
-      this.itemsRef.push({
-        name: fName,
-        iNumber: iNumber
-      });
+      this.newUser = new User(iNumber,fName, this.db.createPushId() ) 
+      this.db.object('users/' + this.newUser.key).set(this.newUser)
     }
     // clear form
     this.inputName = "";
