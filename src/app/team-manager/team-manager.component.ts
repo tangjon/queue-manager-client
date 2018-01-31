@@ -8,6 +8,9 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./team-manager.component.css']
 })
 export class TeamManagerComponent {
+  inputName: string;
+  inputiNumber: string;
+
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
   constructor(public db: AngularFireDatabase) {
@@ -15,13 +18,21 @@ export class TeamManagerComponent {
     this.users = this.itemsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
+    // Start with clear form
+    this.inputiNumber = "";
+    this.inputName = "";
   }
   // TODO Create user model
   addItem(fName: string, iNumber: string) {
-    this.itemsRef.push({
-      name: fName,
-      iNumber: iNumber
-    });
+    if (fName && iNumber) {
+      this.itemsRef.push({
+        name: fName,
+        iNumber: iNumber
+      });
+    }
+    // clear form
+    this.inputName = "";
+    this.inputiNumber = "";
   }
   updateItem(key: string, fName: string, iNumber: string) {
     this.itemsRef.update(key, {

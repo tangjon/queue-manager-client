@@ -1,19 +1,23 @@
 <h1>Team Management</h1>
-<div class="row">
-  <div class="col">
-    <div class="form-group">
-      <label>First Name</label>
-      <input #firstName type="text" class="form-control" id="inputFirstName" placeholder="Enter First Name">
+<div id="add-user-form">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label>Name</label>
+        <input [(ngModel)]="inputName" [value]="inputName" type="text" class="form-control" id="inputName" placeholder="Enter First Name">
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label>iNumber</label>
+        <input [(ngModel)]="inputiNumber" [value]="inputiNumber" type="text" class="form-control" id="inputINumber" placeholder="iNumber">
+      </div>
     </div>
   </div>
-  <div class="col">
-    <div class="form-group">
-      <label>iNumber</label>
-      <input #iNumber type="text" class="form-control" id="inputINumber" placeholder="iNumber">
-    </div>
-  </div>
+  <button type="button" class="btn btn-primary" (click)="addItem(inputName,inputiNumber)">Add User</button>
+
 </div>
-<button type="button" class="btn btn-primary" (click)="addItem(firstName.value,iNumber.value)">Add User</button>
+
 
 <table class="table">
   <thead>
