@@ -1,9 +1,10 @@
 export class User {
     iNumber: string;
     name:string;
-
-    constructor(iNumber, name){
+    key: string;
+    constructor(iNumber, name, key){
         this.iNumber = iNumber;
         this.name = name;
+        this.key = key;
     }
 }

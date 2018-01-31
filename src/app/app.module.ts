@@ -9,6 +9,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { QueueControlComponent } from './queue-control/queue-control.component';
+import { TeamManagerComponent } from './team-manager/team-manager.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { QueueControlComponent } from './queue-control/queue-control.component';
     NavbarComponent,
     FooterComponent,
     LoginComponent,
-    QueueControlComponent
+    QueueControlComponent,
+    TeamManagerComponent
   ],
   imports: [
     BrowserModule,
