@@ -8,8 +8,8 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  authFlag = true
-  authMessage = ""
+  authFlag = true;
+  authMessage = "";
 
   constructor(public afAuth: AngularFireAuth) {
   }
@@ -17,16 +17,14 @@ export class LoginComponent {
     this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(username, password)
       .catch(err => this.handleError(err));
 
-
   }
   logout() {
     this.afAuth.auth.signOut();
   }
 
   handleError(err) {
-    this.authFlag = false
-    this.authMessage = err.code
-
+    this.authFlag = false;
+    this.authMessage = err.code;
   }
 
 }
