@@ -1,0 +1,10 @@
+#component-menu {
+    border-style: solid;
+    border-width: 2px;
+}
+
+#component-menu .col{
+    border-width: 2px;
+    border-style: solid;
+
+}

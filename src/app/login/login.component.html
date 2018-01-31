@@ -1,6 +1,4 @@
 <div *ngIf="afAuth.authState | async as user; else showLogin">
-  <h3>Hello {{ user.email }}!</h3>
-  <button (click)="logout()">Logout</button>
 </div>
 <ng-template #showLogin>
   <div id="login-form" bclass="text-center" style="padding:50px 0">

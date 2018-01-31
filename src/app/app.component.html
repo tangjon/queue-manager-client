@@ -4,8 +4,7 @@
     <app-login></app-login>
 
     <div *ngIf="afAuth.authState | async as user">
-        <app-queue-control></app-queue-control>
-        <app-team-manager></app-team-manager>
+        <router-outlet></router-outlet>
     </div>
 
 

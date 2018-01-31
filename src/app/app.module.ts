@@ -11,6 +11,12 @@ import { LoginComponent } from './login/login.component';
 import { QueueControlComponent } from './queue-control/queue-control.component';
 import { TeamManagerComponent } from './team-manager/team-manager.component';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: '', component: QueueControlComponent },
+  { path: 'manage', component: TeamManagerComponent }
+];
 
 @NgModule({
   declarations: [
@@ -26,7 +32,9 @@ import { FormsModule } from '@angular/forms';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    FormsModule
+    FormsModule, 
+    RouterModule.forRoot(
+      appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
