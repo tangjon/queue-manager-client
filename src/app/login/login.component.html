@@ -17,6 +17,9 @@
 
     <button (click)="login(useremail.value,userpass.value)">Login</button>
 
+    <div *ngIf="authFlag == false" class="alert alert-danger" role="alert">
+      {{ authMessage }}
+    </div>
   </div>
 
 

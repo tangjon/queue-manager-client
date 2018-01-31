@@ -8,14 +8,25 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  authFlag = true
+  authMessage = ""
 
   constructor(public afAuth: AngularFireAuth) {
   }
-  login(username:string, password:string) {
-    console.log(username, password)
-    this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(username,password);
+  login(username: string, password: string) {
+    this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(username, password)
+      .catch(err => this.handleError(err));
+
+
   }
   logout() {
     this.afAuth.auth.signOut();
   }
+
+  handleError(err) {
+    this.authFlag = false
+    this.authMessage = err.code
+
+  }
+
 }
