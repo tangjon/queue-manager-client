@@ -22,4 +22,7 @@ export class QueueControlComponent {
     this.itemRef = this.db.object('users/' + key);
     this.itemRef.update({ isAvailable: bool })
   }
+  logIt(msg){
+    console.log(msg)
+  }
 }
