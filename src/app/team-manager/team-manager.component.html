@@ -1,4 +1,4 @@
-<div class="logo">Add User</div>
+<h1>Team Management</h1>
 <div class="row">
   <div class="col">
     <div class="form-group">
@@ -14,4 +14,31 @@
   </div>
 </div>
 <button type="button" class="btn btn-primary" (click)="addItem(firstName.value,iNumber.value)">Add User</button>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">INumber</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users | async; let i = index">
+      <th scope="row">{{i + 1}}</th>
+      <td>
+        <input type="text" #updateName [value]="user.name" />
+      </td>
+      <td>
+        <input type="text" #updateiNumber [value]="user.iNumber" />
+      </td>
+      <td>
+        <button (click)="updateItem(user.key, updateName.value, updateiNumber.value)">Update</button>
+        <button (click)="deleteItem(user.key)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button>

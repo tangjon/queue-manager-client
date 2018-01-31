@@ -12,6 +12,9 @@ export class TeamManagerComponent {
   users: Observable<any[]>;
   constructor(public db: AngularFireDatabase) {
     this.itemsRef = db.list('users');
+    this.users = this.itemsRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
   }
   // TODO Create user model
   addItem(fName: string, iNumber: string) {
