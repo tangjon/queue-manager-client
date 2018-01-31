@@ -13,26 +13,18 @@
       <th scope="col">Amount</th>
       <th scope="col">Total</th>
       <th scope="col">AVG Q-DAY</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+    <tr *ngFor="let user of users | async; let i = index">
+      <th scope="row">{{i + 1}}</th>
+      <td>{{user.name + "(" + user.iNumber + ")"}}</td>
       <td>x</td>
       <td>x</td>
       <td>x</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
       <td>x</td>
-      <td>x</td>
-      <td>x</td>
+      <td>x</td>      
     </tr>
   </tbody>
 </table>
