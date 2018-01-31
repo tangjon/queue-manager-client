@@ -4,5 +4,13 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyCoesP_YkwMmpJaGWO3PO7A9VgjnrrmlxQ",
+    authDomain: "queue-manager-fb-ajs.firebaseapp.com",
+    databaseURL: "https://queue-manager-fb-ajs.firebaseio.com",
+    projectId: "queue-manager-fb-ajs",
+    storageBucket: "queue-manager-fb-ajs.appspot.com",
+    messagingSenderId: "1044152156042"
+  }
 };
