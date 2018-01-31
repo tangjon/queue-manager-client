@@ -1,0 +1,17 @@
+<div class="logo">Add User</div>
+<div class="row">
+  <div class="col">
+    <div class="form-group">
+      <label>First Name</label>
+      <input #firstName type="text" class="form-control" id="inputFirstName" placeholder="Enter First Name">
+    </div>
+  </div>
+  <div class="col">
+    <div class="form-group">
+      <label>iNumber</label>
+      <input #iNumber type="text" class="form-control" id="inputINumber" placeholder="iNumber">
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" (click)="addItem(firstName.value,iNumber.value)">Add User</button>
+<button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button>
