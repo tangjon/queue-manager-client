@@ -38,3 +38,8 @@
 #qNavBar a:hover {
     background-color: #465b77
 }
+
+a.navbar-brand {
+    background-color: #c32c2c;
+    padding: 9px 9px;
+}
