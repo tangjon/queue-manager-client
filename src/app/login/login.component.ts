@@ -14,6 +14,8 @@ export class LoginComponent {
   constructor(public afAuth: AngularFireAuth) {
   }
   login(username: string, password: string) {
+    // Todo this is work around
+    username += "@scout33.org"
     this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(username, password)
       .catch(err => this.handleError(err));
 
