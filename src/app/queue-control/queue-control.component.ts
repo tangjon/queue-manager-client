@@ -12,7 +12,7 @@ export class QueueControlComponent {
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
   constructor(public db: AngularFireDatabase) {
-    this.itemsRef = db.list('users');
+    this.itemsRef = db.list('users', ref=> ref.orderByChild('name'));
     this.users = this.itemsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
