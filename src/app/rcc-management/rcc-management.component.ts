@@ -25,4 +25,8 @@ export class RccManagementComponent {
     console.log(user)
   }
 
+  updateRCC(user,val){
+    this.db.object('users/' + user.key).update({ currentQDays: val })
+  }
+
 }
