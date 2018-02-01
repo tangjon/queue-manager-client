@@ -13,11 +13,13 @@ import { TeamManagerComponent } from './team-manager/team-manager.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { RccManagementComponent } from './rcc-management/rcc-management.component';
+import { GroupDetailComponent } from './group-detail/group-detail.component';
 
 const appRoutes: Routes = [
   { path: '', component: QueueControlComponent },
   { path: 'manage', component: TeamManagerComponent },
-  { path: 'rcc', component: RccManagementComponent}
+  { path: 'rcc', component: RccManagementComponent },
+  { path: ':id', component: GroupDetailComponent}
 ];
 
 @NgModule({
@@ -28,7 +30,8 @@ const appRoutes: Routes = [
     LoginComponent,
     QueueControlComponent,
     TeamManagerComponent,
-    RccManagementComponent
+    RccManagementComponent,
+    GroupDetailComponent
   ],
   imports: [
     BrowserModule,

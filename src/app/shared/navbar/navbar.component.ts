@@ -7,9 +7,8 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-
+  userName: string;
   constructor(public afAuth: AngularFireAuth) { 
-
   }
   logout() {
     this.afAuth.auth.signOut();
