@@ -8,20 +8,36 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { LoginComponent } from './login/login.component';
+import { QueueControlComponent } from './queue-control/queue-control.component';
+import { TeamManagerComponent } from './team-manager/team-manager.component';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { RccManagementComponent } from './rcc-management/rcc-management.component';
 
+const appRoutes: Routes = [
+  { path: '', component: QueueControlComponent },
+  { path: 'manage', component: TeamManagerComponent },
+  { path: 'rcc', component: RccManagementComponent}
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    QueueControlComponent,
+    TeamManagerComponent,
+    RccManagementComponent
   ],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    FormsModule, 
+    RouterModule.forRoot(
+      appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]

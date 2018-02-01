@@ -1,6 +1,4 @@
 <div *ngIf="afAuth.authState | async as user; else showLogin">
-  <h1>Hello {{ user.email }}!</h1>
-  <button (click)="logout()">Logout</button>
 </div>
 <ng-template #showLogin>
   <div id="login-form" bclass="text-center">
@@ -17,6 +15,9 @@
 
     <button (click)="login(useremail.value,userpass.value)">Login</button>
 
+    <div *ngIf="authFlag == false" class="alert alert-danger" role="alert">
+      {{ authMessage }}
+    </div>
   </div>
 
 

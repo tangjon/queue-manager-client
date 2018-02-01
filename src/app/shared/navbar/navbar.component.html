@@ -1,19 +1,64 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="#">Queue Manager 2.0?</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Queue Managerv2.0</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" routerLink="/" routerLinkActive="active">
+          Home
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" routerLink="/manage" routerLinkActive="active">
+          Manage Team
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
+        <a class="nav-link" routerLink="/rcc" routerLinkActive="active">
+          RCC
+        </a>
       </li>
+
     </ul>
+    <div *ngIf="afAuth.authState | async as user">
+      <span style="color:white">Welcome {{ user.email }}!</span>
+      <button (click)="logout()">Logout</button>
+    </div>
   </div>
 </nav>
+<div *ngIf="afAuth.authState | async as user">
+  <h2 class="text-center">Other Components</h2>
+  <div id="component-menu" class="container text-center">
+    <div class="row">
+      <div class="col">
+        <a href="ms">MS </a>
+      </div>
+      <div class="col">
+        <a href="ms">SA </a>
+      </div>
+      <div class="col">
+        <a href="ms">SM </a>
+      </div>
+      <div class="col">
+        <a href="ms">FC/EA/IC/FIM </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <a href="ms">DSM </a>
+      </div>
+      <div class="col">
+        <a href="ms">PCM </a>
+      </div>
+      <div class="col">
+        <a href="ms">RTC </a>
+      </div>
+      <div class="col">
+        <a href="ms">LOD-ANA-PL</a>
+      </div>
+    </div>
+  </div>
+</div>
