@@ -1,0 +1,8 @@
+tbody tr:hover {
+    background-color: rgb(202, 202, 202);
+}
+
+div#rcc-form {
+    background-color: #ffffff;
+    padding: 42px;
+}

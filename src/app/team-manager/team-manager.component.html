@@ -1,4 +1,32 @@
-<h1>Team Management</h1>
+<div class="table-responsive shadow">
+  <h1 class="qTable-title">Team Management</h1>
+  <table class="table qTable">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">INumber</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users | async; let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>
+          <input type="text" #updateName [value]="user.name" />
+        </td>
+        <td>
+          <input type="text" #updateiNumber [value]="user.iNumber" />
+        </td>
+        <td>
+          <button (click)="updateItem(user.key, updateName.value, updateiNumber.value)">Update</button>
+          <button (click)="deleteItem(user.key)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <div id="add-user-form">
   <div class="row">
     <div class="col">
@@ -15,34 +43,5 @@
     </div>
   </div>
   <button type="button" class="btn btn-primary" (click)="addItem(inputName,inputiNumber)">Add User</button>
-
+  <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button>
 </div>
-
-
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">INumber</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users | async; let i = index">
-      <th scope="row">{{i + 1}}</th>
-      <td>
-        <input type="text" #updateName [value]="user.name" />
-      </td>
-      <td>
-        <input type="text" #updateiNumber [value]="user.iNumber" />
-      </td>
-      <td>
-        <button (click)="updateItem(user.key, updateName.value, updateiNumber.value)">Update</button>
-        <button (click)="deleteItem(user.key)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button>

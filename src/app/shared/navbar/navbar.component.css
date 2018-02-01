@@ -1,10 +1,40 @@
 #component-menu {
     border-style: solid;
     border-width: 2px;
+    margin-bottom: 15px;
+    background-color: #465b77;
+}
+
+#component-menu .col {
+    background-color: #262f3d;
+}
+#component-menu a {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
 }
 
 #component-menu .col{
     border-width: 2px;
     border-style: solid;
+}
 
+#component-title{
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+#qNavBar {
+    background-color: #262f3d;
+    margin-bottom: 8px;
+}
+
+#qNavBar a {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+#qNavBar a:hover {
+    background-color: #465b77
 }

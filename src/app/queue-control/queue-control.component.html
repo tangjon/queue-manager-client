@@ -1,37 +1,39 @@
-<h1>Queue Management</h1>
-<table class="table table-dark">
-  <thead>
-    <tr>
-      <th colspan="1" scope="col"></th>
-      <th colspan="3" scope="col">
-        {{ (users | async)?.length }} Employees in EPM-BPC team</th>
-      <th colspan="5" scope="col">Something here</th>
-    </tr>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Assign</th>
-      <th scope="col">Remove</th>
-      <th scope="col">Amount</th>
-      <th scope="col">Total</th>
-      <th scope="col">AVG Q-DAY</th>
-      <th scope="col">Status</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users | async; let i = index">
-      <th scope="row">{{i + 1}}</th>
-      <td>{{user.name + "(" + user.iNumber + ")"}}</td>
-      <td>x</td>
-      <td>x</td>
-      <td>x</td>
-      <td>x</td>
-      <td>x</td>
-      <td>{{ user.isAvailable }}</td>
-      <td>
-        <button (click)="toggleAvailability(user.key, !user.isAvailable)">Toggle</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-responsive shadow">
+  <h1 class="qTable-title">Queue Management</h1>
+  <table class="table qTable">
+    <thead>
+      <tr>
+        <th colspan="1" scope="col"></th>
+        <th colspan="3" scope="col">
+          {{ (users | async)?.length }} Employees in EPM-BPC team</th>
+        <th colspan="5" scope="col">Something here</th>
+      </tr>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Assign</th>
+        <th scope="col">Remove</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Total</th>
+        <th scope="col">AVG Q-DAY</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users | async; let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{user.name + "(" + user.iNumber + ")"}}</td>
+        <td>x</td>
+        <td>x</td>
+        <td>x</td>
+        <td>x</td>
+        <td>x</td>
+        <td>{{ user.isAvailable }}</td>
+        <td>
+          <button (click)="toggleAvailability(user.key, !user.isAvailable)">Toggle</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

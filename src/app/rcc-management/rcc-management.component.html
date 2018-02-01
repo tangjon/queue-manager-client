@@ -1,20 +1,7 @@
-<h1>RCC Data</h1>
-<p>Click user to edit RCC information</p>
-<div id="rcc-form" class="row">
-    <div class="col-3">
-        <b>Selected User:</b>
-        <span *ngIf="selectedUser"> {{selectedUser.name + " (" + selectedUser.iNumber + ")"}} </span>
-    </div>
-    <div class="col-4">
-        <b>Value:</b>
-        <input #inputValue type="number" placeholder="Value">
-    </div>
-    <div class="col-5">
-        <button (click)="updateRCC(selectedUser, inputValue.value)" type="button"> Update</button>
-    </div>
-</div>
-<div class="table-responsive">
-    <table class="table">
+<div class="table-responsive shadow">
+    <h1 class="qTable-title">RCC Data</h1>
+
+    <table class="table qTable">
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -30,4 +17,18 @@
             </tr>
         </tbody>
     </table>
+</div>
+<p>Click user to edit RCC information</p>
+<div id="rcc-form" class="row">
+    <div class="col-4">
+        <b>Selected User:</b>
+        <span *ngIf="selectedUser"> {{selectedUser.name + " (" + selectedUser.iNumber + ")"}} </span>
+    </div>
+    <div class="col-4">
+        <b>Value:</b>
+        <input #inputValue type="number" placeholder="Value">
+    </div>
+    <div class="col-4">
+        <button (click)="updateRCC(selectedUser, inputValue.value)" type="button"> Update</button>
+    </div>
 </div>

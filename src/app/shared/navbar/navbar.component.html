@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav id="qNavBar" class="navbar navbar-expand-md bg-inverse navbar-inverse">
   <a class="navbar-brand" href="#">Queue Managerv2.0</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -29,8 +29,9 @@
     </div>
   </div>
 </nav>
+
 <div *ngIf="afAuth.authState | async as user">
-  <h2 class="text-center">Other Components</h2>
+  <h2 id="component-title" class="text-center">Other Components</h2>
   <div id="component-menu" class="container text-center">
     <div class="row">
       <div class="col">
