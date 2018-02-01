@@ -1,0 +1,27 @@
+<h1>RCC Data</h1>
+<p>Click user to edit RCC information</p>
+<div id="rcc-form" class="row">
+    <div class="col-3">
+        <b>Selected User:</b> <span *ngIf="selectedUser"> {{selectedUser.name + " (" + selectedUser.iNumber + ")"}} </span>
+    </div>
+    <div class="col-3">
+        <b>Value:</b> <input type="number"  placeholder="Value">
+    </div>
+    <button type="button"> Update</button>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Current Queue Days</th>
+            <th scope="col">% Usage</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users | async; let i = index" (click)="selectUser(user)">
+            <td>{{user.name + "(" + user.iNumber + ")"}}</td>
+            <td>x</td>
+            <td>x</td>
+        </tr>
+    </tbody>
+</table>
