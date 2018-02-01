@@ -4,6 +4,7 @@ export class User {
     key: string;
     isAvailable: boolean;
     incidentAmount: number;
+    currentQDays: number;
 
     constructor(iNumber, name, key){
         this.iNumber = iNumber;
@@ -11,6 +12,7 @@ export class User {
         this.key = key;
         this.isAvailable = true;
         this.incidentAmount = 0;
+        this.currentQDays = 0;
     }
     checkAvailable(){
         return this.isAvailable

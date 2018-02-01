@@ -29,6 +29,7 @@ export class TeamManagerComponent {
     if (fName && iNumber) {
       this.newUser = new User(iNumber,fName, this.db.createPushId() ) 
       this.db.object('users/' + this.newUser.key).set(this.newUser)
+      console.log(this.newUser)
     }
     // clear form
     this.inputName = "";
