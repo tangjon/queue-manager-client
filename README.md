@@ -1,27 +1,64 @@
-# QueueManagerFBAJS
+# Queue Manager Web App 2.0
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
+An unofficial tool to aid and assist in daily operations and reduce redundency. An improvement of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher
 
-## Development server
+## Getting Started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-## Code scaffolding
+### Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+What things you need to install the software and how to install them
 
-## Build
+1. NodeJs
+2. Firebase-Tools
+3. Angular-Cli
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### Installing
 
-## Running unit tests
+A step by step series of examples that tell you have to get a development env running
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+A simple npm install should get it working
+```
+npm install
+```
 
-## Running end-to-end tests
+OR
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Install Node Js :
+https://nodejs.org/en/
 
-## Further help
+Install Firebase tools
+```
+npm install -g firebase-tools
+```
+Install Angular
+```
+npm install -g @angular/cli
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Deployment
+For local development
+```
+ng serve
+```
+For Production
+```
+ng build
+firebase deploy
+```
+
+
+## Built With
+
+* [Firebase](https://firebase.google.com/) - Database
+* [Angular](https://angular.io/) - Front-end web framework
+* [NodeJs](https://nodejs.org/en/) - Dependency Management
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* https://github.com/qianyilun
