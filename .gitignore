@@ -4,6 +4,7 @@ firebase-debug.log
 last-build/*
 last-build/!.git
 # compiled output
+/dist
 /dist-server
 /tmp
 /out-tsc
