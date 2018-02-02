@@ -14,4 +14,9 @@ export class AppComponent {
     
   }
   title = 'app';
+  clipBoardText = "MICKEYMOUSE"
+
+  copyToClipboard(){
+    console.log(this)
+  }
 }

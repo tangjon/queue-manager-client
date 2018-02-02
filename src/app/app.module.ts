@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { RccManagementComponent } from './rcc-management/rcc-management.component';
 import { GroupDetailComponent } from './group-detail/group-detail.component';
+import { ClipboardModule } from 'ngx-clipboard'
 
 const appRoutes: Routes = [
   { path: '', component: QueueControlComponent },
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    FormsModule, 
+    FormsModule,
+    ClipboardModule, 
     RouterModule.forRoot(
       appRoutes)
   ],
