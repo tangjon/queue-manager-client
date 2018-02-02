@@ -13,7 +13,6 @@
         <th scope="col">Name</th>
         <th scope="col">Assign</th>
         <th scope="col">Remove</th>
-        <th scope="col">Amount</th>
         <th scope="col">Total</th>
         <th scope="col">AVG Q-DAY</th>
         <th scope="col">Status</th>
@@ -24,11 +23,10 @@
       <tr *ngFor="let user of users | async; let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{user.name + "(" + user.iNumber + ")"}}</td>
-        <td>x</td>
-        <td>x</td>
-        <td>x</td>
-        <td>x</td>
-        <td>x</td>
+        <td><button (click)="incIncidentAmount(user)"class="btn btn-success">Add</button></td>
+        <td><button (click)="decIncidentAmount(user)" class="btn btn-danger"> Remove </button></td>        
+        <td>{{ user.totalIncident }}</td>
+        <td>{{ calculateAverageQDay(user) }}</td>
         <td>{{ user.isAvailable }}</td>
         <td>
           <button (click)="toggleAvailability(user.key, !user.isAvailable)">Toggle</button>

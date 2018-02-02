@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
+import { parse } from 'url';
 
 @Component({
   selector: 'app-rcc-management',
@@ -20,13 +21,20 @@ export class RccManagementComponent {
     });
   }
 
-  selectUser(user){
+  selectUser(user) {
     this.selectedUser = user;
     console.log(user)
   }
 
-  updateRCC(user,val){
-    this.db.object('users/' + user.key).update({ currentQDays: val })
+  // Increment by one
+  addQueueDay(user, val) {
+    var qDays = parseInt(user.currentQDays);
+    val = parseInt(val)
+    this.db.object('users/' + user.key).update({ currentQDays: qDays + val })
+  }
+
+  updateQueueDays(user, val) {
+    this.db.object('users/' + user.key).update({ currentQDays: +val })
   }
 
 }

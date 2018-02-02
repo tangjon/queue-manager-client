@@ -13,22 +13,33 @@
             <tr *ngFor="let user of users | async; let i = index" (click)="selectUser(user)">
                 <td>{{user.name + "(" + user.iNumber + ")"}}</td>
                 <td>{{user.currentQDays}}</td>
-                <td>x</td>
+                <td>{{user.usagePercent}}</td>
             </tr>
         </tbody>
     </table>
 </div>
 <p class="instruction">Click user to edit RCC information</p>
-<div id="rcc-form" class="row">
-    <div class="col-4">
-        <b>Selected User:</b>
-        <span *ngIf="selectedUser"> {{selectedUser.name + " (" + selectedUser.iNumber + ")"}} </span>
-    </div>
-    <div class="col-4">
-        <b>Value:</b>
-        <input #inputValue type="number" placeholder="Value">
-    </div>
-    <div class="col-1">
-        <button class="btn btn-success" (click)="updateRCC(selectedUser, inputValue.value)" type="button"> Update</button>
+<div id="rcc-form">
+    <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <b>Selected User:</b>
+                <span *ngIf="selectedUser"> {{selectedUser.name + " (" + selectedUser.iNumber + ")"}} </span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <input #inputQueueAdd type="number" placeholder="Add Queue Day">
+                <button class="btn btn-success" (click)="addQueueDay(selectedUser, inputQueueAdd.value)" type="button">Add</button>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <b>Value:</b>
+                <input #inputValue type="number" [value]="selectedUser?.currentQDays" placeholder="Set Queue Days">
+                <button class="btn btn-seconday" (click)="updateQueueDays(selectedUser, inputValue.value)" type="button">Update</button>
+            </div>
+        </div>
+
     </div>
 </div>

@@ -12,7 +12,7 @@ export class QueueControlComponent {
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
   constructor(public db: AngularFireDatabase) {
-    this.itemsRef = db.list('users', ref=> ref.orderByChild('name'));
+    this.itemsRef = db.list('users', ref => ref.orderByChild('name'));
     this.users = this.itemsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
@@ -22,7 +22,29 @@ export class QueueControlComponent {
     this.itemRef = this.db.object('users/' + key);
     this.itemRef.update({ isAvailable: bool })
   }
-  logIt(msg){
+
+  incIncidentAmount(user) {
+    var amount = 1;
+    this.itemRef = this.db.object('users/' + user.key);
+    this.itemRef.update({ totalIncident: user.totalIncident + 1 })
+  }
+
+  decIncidentAmount(user) {
+    var amount = 1;
+    this.itemRef = this.db.object('users/' + user.key);
+    this.itemRef.update({ totalIncident: user.totalIncident-1 })
+  }
+
+  calculateAverageQDay(user) {
+    var avg;
+    if (user.usagePercent && user.currentQDays) {
+      avg = user.totalIncident / (user.usagePercent * user.currentQDays);
+    } else {
+      avg = 0;
+    }
+    return parseFloat(avg).toFixed(2);
+  }
+  logIt(msg) {
     console.log(msg)
   }
 }

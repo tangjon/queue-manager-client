@@ -16,13 +16,4 @@ export class User {
         this.currentQDays = 0;
         this.usagePercent = 1.0;
     }
-    checkAvailable(){
-        return this.isAvailable
-    }
-    setAvailable(bool:boolean){
-        this.isAvailable = bool
-    }
-    setUsage(percent){
-        this.usagePercent = percent;
-    }
 }
