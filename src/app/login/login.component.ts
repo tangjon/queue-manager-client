@@ -16,7 +16,7 @@ export class LoginComponent {
   login(username: string, password: string) {
     // Todo this is work around
     username += "@scout33.org"
-    this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(username, password)
+    this.afAuth.auth.signInWithEmailAndPassword(username, password)
       .catch(err => this.handleError(err));
 
   }
