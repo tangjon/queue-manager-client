@@ -6,6 +6,7 @@
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">INumber</th>
+        <th scope="col">% Usage</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -19,7 +20,10 @@
           <input type="text" #updateiNumber [value]="user.iNumber" />
         </td>
         <td>
-          <button (click)="updateItem(user.key, updateName.value, updateiNumber.value)">Update</button>
+          <input type="number" #updateUsage [value]="user.usagePercent" />
+        </td>
+        <td>
+          <button (click)="updateItem(user.key, updateName.value, updateiNumber.value,updateUsage.value )">Update</button>
           <button (click)="deleteItem(user.key)">Delete</button>
         </td>
       </tr>
@@ -41,6 +45,7 @@
         <input [(ngModel)]="inputiNumber" [value]="inputiNumber" type="text" class="form-control" id="inputINumber" placeholder="iNumber">
       </div>
     </div>
+
   </div>
   <button type="button" class="btn btn-primary" (click)="addItem(inputName,inputiNumber)">Add User</button>
   <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button>

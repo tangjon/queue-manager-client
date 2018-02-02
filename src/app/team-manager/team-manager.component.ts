@@ -35,10 +35,11 @@ export class TeamManagerComponent {
     this.inputName = "";
     this.inputiNumber = "";
   }
-  updateItem(key: string, fName: string, iNumber: string) {
+  updateItem(key: string, fName: string, iNumber: string, usage: number) {
     this.itemsRef.update(key, {
       name: fName,
-      iNumber: iNumber
+      iNumber: iNumber,
+      usagePercent: usage
     });
   }
   deleteItem(key: string) {

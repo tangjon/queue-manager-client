@@ -3,7 +3,8 @@ export class User {
     name:string;
     key: string;
     isAvailable: boolean;
-    incidentAmount: number;
+    totalIncident: number;
+    usagePercent: number;
     currentQDays: number;
 
     constructor(iNumber, name, key){
@@ -11,13 +12,17 @@ export class User {
         this.name = name;
         this.key = key;
         this.isAvailable = true;
-        this.incidentAmount = 0;
+        this.totalIncident = 0;
         this.currentQDays = 0;
+        this.usagePercent = 1.0;
     }
     checkAvailable(){
         return this.isAvailable
     }
     setAvailable(bool:boolean){
         this.isAvailable = bool
+    }
+    setUsage(percent){
+        this.usagePercent = percent;
     }
 }
