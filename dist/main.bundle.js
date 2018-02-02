@@ -300,7 +300,7 @@ var LoginComponent = /** @class */ (function () {
         var _this = this;
         // Todo this is work around
         username += "@scout33.org";
-        this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(username, password)
+        this.afAuth.auth.signInWithEmailAndPassword(username, password)
             .catch(function (err) { return _this.handleError(err); });
     };
     LoginComponent.prototype.logout = function () {
