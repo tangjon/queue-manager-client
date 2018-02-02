@@ -36,6 +36,7 @@ export class TeamManagerComponent {
     this.inputiNumber = "";
   }
   updateItem(key: string, fName: string, iNumber: string, usage: number) {
+    usage = +usage;
     this.itemsRef.update(key, {
       name: fName,
       iNumber: iNumber,
