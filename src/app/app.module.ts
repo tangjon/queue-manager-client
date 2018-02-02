@@ -17,10 +17,15 @@ import { GroupDetailComponent } from './group-detail/group-detail.component';
 import { ClipboardModule } from 'ngx-clipboard'
 
 const appRoutes: Routes = [
-  { path: '', component: QueueControlComponent },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  },
+  { path: 'home', component: QueueControlComponent },
   { path: 'manage', component: TeamManagerComponent },
   { path: 'rcc', component: RccManagementComponent },
-  { path: ':id', component: GroupDetailComponent}
+  { path: ':id', component: GroupDetailComponent }
 ];
 
 @NgModule({
@@ -40,7 +45,7 @@ const appRoutes: Routes = [
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     FormsModule,
-    ClipboardModule, 
+    ClipboardModule,
     RouterModule.forRoot(
       appRoutes)
   ],
