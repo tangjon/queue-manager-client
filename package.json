@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "git subtree push --prefix dist hana master"
+    "deploy": "git subtree push --prefix dist origin hana"
   },
   "private": true,
   "dependencies": {
