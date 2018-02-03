@@ -3,7 +3,8 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angular
 import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/pluck';
+import { RouteReuseStrategy } from '@angular/router';
 
 
 @Component({
@@ -11,12 +12,14 @@ import 'rxjs/add/operator/switchMap';
   templateUrl: './queue-control.component.html',
   styleUrls: ['./queue-control.component.css']
 })
-export class QueueControlComponent {
+export class QueueControlComponent implements OnInit {
+
   itemRef: AngularFireObject<any>;
   itemsRef: AngularFireList<any>;
   busyUsers: Observable<any[]>;
   users: Observable<any[]>;
   paramId: string;
+  id$: Observable<string>;
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router) {
     // Get Param :id in url
     this.paramId = this.route.snapshot.paramMap.get('id');
@@ -31,6 +34,10 @@ export class QueueControlComponent {
     this.busyUsers = this.itemsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
+  }
+
+  ngOnInit(): void {
+    this.id$ = this.route.params.pluck('id');
   }
 
   toggleAvailability(key, bool) {
