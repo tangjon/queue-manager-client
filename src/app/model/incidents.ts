@@ -4,12 +4,14 @@ export class Incidents {
     SM: number;
     FC_EA_IC_FIM: number;
     DSM: number;
+    PCM: number;    
     RTC: number;
     LOD_ANA_PL: number;
     NW: number;
     constructor() {
         this.NW = 0;
         this.MS = 0;
+        this.PCM = 0;        
         this.SA = 0;
         this.SM = 0;
         this.FC_EA_IC_FIM = 0;
