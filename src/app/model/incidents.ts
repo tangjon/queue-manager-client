@@ -6,7 +6,9 @@ export class Incidents {
     DSM: number;
     RTC: number;
     LOD_ANA_PL: number;
+    NW: number;
     constructor() {
+        this.NW = 0;
         this.MS = 0;
         this.SA = 0;
         this.SM = 0;
