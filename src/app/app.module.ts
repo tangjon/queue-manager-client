@@ -21,7 +21,7 @@ const appRoutes: Routes = [
     redirectTo: 'qm/NW',
     pathMatch: 'full'
   },
-  { path: 'home', component: QueueControlComponent },
+  { path: 'home', redirectTo: 'qm/NW' },
   { path: 'manage', component: TeamManagerComponent },
   { path: 'rcc', component: RccManagementComponent },
   { path: 'qm/:id', component: QueueControlComponent }
