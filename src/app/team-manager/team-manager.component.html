@@ -1,4 +1,4 @@
-<div class="table-responsive shadow">
+<!-- <div class="table-responsive shadow">
   <h1 class="qTable-title">Team Management</h1>
   <table class="table qTable">
     <thead>
@@ -29,6 +29,44 @@
       </tr>
     </tbody>
   </table>
+</div> -->
+<div class="qm-tbl shadow">
+  <h1 class="qTable-title">Team Management</h1>
+  <!-- Table heading -->
+  <div class="qm-tbl-header">
+    <div class=" row">
+      <div class="text-center col-sm-1">#</div>
+      <div class="col">Name</div>
+      <div class="col">INumber</div>
+      <div class="col">% Usage</div>
+      <div class="col">Actions</div>
+    </div>
+  </div>
+  <!-- Table body -->
+  <div class="qm-tbl-row" *ngFor="let user of users | async; let i = index">
+    <div class="row">
+      <div class="text-center col-sm-1">{{i + 1}}</div>
+      <div class="col">
+        <input type="text" #updateName [value]="user.name" />
+      </div>
+      <div class="col">
+        <input type="text" #updateiNumber [value]="user.iNumber" />
+      </div>
+      <div class="col">
+        <input type="number" #updateUsage [value]="user.usagePercent" />
+      </div>
+      <div class="col">
+        <button (click)="updateItem(user.key, updateName.value, updateiNumber.value,updateUsage.value )">Update</button>
+        <button (click)="deleteItem(user.key)">Delete</button>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-sm-1">
+        Role:
+
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="add-user-form">
