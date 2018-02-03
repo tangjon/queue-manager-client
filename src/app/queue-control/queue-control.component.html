@@ -56,9 +56,9 @@
       <tr *ngFor="let user of busyUsers | async; let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{user.name + "(" + user.iNumber + ")"}}</td>
-        <td>x</td>
-        <td>x</td>
-        <td>x</td>
+        <td>{{ getIncidentAmount(user) }} </td>
+        <td>{{ getIncidentTotal(user) }} </td>     
+        <td>{{ calculateAverageQDay(user) }}</td>                           
         <td>{{ user.isAvailable }}</td>
         <td>
           <button (click)="toggleAvailability(user.key, !user.isAvailable)">Toggle</button>
