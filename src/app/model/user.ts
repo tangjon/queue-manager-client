@@ -1,9 +1,11 @@
+import { Incidents } from "./incidents";
+
 export class User {
     iNumber: string;
     name:string;
     key: string;
     isAvailable: boolean;
-    totalIncident: number;
+    incidents: Incidents;
     usagePercent: number;
     currentQDays: number;
 
@@ -12,8 +14,9 @@ export class User {
         this.name = name;
         this.key = key;
         this.isAvailable = true;
-        this.totalIncident = 0;
+        this.incidents = new Incidents();
         this.currentQDays = 0;
         this.usagePercent = 1.0;
     }
 }
+
