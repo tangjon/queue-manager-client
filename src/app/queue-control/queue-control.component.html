@@ -26,8 +26,8 @@
         <td>{{user.name + "(" + user.iNumber + ")"}}</td>
         <td><button (click)="incIncidentAmount(user)"class="btn btn-success">Add</button></td>
         <td><button (click)="decIncidentAmount(user)" class="btn btn-danger"> Remove </button></td>
-        <td>x</td>        
-        <td>{{ user.totalIncident }}</td>
+        <td>{{ getIncidentAmount(user) }} </td>        
+        <td>{{ getIncidentTotal(user) }} </td>
         <td>{{ calculateAverageQDay(user) }}</td>
         <td>{{ user.isAvailable }}</td>
         <td>

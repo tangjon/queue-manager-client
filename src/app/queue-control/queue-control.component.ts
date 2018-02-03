@@ -18,12 +18,9 @@ export class QueueControlComponent implements OnInit {
   itemsRef: AngularFireList<any>;
   busyUsers: Observable<any[]>;
   users: Observable<any[]>;
-  paramId: string;
   id$: Observable<string>;
+  paramId: string;
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router) {
-    // Get Param :id in url
-    this.paramId = this.route.snapshot.paramMap.get('id');
-
     // Data for Available table
     this.itemsRef = db.list('users', ref => ref.orderByChild('isAvailable').equalTo(true));
     this.users = this.itemsRef.snapshotChanges().map(changes => {
@@ -37,7 +34,11 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
+    this.id$.subscribe(value => {
+      this.paramId = value;
+    })
   }
 
   toggleAvailability(key, bool) {
@@ -45,22 +46,64 @@ export class QueueControlComponent implements OnInit {
     this.itemRef.update({ isAvailable: bool })
   }
 
-  incIncidentAmount(user) {
-    var amount = 1;
-    this.itemRef = this.db.object('users/' + user.key);
-    this.itemRef.update({ totalIncident: user.totalIncident + 1 })
+  incIncidentAmount(user: User) {
+    let amount = 1;
+    this.itemRef = this.db.object('users/' + user.key + '/incidents/' + this.paramId);
+    this.itemRef.set(this.getIncidentAmount(user) + amount);
   }
 
   decIncidentAmount(user) {
-    var amount = 1;
-    this.itemRef = this.db.object('users/' + user.key);
-    this.itemRef.update({ totalIncident: user.totalIncident - 1 })
+    let amount = 1;
+    this.itemRef = this.db.object('users/' + user.key + '/incidents/' + this.paramId);
+    this.itemRef.set(this.getIncidentAmount(user) - amount);
+  }
+  // Get incident amount based on type
+  getIncidentAmount(user: User) {
+    let amount = 0;
+    switch (this.paramId) {
+      case "NW":
+        amount = user.incidents.NW
+        break;
+      case "MS":
+        amount = user.incidents.MS
+        break;
+      case "SA":
+        amount = user.incidents.SA
+        break;
+      case "SM":
+        amount = user.incidents.SM
+        break;
+      case "FC_EA_IC_FIM":
+        amount = user.incidents.FC_EA_IC_FIM
+        break;
+      case "DSM":
+        amount = user.incidents.DSM
+        break;
+      case "RTC":
+        amount = user.incidents.RTC
+        break;
+      case "LOD_ANA_PL":
+        amount = user.incidents.LOD_ANA_PL
+        break;
+      case "PCM":
+        amount = user.incidents.PCM
+        break;
+    }
+    return amount;
   }
 
-  calculateAverageQDay(user) {
+  getIncidentTotal(user: User) {
+    var total = 0;
+    for (var key in user.incidents) {
+      total += parseInt(user.incidents[key])
+    }
+    return total;
+  }
+
+  calculateAverageQDay(user: User) {
     var avg;
     if (user.usagePercent && user.currentQDays) {
-      avg = user.totalIncident / (user.usagePercent * user.currentQDays);
+      avg = this.getIncidentTotal(user) / (user.usagePercent * user.currentQDays);
     } else {
       avg = 0;
     }
