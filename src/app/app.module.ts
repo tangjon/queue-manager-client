@@ -19,13 +19,13 @@ import { ClipboardModule } from 'ngx-clipboard'
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/NW',
     pathMatch: 'full'
   },
   { path: 'home', component: QueueControlComponent },
   { path: 'manage', component: TeamManagerComponent },
   { path: 'rcc', component: RccManagementComponent },
-  { path: ':id', component: GroupDetailComponent }
+  { path: ':id', component: QueueControlComponent }
 ];
 
 @NgModule({
