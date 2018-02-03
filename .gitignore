@@ -1,6 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+firebase-debug.log
+last-build/*
+last-build/!.git
 # compiled output
+/dist
 /dist-server
 /tmp
 /out-tsc

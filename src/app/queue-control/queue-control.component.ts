@@ -10,10 +10,16 @@ import { User } from '../model/user';
 export class QueueControlComponent {
   itemRef: AngularFireObject<any>;
   itemsRef: AngularFireList<any>;
+  busyUsers: Observable<any[]>;
   users: Observable<any[]>;
   constructor(public db: AngularFireDatabase) {
-    this.itemsRef = db.list('users', ref => ref.orderByChild('name'));
+    this.itemsRef = db.list('users', ref => ref.orderByChild('isAvailable').equalTo(true));
     this.users = this.itemsRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+
+    this.itemsRef = db.list('users', ref => ref.orderByChild('isAvailable').equalTo(false));
+    this.busyUsers = this.itemsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
   }

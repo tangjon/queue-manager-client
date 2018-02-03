@@ -14,7 +14,7 @@ export class AppComponent {
     
   }
   title = 'app';
-  clipBoardText = "MICKEYMOUSE"
+  clipBoardText = "[EPM_QM_ASSIGNED]"
 
   copyToClipboard(){
     console.log(this)
