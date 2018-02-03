@@ -21,3 +21,12 @@ div#add-user-form {
 .qm-tbl-row {
     padding: 6px 0px
 }
+
+.row.qm-tbl-detail {
+    padding: 10px 0px 4px 21px;
+}
+
+.row.qm-tbl-detail .btn {
+    margin: 0px 2px;
+    padding: 0px 15px;
+}

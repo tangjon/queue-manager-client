@@ -60,10 +60,11 @@
         <button (click)="deleteItem(user.key)">Delete</button>
       </div>
     </div>
-    <div class="row text-center">
-      <div class="col-sm-1">
-        Role:
-
+    <!-- User roles -->
+    <div class="row qm-tbl-detail">
+      <div class="col-sm">
+        Roles:
+        <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)">{{ role }}</button>
       </div>
     </div>
   </div>

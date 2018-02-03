@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-team-manager',
@@ -15,7 +16,7 @@ export class TeamManagerComponent {
 
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
-  constructor(public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase, public userService: UserService) {
     this.itemsRef = db.list('users');
     this.users = this.itemsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
@@ -48,6 +49,10 @@ export class TeamManagerComponent {
   }
   deleteEverything() {
     this.itemsRef.remove();
+  }
+
+  getRoles(user : User){
+    return this.userService.getRole(user);
   }
 
 }

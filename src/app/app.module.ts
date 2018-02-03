@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { RccManagementComponent } from './rcc-management/rcc-management.component';
 import { ClipboardModule } from 'ngx-clipboard'
+import { UserService } from './services/user.service';
 
 const appRoutes: Routes = [
   {
@@ -47,7 +48,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes)
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

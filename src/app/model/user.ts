@@ -1,4 +1,5 @@
 import { Incidents } from "./incidents";
+import { Role } from "./role";
 
 export class User {
     iNumber: string;
@@ -8,6 +9,7 @@ export class User {
     incidents: Incidents;
     usagePercent: number;
     currentQDays: number;
+    role : Role
 
     constructor(iNumber, name, key){
         this.iNumber = iNumber;
@@ -15,6 +17,7 @@ export class User {
         this.key = key;
         this.isAvailable = true;
         this.incidents = new Incidents();
+        this.role = new Role();
         this.currentQDays = 0;
         this.usagePercent = 1.0;
     }
