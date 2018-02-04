@@ -3,6 +3,7 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
 import { parse } from 'url';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-rcc-management',
@@ -10,14 +11,11 @@ import { parse } from 'url';
   styleUrls: ['./rcc-management.component.css']
 })
 export class RccManagementComponent {
-  selectedUser: User
-
-  itemsRef: AngularFireList<any>;
+  selectedUser: any;
   users: Observable<any[]>;
-  constructor(public db: AngularFireDatabase) {
-    this.itemsRef = db.list('users');
-    this.users = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+  constructor(public db: AngularFireDatabase, public userSerivice: UserService) {
+    this.users = userSerivice.getUsers({
+      child: "name"
     });
   }
 
@@ -27,14 +25,24 @@ export class RccManagementComponent {
   }
 
   // Increment by one
-  addQueueDay(user, val) {
-    var qDays = parseInt(user.currentQDays);
-    val = parseInt(val)
-    this.db.object('users/' + user.key).update({ currentQDays: qDays + val })
+  addQueueDay(val) {
+    if (this.selectedUser) {
+      let amount = parseInt(val);
+      this.userSerivice.updateQueueDays(this.selectedUser.key, this.selectedUser.currentQDays + amount);
+      this.clearSelectedUser();
+    }
   }
 
-  updateQueueDays(user, val) {
-    this.db.object('users/' + user.key).update({ currentQDays: +val })
+  updateQueueDays(val) {
+    if (this.selectedUser) {
+      let amount = parseInt(val);
+      this.userSerivice.updateQueueDays(this.selectedUser.key, amount);
+      this.clearSelectedUser();
+    }
+  }
+
+  clearSelectedUser() {
+    this.selectedUser = "";
   }
 
 }

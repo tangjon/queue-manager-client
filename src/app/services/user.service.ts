@@ -11,11 +11,17 @@ export class UserService {
   }
   getUsers(query): Observable<any[]> {
     let q = query || "";
-    if (q) {
+    if (q.value && q.child) {
       return this.db.list('users', ref => ref.orderByChild(q.child).equalTo(q.value)).valueChanges().map(el => {
         return el.map(user => { return new User(user) })
       })
-    } else {
+    }
+    else if (q.child) {
+      return this.db.list('users', ref => ref.orderByChild(q.child)).valueChanges().map(el => {
+        return el.map(user => { return new User(user) })
+      })
+    }
+    else {
       return this.db.list('users').valueChanges().map(el => {
         return el.map(user => { return new User(user) })
       })
@@ -57,5 +63,8 @@ export class UserService {
 
   updateIncident(key: string, type: string, amount: number) {
     this.db.object('users/' + key + '/incidents/' + type).set(amount);
+  }
+  updateQueueDays(key: string, amount: number) {
+    this.db.object('users/' + key + '/currentQDays').set(amount);
   }
 }

@@ -21,25 +21,17 @@
 <p class="instruction">Click user to edit RCC information</p>
 <div id="rcc-form">
     <div class="row">
-        <div class="col-3">
-            <div class="form-group">
-                <b>Selected User:</b>
-                <span *ngIf="selectedUser"> {{selectedUser.name + " (" + selectedUser.iNumber + ")"}} </span>
-            </div>
+        <div class="col">
+            <b> Selected Users:</b>
+            <span *ngIf="selectedUser"> {{ selectedUser.name + '(' + selectedUser.iNumber + ')' }}</span>
         </div>
         <div class="col">
-            <div class="form-group">
-                <input #inputQueueAdd type="number" placeholder="Add Queue Day">
-                <button class="btn btn-success" (click)="addQueueDay(selectedUser, inputQueueAdd.value)" type="button">Add</button>
-            </div>
+            <input #inputAddQDay type="number" placeholder="Add Queue Day">
+            <button class="btn btn-success" type="button" (click)="addQueueDay(inputAddQDay.value)" >Add</button>
         </div>
         <div class="col">
-            <div class="form-group">
-                <b>Value:</b>
-                <input #inputValue type="number" [value]="selectedUser?.currentQDays" placeholder="Set Queue Days">
-                <button class="btn btn-seconday" (click)="updateQueueDays(selectedUser, inputValue.value)" type="button">Update</button>
-            </div>
+            <input #inputSetQDay type="number" placeholder="Set Queue Day" [value]="selectedUser ? selectedUser.currentQDays : ''">
+            <button class="btn btn-default" type="button" (click)="updateQueueDays(inputSetQDay.value)">Update</button>
         </div>
-
     </div>
 </div>
