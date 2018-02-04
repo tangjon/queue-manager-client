@@ -53,15 +53,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of busyUsers | async; let i = index">
+      <tr *ngFor="let bUser of busyUsers | async; let i = index">
         <th scope="row">{{i + 1}}</th>
-        <td>{{user.name + "(" + user.iNumber + ")"}}</td>
-        <td>{{ getIncidentAmount(user) }} </td>
-        <td>{{ getIncidentTotal(user) }} </td>     
-        <td>{{ calculateAverageQDay(user) }}</td>                           
-        <td>{{ !user.isAvailable }}</td>
+        <td>{{bUser.name + "(" + bUser.iNumber + ")"}}</td>
+        <td>{{ getIncidentAmount(bUser) }} </td>
+        <td>{{ getIncidentTotal(bUser) }} </td>     
+        <td>{{ calculateAverageQDay(bUser) }}</td>                           
+        <td>{{ bUser.isAvailable }}</td>
         <td>
-          <button (click)="setAvailability(user.key, user.isAvailable)">Toggle</button>
+          <button (click)="setAvailability(bUser.key, bUser.isAvailable)">Toggle</button>
         </td>
       </tr>
     </tbody>

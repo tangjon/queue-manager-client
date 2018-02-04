@@ -24,15 +24,15 @@ export class QueueControlComponent implements OnInit {
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
     // Data for Available table
     this.users = userService.getUsers({
-      child: "isAvailable",
+      key: "isAvailable",
       value: true
     })
 
     // Data for UnAvailable table
     this.busyUsers = userService.getUsers({
-      child: "isAvailable",
+      key: 'isAvailable',
       value: false
-    })
+    });
   }
 
   ngOnInit(): void {
