@@ -58,7 +58,6 @@
       <div class="col">
         <button (click)="updateItem(user.key, updateName.value, updateiNumber.value,updateUsage.value )">Update</button>
         <button (click)="deleteItem(user.key)">Delete</button>
-        <button (click)="console.log('hi')">Change Roll</button>
       </div>
     </div>
     <!-- User roles -->
@@ -68,7 +67,10 @@
         <!-- <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)"></button> -->
         <span class="badge badge-success" *ngFor="let role of user.getUserRole()">{{ role }}</span>
       </div>
-      <div class="col text-right roll-change-panel">
+      <div class="col-sm-2 text-right">
+          Toggle Roles:
+      </div>
+      <div class="col-sm-4 text-left roll-change-panel">
         <button  *ngFor="let role of user.getRoleList()" (click)="toggleRole(user,role)" class="badge" [class.badge-success]="this.user.hasRole(role)" [class.badge-danger]="!this.user.hasRole(role)">{{ role }}</button>
       </div>
     </div>
