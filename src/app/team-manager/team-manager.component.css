@@ -30,3 +30,28 @@ div#add-user-form {
     margin: 0px 2px;
     padding: 0px 15px;
 }
+
+
+.row.qm-tbl-detail button.badge {
+    padding: 4px 10px;
+    margin: 0px 2px;
+}
+
+.row.qm-tbl-detail span.badge {
+    padding: 6px 15px;
+    margin: 3px;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+  }
+
+  .roll-change-panel{
+    float: right;
+  }

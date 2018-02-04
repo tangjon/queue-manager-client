@@ -58,13 +58,18 @@
       <div class="col">
         <button (click)="updateItem(user.key, updateName.value, updateiNumber.value,updateUsage.value )">Update</button>
         <button (click)="deleteItem(user.key)">Delete</button>
+        <button (click)="console.log('hi')">Change Roll</button>
       </div>
     </div>
     <!-- User roles -->
     <div class="row qm-tbl-detail">
       <div class="col-sm">
         Roles:
-        <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)">{{ role }}</button>
+        <!-- <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)"></button> -->
+        <span class="badge badge-success" *ngFor="let role of getUserRoles(user)">{{ role }}</span>
+      </div>
+      <div class="col text-right roll-change-panel">
+        <button  *ngFor="let role of getRoleList(user)" (click)="toggleRole(user,role)" class="badge" [class.badge-success]="hasRole(user, role)" [class.badge-danger]="!hasRole(user, role)">{{ role }}</button>
       </div>
     </div>
   </div>
@@ -88,4 +93,5 @@
   </div>
   <button type="button" class="btn btn-primary" (click)="addItem(inputName,inputiNumber)">Add User</button>
   <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button>
+
 </div>

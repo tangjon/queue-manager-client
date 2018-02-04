@@ -14,7 +14,7 @@ export class UserService {
     return total;
   }
 
-  getRole(user: User) {
+  getUserRole(user: User) {
     let role = user["role"];
     let list: Array<string> = [];
     Object.keys(role).forEach(el => {
@@ -23,5 +23,22 @@ export class UserService {
       }
     })
     return list;
+  }
+  getRoleList(user: User) {
+    let role = user["role"];
+    let list: Array<string> = [];
+    Object.keys(role).forEach(el => {
+        list.push(el);
+    })
+    return list;
+  }
+
+  hasRole(user: User, role:string){
+    let ref = user["role"][role];
+    return ref;
+  }
+
+  toggleRole(role:User){
+    
   }
 }
