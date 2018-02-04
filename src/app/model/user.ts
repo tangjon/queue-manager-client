@@ -24,9 +24,8 @@ export class User {
 
     getIncidentTotal() {
         var total = 0;
-        console.log(this.incidents)
         for (var key in this.incidents) {
-            total += parseInt(this.incidents[key])
+            total += this.getIncidentAmount(key);
         }
         return total;
     }
@@ -48,9 +47,23 @@ export class User {
         return list;
     }
 
-    hasRole(role:string) {
+    hasRole(role: string): boolean{
         let ref = this.role[role];
         return ref;
+    }
+
+    getIncidentAmount(type): number {
+        return this.incidents[type]
+    }
+
+    getAverageQDay() {
+        var avg;
+        if (this.usagePercent && this.currentQDays) {
+            avg = this.getIncidentTotal() / (this.usagePercent * this.currentQDays);
+        } else {
+            avg = 0;
+        }
+        return parseFloat(avg).toFixed(2);
     }
 }
 

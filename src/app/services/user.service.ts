@@ -9,11 +9,17 @@ export class UserService {
   userList: Array<User>;
   constructor(public db: AngularFireDatabase) {
   }
-  getUsers(): Observable<any[]> {
-    console.log("hello")
-    return this.db.list('users').valueChanges().map(el => {
-      return el.map(user => { return new User(user) })
-    })
+  getUsers(query): Observable<any[]> {
+    let q = query || "";
+    if (q) {
+      return this.db.list('users', ref => ref.orderByChild(q.child).equalTo(q.value)).valueChanges().map(el => {
+        return el.map(user => { return new User(user) })
+      })
+    } else {
+      return this.db.list('users').valueChanges().map(el => {
+        return el.map(user => { return new User(user) })
+      })
+    }
   }
 
   addUser(name: string, iNumber: string) {
@@ -43,5 +49,13 @@ export class UserService {
     console.log(bool);
     let ref = this.db.object('users/' + user.key + '/role/' + role);
     ref.set(!bool);
+  }
+
+  setAvailable(key, bool) {
+    this.db.object('users/' + key + '/isAvailable').set(bool);
+  }
+
+  updateIncident(key: string, type: string, amount: number) {
+    this.db.object('users/' + key + '/incidents/' + type).set(amount);
   }
 }

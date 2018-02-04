@@ -31,7 +31,7 @@
         <td>{{ calculateAverageQDay(user) }}</td>
         <td>{{ user.isAvailable }}</td>
         <td>
-          <button (click)="toggleAvailability(user.key, !user.isAvailable)">Toggle</button>
+          <button (click)="setAvailability(user.key, !user.isAvailable)">Toggle</button>
         </td>
       </tr>
     </tbody>
@@ -59,9 +59,9 @@
         <td>{{ getIncidentAmount(user) }} </td>
         <td>{{ getIncidentTotal(user) }} </td>     
         <td>{{ calculateAverageQDay(user) }}</td>                           
-        <td>{{ user.isAvailable }}</td>
+        <td>{{ !user.isAvailable }}</td>
         <td>
-          <button (click)="toggleAvailability(user.key, !user.isAvailable)">Toggle</button>
+          <button (click)="setAvailability(user.key, user.isAvailable)">Toggle</button>
         </td>
       </tr>
     </tbody>

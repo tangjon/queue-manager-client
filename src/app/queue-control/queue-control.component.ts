@@ -5,6 +5,7 @@ import { User } from '../model/user';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/pluck';
 import { RouteReuseStrategy } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -20,17 +21,18 @@ export class QueueControlComponent implements OnInit {
   users: Observable<any[]>;
   id$: Observable<string>;
   paramId: string;
-  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router) {
+  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
     // Data for Available table
-    this.itemsRef = db.list('users', ref => ref.orderByChild('isAvailable').equalTo(true));
-    this.users = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });
+    this.users = userService.getUsers({
+      child: "isAvailable",
+      value: true
+    })
+
     // Data for UnAvailable table
-    this.itemsRef = db.list('users', ref => ref.orderByChild('isAvailable').equalTo(false));
-    this.busyUsers = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });
+    this.busyUsers = userService.getUsers({
+      child: "isAvailable",
+      value: false
+    })
   }
 
   ngOnInit(): void {
@@ -41,73 +43,30 @@ export class QueueControlComponent implements OnInit {
     })
   }
 
-  toggleAvailability(key, bool) {
-    this.itemRef = this.db.object('users/' + key);
-    this.itemRef.update({ isAvailable: bool })
+  setAvailability(key, bool) {
+    this.userService.setAvailable(key, bool)
   }
 
   incIncidentAmount(user: User) {
     let amount = 1;
-    this.itemRef = this.db.object('users/' + user.key + '/incidents/' + this.paramId);
-    this.itemRef.set(this.getIncidentAmount(user) + amount);
+    this.userService.updateIncident(user.key, this.paramId, this.getIncidentAmount(user) + amount)
   }
 
   decIncidentAmount(user) {
     let amount = 1;
-    this.itemRef = this.db.object('users/' + user.key + '/incidents/' + this.paramId);
-    this.itemRef.set(this.getIncidentAmount(user) - amount);
+    this.userService.updateIncident(user.key, this.paramId, this.getIncidentAmount(user) - amount)
   }
   // Get incident amount based on type
   getIncidentAmount(user: User) {
-    let amount = 0;
-    switch (this.paramId) {
-      case "NW":
-        amount = user.incidents.NW
-        break;
-      case "MS":
-        amount = user.incidents.MS
-        break;
-      case "SA":
-        amount = user.incidents.SA
-        break;
-      case "SM":
-        amount = user.incidents.SM
-        break;
-      case "FC_EA_IC_FIM":
-        amount = user.incidents.FC_EA_IC_FIM
-        break;
-      case "DSM":
-        amount = user.incidents.DSM
-        break;
-      case "RTC":
-        amount = user.incidents.RTC
-        break;
-      case "LOD_ANA_PL":
-        amount = user.incidents.LOD_ANA_PL
-        break;
-      case "PCM":
-        amount = user.incidents.PCM
-        break;
-    }
-    return amount;
+    return user.getIncidentAmount(this.paramId);
   }
 
   getIncidentTotal(user: User) {
-    var total = 0;
-    for (var key in user.incidents) {
-      total += parseInt(user.incidents[key])
-    }
-    return total;
+    return user.getIncidentTotal();
   }
 
   calculateAverageQDay(user: User) {
-    var avg;
-    if (user.usagePercent && user.currentQDays) {
-      avg = this.getIncidentTotal(user) / (user.usagePercent * user.currentQDays);
-    } else {
-      avg = 0;
-    }
-    return parseFloat(avg).toFixed(2);
+    return user.getAverageQDay();
   }
   logIt(msg) {
     console.log(msg)
