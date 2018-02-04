@@ -11,8 +11,8 @@ export class UserService {
   }
   getUsers(): Observable<any[]> {
     console.log("hello")
-    return this.db.list('users').valueChanges().map(el=> {
-      return el.map( user => { return new User(user) })
+    return this.db.list('users').valueChanges().map(el => {
+      return el.map(user => { return new User(user) })
     })
   }
 
@@ -25,9 +25,9 @@ export class UserService {
     this.db.object('users/' + newUser.key).set(newUser)
   }
 
-  updateUser(user: User, fName: string, iNumber: string, usage: number) {
+  updateUser(key: string, fName: string, iNumber: string, usage: number) {
     usage = +usage;
-    this.db.list('users').update(user.key, {
+    this.db.list('users').update(key, {
       name: fName,
       iNumber: iNumber,
       usagePercent: usage
@@ -38,39 +38,10 @@ export class UserService {
     this.db.object('users').remove();
   }
 
-  getIncidentTotal(user: User) {
-    var total = 0;
-    for (var key in user.incidents) {
-      total += parseInt(user.incidents[key])
-    }
-    return total;
-  }
-
-  getUserRole(user: User) {
-    let role = user["role"];
-    let list: Array<string> = [];
-    Object.keys(role).forEach(el => {
-      if (role[el] == true) {
-        list.push(el);
-      }
-    })
-    return list;
-  }
-  getRoleList(user: User) {
-    let role = user["role"];
-    let list: Array<string> = [];
-    Object.keys(role).forEach(el => {
-      list.push(el);
-    })
-    return list;
-  }
-
-  hasRole(user: User, role: string) {
-    let ref = user["role"][role];
-    return ref;
-  }
-
-  toggleRole(role: User) {
-
+  toggleRole(user: User, role: string) {
+    let bool = user.hasRole(role);
+    console.log(bool);
+    let ref = this.db.object('users/' + user.key + '/role/' + role);
+    ref.set(!bool);
   }
 }

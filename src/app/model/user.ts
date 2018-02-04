@@ -3,23 +3,54 @@ import { Role } from "./role";
 
 export class User {
     iNumber: string;
-    name:string;
+    name: string;
     key: string;
     isAvailable: boolean;
     incidents: Incidents;
     usagePercent: number;
     currentQDays: number;
-    role : Role
+    role: Role
 
-    constructor(iNumber, name, key){
-        this.iNumber = iNumber;
-        this.name = name;
-        this.key = key;
-        this.isAvailable = true;
-        this.incidents = new Incidents();
-        this.role = new Role();
-        this.currentQDays = 0;
-        this.usagePercent = 1.0;
+    constructor(user) {
+        this.iNumber = user.iNumber;
+        this.name = user.name;
+        this.key = user.key;
+        this.isAvailable = user.isAvailable || true;
+        this.incidents = user.incidents || new Incidents();
+        this.role = user.role || new Role();
+        this.currentQDays = user.currentQDays || 0;
+        this.usagePercent = user.usagePercent || 1.0;
+    }
+
+    getIncidentTotal() {
+        var total = 0;
+        console.log(this.incidents)
+        for (var key in this.incidents) {
+            total += parseInt(this.incidents[key])
+        }
+        return total;
+    }
+
+    getUserRole() {
+        let list: Array<string> = [];
+        Object.keys(this.role).forEach(el => {
+            if (this.role[el] == true) {
+                list.push(el);
+            }
+        })
+        return list;
+    }
+    getRoleList() {
+        let list: Array<string> = [];
+        Object.keys(this.role).forEach(el => {
+            list.push(el);
+        })
+        return list;
+    }
+
+    hasRole(role:string) {
+        let ref = this.role[role];
+        return ref;
     }
 }
 

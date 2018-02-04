@@ -66,10 +66,10 @@
       <div class="col-sm">
         Roles:
         <!-- <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)"></button> -->
-        <span class="badge badge-success" *ngFor="let role of getUserRoles(user)">{{ role }}</span>
+        <span class="badge badge-success" *ngFor="let role of user.getUserRole()">{{ role }}</span>
       </div>
       <div class="col text-right roll-change-panel">
-        <button  *ngFor="let role of getRoleList(user)" (click)="toggleRole(user,role)" class="badge" [class.badge-success]="hasRole(user, role)" [class.badge-danger]="!hasRole(user, role)">{{ role }}</button>
+        <button  *ngFor="let role of user.getRoleList()" (click)="toggleRole(user,role)" class="badge" [class.badge-success]="this.user.hasRole(role)" [class.badge-danger]="!this.user.hasRole(role)">{{ role }}</button>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@
     </div>
 
   </div>
-  <button type="button" class="btn btn-primary" (click)="addItem(inputName,inputiNumber)">Add User</button>
+  <button type="button" class="btn btn-primary" (click)="addUser(inputName,inputiNumber)">Add User</button>
   <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button>
 
 </div>

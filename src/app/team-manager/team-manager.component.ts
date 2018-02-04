@@ -16,7 +16,7 @@ export class TeamManagerComponent {
 
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
-  constructor(public db: AngularFireDatabase, public userService: UserService) {    
+  constructor(public db: AngularFireDatabase, public userService: UserService) {
     // Get Users
     this.users = userService.getUsers();
     // Start with clear form
@@ -25,49 +25,23 @@ export class TeamManagerComponent {
   }
 
   // TODO Create user model
-  addItem(fName: string, iNumber: string) {
-    if (fName && iNumber) {
-      this.userService.addUser(fName,iNumber);
-    }
-    // clear form
-    this.inputName = "";
-    this.inputiNumber = "";
+  addUser(fName: string, iNumber: string) {
+    this.userService.addUser(fName, iNumber);
   }
   updateItem(key: string, fName: string, iNumber: string, usage: number) {
-    usage = +usage;
-    this.itemsRef.update(key, {
-      name: fName,
-      iNumber: iNumber,
-      usagePercent: usage
-    });
+    this.userService.updateUser(key,fName, iNumber,usage);
   }
   deleteItem(key: string) {
     this.itemsRef.remove(key);
   }
   deleteEverything() {
-    this.itemsRef.remove();
+    this.userService.deleteEverything();
   }
-
-  getUserRoles(user : User){
-    return this.userService.getUserRole(user);
-  }
-
-  getRoleList(user : User){
-    return this.userService.getRoleList(user);
-  }
-
-  hasRole(user:User, role:string){
-    return this.userService.hasRole(user,role)
-  }
-
-  logIt(msg){
+  logIt(msg) {
     console.log(msg)
   }
-  toggleRole(user:User,role:string){
-    let bool = this.hasRole(user, role);
-    console.log(bool);
-    let ref =  this.db.object('users/' + user.key + '/role/' + role);
-    ref.set(!bool);
+  toggleRole(user: User, role: string) {
+    this.userService.toggleRole(user,role);
   }
 
 }
