@@ -16,12 +16,11 @@ export class RccManagementComponent {
   constructor(public db: AngularFireDatabase, public userSerivice: UserService) {
     this.users = userSerivice.getUsers({
       key: "name"
-    });
+    })
   }
 
   selectUser(user) {
     this.selectedUser = user;
-    console.log(user)
   }
 
   // Increment by one

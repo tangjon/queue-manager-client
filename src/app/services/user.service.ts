@@ -14,11 +14,9 @@ export class UserService {
     var q = query || {};
     // Query Defined
     if (q.key) {
-      if (q.value !== null) {
+      if (q.value != null) {
         return this.db.list('users', ref => ref.orderByChild(q.key).equalTo(q.value)).valueChanges().map(el => {
-          return el.map(user => {
-            return new User(user)
-          })
+          return el.map(user => { return new User(user) })
         })
       } else {
         return this.db.list('users', ref => ref.orderByChild(q.key)).valueChanges().map(el => {
@@ -56,7 +54,6 @@ export class UserService {
 
   toggleRole(user: User, role: string) {
     let bool = user.hasRole(role);
-    console.log(bool);
     let ref = this.db.object('users/' + user.key + '/role/' + role);
     ref.set(!bool);
   }
