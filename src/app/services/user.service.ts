@@ -10,14 +10,32 @@ export class UserService {
   constructor(public db: AngularFireDatabase) {
   }
   getUsers(): Observable<any[]> {
-    return this.db.list('users').snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    console.log("hello")
+    return this.db.list('users').valueChanges().map(el=> {
+      return el.map( user => { return new User(user) })
+    })
+  }
+
+  addUser(name: string, iNumber: string) {
+    let newUser = new User({
+      iNumber: iNumber,
+      name: name,
+      key: this.db.createPushId()
+    })
+    this.db.object('users/' + newUser.key).set(newUser)
+  }
+
+  updateUser(user: User, fName: string, iNumber: string, usage: number) {
+    usage = +usage;
+    this.db.list('users').update(user.key, {
+      name: fName,
+      iNumber: iNumber,
+      usagePercent: usage
     });
   }
 
-  addUser(name:string, iNumber:string) {
-    let newUser = new User(iNumber, name, this.db.createPushId())
-    this.db.object('users/' + newUser.key).set(newUser)
+  deleteEverything() {
+    this.db.object('users').remove();
   }
 
   getIncidentTotal(user: User) {
