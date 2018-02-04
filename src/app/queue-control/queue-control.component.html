@@ -1,12 +1,13 @@
 <div class="table-responsive shadow">
   <h1 class="qTable-title">QM: {{id$ | async }}</h1>
+  <h6 id="available-title" class="qTable-title">{{ (busyUsers | async)?.length }} Available</h6>
   <table class="table qTable">
     <thead>
       <tr>
-        <th colspan="1" scope="col"></th>
+        <!-- <th colspan="1" scope="col"></th>
         <th colspan="3" scope="col">
           {{ (users | async)?.length }} Employees in EPM-BPC team</th>
-        <th colspan="5" scope="col">Incidents</th>
+        <th colspan="5" scope="col">Incidents</th> -->
       </tr>
       <tr>
         <th scope="col">#</th>
@@ -24,9 +25,13 @@
       <tr *ngFor="let user of users | async; let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{user.name + "(" + user.iNumber + ")"}}</td>
-        <td><button (click)="incIncidentAmount(user)"class="btn btn-success">Add</button></td>
-        <td><button (click)="decIncidentAmount(user)" class="btn btn-danger"> Remove </button></td>
-        <td>{{ getIncidentAmount(user) }} </td>        
+        <td>
+          <button (click)="incIncidentAmount(user)" class="btn btn-success">Add</button>
+        </td>
+        <td>
+          <button (click)="decIncidentAmount(user)" class="btn btn-danger"> Remove </button>
+        </td>
+        <td>{{ getIncidentAmount(user) }} </td>
         <td>{{ getIncidentTotal(user) }} </td>
         <td>{{ calculateAverageQDay(user) }}</td>
         <td>{{ user.isAvailable }}</td>
@@ -57,8 +62,8 @@
         <th scope="row">{{i + 1}}</th>
         <td>{{bUser.name + "(" + bUser.iNumber + ")"}}</td>
         <td>{{ getIncidentAmount(bUser) }} </td>
-        <td>{{ getIncidentTotal(bUser) }} </td>     
-        <td>{{ calculateAverageQDay(bUser) }}</td>                           
+        <td>{{ getIncidentTotal(bUser) }} </td>
+        <td>{{ calculateAverageQDay(bUser) }}</td>
         <td>{{ bUser.isAvailable }}</td>
         <td>
           <button (click)="setAvailability(bUser.key, !bUser.isAvailable)">Toggle</button>
