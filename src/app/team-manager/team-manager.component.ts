@@ -18,7 +18,7 @@ export class TeamManagerComponent {
   users: Observable<any[]>;
   constructor(public db: AngularFireDatabase, public userService: UserService) {
     // Get Users
-    this.users = userService.getUsers();
+    this.users = userService.getUsers({});
     // Start with clear form
     this.inputiNumber = "";
     this.inputName = "";

@@ -15,7 +15,7 @@ export class RccManagementComponent {
   users: Observable<any[]>;
   constructor(public db: AngularFireDatabase, public userSerivice: UserService) {
     this.users = userSerivice.getUsers({
-      child: "name"
+      key: "name"
     });
   }
 

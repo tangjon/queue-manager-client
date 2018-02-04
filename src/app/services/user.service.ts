@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 
 @Injectable()
 export class UserService {
@@ -10,18 +11,21 @@ export class UserService {
   constructor(public db: AngularFireDatabase) {
   }
   getUsers(query): Observable<any[]> {
-    let q = query || "";
-    if (q.value && q.child) {
-      return this.db.list('users', ref => ref.orderByChild(q.child).equalTo(q.value)).valueChanges().map(el => {
-        return el.map(user => { return new User(user) })
-      })
-    }
-    else if (q.child) {
-      return this.db.list('users', ref => ref.orderByChild(q.child)).valueChanges().map(el => {
-        return el.map(user => { return new User(user) })
-      })
-    }
-    else {
+    var q = query || {};
+    // Query Defined
+    if (q.key) {
+      if (q.value !== null) {
+        return this.db.list('users', ref => ref.orderByChild(q.key).equalTo(q.value)).valueChanges().map(el => {
+          return el.map(user => {
+            return new User(user)
+          })
+        })
+      } else {
+        return this.db.list('users', ref => ref.orderByChild(q.key)).valueChanges().map(el => {
+          return el.map(user => { return new User(user) })
+        })
+      }
+    } else { // No Query
       return this.db.list('users').valueChanges().map(el => {
         return el.map(user => { return new User(user) })
       })
