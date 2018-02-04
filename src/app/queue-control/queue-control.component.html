@@ -61,7 +61,7 @@
         <td>{{ calculateAverageQDay(bUser) }}</td>                           
         <td>{{ bUser.isAvailable }}</td>
         <td>
-          <button (click)="setAvailability(bUser.key, bUser.isAvailable)">Toggle</button>
+          <button (click)="setAvailability(bUser.key, !bUser.isAvailable)">Toggle</button>
         </td>
       </tr>
     </tbody>

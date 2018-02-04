@@ -22,25 +22,26 @@ export class QueueControlComponent implements OnInit {
   id$: Observable<string>;
   paramId: string;
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
-    // Data for Available table
-    this.users = userService.getUsers({
-      key: "isAvailable",
-      value: true
-    })
-
-    // Data for UnAvailable table
-    this.busyUsers = userService.getUsers({
-      key: 'isAvailable',
-      value: false
-    });
-  }
-
-  ngOnInit(): void {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
       this.paramId = value;
-    })
+      // Data for Available table
+      this.users = userService.getUsers({
+        key: "isAvailable",
+        value: true
+      }).map(_el => _el.filter(el => el.role[this.paramId] == true))
+
+      // Data for UnAvailable table
+      this.busyUsers = userService.getUsers({
+        key: 'isAvailable',
+        value: false
+      }).map(_el => _el.filter(el => el.role[this.paramId] == true))
+    });
+  }
+
+  ngOnInit(): void {
+
   }
 
   setAvailability(key, bool) {
