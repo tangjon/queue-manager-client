@@ -15,7 +15,7 @@ export class User {
         this.iNumber = user.iNumber;
         this.name = user.name;
         this.key = user.key;
-        this.isAvailable = user.isAvailable || true;
+        this.isAvailable = user.isAvailable;
         this.incidents = user.incidents || new Incidents();
         this.role = user.role || new Role();
         this.currentQDays = user.currentQDays || 0;
