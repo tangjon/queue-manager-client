@@ -26,6 +26,7 @@ export class TeamManagerComponent {
 
   // TODO Create user model
   addUser(fName: string, iNumber: string) {
+
     this.userService.addUser(fName, iNumber);
   }
   updateItem(key: string, fName: string, iNumber: string, usage: number) {

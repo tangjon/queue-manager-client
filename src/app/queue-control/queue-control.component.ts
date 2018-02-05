@@ -41,6 +41,16 @@ export class QueueControlComponent implements OnInit {
         value: false
       }).map(_el => _el.filter(el => el.role[this.paramId] == true))
 
+
+      // Try sorting
+      var test = userService.getUsers({
+        key: "isAvailable",
+        value: true
+      }).map(_el => _el.filter(el => el.role[this.paramId] == true));
+      test.subscribe(val => {
+        console.log(val);
+      })
+
       // Context of Incidents
       this.allUsers = userService.getUsers({}).map(_el => _el.filter(el => el.role[this.paramId] == true))
       this.allUsers.subscribe(val => {

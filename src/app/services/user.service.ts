@@ -36,6 +36,7 @@ export class UserService {
       name: name,
       key: this.db.createPushId()
     })
+    console.log(newUser);
     this.db.object('users/' + newUser.key).set(newUser)
   }
 
