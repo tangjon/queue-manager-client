@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/pluck';
 import { RouteReuseStrategy } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 
 
 @Component({
@@ -30,10 +31,10 @@ export class QueueControlComponent implements OnInit {
     this.id$.subscribe(value => {
       this.paramId = value;
       // Data for Available table
-      this.users = userService.getUsers({
-        key: "isAvailable",
-        value: true
-      }).map(_el => _el.filter(el => el.role[this.paramId] == true))
+      // this.users = userService.getUsers({
+      //   key: "isAvailable",
+      //   value: true
+      // }).map(_el => _el.filter(el => el.role[this.paramId] == true))
 
       // Data for UnAvailable table
       this.busyUsers = userService.getUsers({
@@ -43,13 +44,17 @@ export class QueueControlComponent implements OnInit {
 
 
       // Try sorting
-      var test = userService.getUsers({
+      this.users = userService.getUsers({
         key: "isAvailable",
         value: true
-      }).map(_el => _el.filter(el => el.role[this.paramId] == true));
-      test.subscribe(val => {
-        console.log(val);
-      })
+      }).map(_el => _el.filter(el => el.role[this.paramId] == true)).map(
+        (data) => {
+          data.sort((a, b) => {
+            return a.getAverageQDay() < b.getAverageQDay() ? -1 : 1;
+          });
+          return data;
+        });
+
 
       // Context of Incidents
       this.allUsers = userService.getUsers({}).map(_el => _el.filter(el => el.role[this.paramId] == true))

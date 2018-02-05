@@ -26,14 +26,15 @@ export class TeamManagerComponent {
 
   // TODO Create user model
   addUser(fName: string, iNumber: string) {
-
-    this.userService.addUser(fName, iNumber);
+    if (fName && iNumber) {
+      this.userService.addUser(fName, iNumber);
+    }
   }
   updateItem(key: string, fName: string, iNumber: string, usage: number) {
-    this.userService.updateUser(key,fName, iNumber,usage);
+    this.userService.updateUser(key, fName, iNumber, usage);
   }
   deleteItem(key: string) {
-    this.itemsRef.remove(key);
+    this.userService.deleteUser(key);
   }
   deleteEverything() {
     this.userService.deleteEverything();
@@ -42,7 +43,7 @@ export class TeamManagerComponent {
     console.log(msg)
   }
   toggleRole(user: User, role: string) {
-    this.userService.toggleRole(user,role);
+    this.userService.toggleRole(user, role);
   }
 
 }

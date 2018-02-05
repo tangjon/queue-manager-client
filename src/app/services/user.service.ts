@@ -49,6 +49,10 @@ export class UserService {
     });
   }
 
+  deleteUser(key: string) {
+    this.db.object('users/' + key).remove();
+  }
+
   deleteEverything() {
     this.db.object('users').remove();
   }
