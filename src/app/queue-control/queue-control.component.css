@@ -5,3 +5,7 @@
 #available-title {
     background-color: #039be5;
 }
+
+#available-title, #unavailable-title  {
+    padding: 5px 14px;
+}

@@ -3,7 +3,7 @@
     <app-login></app-login>
     <div *ngIf="afAuth.authState | async as user">
         <div class="text-center" id="qClipboard">
-            <p>click to copy</p>
+            <div class="text-center">click to copy</div>
             <div class="input-group">
                 <input type="text" class="form-control" [(ngModel)]="clipBoardText" #inputTarget>
                 <span class="input-group-btn">
@@ -11,6 +11,7 @@
                 </span>
             </div>
         </div>
+
         <router-outlet></router-outlet>
     </div>
 </div>

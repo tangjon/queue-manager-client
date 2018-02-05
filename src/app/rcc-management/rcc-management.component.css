@@ -6,3 +6,7 @@ div#rcc-form {
     background-color: #ffffff;
     padding: 42px;
 }
+
+#rcc-management h1.qTable-title {
+    background-color: #e74c3c
+}

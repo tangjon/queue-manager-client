@@ -55,3 +55,7 @@ div#add-user-form {
   .roll-change-panel{
     float: right;
   }
+
+  #team-manger h1.qTable-title {
+      background-color: #2980b9
+  }
