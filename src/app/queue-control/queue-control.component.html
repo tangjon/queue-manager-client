@@ -43,6 +43,8 @@
   </table>
 </div>
 
+
+
 <div class="table-responsive shadow">
   <h6 id="unavailable-title" class="qTable-title">{{ (busyUsers | async)?.length }} Unavailable</h6>
   <table class="table qTable">
@@ -71,4 +73,11 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+
+<div class="incident-detail text-center shadow">{{id$ | async }} has
+  <button class="btn btn-primary">{{$totalIncidents}}</button>
+   incidents. Sum is 
+   <button class="btn btn-primary">{{ totalincidents }}</button>
 </div>

@@ -59,3 +59,8 @@ div#add-user-form {
   #team-manger h1.qTable-title {
       background-color: #2980b9
   }
+
+
+  #add-user-form{
+    margin-bottom: 20px
+  }

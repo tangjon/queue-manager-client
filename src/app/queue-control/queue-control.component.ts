@@ -19,8 +19,11 @@ export class QueueControlComponent implements OnInit {
   itemsRef: AngularFireList<any>;
   busyUsers: Observable<any[]>;
   users: Observable<any[]>;
+  allUsers: Observable<any[]>; // lazy
   id$: Observable<string>;
   paramId: string;
+  $totalIncidents: number;
+  totalincidents: number;
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
@@ -37,6 +40,24 @@ export class QueueControlComponent implements OnInit {
         key: 'isAvailable',
         value: false
       }).map(_el => _el.filter(el => el.role[this.paramId] == true))
+
+      // Context of Incidents
+      this.allUsers = userService.getUsers({}).map(_el => _el.filter(el => el.role[this.paramId] == true))
+      this.allUsers.subscribe(val => {
+        let total = 0;
+        val.forEach(element => {
+          total += element.incidents[this.paramId]
+        });
+        this.$totalIncidents = total;
+      })
+      // All of Incidents
+      this.allUsers.subscribe(val => {
+        let total = 0;
+        val.forEach(user => {
+          total += user.getIncidentTotal()
+        });
+        this.totalincidents = total;
+      })
     });
   }
 

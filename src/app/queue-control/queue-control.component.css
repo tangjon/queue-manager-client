@@ -9,3 +9,10 @@
 #available-title, #unavailable-title  {
     padding: 5px 14px;
 }
+
+.incident-detail{
+    background-color: white;
+    padding: 11px;
+    margin: auto;
+    width: 50%;
+}
