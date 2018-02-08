@@ -15,6 +15,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RccManagementComponent } from './rcc-management/rcc-management.component';
 import { ClipboardModule } from 'ngx-clipboard'
 import { UserService } from './services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClient,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
