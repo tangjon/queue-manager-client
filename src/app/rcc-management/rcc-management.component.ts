@@ -13,10 +13,11 @@ import { UserService } from '../services/user.service';
 export class RccManagementComponent {
   selectedUser: User;
   users: Observable<any[]>;
-
+  showSpinner: boolean = true;
   _userList: Array<User>;
   constructor(public db: AngularFireDatabase, public userSerivice: UserService) {
     this.userSerivice.getUsers({}).subscribe(r => {
+      this.showSpinner = false;      
       this._userList = r;
     })
   }

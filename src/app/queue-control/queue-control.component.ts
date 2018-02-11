@@ -28,13 +28,18 @@ export class QueueControlComponent implements OnInit {
   _userListBusy: Array<User>;
   _userListAvailable: Array<User>;
 
+  showSpinner: boolean = true;
+
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
+      this.showSpinner = true;
       this.paramId = value;
 
       userService.getUsers({}).subscribe(r => {
+        this.showSpinner = false;
+
         this._userListAll = r;
 
         this._userListCtx = r.filter((t: User) => {
@@ -63,7 +68,6 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   toggleStatus(user: User) {

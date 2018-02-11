@@ -2,6 +2,7 @@
     <h1 class="qTable-title">RCC Data</h1>
 
     <table class="table qTable">
+    
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -10,6 +11,7 @@
             </tr>
         </thead>
         <tbody>
+            <tr *ngIf="showSpinner"><td colspan="3"><app-loading-spinner></app-loading-spinner></td></tr>
             <tr *ngFor="let user of _userList; let i = index" (click)="selectUser(user)">
                 <td>{{user.name + "(" + user.iNumber + ")"}}</td>
                 <td>{{user.currentQDays}}</td>
@@ -18,6 +20,7 @@
         </tbody>
     </table>
 </div>
+
 <p class="instruction">Click user to edit RCC information</p>
 <div id="rcc-form">
     <div class="row">

@@ -22,6 +22,7 @@
       </tr>
     </thead>
     <tbody>
+      <tr *ngIf="showSpinner"><td colspan="9"><app-loading-spinner></app-loading-spinner></td></tr>
       <tr *ngFor="let user of _userListAvailable; let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{user.name + "(" + user.iNumber + ")"}}</td>

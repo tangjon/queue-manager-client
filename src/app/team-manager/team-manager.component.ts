@@ -13,7 +13,7 @@ export class TeamManagerComponent {
   newUser: User;
   inputName: string;
   inputiNumber: string;
-
+  showSpinner: boolean = true;
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
   userList: Array<User>;
@@ -21,6 +21,7 @@ export class TeamManagerComponent {
     // Get Users
     this.users = userService.getUsers({});
     this.users.subscribe(r => {
+      this.showSpinner = false;
       this.userList = r;
     })
     // Start with clear form

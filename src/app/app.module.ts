@@ -16,6 +16,7 @@ import { RccManagementComponent } from './rcc-management/rcc-management.componen
 import { ClipboardModule } from 'ngx-clipboard'
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 const appRoutes: Routes = [
   {
@@ -37,7 +38,8 @@ const appRoutes: Routes = [
     LoginComponent,
     QueueControlComponent,
     TeamManagerComponent,
-    RccManagementComponent
+    RccManagementComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

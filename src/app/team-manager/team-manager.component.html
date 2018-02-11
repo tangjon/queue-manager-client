@@ -11,7 +11,9 @@
     </div>
   </div>
   <!-- Table body -->
+  <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
   <div class="qm-tbl-row" *ngFor="let user of userList; let i = index">
+    <div class="row"></div>
     <div class="row">
       <div class="text-center col-sm-1">{{i + 1}}</div>
       <div class="col">
