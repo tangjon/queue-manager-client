@@ -27,22 +27,26 @@ export class RccManagementComponent {
 
   // Increment by one
   addQueueDay(val) {
-    let amount = parseInt(val);
-    if (this.selectedUser) {
-      this.selectedUser.currentQDays += amount;
-      this.userSerivice.updateUser(this.selectedUser).subscribe(r => {
-
-      })
+    if (val) {
+      let amount = parseInt(val);
+      if (this.selectedUser) {
+        this.selectedUser.currentQDays += amount;
+        this.userSerivice.updateUser(this.selectedUser).subscribe(r => {
+        })
+      }
     }
+
   }
 
   updateQueueDays(val) {
-    let amount = parseInt(val);
-    if (this.selectedUser) {
-      this.selectedUser.currentQDays = amount;
-      this.userSerivice.updateUser(this.selectedUser).subscribe(r => {
+    if (val) {
+      let amount = parseInt(val);
+      if (this.selectedUser) {
+        this.selectedUser.currentQDays = amount;
+        this.userSerivice.updateUser(this.selectedUser).subscribe(r => {
 
-      })
+        })
+      }
     }
   }
 

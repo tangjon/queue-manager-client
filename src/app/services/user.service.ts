@@ -88,18 +88,6 @@ export class UserService {
     // this.db.object('users').remove();
   }
 
-
-
-  // DEPRICATED
-  setAvailable(key, bool) {
-    // this.db.object('users/' + key + '/isAvailable').set(bool);
-  }
-
-  // DEPRICATED
-  updateQueueDays() {
-    // this.db.object('users/' + key + '/currentQDays').set(amount);
-  }
-
   private generateUrl(table: string, key: string): string {
     let base = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/'
     let url = base + table + "('" + key + "')";
