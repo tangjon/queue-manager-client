@@ -4,6 +4,8 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http/src/params';
+import { Incidents } from '../model/incidents';
 
 @Injectable()
 export class UserService {
@@ -11,20 +13,14 @@ export class UserService {
   url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/table"
   userList: Array<User>;
   tmp: any;
-  constructor(public db: AngularFireDatabase, public http: HttpClient) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'text/plain'
-      })
-    };
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  }
 
-    // let obs = http.get(this.url, httpOptions).map(val => {
-    //   this.tmp = val;
-    //   return this.tmp.d.results; //ignore warning
-    // })
-    // obs.subscribe(resp => {
-    //   console.log(resp);
-    // })
+  constructor(public db: AngularFireDatabase, public http: HttpClient) {
+
   }
 
   getUsers(query): Observable<any[]> {
@@ -33,87 +29,80 @@ export class UserService {
         'Content-Type': 'application/json',
       })
     }
-    this.http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs", httpOptions)
-    .map(r => {
-      console.log(r);
-      return r;
-    })
-    .subscribe(t => {
-      // console.log(t);
-    })
-
-    var q = query || {};
-    // Query Defined
-    if (q.key) {
-      if (q.value != null) {
-        return this.db.list('users', ref => ref.orderByChild(q.key).equalTo(q.value)).valueChanges().map(el => {
-          return el.map(user => { return new User(user) })
-        })
-      } else {
-        return this.db.list('users', ref => ref.orderByChild(q.key)).valueChanges().map(el => {
-          return el.map(user => { return new User(user) })
-        })
-      }
-    } else { // No Query
-      return this.db.list('users').valueChanges().map(el => {
-        return el.map(user => { return new User(user) })
+    return this.http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs", httpOptions)
+      .map(r => {
+        let arr = [];
+        for (var el in r) {
+          arr.push(new User(r[el]));
+        }
+        return arr;
       })
-    }
-
 
   }
 
   addUser(name: string, iNumber: string) {
+    // Create the user
     let newUser = new User({
       iNumber: iNumber,
       name: name,
       key: this.db.createPushId()
     })
-    // console.log(newUser);
-    this.db.object('users/' + newUser.key).set(newUser)
-
-    // NEW
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
     }
-    this.http.post("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs", newUser, httpOptions).subscribe(t => {
-      console.log(t);
-    })
+    return this.http.post("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs", newUser, httpOptions)
+      .map(r => {
+        return new User(r);
+      });
+  }
+  updateUser(user: User) {
+    let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
+    return this.http.put(url, user, this.httpOptions);
   }
 
-  updateUser(key: string, fName: string, iNumber: string, usage: number) {
-    usage = +usage;
-    this.db.list('users').update(key, {
-      name: fName,
-      iNumber: iNumber,
-      usagePercent: usage
-    });
+
+  deleteUser(key: string): Observable<any> {
+    // this.db.object('users/' + key).remove();
+    return this.http.delete("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs?key=" + "'" + key + "'");
+  }
+  updateRole(user: User, role: string) {
+    // Work Around Server Doesnt Accept Boolean must convert to strings...
+    var tmp = {};
+    for (var el in user.role) {
+      tmp[el] = user.role[el].toString();
+    }
+    tmp[role] = (!user.hasRole(role)).toString();
+    let url = this.generateUrl('role', user.key);
+    return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
 
-  deleteUser(key: string) {
-    this.db.object('users/' + key).remove();
+  updateIncident(user:User, type:string, amount:number){
+    let url = this.generateUrl('incidents',user.key);
+    user.incidents[type] += amount;
+    return this.http.put(url,user.incidents,this.httpOptions);
   }
-
+  // DEPRICATED
   deleteEverything() {
-    this.db.object('users').remove();
+    // this.db.object('users').remove();
   }
 
-  toggleRole(user: User, role: string) {
-    let bool = user.hasRole(role);
-    let ref = this.db.object('users/' + user.key + '/role/' + role);
-    ref.set(!bool);
-  }
 
+
+  // DEPRICATED
   setAvailable(key, bool) {
-    this.db.object('users/' + key + '/isAvailable').set(bool);
+    // this.db.object('users/' + key + '/isAvailable').set(bool);
   }
 
-  updateIncident(key: string, type: string, amount: number) {
-    this.db.object('users/' + key + '/incidents/' + type).set(amount);
+  // DEPRICATED
+  updateQueueDays() {
+    // this.db.object('users/' + key + '/currentQDays').set(amount);
   }
-  updateQueueDays(key: string, amount: number) {
-    this.db.object('users/' + key + '/currentQDays').set(amount);
+
+  private generateUrl(table: string, key: string): string {
+    let base = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/'
+    let url = base + table + "('" + key + "')";
+    return url;
   }
 }
