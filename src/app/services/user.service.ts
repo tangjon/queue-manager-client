@@ -6,6 +6,8 @@ import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http/src/params';
 import { Incidents } from '../model/incidents';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class UserService {
@@ -36,6 +38,8 @@ export class UserService {
           arr.push(new User(r[el]));
         }
         return arr;
+      }).catch(e => {
+        return Observable.throw(e);
       })
 
   }
@@ -78,10 +82,10 @@ export class UserService {
     return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
 
-  updateIncident(user:User, type:string, amount:number){
-    let url = this.generateUrl('incidents',user.key);
+  updateIncident(user: User, type: string, amount: number) {
+    let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;
-    return this.http.put(url,user.incidents,this.httpOptions);
+    return this.http.put(url, user.incidents, this.httpOptions);
   }
   // DEPRICATED
   deleteEverything() {

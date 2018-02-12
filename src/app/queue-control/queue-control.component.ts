@@ -63,7 +63,10 @@ export class QueueControlComponent implements OnInit {
         });
 
         this.updateSummary();
-      })
+      },
+        error => {
+          console.log(error);
+        })
     });
   }
 
