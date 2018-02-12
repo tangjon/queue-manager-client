@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { ClipboardComponent } from './shared/clipboard/clipboard.component';
 import { ComponentBarComponent } from './shared/component-bar/component-bar.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 const appRoutes: Routes = [
   {
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     RccManagementComponent,
     LoadingSpinnerComponent,
     ClipboardComponent,
-    ComponentBarComponent
+    ComponentBarComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
