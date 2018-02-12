@@ -17,6 +17,7 @@ import { ClipboardModule } from 'ngx-clipboard'
 import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { ClipboardComponent } from './shared/clipboard/clipboard.component';
 
 const appRoutes: Routes = [
   {
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     QueueControlComponent,
     TeamManagerComponent,
     RccManagementComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ClipboardComponent
   ],
   imports: [
     BrowserModule,
