@@ -2,6 +2,7 @@
 <div class="container">
     <app-login></app-login>
     <div *ngIf="afAuth.authState | async as user">
+        <app-component-bar></app-component-bar>
         <app-clipboard></app-clipboard>
         <router-outlet></router-outlet>
     </div>
