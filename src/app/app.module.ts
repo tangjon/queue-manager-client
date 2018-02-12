@@ -20,6 +20,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { ClipboardComponent } from './shared/clipboard/clipboard.component';
 import { ComponentBarComponent } from './shared/component-bar/component-bar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { SettingsComponent } from './shared/settings/settings.component';
 
 const appRoutes: Routes = [
   {
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
   { path: 'home', redirectTo: 'qm/NW' },
   { path: 'manage', component: TeamManagerComponent },
   { path: 'rcc', component: RccManagementComponent },
-  { path: 'qm/:id', component: QueueControlComponent }
+  { path: 'qm/:id', component: QueueControlComponent },
+  { path: 'settings', component: SettingsComponent }
 ];
 
 @NgModule({
@@ -45,7 +47,8 @@ const appRoutes: Routes = [
     LoadingSpinnerComponent,
     ClipboardComponent,
     ComponentBarComponent,
-    SidebarComponent
+    SidebarComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

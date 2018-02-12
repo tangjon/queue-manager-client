@@ -22,10 +22,13 @@
         </a>
       </li>
 
+
     </ul>
     <div *ngIf="afAuth.authState | async as user">
       <span style="color:white">Welcome Queue Manager!</span>
       <button (click)="logout()">Logout</button>
+      <button routerLink="/settings" routerLinkActive="active">Settings</button>
+      
     </div>
   </div>
 </nav>
