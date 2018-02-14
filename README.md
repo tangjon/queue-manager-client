@@ -35,6 +35,7 @@ ng serve
 For Production
 ```
 npm run build-prod
+copy last-build somewhere else and
 cd last-build and push to https://git.hanatrial.ondemand.com/p2000140239trial/angular
 ```
 
