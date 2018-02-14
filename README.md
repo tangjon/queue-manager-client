@@ -35,7 +35,7 @@ ng serve
 For Production
 ```
 npm run build-prod
-cd last-build and push to <hana repo>
+cd last-build and push to https://git.hanatrial.ondemand.com/p2000140239trial/angular
 ```
 
 Next, go to web ide pull and deploy!
