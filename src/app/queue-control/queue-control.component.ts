@@ -6,8 +6,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/pluck';
 import { RouteReuseStrategy } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
-
 
 @Component({
   selector: 'app-queue-control',
@@ -27,6 +25,8 @@ export class QueueControlComponent implements OnInit {
   _userListCtx: Array<User>;
   _userListBusy: Array<User>;
   _userListAvailable: Array<User>;
+
+  errorMessage: string;
 
   showSpinner: boolean = true;
 
@@ -65,7 +65,7 @@ export class QueueControlComponent implements OnInit {
         this.updateSummary();
       },
         error => {
-          console.log(error);
+          this.errorMessage = error;
         })
     });
   }
@@ -102,18 +102,26 @@ export class QueueControlComponent implements OnInit {
 
   incIncidentAmount(user: User) {
     let amount = 1;
-    this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
-      this.updateSummary();
-      this.refreshLists();
-    })
+    let prompt = window.prompt("Adding " + "+" + amount + " to " + user.name, user.iNumber);
+    if (prompt) {
+      this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
+        this.updateSummary();
+        this.refreshLists();
+      })
+    }
+
   }
 
   decIncidentAmount(user) {
     let amount = -1;
-    this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
-      this.updateSummary();
-      this.refreshLists();
-    })
+    let prompt = window.prompt("Removing "  + amount + " to " + user.name, user.iNumber);
+    if (prompt) {
+      this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
+        this.updateSummary();
+        this.refreshLists();
+      });
+    }
+
   }
   logIt(msg) {
     console.log(msg)
@@ -132,4 +140,6 @@ export class QueueControlComponent implements OnInit {
     });
     this.totalIncidentsCtx = totalB;
   }
+
+
 }

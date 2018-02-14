@@ -17,12 +17,22 @@ export class TeamManagerComponent {
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
   userList: Array<User>;
+  errorMessage: string;
   constructor(public db: AngularFireDatabase, public userService: UserService) {
     // Get Users
     this.users = userService.getUsers({});
     this.users.subscribe(r => {
       this.showSpinner = false;
-      this.userList = r;
+      this.userList = r.sort(
+        function (a, b) {
+          if (a.name < b.name)
+            return -1;
+          if (a.name > b.name)
+            return 1;
+          return 0;
+        });
+    }, error => {
+      this.errorMessage = error;
     })
     // Start with clear form
     this.clearForm();
@@ -47,14 +57,17 @@ export class TeamManagerComponent {
     }
 
   }
-  deleteItem(key: string) {
-    this.userService.deleteUser(key).subscribe(t => {
-      if (t.flag) {
-        this.userList = this.userList.filter(function (el) {
-          return el.key !== key;
-        })
-      }
-    })
+  deleteItem(user: User) {
+    let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?")
+    if (prompt) {
+      this.userService.deleteUser(user.key).subscribe(t => {
+        if (t.flag) {
+          this.userList = this.userList.filter(function (el) {
+            return el.key !== user.key;
+          })
+        }
+      })
+    }
   }
   deleteEverything() {
     this.userService.deleteEverything();
