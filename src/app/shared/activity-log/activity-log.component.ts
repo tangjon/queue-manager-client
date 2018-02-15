@@ -15,8 +15,7 @@ export class ActivityLogComponent implements OnInit {
   ngOnInit() {
 
     this.activityLog = this.userService.getActivityLog();
-    this.activityLog.push(new EntryLog("test","test","test"))
-    console.log(this.activityLog);
+    this.activityLog.push(new EntryLog("test","test", new Date()))
   }
 
 }
