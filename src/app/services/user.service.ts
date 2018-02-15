@@ -21,9 +21,7 @@ export class UserService {
       'Content-Type': 'application/json',
     })
   }
-
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
-
   }
 
   getUsers(query): Observable<any[]> {
@@ -66,8 +64,6 @@ export class UserService {
     let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
     return this.http.put(url, user, this.httpOptions);
   }
-
-
   deleteUser(key: string): Observable<any> {
     // this.db.object('users/' + key).remove();
     return this.http.delete("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs?key=" + "'" + key + "'");
@@ -82,7 +78,6 @@ export class UserService {
     let url = this.generateUrl('role', user.key);
     return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
-
   updateIncident(user: User, type: string, amount: number) {
     let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;
@@ -92,7 +87,6 @@ export class UserService {
   deleteEverything() {
     // this.db.object('users').remove();
   }
-
   private generateUrl(table: string, key: string): string {
     let base = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/'
     let url = base + table + "('" + key + "')";
