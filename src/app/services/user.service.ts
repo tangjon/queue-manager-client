@@ -9,10 +9,11 @@ import { Incidents } from '../model/incidents';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
+import { EntryLog } from '../model/entrylog';
 
 @Injectable()
 export class UserService {
-  activityLog: Array<any>;
+  activityLog: Array<EntryLog> = new Array<EntryLog>();
   url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/table"
   userList: Array<User>;
   tmp: any;
@@ -22,6 +23,10 @@ export class UserService {
     })
   }
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
+  }
+
+  getActivityLog(): Array<any>{
+    return this.activityLog;
   }
 
   getUsers(query): Observable<any[]> {
@@ -61,6 +66,7 @@ export class UserService {
       });
   }
   updateUser(user: User) {
+    
     let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
     return this.http.put(url, user, this.httpOptions);
   }
@@ -79,6 +85,7 @@ export class UserService {
     return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
   updateIncident(user: User, type: string, amount: number) {
+    this.activityLog.push(new EntryLog("update incidient number","this user","queue control"))
     let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;
     return this.http.put(url, user.incidents, this.httpOptions);
