@@ -45,3 +45,7 @@ body {
 #qClipboard {
     padding: 20px 0px;
 }
+
+.error-message {
+    word-wrap: break-word;
+}
