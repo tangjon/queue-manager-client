@@ -21,6 +21,7 @@ import { ClipboardComponent } from './shared/clipboard/clipboard.component';
 import { ComponentBarComponent } from './shared/component-bar/component-bar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { SettingsComponent } from './shared/settings/settings.component';
+import { ActivityLogComponent } from './shared/activity-log/activity-log.component';
 
 const appRoutes: Routes = [
   {
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
     ClipboardComponent,
     ComponentBarComponent,
     SidebarComponent,
-    SettingsComponent
+    SettingsComponent,
+    ActivityLogComponent
   ],
   imports: [
     BrowserModule,
