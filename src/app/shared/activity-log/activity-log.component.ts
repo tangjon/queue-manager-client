@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { EntryLog } from '../../model/entrylog';
+import { ActivityBook } from '../../model/activitybook';
 
 @Component({
   selector: 'app-activity-log',
@@ -11,11 +12,9 @@ export class ActivityLogComponent implements OnInit {
 
   constructor(public userService: UserService) {
    }
-  activityLog: Array<EntryLog>;
+  activityLog: any;
   ngOnInit() {
-
-    this.activityLog = this.userService.getActivityLog();
-    this.activityLog.push(new EntryLog("test","test", new Date()))
+    this.activityLog = this.userService.activityBook.getLogs();
   }
 
 }
