@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 @Injectable()
 export class UserService {
-
+  activityLog: Array<any>;
   url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/table"
   userList: Array<User>;
   tmp: any;
