@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { EntryLog } from '../../model/entrylog';
 import { ActivityBook } from '../../model/activitybook';
+import { ActivityBookService } from '../../services/activity-book.service';
 
 @Component({
   selector: 'app-activity-log',
@@ -10,11 +11,15 @@ import { ActivityBook } from '../../model/activitybook';
 })
 export class ActivityLogComponent implements OnInit {
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, public activityBookSerivce : ActivityBookService) {
    }
-  activityLog: any;
+  
+  activityBook : ActivityBook;
+  activityLog: Array<EntryLog>;
+  activityLogOld : any;
   ngOnInit() {
-    this.activityLog = this.userService.activityBook.getLogs();
+    this.activityLog = this.activityBookSerivce.getBook().getLogs();
+    this.activityLogOld = this.userService.activityBook.getLogs();
   }
 
 }

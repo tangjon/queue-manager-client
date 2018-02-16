@@ -11,6 +11,7 @@ import 'rxjs/add/observable/throw';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { EntryLog } from '../model/entrylog';
 import { ActivityBook } from '../model/activitybook';
+import { ActivityBookService } from './activity-book.service';
 
 @Injectable()
 export class UserService {
@@ -24,7 +25,7 @@ export class UserService {
     })
   }
   activityBook: ActivityBook = new ActivityBook();
-  constructor(public db: AngularFireDatabase, public http: HttpClient, ) {
+  constructor(public db: AngularFireDatabase, public http: HttpClient, public activityBookService: ActivityBookService) {
     this.activityBook.getQmUser().setName("george");
   }
 
@@ -85,6 +86,7 @@ export class UserService {
   }
   updateIncident(user: User, type: string, amount: number) {
     this.activityBook.logIncident(user, type, amount);
+    this.activityBookService.logIncident(user, type, amount);
     let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;
 

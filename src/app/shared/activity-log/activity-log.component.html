@@ -26,6 +26,23 @@
     </tr>
   </thead>
   <tbody>
+    <tr *ngFor="let item of activityLogOld.reverse(); let i = index">
+      <td scope="row">{{item.getDate()}} {{item.getTime()}}</td>
+      <td>{{item.action}} : {{item.description}}</td>
+      <td>{{item.getManager()}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th style="width:20%"scope="col">Time</th>
+      <th style="width:65%" scope="col">Description</th>
+      <th style="width:15%" scope="col">QM</th>      
+    </tr>
+  </thead>
+  <tbody>
     <tr *ngFor="let item of activityLog.reverse(); let i = index">
       <td scope="row">{{item.getDate()}} {{item.getTime()}}</td>
       <td>{{item.action}} : {{item.description}}</td>

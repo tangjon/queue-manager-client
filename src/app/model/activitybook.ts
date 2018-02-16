@@ -32,4 +32,8 @@ export class ActivityBook {
     getQmUser(){
         return this.qmUser;
     }
+
+    setQM(name:string){
+        this.qmUser.setName(name);
+    }
 }
