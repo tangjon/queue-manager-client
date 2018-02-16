@@ -32,9 +32,9 @@ export class QueueControlComponent implements OnInit {
 
   showSpinner: boolean = true;
 
-  qmUser : QmUser;
+  qmUser: QmUser;
 
-  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public activityBookService:ActivityBookService) {
+  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public activityBookService: ActivityBookService) {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
@@ -118,7 +118,7 @@ export class QueueControlComponent implements OnInit {
 
   decIncidentAmount(user) {
     let amount = -1;
-    let prompt = window.prompt("Removing "  + amount + " to " + user.name, user.iNumber);
+    let prompt = window.prompt("Removing " + amount + " to " + user.name, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
         this.updateSummary();
@@ -145,9 +145,11 @@ export class QueueControlComponent implements OnInit {
     this.totalIncidentsCtx = totalB;
   }
 
-  changeQM(){
+  changeQM() {
     let arg = window.prompt("You are changing the QM. What is your name?", this.qmUser.name);
-    this.qmUser.setName(arg);
-    this.activityBookService.updateManager(arg);
+    if (arg) {
+      this.qmUser.setName(arg);
+      this.activityBookService.updateManager(arg);
+    }
   }
 }
