@@ -1,32 +1,35 @@
 import { EntryLog } from "./entrylog";
 import { User } from "./user";
-import { QmuserService } from "../services/qmuser.service";
+import { QmUser } from "./qmuser";
 
 export class ActivityBook {
     private entryArray: Array<EntryLog>;
-    public qmuser : QmuserService;
+    private qmUser: QmUser;
     constructor() {
         this.entryArray = new Array<EntryLog>();
-        this.qmuser = new QmuserService();
+        this.qmUser = new QmUser("DEFAULT-NAME")
     }
     getLogs() {
         return this.entryArray;
     }
     logIncident(user: User, type, amount) {
-        console.log(this.qmuser.getName());
         this.entryArray.push(new EntryLog(
             amount + " Incident Assigned to " + user.name,
-            user.getIncidentAmount(type) + " to " + (user.getIncidentAmount(type) + amount), this.qmuser.getName()));
+            user.getIncidentAmount(type) + " to " + (user.getIncidentAmount(type) + amount), this.qmUser.name ));
     }
     logRole(user:User, role) {
         this.entryArray.push(new EntryLog(
-            "Role Changed", user.name + " made " + role, this.qmuser.getName()
+            "Role Changed", user.name + " made " + role, this.qmUser.name
         ));
     }
 
     logUser(user:User){
         this.entryArray.push(new EntryLog(
-            "User Updated", user.name + "'s credential have been updated", this.qmuser.getName()
+            "User Updated", user.name + "'s credential have been updated", this.qmUser.name
         ));
+    }
+
+    getQmUser(){
+        return this.qmUser;
     }
 }

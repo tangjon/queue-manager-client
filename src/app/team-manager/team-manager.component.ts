@@ -44,7 +44,7 @@ export class TeamManagerComponent {
       this.userService.addUser(fName, iNumber).subscribe((r: User) => {
         this.userList.push(r);
       })
-      this.clearForm
+      this.clearForm();
     }
   }
   updateItem(user: User, fName: string, iNumber: string, usage: string) {

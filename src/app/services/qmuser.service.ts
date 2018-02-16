@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
+import { QmUser } from '../model/qmuser';
 
 @Injectable()
 export class QmuserService {
-  private name : string;
-  constructor() { 
-    this.name = "default"
+  qmUser: QmUser;
+  constructor() {
+    this.qmUser = new QmUser("DEFAULT")
   }
 
-  getUser(){
-    return this.name;
+  getUser() {
+    return this.qmUser;
   }
-  changeUser(newName){
-    this.name = newName;
-  }
-  getName(){
-    return this.name;
+  changeUser(newName) {
+    
   }
 }

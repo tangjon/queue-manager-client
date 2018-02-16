@@ -14,7 +14,7 @@ import { ActivityBook } from '../model/activitybook';
 
 @Injectable()
 export class UserService {
-  public activityBook: ActivityBook = new ActivityBook();
+
   url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/table"
   userList: Array<User>;
   tmp: any;
@@ -23,7 +23,9 @@ export class UserService {
       'Content-Type': 'application/json',
     })
   }
-  constructor(public db: AngularFireDatabase, public http: HttpClient) {
+  activityBook: ActivityBook = new ActivityBook();
+  constructor(public db: AngularFireDatabase, public http: HttpClient, ) {
+    this.activityBook.getQmUser().setName("george");
   }
 
   getUsers(query): Observable<any[]> {
@@ -39,7 +41,7 @@ export class UserService {
           arr.push(new User(r[el]));
         }
         return arr;
-      }).catch((err:HttpErrorResponse) => {
+      }).catch((err: HttpErrorResponse) => {
         return Observable.throw(err.message + ": Restart the database: https://account.hanatrial.ondemand.com/cockpit#/acc/p2000140239trial/dbs/qmdatabase/");
       })
 
@@ -78,7 +80,7 @@ export class UserService {
     }
     tmp[role] = (!user.hasRole(role)).toString();
     let url = this.generateUrl('role', user.key);
-    this.activityBook.logRole(user,role);
+    this.activityBook.logRole(user, role);
     return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
   updateIncident(user: User, type: string, amount: number) {

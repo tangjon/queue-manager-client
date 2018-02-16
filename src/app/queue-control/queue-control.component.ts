@@ -7,6 +7,7 @@ import 'rxjs/add/operator/pluck';
 import { RouteReuseStrategy } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { QmuserService } from '../services/qmuser.service';
+import { QmUser } from '../model/qmuser';
 
 @Component({
   selector: 'app-queue-control',
@@ -30,6 +31,8 @@ export class QueueControlComponent implements OnInit {
   errorMessage: string;
 
   showSpinner: boolean = true;
+
+  qmUser : QmUser;
 
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public qmUserService: QmuserService) {
     // Get Param :id in url
@@ -72,6 +75,7 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.qmUser = this.qmUserService.getUser();
   }
 
   toggleStatus(user: User) {
@@ -141,5 +145,8 @@ export class QueueControlComponent implements OnInit {
     this.totalIncidentsCtx = totalB;
   }
 
-
+  changeQM(){
+    let arg = window.prompt("You are changing the QM. What is your name?");
+    this.qmUser.setName(arg);
+  }
 }
