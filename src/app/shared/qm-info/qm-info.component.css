@@ -5,3 +5,7 @@
     border-radius: 23px;
     border: 5px solid #2c3e50;
 }
+
+div#qm-info-name {
+    margin-bottom: 8px;
+}

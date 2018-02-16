@@ -1,6 +1,7 @@
-
-<div id="qm-info-block"class="text-center">
-  <h3>The Current Queue Manger:</h3>
-  <div class="btn btn-primary">{{qmUser.name}}</div>
-  <button type="button" class="btn btn-outline-dark" (click)="changeQM()">Change</button>
+<div id="qm-info-block" class="text-center">
+  <h3 id="">The Current Queue Manger:</h3>
+  <div id="qm-info-name" class="btn btn-primary">{{qmUser.name}}</div>
+  <div id="qm-info-not-you">
+    Not you? <button class="badge badge-danger" (click)="changeQM()">Change</button>
+  </div>
 </div>
