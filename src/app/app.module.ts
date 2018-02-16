@@ -23,6 +23,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { SettingsComponent } from './shared/settings/settings.component';
 import { ActivityLogComponent } from './shared/activity-log/activity-log.component';
 import { ActivityBookService } from './services/activity-book.service';
+import { QmInfoComponent } from './shared/qm-info/qm-info.component';
 
 const appRoutes: Routes = [
   {
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
     ComponentBarComponent,
     SidebarComponent,
     SettingsComponent,
-    ActivityLogComponent
+    ActivityLogComponent,
+    QmInfoComponent
   ],
   imports: [
     BrowserModule,

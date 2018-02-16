@@ -34,7 +34,7 @@ export class QueueControlComponent implements OnInit {
 
   qmUser: QmUser;
 
-  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public activityBookService: ActivityBookService) {
+  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
@@ -75,7 +75,6 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.qmUser = this.activityBookService.getManager();
   }
 
   toggleStatus(user: User) {
@@ -143,13 +142,5 @@ export class QueueControlComponent implements OnInit {
       totalB += element.incidents[this.paramId]
     });
     this.totalIncidentsCtx = totalB;
-  }
-
-  changeQM() {
-    let arg = window.prompt("You are changing the QM. What is your name?", this.qmUser.name);
-    if (arg) {
-      this.qmUser.setName(arg);
-      this.activityBookService.updateManager(arg);
-    }
   }
 }
