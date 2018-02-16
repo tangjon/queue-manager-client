@@ -1,13 +1,17 @@
 export class EntryLog {
-    pageName: string;
     action: string;
+    private queueManager: string;
     private date: Date;
     description: string;
-    constructor(action, description, pageName) {
+    constructor(action, description, queueManager) {
         this.action = action;
-        this.pageName = pageName;
+        console.log(queueManager);
+        this.queueManager = queueManager;
         this.description = description;
         this.date = new Date();
+    }
+    getManager(){
+        return this.queueManager;
     }
 
     getTime(){

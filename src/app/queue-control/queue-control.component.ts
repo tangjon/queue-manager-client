@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/pluck';
 import { RouteReuseStrategy } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { QmuserService } from '../services/qmuser.service';
 
 @Component({
   selector: 'app-queue-control',
@@ -30,7 +31,7 @@ export class QueueControlComponent implements OnInit {
 
   showSpinner: boolean = true;
 
-  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
+  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public qmUserService: QmuserService) {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {

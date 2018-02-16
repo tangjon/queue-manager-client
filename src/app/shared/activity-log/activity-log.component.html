@@ -29,7 +29,7 @@
     <tr *ngFor="let item of activityLog.reverse(); let i = index">
       <td scope="row">{{item.getDate()}} {{item.getTime()}}</td>
       <td>{{item.action}} : {{item.description}}</td>
-      <td>QM NAME</td>
+      <td>{{item.getManager()}}</td>
     </tr>
   </tbody>
 </table>
