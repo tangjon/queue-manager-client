@@ -23,6 +23,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { SettingsComponent } from './shared/settings/settings.component';
 import { ActivityLogComponent } from './shared/activity-log/activity-log.component';
 import { QmuserService } from './services/qmuser.service';
+import { ActivityBookService } from './services/activity-book.service';
 
 const appRoutes: Routes = [
   {
@@ -64,7 +65,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes),
   ],
-  providers: [UserService, QmuserService],
+  providers: [UserService, QmuserService, ActivityBookService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
