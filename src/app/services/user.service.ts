@@ -64,10 +64,10 @@ export class UserService {
   }
   updateUser(user: User) {
     let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
+    this.activityBook.logUser(user);
     return this.http.put(url, user, this.httpOptions);
   }
   deleteUser(key: string): Observable<any> {
-    // this.db.object('users/' + key).remove();
     return this.http.delete("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs?key=" + "'" + key + "'");
   }
   updateRole(user: User, role: string) {
@@ -85,6 +85,7 @@ export class UserService {
     this.activityBook.logIncident(user, type, amount);
     let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;
+
     return this.http.put(url, user.incidents, this.httpOptions);
   }
   // DEPRICATED

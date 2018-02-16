@@ -16,9 +16,14 @@ export class ActivityBook {
 
     }
     logRole(user:User, role) {
-        console.log("HELLO");
         this.entryArray.push(new EntryLog(
             "Role Changed", user.name + " made " + role,""
+        ));
+    }
+
+    logUser(user:User){
+        this.entryArray.push(new EntryLog(
+            "User Updated", user.name + "'s credential have been updated", ""
         ));
     }
 }

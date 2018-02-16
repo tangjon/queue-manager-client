@@ -91,7 +91,6 @@ export class QueueControlComponent implements OnInit {
         return 1;
       return 0;
     })
-    console.log(this._userListCtx);
     this._userListAvailable = this._userListCtx.filter(v => {
       return v.isAvailable == true;
     })
