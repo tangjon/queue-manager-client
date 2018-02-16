@@ -24,9 +24,7 @@ export class UserService {
       'Content-Type': 'application/json',
     })
   }
-  activityBook: ActivityBook = new ActivityBook();
   constructor(public db: AngularFireDatabase, public http: HttpClient, public activityBookService: ActivityBookService) {
-    this.activityBook.getQmUser().setName("george");
   }
 
   getUsers(query): Observable<any[]> {
@@ -67,7 +65,7 @@ export class UserService {
   }
   updateUser(user: User) {
     let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
-    this.activityBook.logUser(user);
+    this.activityBookService.logUser(user);
     return this.http.put(url, user, this.httpOptions);
   }
   deleteUser(key: string): Observable<any> {
@@ -81,11 +79,10 @@ export class UserService {
     }
     tmp[role] = (!user.hasRole(role)).toString();
     let url = this.generateUrl('role', user.key);
-    this.activityBook.logRole(user, role);
+    this.activityBookService.logRole(user, role);
     return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
   updateIncident(user: User, type: string, amount: number) {
-    this.activityBook.logIncident(user, type, amount);
     this.activityBookService.logIncident(user, type, amount);
     let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;

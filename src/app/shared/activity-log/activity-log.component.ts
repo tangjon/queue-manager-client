@@ -19,7 +19,6 @@ export class ActivityLogComponent implements OnInit {
   activityLogOld : any;
   ngOnInit() {
     this.activityLog = this.activityBookSerivce.getBook().getLogs();
-    this.activityLogOld = this.userService.activityBook.getLogs();
   }
 
 }

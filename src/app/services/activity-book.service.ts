@@ -28,8 +28,12 @@ export class ActivityBookService {
     this.activityBook.logIncident(user, type, amount);
   }
 
-  logRole(user:User, role:Role){
+  logRole(user:User, role){
     this.activityBook.logRole(user, role);
+  }
+
+  logUser(user){
+    this.activityBook.logUser(user);
   }
 
 
