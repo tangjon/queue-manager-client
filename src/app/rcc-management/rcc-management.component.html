@@ -1,4 +1,4 @@
-<div id="rcc-info-panel">
+<div id="rcc-info-panel" class="shadow">
     <div class="row">
         <div class="col-sm-3">KEY</div>
         <div class="col">Oct-Dec = 1 | Jan-Mar = 2 | Apr-Jun = 3 | Jul-Sep = 4</div>
@@ -15,7 +15,7 @@
         <div class="col-sm-3">Next Reset in Days</div>
         <div class="col" *ngIf="daysLeftInQuarter()">{{getResetDays()}}</div>
         <div class="col" *ngIf="!daysLeftInQuarter()">
-            <button class="btn btn-danger" style="width:100%">RESET THE RCC NOW</button>
+            <button (click)="resetDays()" class="btn btn-danger" style="width:100%">RESET THE RCC NOW</button>
         </div>
     </div>
 </div>
@@ -63,4 +63,8 @@
             <button class="btn btn-default" type="button" (click)="updateQueueDays(inputSetQDay.value)">Update</button>
         </div>
     </div>
+</div>
+
+<div class="text-center">
+    <button class="btn btn-danger" (click)="resetDays()">RESET QUEUE DAYS</button>
 </div>
