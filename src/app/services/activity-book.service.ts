@@ -36,8 +36,8 @@ export class ActivityBookService {
     this.activityBook.logUser(user);
   }
 
-  logEntry(user, type, description){
-    this.activityBook.logEntry(user, type, description);
+  logEntry(user, action, description){
+    this.activityBook.logEntry(user, action, description);
   }
 
 
