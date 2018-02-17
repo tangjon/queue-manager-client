@@ -9,6 +9,9 @@ import { Incidents } from '../model/incidents';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
+import { EntryLog } from '../model/entrylog';
+import { ActivityBook } from '../model/activitybook';
+import { ActivityBookService } from './activity-book.service';
 
 @Injectable()
 export class UserService {
@@ -21,9 +24,7 @@ export class UserService {
       'Content-Type': 'application/json',
     })
   }
-
-  constructor(public db: AngularFireDatabase, public http: HttpClient) {
-
+  constructor(public db: AngularFireDatabase, public http: HttpClient, public activityBookService: ActivityBookService) {
   }
 
   getUsers(query): Observable<any[]> {
@@ -39,7 +40,7 @@ export class UserService {
           arr.push(new User(r[el]));
         }
         return arr;
-      }).catch((err:HttpErrorResponse) => {
+      }).catch((err: HttpErrorResponse) => {
         return Observable.throw(err.message + ": Restart the database: https://account.hanatrial.ondemand.com/cockpit#/acc/p2000140239trial/dbs/qmdatabase/");
       })
 
@@ -64,12 +65,10 @@ export class UserService {
   }
   updateUser(user: User) {
     let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
+    // this.activityBookService.logUser(user);
     return this.http.put(url, user, this.httpOptions);
   }
-
-
   deleteUser(key: string): Observable<any> {
-    // this.db.object('users/' + key).remove();
     return this.http.delete("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs?key=" + "'" + key + "'");
   }
   updateRole(user: User, role: string) {
@@ -80,20 +79,29 @@ export class UserService {
     }
     tmp[role] = (!user.hasRole(role)).toString();
     let url = this.generateUrl('role', user.key);
+    this.activityBookService.logRole(user, role);
     return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
-
   updateIncident(user: User, type: string, amount: number) {
+    this.activityBookService.logIncident(user, type, amount);
     let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;
+
     return this.http.put(url, user.incidents, this.httpOptions);
+  }
+  
+  resetRCC(user:User){
+    this.activityBookService.logEntry(user, "Reset RCC", "Queue Days reset");
+    let tmp = new User(user);
+    tmp.currentQDays = 0;
+    return this.updateUser(tmp)
   }
   // DEPRICATED
   deleteEverything() {
     // this.db.object('users').remove();
   }
 
-  private generateUrl(table: string, key: string): string {
+  generateUrl(table: string, key: string): string {
     let base = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/'
     let url = base + table + "('" + key + "')";
     return url;

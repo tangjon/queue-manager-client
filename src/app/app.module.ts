@@ -21,6 +21,9 @@ import { ClipboardComponent } from './shared/clipboard/clipboard.component';
 import { ComponentBarComponent } from './shared/component-bar/component-bar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { SettingsComponent } from './shared/settings/settings.component';
+import { ActivityLogComponent } from './shared/activity-log/activity-log.component';
+import { ActivityBookService } from './services/activity-book.service';
+import { QmInfoComponent } from './shared/qm-info/qm-info.component';
 
 const appRoutes: Routes = [
   {
@@ -48,7 +51,9 @@ const appRoutes: Routes = [
     ClipboardComponent,
     ComponentBarComponent,
     SidebarComponent,
-    SettingsComponent
+    SettingsComponent,
+    ActivityLogComponent,
+    QmInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +66,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes),
   ],
-  providers: [UserService],
+  providers: [UserService, ActivityBookService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

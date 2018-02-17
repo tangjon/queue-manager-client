@@ -6,6 +6,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/pluck';
 import { RouteReuseStrategy } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { QmUser } from '../model/qmuser';
+import { ActivityBookService } from '../services/activity-book.service';
 
 @Component({
   selector: 'app-queue-control',
@@ -29,6 +31,8 @@ export class QueueControlComponent implements OnInit {
   errorMessage: string;
 
   showSpinner: boolean = true;
+
+  qmUser: QmUser;
 
   constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
     // Get Param :id in url
@@ -83,7 +87,6 @@ export class QueueControlComponent implements OnInit {
   }
 
   refreshLists() {
-
     this._userListCtx.sort(function (a, b) {
       if (a.getAverageQDay() < b.getAverageQDay())
         return -1;
@@ -91,7 +94,6 @@ export class QueueControlComponent implements OnInit {
         return 1;
       return 0;
     })
-    console.log(this._userListCtx);
     this._userListAvailable = this._userListCtx.filter(v => {
       return v.isAvailable == true;
     })
@@ -114,7 +116,7 @@ export class QueueControlComponent implements OnInit {
 
   decIncidentAmount(user) {
     let amount = -1;
-    let prompt = window.prompt("Removing "  + amount + " to " + user.name, user.iNumber);
+    let prompt = window.prompt("Removing " + amount + " to " + user.name, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
         this.updateSummary();
@@ -123,6 +125,7 @@ export class QueueControlComponent implements OnInit {
     }
 
   }
+  
   logIt(msg) {
     console.log(msg)
   }
