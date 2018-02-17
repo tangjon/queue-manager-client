@@ -84,7 +84,7 @@ export class RccManagementComponent implements OnInit {
   }
   daysLeftInQuarter(d) {
     d = d || new Date();
-    d.setDate(d.getDate() + 43)
+    // d.setDate(d.getDate() + 43)
     var qEnd: any = new Date(d);
     qEnd.setMonth(qEnd.getMonth() + 3 - qEnd.getMonth() % 3, 0);
     return Math.floor((qEnd - d) / 8.64e7);
@@ -92,7 +92,6 @@ export class RccManagementComponent implements OnInit {
 
   getResetDays() {
     let daysLeft = this.daysLeftInQuarter(new Date());
-    console.log(daysLeft);
     return daysLeft
   }
 
@@ -100,7 +99,11 @@ export class RccManagementComponent implements OnInit {
     let prompt = window.confirm("Are you sure you want to reset queue days?\nPlease double check!\nIt may already be done!");
     if (prompt) {
       this._userList.forEach((el: User) => {
-        el.currentQDays = 0;
+        if (el.currentQDays != 0) {
+          this.userSerivice.resetRCC(el).subscribe(r => {
+            el.currentQDays = 0;
+          })
+        }
       });
     }
   }

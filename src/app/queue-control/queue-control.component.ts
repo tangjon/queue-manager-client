@@ -87,7 +87,6 @@ export class QueueControlComponent implements OnInit {
   }
 
   refreshLists() {
-
     this._userListCtx.sort(function (a, b) {
       if (a.getAverageQDay() < b.getAverageQDay())
         return -1;
@@ -126,6 +125,7 @@ export class QueueControlComponent implements OnInit {
     }
 
   }
+  
   logIt(msg) {
     console.log(msg)
   }
@@ -143,4 +143,6 @@ export class QueueControlComponent implements OnInit {
     });
     this.totalIncidentsCtx = totalB;
   }
+
+
 }

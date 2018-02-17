@@ -15,25 +15,32 @@ export class ActivityBook {
     logIncident(user: User, type, amount) {
         this.entryArray.push(new EntryLog(
             amount + " Incident Assigned to " + user.name,
-            user.getIncidentAmount(type) + " to " + (user.getIncidentAmount(type) + amount), this.qmUser.name ));
+            user.getIncidentAmount(type) + " to " + (user.getIncidentAmount(type) + amount), this.qmUser.name));
     }
-    logRole(user:User, role) {
+    logRole(user: User, role) {
         this.entryArray.push(new EntryLog(
             "Role Changed", user.name + " made " + role, this.qmUser.name
         ));
     }
 
-    logUser(user:User){
+    logUser(user: User) {
         this.entryArray.push(new EntryLog(
             "User Updated", user.name + "'s credential have been updated", this.qmUser.name
         ));
     }
 
-    getQmUser(){
+    logEntry(user, type, description) {
+        console.log(type);
+        this.entryArray.push(new EntryLog(
+            type, description, this.qmUser.name
+        ))
+    }
+
+    getQmUser() {
         return this.qmUser;
     }
 
-    setQM(name:string){
+    setQM(name: string) {
         this.qmUser.setName(name);
     }
 }

@@ -65,7 +65,7 @@ export class UserService {
   }
   updateUser(user: User) {
     let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
-    this.activityBookService.logUser(user);
+    // this.activityBookService.logUser(user);
     return this.http.put(url, user, this.httpOptions);
   }
   deleteUser(key: string): Observable<any> {
@@ -89,11 +89,19 @@ export class UserService {
 
     return this.http.put(url, user.incidents, this.httpOptions);
   }
+  
+  resetRCC(user:User){
+    this.activityBookService.logEntry(user, "Reset RCC", "Queue Days reset");
+    let tmp = new User(user);
+    tmp.currentQDays = 0;
+    return this.updateUser(tmp)
+  }
   // DEPRICATED
   deleteEverything() {
     // this.db.object('users').remove();
   }
-  private generateUrl(table: string, key: string): string {
+
+  generateUrl(table: string, key: string): string {
     let base = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/'
     let url = base + table + "('" + key + "')";
     return url;
