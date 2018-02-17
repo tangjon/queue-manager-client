@@ -83,15 +83,15 @@ export class UserService {
     return this.http.put(url, JSON.stringify(tmp), this.httpOptions);
   }
   updateIncident(user: User, type: string, amount: number) {
-    this.activityBookService.logIncident(user, type, amount);
+    // this.activityBookService.logIncident(user, type, amount);
     let url = this.generateUrl('incidents', user.key);
     user.incidents[type] += amount;
 
     return this.http.put(url, user.incidents, this.httpOptions);
   }
-  
+
   resetRCC(user:User){
-    this.activityBookService.logEntry(user, "Reset RCC", "Queue Days reset");
+    this.activityBookService.logEntry(user,"Reset RCC", "Queue Days Reset");
     let tmp = new User(user);
     tmp.currentQDays = 0;
     return this.updateUser(tmp)
