@@ -91,7 +91,7 @@ export class ActivityBookService {
     }
     this.http.post(this.url, body, this.httpOptions)
       .subscribe(t => {
-        console.log(entry);
+        // console.log(entry);
         this.activityBook.logEntry(entry);
       });
   }
@@ -128,7 +128,7 @@ export class ActivityBookService {
           numRemoved++;
         }
       });
-      console.log(filterlog)
+      // console.log(filterlog)
       return numAssigned - numRemoved;
     }
     return 0;

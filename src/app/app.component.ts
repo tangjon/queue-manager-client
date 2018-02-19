@@ -18,6 +18,5 @@ export class AppComponent {
 
 
   copyToClipboard() {
-    console.log(this)
   }
 }

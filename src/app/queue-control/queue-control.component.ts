@@ -36,7 +36,7 @@ export class QueueControlComponent implements OnInit {
   qmUser: QmUser;
 
   activityBook: ActivityBook;
-  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public activityBookSerivce:ActivityBookService) {
+  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public activityBookSerivce: ActivityBookService) {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
@@ -75,8 +75,8 @@ export class QueueControlComponent implements OnInit {
         })
     });
 
-    this.activityBookSerivce.getBook().subscribe(book=>{
-      console.log(book)
+    this.activityBookSerivce.getBook().subscribe(book => {
+      // console.log(book)
       this.activityBook = book;
     })
   }
@@ -85,10 +85,10 @@ export class QueueControlComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getAssignmentCount(user){
+  getAssignmentCount(user) {
     let hours = 24;
     let count = this.activityBookSerivce.getAssignmentCount(user);
-    console.log(count);
+    // console.log(count);
     return count;
   }
 
@@ -126,7 +126,6 @@ export class QueueControlComponent implements OnInit {
         this.refreshLists();
       })
     }
-
   }
 
   decIncidentAmount(user) {
@@ -140,9 +139,9 @@ export class QueueControlComponent implements OnInit {
     }
 
   }
-  
+
   logIt(msg) {
-    console.log(msg)
+    // console.log(msg)
   }
 
   updateSummary() {

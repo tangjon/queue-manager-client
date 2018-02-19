@@ -36,7 +36,7 @@ export class UserFBService {
       name: name,
       key: this.db.createPushId()
     })
-    console.log(newUser);
+    // console.log(newUser);
     this.db.object('users/' + newUser.key).set(newUser)
   }
 
