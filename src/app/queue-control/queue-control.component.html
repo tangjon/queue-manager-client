@@ -38,7 +38,7 @@
           <button (click)="decIncidentAmount(user)" class="btn btn-danger"> Remove </button>
         </td>
         <td>{{ user.getIncidentAmount(paramId) }} </td>
-        <td>{{ user.getIncidentTotal() }} <span class="badge badge-success assigned-twenty-four">+4</span> </td>
+        <td>{{ user.getIncidentTotal() }} <span class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span> </td>
         <td>{{ user.getAverageQDay() }}</td>
         <td>{{ user.getStatus() }}</td>
         <td>

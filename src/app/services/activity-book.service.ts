@@ -110,6 +110,42 @@ export class ActivityBookService {
     }
   }
 
+  getAssignmentCount(user) {
+    let logs = this.activityBook.getLogs();
+    let today = new Date();
+    let filterlog = logs.filter((el: EntryLog) => {
+      return el.iNumber == user.iNumber &&
+        el.action.indexOf("Incident") !== -1 &&
+        dateInRange(el.getFullDate(), yesterdayDate(today), today);
+    })
+    if (filterlog.length) {
+      let numAssigned = 0;
+      let numRemoved = 0;
+      filterlog.forEach((el: EntryLog) => {
+        if (el.action.indexOf("Assigned") !== -1) {
+          numAssigned++;
+        } else if (el.action.indexOf("Removed")) {
+          numRemoved++;
+        }
+      });
+      console.log(filterlog)
+      return numAssigned - numRemoved;
+    }
+    return 0;
+
+    function dateInRange(arg: Date, start: Date, end: Date) {
+      if (arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    function yesterdayDate(date: Date): Date {
+      var yesterday = new Date(date.getTime() - (24 * 60 * 60 * 1000));
+      return yesterday;
+    }
+  }
+
 
 
 }

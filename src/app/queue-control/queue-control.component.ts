@@ -8,6 +8,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { QmUser } from '../model/qmuser';
 import { ActivityBookService } from '../services/activity-book.service';
+import { ActivityBook } from '../model/activitybook';
 
 @Component({
   selector: 'app-queue-control',
@@ -34,7 +35,8 @@ export class QueueControlComponent implements OnInit {
 
   qmUser: QmUser;
 
-  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService) {
+  activityBook: ActivityBook;
+  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public activityBookSerivce:ActivityBookService) {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
@@ -72,9 +74,22 @@ export class QueueControlComponent implements OnInit {
           this.errorMessage = error;
         })
     });
+
+    this.activityBookSerivce.getBook().subscribe(book=>{
+      console.log(book)
+      this.activityBook = book;
+    })
   }
 
+
   ngOnInit(): void {
+  }
+
+  getAssignmentCount(user){
+    let hours = 24;
+    let count = this.activityBookSerivce.getAssignmentCount(user);
+    console.log(count);
+    return count;
   }
 
   toggleStatus(user: User) {
