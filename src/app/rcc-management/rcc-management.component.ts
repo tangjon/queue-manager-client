@@ -109,11 +109,7 @@ export class RccManagementComponent implements OnInit {
       });
       this._userList.forEach((el: User) => {
         this.userSerivice.resetIncidents(el).subscribe(r => {
-          for (var key in el.incidents) {
-            if (el.incidents.hasOwnProperty(key)) {
-              el.incidents[key] = 0;
-            }
-          }
+          el.resetIncidents();
         })
       })
     }

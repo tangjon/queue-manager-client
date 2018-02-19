@@ -88,13 +88,13 @@ export class UserService {
     return this.http.put(url, user.incidents, this.httpOptions);
   }
   resetRCC(user: User) {
-    this.activityBookService.logEntry(user, "Reset RCC", "Queue Days Reset");
+    // this.activityBookService.logEntry(user, "Reset RCC", "Queue Days Reset");
     let tmp = new User(user);
     tmp.currentQDays = 0;
     return this.updateUser(tmp)
   }
   resetIncidents(user: User) {
-    this.activityBookService.logEntry(user, "Reset Inc. Count", "Incidents Reset");
+    // this.activityBookService.logEntry(user, "Reset Inc. Count", "Incidents Reset");
     let tmp = new User(user);
     let url = this.generateUrl('incidents', user.key);
     for (var key in tmp.incidents) {

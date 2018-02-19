@@ -47,7 +47,7 @@ export class User {
         return list;
     }
 
-    hasRole(role: string): boolean{
+    hasRole(role: string): boolean {
         let ref = this.role[role];
         return ref;
     }
@@ -66,16 +66,25 @@ export class User {
         return parseFloat(avg).toFixed(2);
     }
 
-    getStatus():string{
-        if (this.isAvailable){
+    getStatus(): string {
+        if (this.isAvailable) {
             return "OK"
         } else {
             return "BUSY"
         }
     }
 
-    setStatus(bool : boolean){
+    setStatus(bool: boolean) {
         this.isAvailable = bool;
+    }
+
+    resetIncidents() {
+        let tmp = new Incidents()
+        for (const key in tmp) {
+            if (tmp.hasOwnProperty(key)) {
+                this.incidents[key] = 0;
+            }
+        }
     }
 }
 
