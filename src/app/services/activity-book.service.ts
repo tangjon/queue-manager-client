@@ -22,6 +22,7 @@ export class ActivityBookService {
   }
 
   getBook() {
+    let book = new ActivityBook();
     return this.http.get(this.url + "?$format=json", this.httpOptions)
       .map((r: any) => {
         let t = r.d.results.map(t => {
@@ -31,8 +32,9 @@ export class ActivityBookService {
         }
         )
         t.forEach((el: EntryLog) => {
-          this.activityBook.logEntry(el);
+          book.logEntry(el);
         });
+        this.activityBook = book;
         return this.activityBook;
       })
   }
@@ -78,7 +80,6 @@ export class ActivityBookService {
       action, description, this.activityBook.getQmUser(),
       pushId
     );
-    console.log(entry);
     let body = {
       "PUSH_ID": pushId,
       "ACTION": action,
