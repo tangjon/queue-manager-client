@@ -4,31 +4,33 @@ import { QmUser } from "./qmuser";
 
 export class ActivityBook {
     private entryArray: Array<EntryLog>;
-    private qmUser: QmUser;
+    private activeQM: QmUser;
     constructor() {
         this.entryArray = new Array<EntryLog>();
-        this.qmUser = new QmUser("DEFAULT-NAME")
+        this.activeQM = new QmUser("DEFAULT");
     }
-    getLogs() {
+    getLogs(): Array<EntryLog> {
         return this.entryArray;
     }
 
-    logEntry(entry:EntryLog) {
+    addEntry(entry: EntryLog): void {
         this.entryArray.push(entry)
     }
-
-    getQmUser() {
-        return this.qmUser;
-    }
-
-    setQM(name: string) {
-        this.qmUser.setName(name);
-    }
-
-    removeLog(pushID:string){
-        let i = this.entryArray.findIndex( (t:EntryLog) => {
+    
+    removeEntry(pushID: string): void {
+        let i = this.entryArray.findIndex((t: EntryLog) => {
             return t.pushID == pushID;
         });
-        this.entryArray.splice(i,1);
+        this.entryArray.splice(i, 1);
     }
+
+    getActiveQM(): QmUser {
+        return this.activeQM;
+    }
+
+    setActiveQM(name: string): void {
+        this.activeQM.setName(name);
+    }
+
+
 }

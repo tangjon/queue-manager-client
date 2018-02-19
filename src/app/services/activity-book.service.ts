@@ -32,7 +32,7 @@ export class ActivityBookService {
         }
         )
         t.forEach((el: EntryLog) => {
-          book.logEntry(el);
+          book.addEntry(el);
         });
         this.activityBook = book;
         return this.activityBook;
@@ -40,10 +40,10 @@ export class ActivityBookService {
   }
 
   getManager() {
-    return this.activityBook.getQmUser();
+    return this.activityBook.getActiveQM();
   }
   updateManager(name: string) {
-    this.activityBook.setQM(name);
+    this.activityBook.setActiveQM(name);
   }
 
   logIncident(user: User, type: string, amount: number) {
@@ -77,7 +77,7 @@ export class ActivityBookService {
     let pushId = this.db.createPushId();
     let entry = new EntryLog(
       user.name, user.iNumber,
-      action, description, this.activityBook.getQmUser(),
+      action, description, this.activityBook.getActiveQM(),
       pushId
     );
     let body = {
@@ -92,7 +92,7 @@ export class ActivityBookService {
     this.http.post(this.url, body, this.httpOptions)
       .subscribe(t => {
         // console.log(entry);
-        this.activityBook.logEntry(entry);
+        this.activityBook.addEntry(entry);
       });
   }
 
@@ -100,7 +100,7 @@ export class ActivityBookService {
     let logRef = this.activityBook.getLogs();
     logRef.forEach((el:EntryLog) => {
       this.http.delete(gDeleteUrl(el.pushID)).subscribe(r=>{
-        this.activityBook.removeLog(el.pushID);
+        this.activityBook.removeEntry(el.pushID);
       })
     });
 
