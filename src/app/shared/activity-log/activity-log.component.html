@@ -1,4 +1,7 @@
-<h2>Activity Log</h2>
+<div>
+  <h2>Activity Log</h2>
+  <button class="btn btn-danger" (click)="resetLogs()">Reset</button>
+</div>
 <table id="activity-log-table" class="table">
   <thead>
     <tr>
@@ -8,10 +11,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of activityLog.reverse(); let i = index">
+    <tr *ngFor="let item of activityLog?.reverse(); let i = index">
       <td scope="row">{{item.getDate()}} {{item.getTime()}}</td>
       <td>{{ item.getSummary() }}</td>
-      <td>{{item.getManager()}}</td>
+      <td>{{ item.getManager().getName() }}</td>
     </tr>
   </tbody>
 </table>
