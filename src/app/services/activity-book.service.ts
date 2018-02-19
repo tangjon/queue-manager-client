@@ -45,8 +45,14 @@ export class ActivityBookService {
   }
 
   logIncident(user: User, type: string, amount: number) {
+    let aString ="";
+    if (amount >= 0){
+      aString = "Incident Assigned"
+    } else {
+      aString = "Incident Unassigned"
+    }
     this.logEntry(user,
-      "Incident Modified",
+      aString,
       user.getIncidentAmount(type) + " to " + (user.getIncidentAmount(type) + amount) + " in " + type);
   }
 
