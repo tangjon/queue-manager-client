@@ -14,22 +14,17 @@ export class ActivityLogComponent implements OnInit {
   constructor(public userService: UserService, public activityBookSerivce : ActivityBookService) {
    }
   
-  activityBook : ActivityBook;
   activityLog: Array<EntryLog>;
-  activityLogOld : any;
   ngOnInit() {
     // this.activityLog = this.activityBookSerivce.getBook().getLogs();
-    this.activityBookSerivce.getBook().subscribe((r:ActivityBook)=>{
-      this.activityLog = r.getLogs();
+    this.activityBookSerivce.getBook().subscribe((book:ActivityBook)=>{
+      this.activityLog = book.getLogs();
     })
   }
-
   logIt(obj){
     console.log(obj);
   }
-
   resetLogs(){
     this.activityBookSerivce.resetLogs();
   }
-
 }
