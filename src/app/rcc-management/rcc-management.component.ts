@@ -51,7 +51,7 @@ export class RccManagementComponent implements OnInit {
       if (this.selectedUser) {
         let prompt = window.confirm(this.selectedUser.name + " will have " + this.selectedUser.currentQDays + " increased by " + val + " to " + (this.selectedUser.currentQDays + amount) + ". \nClick okay to confirm.");
         let newAmount = this.selectedUser.currentQDays + amount;
-        this.userSerivice.updateQueueDays(this.selectedUser,newAmount).subscribe(r => {
+        this.userSerivice.updateQueueDays(this.selectedUser, newAmount).subscribe(r => {
           this.selectedUser.currentQDays += amount;
         })
       }
@@ -96,8 +96,9 @@ export class RccManagementComponent implements OnInit {
     return daysLeft
   }
 
+  // Resets both incidents and queue days...
   resetDays() {
-    let prompt = window.confirm("Are you sure you want to reset queue days?\nPlease double check!\nIt may already be done!");
+    let prompt = window.confirm("Are you sure you want to reset queue days and incidents?\nPlease double check!\nIt may already be done!");
     if (prompt) {
       this._userList.forEach((el: User) => {
         if (el.currentQDays != 0) {
@@ -106,6 +107,15 @@ export class RccManagementComponent implements OnInit {
           })
         }
       });
+      this._userList.forEach((el: User) => {
+        this.userSerivice.resetIncidents(el).subscribe(r => {
+          for (var key in el.incidents) {
+            if (el.incidents.hasOwnProperty(key)) {
+              el.incidents[key] = 0;
+            }
+          }
+        })
+      })
     }
   }
 }

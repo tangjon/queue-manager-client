@@ -19,5 +19,6 @@ export class Incidents {
         this.RTC = 0;
         this.LOD_ANA_PL = 0;
     }
+    
 
 }

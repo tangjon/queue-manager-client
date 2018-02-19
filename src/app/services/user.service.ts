@@ -93,6 +93,17 @@ export class UserService {
     tmp.currentQDays = 0;
     return this.updateUser(tmp)
   }
+  resetIncidents(user: User) {
+    this.activityBookService.logEntry(user, "Reset Inc. Count", "Incidents Reset");
+    let tmp = new User(user);
+    let url = this.generateUrl('incidents', user.key);
+    for (var key in tmp.incidents) {
+      if (tmp.incidents.hasOwnProperty(key)) {
+        tmp.incidents[key] = 0;
+      }
+    }
+    return this.http.put(url, tmp.incidents, this.httpOptions);
+  }
   generateUrl(table: string, key: string): string {
     let base = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/'
     let url = base + table + "('" + key + "')";
