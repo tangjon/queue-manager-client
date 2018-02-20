@@ -24,6 +24,6 @@ export class ActivityLogComponent implements OnInit {
         this.activityLog = book.getLogs();
         this.showSpinner = false;
       })
-    }, 1000)
+    }, 2000)
   }
 }
