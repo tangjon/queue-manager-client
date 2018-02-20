@@ -20,6 +20,12 @@
     </div>
 </div>
 <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
+<div class="text-center" id="reset-button-panel">
+    <button class="btn btn-danger" (click)="resetRCC()">RESET QUEUE DAYS</button>
+    <button class="btn btn-danger" (click)="resetAllIncidents()">RESET INCIDENTS</button>
+    <button class="btn btn-danger" (click)="resetActivityLog()">RESET ACTIVITY LOG</button>
+    <button class="btn btn-success" (click)="masterReset()">MASTER RESET</button>
+</div>
 <div id="rcc-management" class="table-responsive shadow">
     <h1 class="qTable-title">RCC Data</h1>
 
@@ -63,11 +69,4 @@
             <button class="btn btn-default" type="button" (click)="updateQueueDays(inputSetQDay.value)">Update</button>
         </div>
     </div>
-</div>
-
-<div class="text-center">
-    <button class="btn btn-danger" (click)="resetRCC()">RESET QUEUE DAYS</button>
-    <button class="btn btn-danger" (click)="resetAllIncidents()">RESET INCIDENTS</button>
-    <button class="btn btn-danger" (click)="resetActivityLog()">RESET ACTIVITY LOG</button>
-    <button class="btn btn-success" (click)="masterReset()">MASTER RESET</button>    
 </div>
