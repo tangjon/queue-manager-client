@@ -26,4 +26,12 @@ export class ActivityLogComponent implements OnInit {
       })
     }, 2000)
   }
+
+  reSync() {
+    this.showSpinner = true;
+    this.activityBookSerivce.getBook().subscribe((book: ActivityBook) => {
+      this.activityLog = book.getLogs();
+      this.showSpinner = false;
+    })
+  }
 }
