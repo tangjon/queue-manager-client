@@ -4,12 +4,17 @@
 <table id="activity-log-table" class="table">
   <thead>
     <tr>
-      <th style="width:20%"scope="col">Time</th>
+      <th style="width:20%" scope="col">Time</th>
       <th style="width:65%" scope="col">Description</th>
-      <th style="width:15%" scope="col">QM</th>      
+      <th style="width:15%" scope="col">QM</th>
     </tr>
   </thead>
   <tbody>
+    <tr *ngIf="showSpinner">
+      <td colspan="3">
+        <app-loading-spinner></app-loading-spinner>
+      </td>
+    </tr>
     <tr *ngFor="let item of activityLog?.reverse(); let i = index">
       <td scope="row">{{item.getDateFormatted()}} {{item.getTimeFormatted()}}</td>
       <td>{{ item.getSummary() }}</td>

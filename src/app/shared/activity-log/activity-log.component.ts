@@ -10,18 +10,20 @@ import { ActivityBookService } from '../../services/activity-book.service';
   styleUrls: ['./activity-log.component.css']
 })
 export class ActivityLogComponent implements OnInit {
-
-  constructor(public userService: UserService, public activityBookSerivce : ActivityBookService) {
-   }
-  
   activityLog: Array<EntryLog>;
-  ngOnInit() {
-    // this.activityLog = this.activityBookSerivce.getBook().getLogs();
-    this.activityBookSerivce.getBook().subscribe((book:ActivityBook)=>{
-      this.activityLog = book.getLogs();
-    })
+  showSpinner: boolean = true;
+
+  constructor(public userService: UserService, public activityBookSerivce: ActivityBookService) {
   }
-  logIt(obj){
-    console.log(obj);
+
+  ngOnInit() {
+    // Fixes timing issue when displaying logs in realtime
+    setTimeout(() => {
+      // this.activityBookSerivce.getBook()
+      this.activityBookSerivce.getBook().subscribe((book: ActivityBook) => {
+        this.activityLog = book.getLogs();
+        this.showSpinner = false;
+      })
+    }, 1000)
   }
 }

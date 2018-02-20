@@ -9,6 +9,7 @@ export class ActivityBook {
         this.entryArray = new Array<EntryLog>();
         this.activeQM = new QmUser("DEFAULT");
     }
+    
     getLogs(): Array<EntryLog> {
         return this.entryArray;
     }

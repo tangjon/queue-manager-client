@@ -6,11 +6,12 @@ import { Role } from '../model/role';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { QmUser } from '../model/qmuser';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ActivityBookService {
 
-  private activityBook: ActivityBook = new ActivityBook();
+  private activityBook: ActivityBook;
   url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/activity_log"
   httpOptions = {
     headers: new HttpHeaders({
@@ -18,10 +19,10 @@ export class ActivityBookService {
     })
   }
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
-
+    this.activityBook = new ActivityBook();
   }
 
-  getBook() {
+  getBook() : Observable<ActivityBook>{
     let book = new ActivityBook();
     return this.http.get(this.url + "?$format=json", this.httpOptions)
       .map((r: any) => {
@@ -36,7 +37,7 @@ export class ActivityBookService {
         });
         this.activityBook = book;
         return this.activityBook;
-      })
+    });
   }
 
   getManager() {
@@ -91,7 +92,6 @@ export class ActivityBookService {
     }
     this.http.post(this.url, body, this.httpOptions)
       .subscribe(t => {
-        // console.log(entry);
         this.activityBook.addEntry(entry);
       });
   }
@@ -101,6 +101,7 @@ export class ActivityBookService {
     logRef.forEach((el:EntryLog) => {
       this.http.delete(gDeleteUrl(el.pushID)).subscribe(r=>{
         this.activityBook.removeEntry(el.pushID);
+        console.log("Deleting", el.pushID)
       })
     });
 
