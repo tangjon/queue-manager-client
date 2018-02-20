@@ -22,7 +22,19 @@ export class User {
         this.usagePercent = user.usagePercent || 1.0;
     }
 
-    getIncidentTotal() {
+    getStatus(): string {
+        if (this.isAvailable) {
+            return "OK"
+        } else {
+            return "BUSY"
+        }
+    }
+
+    setStatus(bool: boolean): void {
+        this.isAvailable = bool;
+    }
+
+    getIncidentTotal(): number {
         var total = 0;
         for (var key in this.incidents) {
             total += this.getIncidentAmount(key);
@@ -30,19 +42,12 @@ export class User {
         return total;
     }
 
-    getUserRole() {
+    getUserRoles(): Array<string> {
         let list: Array<string> = [];
         Object.keys(this.role).forEach(el => {
             if (this.role[el] == true) {
                 list.push(el);
             }
-        })
-        return list;
-    }
-    getRoleList() {
-        let list: Array<string> = [];
-        Object.keys(this.role).forEach(el => {
-            list.push(el);
         })
         return list;
     }
@@ -52,11 +57,19 @@ export class User {
         return ref;
     }
 
-    getIncidentAmount(type): number {
+    getRoleList() : Array<string> {
+        let list: Array<string> = [];
+        Object.keys(this.role).forEach(el => {
+            list.push(el);
+        })
+        return list;
+    }
+
+    getIncidentAmount(type: string): number {
         return this.incidents[type]
     }
 
-    getAverageQDay() {
+    getAverageQDay(): any {
         var avg;
         if (this.usagePercent && this.currentQDays) {
             avg = this.getIncidentTotal() / (this.usagePercent * this.currentQDays);
@@ -65,19 +78,7 @@ export class User {
         }
         return parseFloat(avg).toFixed(2);
     }
-
-    getStatus(): string {
-        if (this.isAvailable) {
-            return "OK"
-        } else {
-            return "BUSY"
-        }
-    }
-
-    setStatus(bool: boolean) {
-        this.isAvailable = bool;
-    }
-
+    // TODO should be moved out
     resetIncidents() {
         let tmp = new Incidents()
         for (const key in tmp) {
