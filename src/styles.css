@@ -2,6 +2,7 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
 @import '~font-awesome/css/font-awesome.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 body {
     background-color: #eceff1;
     font-family: 'Roboto', sans-serif;

@@ -125,6 +125,7 @@ export class QueueControlComponent implements OnInit {
     let prompt = window.prompt("Adding " + "+" + amount + " to " + user.name, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
+        this.snackBar.open('Incident Added', 'Close', { duration: 1000 });
         this.updateSummary();
         this.refreshLists();
       })
@@ -136,6 +137,7 @@ export class QueueControlComponent implements OnInit {
     let prompt = window.prompt("Removing " + amount + " to " + user.name, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
+        this.snackBar.open('Incident Removed', 'Close', { duration: 1000 });
         this.updateSummary();
         this.refreshLists();
       });

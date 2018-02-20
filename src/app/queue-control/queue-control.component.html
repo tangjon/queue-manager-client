@@ -32,18 +32,24 @@
         <th scope="row">{{i + 1}}</th>
         <td>{{user.name + "(" + user.iNumber + ")"}}</td>
         <td>
-          
-          <button (click)="incIncidentAmount(user)" class="btn btn-success"><i class="fa fa-plus-square fa-sm"></i></button>
+
+          <button (click)="incIncidentAmount(user)" class="btn btn-success">
+            <i class="fa fa-plus-square fa-sm"></i>
+          </button>
         </td>
         <td>
-          <button (click)="decIncidentAmount(user)" class="btn btn-danger"> <i class="fa fa-minus-square fa-sm"> </i></button>
+          <button (click)="decIncidentAmount(user)" class="btn btn-danger">
+            <i class="fa fa-minus-square fa-sm"> </i>
+          </button>
         </td>
         <td>{{ user.getIncidentAmount(paramId) }} </td>
         <td>{{ user.getIncidentTotal() }}
           <span class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
         </td>
         <td>{{ user.getAverageQDay() }}</td>
-        <td><i class="fa fa-check-circle fa-lg" style="color:green;"></i></td>
+        <td>
+          <i class="fa fa-check-circle fa-lg" style="color:green;"></i>
+        </td>
         <td>
           <button (click)="toggleStatus(user)">Toggle</button>
         </td>
@@ -75,7 +81,9 @@
         <td>{{ bUser.getIncidentAmount(paramId) }} </td>
         <td>{{ bUser.getIncidentTotal() }} </td>
         <td>{{ bUser.getAverageQDay() }}</td>
-        <td><i class="fa fa-times fa-lg" style="color:red;"></i></td>
+        <td>
+          <i class="fa fa-times fa-lg" style="color:red;"></i>
+        </td>
         <td>
           <button (click)="toggleStatus(bUser)">Toggle</button>
         </td>
