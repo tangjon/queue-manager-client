@@ -39,3 +39,7 @@ a.nav-link {
     padding: 0px; 
     
 }
+
+.navbar {
+    font-weight: 600;
+}
