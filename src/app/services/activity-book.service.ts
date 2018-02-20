@@ -83,7 +83,7 @@ export class ActivityBookService {
     let body = {
       "PUSH_ID": pushId,
       "ACTION": action,
-      "MANAGER": entry.getManager().name,
+      "MANAGER": entry.getManager().getName(),
       "DATE": JSON.stringify(entry.getFullDate()),
       "DESCRIPTION": description,
       "NAME": user.name,

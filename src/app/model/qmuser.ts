@@ -1,14 +1,12 @@
 export class QmUser {
-    name: string;
-    lastchange: Date;
+    private name: string;
     constructor(name: string) {
         this.name = name;
-        this.lastchange = new Date();
     }
-    setName(name){
+    setName(name: string): void{
         this.name = name;
     }
-    getName(){
+    getName() : string{
         return this.name;
     }
 }

@@ -17,7 +17,7 @@ export class QmInfoComponent implements OnInit {
   }
 
   changeQM() {
-    let arg = window.prompt("You are changing the QM. What is your name?", this.qmUser.name);
+    let arg = window.prompt("You are changing the QM. What is your name?", this.qmUser.getName());
     if (arg) {
       this.qmUser.setName(arg);
       this.activityBookService.updateManager(arg);
