@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
 import { parse } from 'url';
 import { UserService } from '../services/user.service';
+import { ActivityBookService } from '../services/activity-book.service';
 
 @Component({
   selector: 'app-rcc-management',
@@ -21,7 +22,7 @@ export class RccManagementComponent implements OnInit {
   currentDate: Date;
   nextResetDate: Date;
   lastResetDate: Date;
-  constructor(public db: AngularFireDatabase, public userSerivice: UserService) {
+  constructor(public db: AngularFireDatabase, public userSerivice: UserService, public activityBookService: ActivityBookService) {
     this.userSerivice.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {
@@ -96,9 +97,8 @@ export class RccManagementComponent implements OnInit {
     return daysLeft
   }
 
-  // Resets both incidents and queue days...
-  resetDays() {
-    let prompt = window.confirm("Are you sure you want to reset queue days and incidents?\nPlease double check!\nIt may already be done!");
+  resetRCC() {
+    let prompt = window.confirm("Are you sure you want to reset queue days?\nPlease double check!\nIt may already be done!");
     if (prompt) {
       this._userList.forEach((el: User) => {
         if (el.currentQDays != 0) {
@@ -107,11 +107,30 @@ export class RccManagementComponent implements OnInit {
           })
         }
       });
+    }
+  }
+
+  resetAllIncidents() {
+    let prompt = window.confirm("Are you sure you want to reset incident count for all users?\nPlease double check!\nIt may already be done!");
+    if (prompt) {
+
       this._userList.forEach((el: User) => {
         this.userSerivice.resetIncidents(el).subscribe(r => {
           el.resetIncidents();
         })
       })
     }
+  }
+  resetActivityLog() {
+    let prompt = window.confirm("Are you sure you want to reset incident count for all users?\nPlease double check!\nIt may already be done!");
+    if (prompt) {
+      this.activityBookService.resetLogs();
+    }
+  }
+
+  masterReset(){
+    this.resetActivityLog();
+    this.resetAllIncidents();
+    this.resetActivityLog();
   }
 }

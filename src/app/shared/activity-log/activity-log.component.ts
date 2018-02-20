@@ -24,7 +24,4 @@ export class ActivityLogComponent implements OnInit {
   logIt(obj){
     console.log(obj);
   }
-  resetLogs(){
-    this.activityBookSerivce.resetLogs();
-  }
 }
