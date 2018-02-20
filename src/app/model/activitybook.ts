@@ -29,8 +29,12 @@ export class ActivityBook {
         return this.activeQM;
     }
 
-    setActiveQM(QM : QmUser): void {
+    setActiveQM(QM: QmUser): void {
         this.activeQM = QM;
+    }
+
+    clearEntries() {
+        this.entryArray = new Array<EntryLog>();
     }
 
 

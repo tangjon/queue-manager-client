@@ -32,20 +32,17 @@ export class ActivityBookService {
   }
 
   getBook(): Observable<ActivityBook> {
-    let book = new ActivityBook();
-    book.setActiveQM(this.activityBook.getActiveQM());
+    this.activityBook.clearEntries();
     return this.http.get(this.url + "?$format=json", this.httpOptions)
       .map((r: any) => {
         let t = r.d.results.map(t => {
           let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, new QmUser(t.MANAGER), t.PUSH_ID)
           tmp.setDateFromString(t.DATE)
           return tmp;
-        }
-        )
+        })
         t.forEach((el: EntryLog) => {
-          book.addEntry(el);
+          this.activityBook.addEntry(el);
         });
-        this.activityBook = book;
         return this.activityBook;
       });
   }
