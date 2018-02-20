@@ -1,5 +1,6 @@
 export class QmUser {
-    private name: string;
+    name: string;
+    iNumber: string = "i123";
     constructor(name: string) {
         this.name = name;
     }
@@ -8,5 +9,8 @@ export class QmUser {
     }
     getName() : string{
         return this.name;
+    }
+    setINumber(iNumber: string){
+        this.iNumber = iNumber;
     }
 }

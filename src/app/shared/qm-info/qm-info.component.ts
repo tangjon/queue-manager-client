@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityBookService } from '../../services/activity-book.service';
 import { QmUser } from '../../model/qmuser';
+import { ActivityBook } from '../../model/activitybook';
 
 @Component({
   selector: 'app-qm-info',
@@ -9,18 +10,21 @@ import { QmUser } from '../../model/qmuser';
 })
 export class QmInfoComponent implements OnInit {
 
-  qmUser : QmUser
+  qmUser: QmUser
   constructor(public activityBookService: ActivityBookService) { }
 
   ngOnInit() {
-    this.qmUser = this.activityBookService.getManager();
+    this.activityBookService.getManager().subscribe((qm: QmUser) => {
+      this.qmUser = qm;
+    })
   }
 
   changeQM() {
     let arg = window.prompt("You are changing the QM. What is your name?", this.qmUser.getName());
     if (arg) {
-      this.qmUser.setName(arg);
-      this.activityBookService.updateManager(arg);
+      this.activityBookService.updateManager(new QmUser(arg)).subscribe(r => {
+        this.qmUser.setName(arg);
+      })
     }
   }
 }

@@ -7,6 +7,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { QmUser } from '../model/qmuser';
 import { Observable } from 'rxjs/Observable';
+import { constants } from 'fs';
 
 @Injectable()
 export class ActivityBookService {
@@ -20,9 +21,19 @@ export class ActivityBookService {
   }
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
     this.activityBook = new ActivityBook();
+
+    http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", this.httpOptions)
+      .map((r: any) => {
+        let tmp = new QmUser(r.d.NAME);
+        tmp.setINumber(r.d.INUMBER);
+        return tmp;
+      }).
+      subscribe((r: QmUser) => {
+        this.activityBook.setActiveQM(r.getName());
+      });
   }
 
-  getBook() : Observable<ActivityBook>{
+  getBook(): Observable<ActivityBook> {
     let book = new ActivityBook();
     return this.http.get(this.url + "?$format=json", this.httpOptions)
       .map((r: any) => {
@@ -37,19 +48,29 @@ export class ActivityBookService {
         });
         this.activityBook = book;
         return this.activityBook;
-    });
+      });
   }
 
-  getManager() {
-    return this.activityBook.getActiveQM();
+  getManager(): Observable<QmUser> {
+    return this.http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", this.httpOptions)
+      .map((r: any) => {
+        let tmp = new QmUser(r.d.NAME);
+        tmp.setINumber(r.d.INUMBER);
+        return tmp;
+      })
   }
-  updateManager(name: string) {
-    this.activityBook.setActiveQM(name);
+
+  updateManager(qm : QmUser) {
+    let body = {
+      "NAME" : qm.getName(),
+      "INUMBER" : qm.iNumber
+    }
+    return this.http.put("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", body ,this.httpOptions)
   }
 
   logIncident(user: User, type: string, amount: number) {
-    let aString ="";
-    if (amount >= 0){
+    let aString = "";
+    if (amount >= 0) {
       aString = "Incident Assigned"
     } else {
       aString = "Incident Unassigned"
@@ -96,16 +117,16 @@ export class ActivityBookService {
       });
   }
 
-  resetLogs(){
+  resetLogs() {
     let logRef = this.activityBook.getLogs();
-    logRef.forEach((el:EntryLog) => {
-      this.http.delete(gDeleteUrl(el.pushID)).subscribe(r=>{
+    logRef.forEach((el: EntryLog) => {
+      this.http.delete(gDeleteUrl(el.pushID)).subscribe(r => {
         this.activityBook.removeEntry(el.pushID);
         console.log("Deleting", el.pushID)
       })
     });
 
-    function gDeleteUrl(key){
+    function gDeleteUrl(key) {
       let url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/activity_log"
       return url + "('" + key + "')";
     }
