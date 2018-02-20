@@ -9,7 +9,7 @@ import { UserService } from '../services/user.service';
 import { QmUser } from '../model/qmuser';
 import { ActivityBookService } from '../services/activity-book.service';
 import { ActivityBook } from '../model/activitybook';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-queue-control',
   templateUrl: './queue-control.component.html',
@@ -36,14 +36,21 @@ export class QueueControlComponent implements OnInit {
   qmUser: QmUser;
 
   activityBook: ActivityBook;
-  constructor(public db: AngularFireDatabase, private route: ActivatedRoute, private router: Router, public userService: UserService, public activityBookSerivce: ActivityBookService) {
+  constructor(public db: AngularFireDatabase,
+    private route: ActivatedRoute,
+    private router: Router,
+    public userService: UserService,
+    public activityBookSerivce: ActivityBookService,
+    public snackBar: MatSnackBar
+  ) { }
+  ngOnInit(): void {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
       this.showSpinner = true;
       this.paramId = value;
 
-      userService.getUsers().subscribe(r => {
+      this.userService.getUsers().subscribe(r => {
         this.showSpinner = false;
 
         this._userListAll = r;
@@ -79,10 +86,6 @@ export class QueueControlComponent implements OnInit {
       // console.log(book)
       this.activityBook = book;
     })
-  }
-
-
-  ngOnInit(): void {
   }
 
   getAssignmentCount(user) {
