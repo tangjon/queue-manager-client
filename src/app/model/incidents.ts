@@ -27,7 +27,7 @@ export class Incidents {
             }
         }
     }
-
+    // TODO REVERSE THIS.... THIS VERY WRONG
     update(update): void {
         this.NW = 0 || update.NW;
         this.MS = 0 || update.MS;
