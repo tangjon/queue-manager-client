@@ -7,7 +7,6 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { QmUser } from '../model/qmuser';
 import { Observable } from 'rxjs/Observable';
-import { constants } from 'fs';
 
 @Injectable()
 export class ActivityBookService {
