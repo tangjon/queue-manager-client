@@ -20,7 +20,7 @@ export class TeamManagerComponent {
   errorMessage: string;
   constructor(public db: AngularFireDatabase, public userService: UserService) {
     // Get Users
-    this.users = userService.getUsers({});
+    this.users = userService.getUsers();
     this.users.subscribe(r => {
       this.showSpinner = false;
       this.userList = r.sort(

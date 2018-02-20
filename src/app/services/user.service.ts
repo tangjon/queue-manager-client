@@ -16,9 +16,7 @@ import { ActivityBookService } from './activity-book.service';
 @Injectable()
 export class UserService {
 
-  url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/table"
-  userList: Array<User>;
-  tmp: any;
+  userDBEndpoint: string = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -27,13 +25,13 @@ export class UserService {
   constructor(public db: AngularFireDatabase, public http: HttpClient, public activityBookService: ActivityBookService) {
   }
 
-  getUsers(query): Observable<any[]> {
+  getUsers(): Observable<any[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
     }
-    return this.http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs", httpOptions)
+    return this.http.get(this.userDBEndpoint, httpOptions)
       .map(r => {
         let arr = [];
         for (var el in r) {
@@ -57,18 +55,17 @@ export class UserService {
         'Content-Type': 'application/json',
       })
     }
-    return this.http.post("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs", newUser, httpOptions)
+    return this.http.post(this.userDBEndpoint, newUser, httpOptions)
       .map(r => {
         return new User(r);
       });
   }
   updateUser(user: User) {
-    let url = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs'
     // this.activityBookService.logUser(user);
-    return this.http.put(url, user, this.httpOptions);
+    return this.http.put(this.userDBEndpoint, user, this.httpOptions);
   }
   deleteUser(key: string): Observable<any> {
-    return this.http.delete("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/user.xsjs?key=" + "'" + key + "'");
+    return this.http.delete(this.userDBEndpoint + '?key=' + "'" + key + "'");
   }
   updateRole(user: User, role: string) {
     // Work Around Server Doesnt Accept Boolean must convert to strings...

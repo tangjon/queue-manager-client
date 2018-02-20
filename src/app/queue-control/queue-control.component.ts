@@ -43,7 +43,7 @@ export class QueueControlComponent implements OnInit {
       this.showSpinner = true;
       this.paramId = value;
 
-      userService.getUsers({}).subscribe(r => {
+      userService.getUsers().subscribe(r => {
         this.showSpinner = false;
 
         this._userListAll = r;

@@ -22,7 +22,7 @@ export class RccManagementComponent implements OnInit {
   nextResetDate: Date;
   lastResetDate: Date;
   constructor(public db: AngularFireDatabase, public userSerivice: UserService) {
-    this.userSerivice.getUsers({}).subscribe(r => {
+    this.userSerivice.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {
         if (a.name < b.name)
