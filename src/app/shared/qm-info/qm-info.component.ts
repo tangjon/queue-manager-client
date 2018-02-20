@@ -20,7 +20,7 @@ export class QmInfoComponent implements OnInit {
   }
 
   changeQM() {
-    let arg = window.prompt("You are changing the QM. What is your name?", this.qmUser.getName());
+    let arg = window.prompt("You are changing the QM. What is your INumber?", this.qmUser.iNumber);
     if (arg) {
       this.activityBookService.updateManager(new QmUser(arg)).subscribe(r => {
         this.qmUser.setName(arg);
