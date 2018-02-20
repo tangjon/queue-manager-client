@@ -21,20 +21,19 @@ export class ActivityBookService {
   }
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
     this.activityBook = new ActivityBook();
-
     http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", this.httpOptions)
       .map((r: any) => {
-        let tmp = new QmUser(r.d.NAME);
-        tmp.setINumber(r.d.INUMBER);
-        return tmp;
+        return new QmUser(r.d.INUMBER);
       }).
-      subscribe((r: QmUser) => {
-        this.activityBook.setActiveQM(r.getName());
+      subscribe((t: QmUser) => {
+        console.log(t);
+        this.activityBook.setActiveQM(t);
       });
   }
 
   getBook(): Observable<ActivityBook> {
     let book = new ActivityBook();
+    book.setActiveQM(this.activityBook.getActiveQM());
     return this.http.get(this.url + "?$format=json", this.httpOptions)
       .map((r: any) => {
         let t = r.d.results.map(t => {
@@ -54,18 +53,19 @@ export class ActivityBookService {
   getManager(): Observable<QmUser> {
     return this.http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", this.httpOptions)
       .map((r: any) => {
-        let tmp = new QmUser(r.d.NAME);
-        tmp.setINumber(r.d.INUMBER);
-        return tmp;
+        return new QmUser(r.d.INUMBER);
       })
   }
 
-  updateManager(qm : QmUser) {
+  updateManager(qm: QmUser) {
     let body = {
-      "NAME" : qm.getName(),
-      "INUMBER" : qm.iNumber
+      "INUMBER": qm.getINumber()
     }
-    return this.http.put("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", body ,this.httpOptions)
+    console.log(qm);
+    this.activityBook.setActiveQM(qm);
+
+    console.log(this.activityBook.getActiveQM())
+    return this.http.put("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", body, this.httpOptions)
   }
 
   logIncident(user: User, type: string, amount: number) {
@@ -102,10 +102,11 @@ export class ActivityBookService {
       action, description, this.activityBook.getActiveQM(),
       pushId
     );
+    console.log(this.activityBook.getActiveQM());
     let body = {
       "PUSH_ID": pushId,
       "ACTION": action,
-      "MANAGER": entry.getManager().getName(),
+      "MANAGER": entry.getManager().getINumber(),
       "DATE": JSON.stringify(entry.getFullDate()),
       "DESCRIPTION": description,
       "NAME": user.name,
@@ -167,7 +168,4 @@ export class ActivityBookService {
       return yesterday;
     }
   }
-
-
-
 }

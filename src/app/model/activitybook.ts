@@ -9,7 +9,7 @@ export class ActivityBook {
         this.entryArray = new Array<EntryLog>();
         this.activeQM = new QmUser("DEFAULT");
     }
-    
+
     getLogs(): Array<EntryLog> {
         return this.entryArray;
     }
@@ -17,7 +17,7 @@ export class ActivityBook {
     addEntry(entry: EntryLog): void {
         this.entryArray.push(entry)
     }
-    
+
     removeEntry(pushID: string): void {
         let i = this.entryArray.findIndex((t: EntryLog) => {
             return t.pushID == pushID;
@@ -29,8 +29,8 @@ export class ActivityBook {
         return this.activeQM;
     }
 
-    setActiveQM(name: string): void {
-        this.activeQM.setName(name);
+    setActiveQM(QM : QmUser): void {
+        this.activeQM = QM;
     }
 
 
