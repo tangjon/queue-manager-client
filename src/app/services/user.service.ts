@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { EntryLog } from '../model/entrylog';
 import { ActivityBook } from '../model/activitybook';
 import { ActivityBookService } from './activity-book.service';
+import { filter } from 'rxjs/operator/filter';
 
 @Injectable()
 export class UserService {
@@ -107,6 +108,7 @@ export class UserService {
     return url;
   }
   updateQueueDays(user, amount) {
+    this.getUserName("i13");
     let tmp = new User(user);
     tmp.currentQDays = amount;
     this.activityBookService.logEntry(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays)
@@ -115,5 +117,19 @@ export class UserService {
   // DEPRICATED
   deleteEverything() {
     // this.db.object('users').remove();
+  }
+
+  getUserName(iNumber: string) {
+    console.log("hello");
+    this.getUsers().map((data: EntryLog[]) => {
+      // filter array
+      let tmp = data.filter((entry: EntryLog) => {
+        return entry.iNumber == iNumber;
+      })
+      return tmp;
+    }).subscribe(r => {
+      console.log(r);
+    })
+
   }
 }

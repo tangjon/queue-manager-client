@@ -15,7 +15,8 @@ import 'rxjs/add/operator/mergeMap';
 export class ActivityBookService {
 
   private activityBook: ActivityBook;
-  url: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/activity_log"
+  ACTIVITY_LOG_URL: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/activity_log";
+  QM_URL: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -24,34 +25,50 @@ export class ActivityBookService {
 
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
     this.activityBook = new ActivityBook();
-    http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", this.httpOptions)
-      .map((r: any) => {
-        return new QmUser(r.d.INUMBER);
-      }).
-      subscribe((t: QmUser) => {
-        console.log(t);
-        this.activityBook.setActiveQM(t);
+    this.getBook().subscribe((book: ActivityBook) => {
+      this.activityBook = book
+    })
+
+
+  }
+  getBook(): Observable<ActivityBook> {
+    return Observable.forkJoin([
+      this.getEntryLogs(),
+      this.getQM()
+    ])
+      .map((data: any[]) => {
+        const [entryLogs, QM] = data;
+        let book = new ActivityBook();
+        // Copy Logs
+        entryLogs.forEach(log => {
+          book.addEntry(log);
+        });
+        // Set QM
+        book.setActiveQM(QM);
+        this.activityBook = book;
+        return book;
       });
   }
 
-  getBook(): Observable<ActivityBook> {
-    this.activityBook.clearEntries();
-    return this.http.get(this.url + "?$format=json", this.httpOptions)
+  getEntryLogs(): Observable<Array<EntryLog>> {
+    let entryArr = new Array<EntryLog>();
+    return this.http.get(this.ACTIVITY_LOG_URL + "?$format=json", this.httpOptions)
       .map((r: any) => {
+        let arr = new Array<EntryLog>();
         let t = r.d.results.map(t => {
           let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, new QmUser(t.MANAGER), t.PUSH_ID)
           tmp.setDateFromString(t.DATE)
           return tmp;
         })
         t.forEach((el: EntryLog) => {
-          this.activityBook.addEntry(el);
+          arr.push(el);
         });
-        return this.activityBook;
-      });
+        return arr;
+      })
   }
 
-  getManager(): Observable<QmUser> {
-    return this.http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", this.httpOptions)
+  getQM(): Observable<QmUser> {
+    return this.http.get(this.QM_URL, this.httpOptions)
       .map((r: any) => {
         return new QmUser(r.d.INUMBER);
       })
@@ -61,11 +78,8 @@ export class ActivityBookService {
     let body = {
       "INUMBER": qm.getINumber()
     }
-    console.log(qm);
     this.activityBook.setActiveQM(qm);
-
-    console.log(this.activityBook.getActiveQM())
-    return this.http.put("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", body, this.httpOptions)
+    return this.http.put(this.QM_URL, body, this.httpOptions)
   }
 
   logIncident(user: User, type: string, amount: number) {
@@ -102,7 +116,6 @@ export class ActivityBookService {
       action, description, this.activityBook.getActiveQM(),
       pushId
     );
-    console.log(this.activityBook.getActiveQM());
     let body = {
       "PUSH_ID": pushId,
       "ACTION": action,
@@ -112,7 +125,7 @@ export class ActivityBookService {
       "NAME": user.name,
       "INUMBER": user.iNumber
     }
-    this.http.post(this.url, body, this.httpOptions)
+    this.http.post(this.ACTIVITY_LOG_URL, body, this.httpOptions)
       .subscribe(t => {
         this.activityBook.addEntry(entry);
       });

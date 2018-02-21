@@ -14,7 +14,7 @@ export class QmInfoComponent implements OnInit {
   constructor(public activityBookService: ActivityBookService) { }
 
   ngOnInit() {
-    this.activityBookService.getManager().subscribe((qm: QmUser) => {
+    this.activityBookService.getQM().subscribe((qm: QmUser) => {
       this.qmUser = qm;
     })
   }
