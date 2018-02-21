@@ -9,6 +9,7 @@ Initial Release that contains all feautues of the original.
 ## QM v2.1
 - better UI?
 - cleaner code
+- Only works in Chrome!
 
 ### QM Dashboard Updated
 - includes the last 24 hour incident count add to users
@@ -29,3 +30,4 @@ Initial Release that contains all feautues of the original.
 # Features on the way...
 - Weather [LOW]
 - Archiving on reset [MED]
+- I.E Support
