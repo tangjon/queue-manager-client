@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 1. NodeJs
-2. Firebase-Tools // SCRAPED
+2. Firebase-Tools (OPTIONAL?)
 3. Angular-Cli
 
 ### Installing
@@ -23,6 +23,7 @@ A simple npm install should get it working
 Install 
 1. Install Node Js : https://nodejs.org/en/ 
 2. Angular Cli
+3. Firebase (OPTIONAL?)
 ```
 npm install
 ```
@@ -35,11 +36,13 @@ ng serve
 For Production
 ```
 npm run build-prod
-copy last-build somewhere else and
-cd last-build and push to https://git.hanatrial.ondemand.com/p2000140239trial/angular
+copy last-build somewhere else
+git remote add origin https://git.hanatrial.ondemand.com/p2000140239trial/angular
+git push -f
 ```
+Head Over to Cloud IDE & Overide the repository
 
-Next, go to web ide pull and deploy!
+Deploy!
 
 
 ## Built With
@@ -47,6 +50,9 @@ Next, go to web ide pull and deploy!
 * [Firebase](https://firebase.google.com/) - Database
 * [Angular](https://angular.io/) - Front-end web framework
 * [NodeJs](https://nodejs.org/en/) - Dependency Management
+* [Boostrap](https://getbootstrap.com/) - Styling
+* [Font-Awesome](https://fontawesome.com/) - Styling
+
 
 ## License
 
