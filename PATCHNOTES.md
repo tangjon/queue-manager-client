@@ -27,4 +27,5 @@ Initial Release that contains all feautues of the original.
 
 
 # Features on the way...
-...
+- Weather [LOW]
+- Archiving on reset [MED]
