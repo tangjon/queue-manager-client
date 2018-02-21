@@ -120,16 +120,13 @@ export class UserService {
   }
 
   getUserName(iNumber: string) {
-    console.log("hello");
-    this.getUsers().map((data: EntryLog[]) => {
+    return this.getUsers().map((data: User[]) => {
       // filter array
-      let tmp = data.filter((entry: EntryLog) => {
-        return entry.iNumber == iNumber;
+      let tmp = data.filter((user: User) => {
+        return user.iNumber == iNumber;
       })
       return tmp;
-    }).subscribe(r => {
-      console.log(r);
-    })
+    });
 
   }
 }
