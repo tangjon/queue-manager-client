@@ -7,12 +7,13 @@ Initial Release that contains all feautues of the original.
 - Login screen
 
 ## QM v2.1
-- better UI?
-- cleaner code
-- Only works in Chrome!
+- Improved UI
+- Cleaner code
+- Works only in Chrome
+- Broken in IE (It worked at a moment in time)
 
 ### QM Dashboard Updated
-- includes the last 24 hour incident count add to users
+- The number next to Total Incidents in green shows the incident counter assigned to an engineer in the last 24 hours.
 - font-awesome icons
 
 ### RCC
@@ -25,9 +26,10 @@ Initial Release that contains all feautues of the original.
 ###  Quick Notes
 - WIP but present
 
-
-
 # Features on the way...
 - Weather [LOW]
 - Archiving on reset [MED]
-- I.E Support
+- I.E Support....
+
+# Noted Bugs
+- Mastery Reset Button is buggy
