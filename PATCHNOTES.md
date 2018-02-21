@@ -1,12 +1,12 @@
 # Queue Manager Web App 2.0 Patch Notes
 
-## QM 2.00
+## QM v2.0
 Initial Release that contains all feautues of the original.
 - More user friendly
 - Improved Team Management, RCC, QM Dashboard
 - Login screen
 
-## QM 2.1
+## QM v2.1
 - better UI?
 - cleaner code
 
