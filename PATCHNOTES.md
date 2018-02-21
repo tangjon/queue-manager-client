@@ -19,11 +19,10 @@ Initial Release that contains all feautues of the original.
 - New panel that tells us the next reset date
 
 ### Activity Log
-All actions and updates to the system will be logged in activity log!
-Except for resets...
+- All actions and updates to the system will be logged in activity log! Except for resets...
 
 ###  Quick Notes
-WIP but present
+- WIP but present
 
 
 
