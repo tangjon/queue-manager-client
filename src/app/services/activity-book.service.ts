@@ -7,6 +7,9 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { QmUser } from '../model/qmuser';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 
 @Injectable()
 export class ActivityBookService {
@@ -18,6 +21,7 @@ export class ActivityBookService {
       'Content-Type': 'application/json',
     })
   }
+
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
     this.activityBook = new ActivityBook();
     http.get("https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')", this.httpOptions)
