@@ -2,8 +2,11 @@
   <div class="col">
     <h2>Activity Log</h2>
   </div>
-  <div class="col">
-    <button class="btn btn-primary" (click)="reSync()">REFRESH/SYNC</button>
+  <div class="col text-right">
+
+    <button class="btn btn-warning" (click)="reSync()">
+      <i class="fa fa-refresh"></i> REFRESH LOG
+    </button>
   </div>
 </div>
 <table id="activity-log-table" class="table">
