@@ -24,7 +24,7 @@ import { SettingsComponent } from './shared/settings/settings.component';
 import { ActivityLogComponent } from './shared/activity-log/activity-log.component';
 import { ActivityBookService } from './services/activity-book.service';
 import { QmInfoComponent } from './shared/qm-info/qm-info.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const appRoutes: Routes = [
@@ -68,7 +68,7 @@ const appRoutes: Routes = [
     FormsModule,
     ClipboardModule,
     RouterModule.forRoot(
-      appRoutes),
+      appRoutes, { useHash: true }),
   ],
   providers: [UserService, ActivityBookService],
   bootstrap: [AppComponent]
