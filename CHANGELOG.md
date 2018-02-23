@@ -1,10 +1,7 @@
 # Queue Manager Web App 2.0 Patch Notes
 
-## QM v2.0
-Initial Release that contains all features of the original.
-- More user friendly
-- Improved Team Management, RCC, QM Dashboard
-- Login screen
+## QM v2.11
+- Refactor services
 
 ## QM v2.1 (Current)
 - Improved UI
@@ -35,3 +32,11 @@ Initial Release that contains all features of the original.
 
 # Noted Bugs
 - Mastery Reset Button is buggy
+
+## QM v2.0
+Initial Release that contains all features of the original.
+- More user friendly
+- Improved Team Management, RCC, QM Dashboard
+- Login screen
+
+
