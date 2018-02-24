@@ -136,7 +136,6 @@ export class ActivityBookService {
     logRef.forEach((el: EntryLog) => {
       this.http.delete(gDeleteUrl(el.pushID)).subscribe(r => {
         this.activityBook.removeEntry(el.pushID);
-        console.log("Deleting", el.pushID)
       })
     });
 

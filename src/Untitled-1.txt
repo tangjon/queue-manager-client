@@ -1,0 +1,16 @@
+{
+    "exposed": true,
+    "anonymous_connection": "hana_hello::anonuser",
+    "authentication": null,
+    "cache_control": "must-revalidate",
+    "cors": {
+        "enabled": true,
+        "allowMethods": ["GET","POST","PATCH","PUT","HEAD","OPTIONS","DELETE"],
+        "allowOrigin": ["*"]
+    },
+    "withCredentials": true,
+    "enable_etags": false,
+    "force_ssl": false,
+    "prevent_xsrf": false,
+    "default_file": "index.html"
+}

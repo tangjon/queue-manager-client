@@ -1,0 +1,23 @@
+{
+    "exposed": true,
+    "authentication": null,
+    "force_ssl": true,
+    "prevent_xsrf": false,
+    "anonymous_connection": "mypackage.application::AnonConn",
+    "cors": {
+        "enabled": true,
+        "allowMethods": [
+            "GET",
+            "POST",
+            "HEAD",
+            "OPTIONS"
+        ],
+        "allowOrigin": [
+            "*"
+        ],
+        "allowCredential": true,
+        "exposeHeaders": "access-control-allow-headers,access-control-allow-origin,access-control-expose-headers,authorization",
+        "allowHeaders": "Origin, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control",
+        "maxAge": "3600"
+    }
+}

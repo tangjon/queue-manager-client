@@ -27,7 +27,6 @@ export class Incidents {
             }
         }
     }
-    // TODO REVERSE THIS.... THIS VERY WRONG
     update(update): void {
         this.NW = 0 || update.NW;
         this.MS = 0 || update.MS;
@@ -39,5 +38,4 @@ export class Incidents {
         this.RTC = 0 || update.RTC;
         this.LOD_ANA_PL = 0 || update.LOD_ANA_PL;
     }
-
 }
