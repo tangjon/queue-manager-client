@@ -5,6 +5,7 @@ import { User } from '../model/user';
 import { parse } from 'url';
 import { UserService } from '../services/user.service';
 import { ActivityBookService } from '../services/activity-book.service';
+import { Incidents } from '../model/incidents';
 
 @Component({
   selector: 'app-rcc-management',
@@ -51,10 +52,12 @@ export class RccManagementComponent implements OnInit {
       let amount = parseInt(val);
       if (this.selectedUser) {
         let prompt = window.confirm(this.selectedUser.name + " will have " + this.selectedUser.currentQDays + " increased by " + val + " to " + (this.selectedUser.currentQDays + amount) + ". \nClick okay to confirm.");
-        let newAmount = this.selectedUser.currentQDays + amount;
-        this.userSerivice.updateQueueDays(this.selectedUser, newAmount).subscribe(r => {
-          this.selectedUser.currentQDays += amount;
-        })
+        if (prompt) {
+          let newAmount = this.selectedUser.currentQDays + amount;
+          this.userSerivice.updateQueueDays(this.selectedUser, newAmount).subscribe(r => {
+            this.selectedUser.currentQDays += amount;
+          })
+        }
       }
     }
   }
@@ -64,9 +67,11 @@ export class RccManagementComponent implements OnInit {
       let amount = parseInt(val);
       if (this.selectedUser && this.selectedUser.currentQDays != amount) {
         let prompt = window.confirm(this.selectedUser.name + " will have " + this.selectedUser.currentQDays + " changed to " + val + ". \nClick okay to confirm.");
-        this.userSerivice.updateQueueDays(this.selectedUser, amount).subscribe(r => {
-          this.selectedUser.currentQDays = amount;
-        })
+        if (prompt) {
+          this.userSerivice.updateQueueDays(this.selectedUser, amount).subscribe(r => {
+            this.selectedUser.currentQDays = amount;
+          })
+        }
       }
     }
   }
@@ -113,10 +118,9 @@ export class RccManagementComponent implements OnInit {
   resetAllIncidents() {
     let prompt = window.confirm("Are you sure you want to reset incident count for all users?\nPlease double check!\nIt may already be done!");
     if (prompt) {
-
-      this._userList.forEach((el: User) => {
-        this.userSerivice.resetIncidents(el).subscribe(r => {
-          el.resetIncidents();
+      this._userList.forEach((user: User) => {
+        this.userSerivice.resetIncidents(user.key).subscribe(r => {
+          user.incidents.reset();
         })
       })
     }
@@ -128,7 +132,7 @@ export class RccManagementComponent implements OnInit {
     }
   }
 
-  masterReset(){
+  masterReset() {
     this.resetActivityLog();
     this.resetAllIncidents();
     this.resetActivityLog();

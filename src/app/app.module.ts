@@ -26,6 +26,9 @@ import { ActivityBookService } from './services/activity-book.service';
 import { QmInfoComponent } from './shared/qm-info/qm-info.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { IncidentSetService } from './services/incident-set.service';
+import { RoleSetService } from './services/role-set.service';
+import { UserSetService } from './services/user-set.service';
 
 const appRoutes: Routes = [
   {
@@ -70,7 +73,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes, { useHash: true }),
   ],
-  providers: [UserService, ActivityBookService],
+  providers: [UserService, ActivityBookService, IncidentSetService, RoleSetService, UserSetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -19,4 +19,30 @@ export class Role {
         this.LOD_ANA_PL = false;
         this.NW = false;
     }
+
+    update(update) {
+        this.NW = false || JSON.parse(update.NW);
+        this.MS = false || JSON.parse(update.MS);
+        this.PCM = false || JSON.parse(update.PCM);
+        this.SA = false || JSON.parse(update.SA);
+        this.SM = false || JSON.parse(update.SM);
+        this.FC_EA_IC_FIM = 0 || JSON.parse(update.FC_EA_IC_FIM);
+        this.DSM = false || JSON.parse(update.DSM);
+        this.RTC = false || JSON.parse(update.RTC);
+        this.LOD_ANA_PL = false || JSON.parse(update.LOD_ANA_PL);
+    }
+
+    toJSONDBString() {
+        return {
+            MS: this.MS.toString(),
+            SA: this.SA.toString(),
+            SM: this.SM.toString(),
+            FC_EA_IC_FIM: this.FC_EA_IC_FIM.toString(),
+            DSM: this.DSM.toString(),
+            PCM: this.PCM.toString(),
+            RTC: this.RTC.toString(),
+            LOD_ANA_PL: this.LOD_ANA_PL.toString(),
+            NW: this.NW.toString()
+        }
+    }
 }

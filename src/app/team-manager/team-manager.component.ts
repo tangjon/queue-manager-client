@@ -38,11 +38,10 @@ export class TeamManagerComponent {
     this.clearForm();
   }
 
-  // TODO Create user model
   addUser(fName: string, iNumber: string) {
     if (fName && iNumber) {
-      this.userService.addUser(fName, iNumber).subscribe((r: User) => {
-        this.userList.push(r);
+      this.userService.addUser(fName, iNumber).subscribe((user:User) => {
+        this.userList.push(user);
       })
       this.clearForm();
     }
@@ -60,8 +59,8 @@ export class TeamManagerComponent {
   deleteItem(user: User) {
     let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?")
     if (prompt) {
-      this.userService.deleteUser(user.key).subscribe(t => {
-        if (t.flag) {
+      this.userService.deleteUser(user.key).subscribe(res => {
+        if (res) {
           this.userList = this.userList.filter(function (el) {
             return el.key !== user.key;
           })
@@ -76,7 +75,8 @@ export class TeamManagerComponent {
     console.log(msg)
   }
   toggleRole(user: User, role: string) {
-    this.userService.updateRole(user, role).subscribe(t => {
+    let currBool = user.hasRole(role);
+    this.userService.updateRole(user, role, !currBool).subscribe(t => {
       user.role[role] = !user.hasRole(role);
     })
   }

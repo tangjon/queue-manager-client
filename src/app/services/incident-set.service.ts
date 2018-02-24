@@ -1,0 +1,70 @@
+import { Injectable } from '@angular/core';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Incidents } from '../model/incidents';
+import { User } from '../model/user';
+
+@Injectable()
+export class IncidentSetService {
+
+  private api: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/incidents"
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
+  constructor(public http: HttpClient) {
+
+  }
+
+  getIncidentSet(): Observable<any> {
+    return this.http.get(this.api, this.httpOptions)
+      .map((res: any) => {
+        // let tmp = new Incidents();
+        // let array: Array<any> = res.d.results.filter(el => {
+        //   return el.KEY == key;
+        // });
+        // tmp.update(array[0])
+        // return tmp;
+
+        let arr: Array<any> = res.d.results;
+        let obj = {};
+        for (var i = 0; i < arr.length; i++) {
+          let tmp = new Incidents();
+          tmp.update(arr[i]);
+          obj[arr[i].KEY] = tmp;
+        }
+        return obj;
+      })
+  }
+
+  updateIncidentSet(user: User, role: string, amount: number) {
+    // work around cause i dont have patch
+    let tmp: Incidents = new Incidents();
+    tmp.update(user.incidents);
+    tmp[role] = amount;
+    let url = `${this.api}('${user.key}')`;
+    return this.http.put(url, tmp, this.httpOptions);
+  }
+
+  createIncidentSet(key: string) {
+    let tmp = new Incidents();
+    tmp["KEY"] = key;
+    return this.http.post(this.api, tmp, this.httpOptions).map((r: any) => {
+      let tmp = new Incidents();
+      tmp.update(r.d);
+      return tmp;
+    });
+  }
+
+  deleteIncidentSet(key: string) {
+    let url = `${this.api}('${key}')`;
+    return this.http.delete(url, this.httpOptions)
+  }
+
+  resetIncidentSet(key) {
+    let tmp = new Incidents();
+    let url = `${this.api}('${key}')`;
+    return this.http.put(url, tmp, this.httpOptions)
+  }
+}

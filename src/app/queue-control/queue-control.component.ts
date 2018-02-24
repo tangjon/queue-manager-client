@@ -54,6 +54,7 @@ export class QueueControlComponent implements OnInit {
         this.showSpinner = false;
 
         this._userListAll = r;
+        console.log(r);
 
         this._userListCtx = r.filter((t: User) => {
           return t.role[this.paramId] == true;
@@ -122,10 +123,12 @@ export class QueueControlComponent implements OnInit {
 
   incIncidentAmount(user: User) {
     let amount = 1;
-    let prompt = window.prompt("Adding " + "+" + amount + " to " + user.name, user.iNumber);
+    let currAmount = user.incidents[this.paramId];
+    let prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
-      this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(r => {
         this.snackBar.open('Incident Added', 'Close', { duration: 1000 });
+        user.incidents[this.paramId]++;
         this.updateSummary();
         this.refreshLists();
       })
@@ -134,10 +137,12 @@ export class QueueControlComponent implements OnInit {
 
   decIncidentAmount(user) {
     let amount = -1;
-    let prompt = window.prompt("Removing " + amount + " to " + user.name, user.iNumber);
+    let currAmount = user.incidents[this.paramId];
+    let prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
-      this.userService.updateIncident(user, this.paramId, amount).subscribe(r => {
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(r => {
         this.snackBar.open('Incident Removed', 'Close', { duration: 1000 });
+        user.incidents[this.paramId]--;
         this.updateSummary();
         this.refreshLists();
       });
@@ -146,7 +151,7 @@ export class QueueControlComponent implements OnInit {
   }
 
   logIt(msg) {
-    // console.log(msg)
+    console.log(msg)
   }
 
   updateSummary() {

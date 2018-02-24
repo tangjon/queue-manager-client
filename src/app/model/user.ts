@@ -10,16 +10,22 @@ export class User {
     usagePercent: number;
     currentQDays: number;
     role: Role
-
+    // Needs to be able to read user-set object from db
     constructor(user) {
-        this.iNumber = user.iNumber;
-        this.name = user.name;
-        this.key = user.key;
+        this.iNumber = user.iNumber || user.INUMBER;
+        this.name = user.name || user.NAME;
+        this.key = user.key || user.KEY;
         this.isAvailable = user.isAvailable || false;
+        if (user.ISAVAILABLE) {
+            this.isAvailable = JSON.parse(user.ISAVAILABLE)
+        }
         this.incidents = user.incidents || new Incidents();
         this.role = user.role || new Role();
-        this.currentQDays = user.currentQDays || 0;
-        this.usagePercent = user.usagePercent || 1.0;
+        this.currentQDays = user.currentQDays || user.CURRENTQDAYS || 0; // this is passed as a string from the server .... idk why
+        if(user.CURRENTQDAYS){
+            this.currentQDays = parseFloat(user.CURRENTQDAYS);
+        }
+        this.usagePercent = user.usagePercent || parseFloat(user.USAGEPERCENT) || 1.0;
     }
 
     getStatus(): string {
@@ -35,10 +41,11 @@ export class User {
     }
 
     getIncidentTotal(): number {
-        var total = 0;
-        for (var key in this.incidents) {
+        let keys = Object.keys(new Incidents());
+        let total = 0;
+        keys.forEach(key => {
             total += this.getIncidentAmount(key);
-        }
+        });
         return total;
     }
 
@@ -57,7 +64,7 @@ export class User {
         return ref;
     }
 
-    getRoleList() : Array<string> {
+    getRoleList(): Array<string> {
         let list: Array<string> = [];
         Object.keys(this.role).forEach(el => {
             list.push(el);
@@ -66,6 +73,7 @@ export class User {
     }
 
     getIncidentAmount(type: string): number {
+        // console.log(this.incidents[type])
         return this.incidents[type]
     }
 
