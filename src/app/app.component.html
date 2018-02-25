@@ -1,7 +1,7 @@
-<app-navbar></app-navbar>
-<div class="container-fluid">
-    <app-login></app-login>
-    <div *ngIf="afAuth.authState | async as user">
+<app-login></app-login>
+<div *ngIf="afAuth.authState | async as user">
+    <app-navbar></app-navbar>
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
                 <app-sidebar></app-sidebar>
@@ -11,7 +11,8 @@
                 <app-clipboard></app-clipboard>
                 <div class="jumbotron">
                     <h1 class="display-4">Notice:</h1>
-                    <p class="lead">Still under going testing. Hopefully will be deployed and used starting March. In the meantime play around with tool!</p>                   
+                    <p class="lead">Still under going testing. Hopefully will be deployed and used starting March. In the meantime play around
+                        with tool!</p>
                 </div>
                 <app-qm-info></app-qm-info>
                 <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
@@ -28,5 +29,4 @@
             <div class="col-sm-2"></div>
         </div>
     </div>
-
 </div>

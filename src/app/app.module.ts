@@ -29,6 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IncidentSetService } from './services/incident-set.service';
 import { RoleSetService } from './services/role-set.service';
 import { UserSetService } from './services/user-set.service';
+import { LoginService } from './services/login.service';
 
 const appRoutes: Routes = [
   {
@@ -73,7 +74,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes, { useHash: true }),
   ],
-  providers: [UserService, ActivityBookService, IncidentSetService, RoleSetService, UserSetService],
+  providers: [UserService, ActivityBookService, IncidentSetService, RoleSetService, UserSetService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
