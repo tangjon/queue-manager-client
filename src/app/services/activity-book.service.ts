@@ -22,15 +22,12 @@ export class ActivityBookService {
       'Content-Type': 'application/json',
     })
   }
-  private cachedINumber = localStorage["MYINUMBER"];
 
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
     this.activityBook = new ActivityBook();
     this.getBook().subscribe((book: ActivityBook) => {
       this.activityBook = book
     })
-
-
   }
   getBook(): Observable<ActivityBook> {
     return Observable.forkJoin([
@@ -114,13 +111,13 @@ export class ActivityBookService {
     let pushId = this.db.createPushId();
     let entry = new EntryLog(
       user.name, user.iNumber,
-      action, description, this.cachedINumber,
+      action, description, this.getCachedINumber(),
       pushId
     );
     let body = {
       "PUSH_ID": pushId,
       "ACTION": action,
-      "MANAGER": this.cachedINumber,
+      "MANAGER": this.getCachedINumber(),
       "DATE": JSON.stringify(entry.getFullDate()),
       "DESCRIPTION": description,
       "NAME": user.name,
@@ -180,5 +177,9 @@ export class ActivityBookService {
       var yesterday = new Date(date.getTime() - (24 * 60 * 60 * 1000));
       return yesterday;
     }
+  }
+
+  getCachedINumber() {
+    return localStorage["MYINUMBER"];
   }
 }

@@ -12,7 +12,7 @@ import { UserService } from './services/user.service';
 export class AppComponent {
   items: Observable<any[]>;
   errorMessage: string;
-  constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth, public userService: UserService) {
+  constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
   }
   title = 'app';
 
