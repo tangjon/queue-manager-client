@@ -22,6 +22,7 @@ export class ActivityBookService {
       'Content-Type': 'application/json',
     })
   }
+  private cachedINumber = localStorage["MYINUMBER"];
 
   constructor(public db: AngularFireDatabase, public http: HttpClient) {
     this.activityBook = new ActivityBook();
@@ -56,7 +57,7 @@ export class ActivityBookService {
       .map((r: any) => {
         let arr = new Array<EntryLog>();
         let t = r.d.results.map(t => {
-          let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, new QmUser(t.MANAGER), t.PUSH_ID)
+          let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID)
           tmp.setDateFromString(t.DATE)
           return tmp;
         })
@@ -113,13 +114,13 @@ export class ActivityBookService {
     let pushId = this.db.createPushId();
     let entry = new EntryLog(
       user.name, user.iNumber,
-      action, description, this.activityBook.getActiveQM(),
+      action, description, this.cachedINumber,
       pushId
     );
     let body = {
       "PUSH_ID": pushId,
       "ACTION": action,
-      "MANAGER": entry.getManager().getINumber(),
+      "MANAGER": this.cachedINumber,
       "DATE": JSON.stringify(entry.getFullDate()),
       "DESCRIPTION": description,
       "NAME": user.name,
