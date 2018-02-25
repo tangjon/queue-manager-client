@@ -14,7 +14,7 @@
     <tr>
       <th style="width:20%" scope="col">Time</th>
       <th style="width:65%" scope="col">Description</th>
-      <th style="width:15%" scope="col">QM</th>
+      <th style="width:15%" scope="col">Logger</th>
     </tr>
   </thead>
   <tbody>
@@ -26,7 +26,7 @@
     <tr *ngFor="let item of activityLog?.reverse(); let i = index">
       <td scope="row">{{item.getDateFormatted()}} {{item.getTimeFormatted()}}</td>
       <td>{{ item.getSummary() }}</td>
-      <td>{{ item.getManager().getINumber() }}</td>
+      <td>{{ item.getLogger() }}</td>
     </tr>
   </tbody>
 </table>
