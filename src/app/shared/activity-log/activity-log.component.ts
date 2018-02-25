@@ -14,28 +14,12 @@ export class ActivityLogComponent implements OnInit {
   private activityLog: Array<EntryLog>;
   private showSpinner: boolean = true;
 
-  constructor(public userService: UserService, public activityBookSerivce: ActivityBookService, public logService:LogService) {
+  constructor(public userService: UserService, public activityBookSerivce: ActivityBookService, public logService: LogService) {
     this.activityLog = logService.activityLog$;
     this.showSpinner = false;
   }
 
   ngOnInit() {
-    // Fixes timing issue when displaying logs in realtime
-    // setTimeout(() => {
-    //   // this.activityBookSerivce.getBook()
-    //   this.activityBookSerivce.getBook().subscribe((book: ActivityBook) => {
-    //     this.activityLog = book.getLogs();
-    //     this.showSpinner = false;
-    //   })
-    // }, 2000)
-  }
-
-  reSync() {
-    this.showSpinner = true;
-    this.activityBookSerivce.getBook().subscribe((book: ActivityBook) => {
-      this.activityLog = book.getLogs();
-      this.showSpinner = false;
-    })
   }
 
 

@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { EntryLog } from '../model/entrylog';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 
 @Injectable()
 export class LogService {
@@ -11,25 +14,32 @@ export class LogService {
       'Content-Type': 'application/json',
     })
   }
-
+  private logSource = new BehaviorSubject<EntryLog[]>(new Array<EntryLog>());
+  currentLog = this.logSource.asObservable();
   activityLog$: Array<EntryLog>;
+
+
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     this.activityLog$ = new Array<EntryLog>();
-    this.getLogs();
+    this.getLogs().subscribe(logs => {
+      console.log(this.activityLog$)
+      this.activityLog$ = logs;
+    })
   }
 
-  getLogs() {
-    this.http.get(this.api, this.httpOptions)
-      .subscribe((r: any) => {
-        let t = r.d.results.map(t => {
-          let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID)
-          tmp.setDateFromString(t.DATE)
-          return tmp;
-        })
-        t.forEach((el: EntryLog) => {
-          this.activityLog$.push(el);
-        });
+  private getLogs(): Observable<any> {
+    return this.http.get(this.api, this.httpOptions).map((r: any) => {
+      this.activityLog$ = [];
+      let t = r.d.results.map(t => {
+        let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID)
+        tmp.setDateFromString(t.DATE)
+        return tmp;
       })
+      t.forEach((el: EntryLog) => {
+        this.activityLog$.push(el);
+      });
+      return this.activityLog$;
+    })
   }
 
   addLog(user, action, description) {
@@ -64,7 +74,6 @@ export class LogService {
         })
         this.activityLog$.splice(index, 1)
       })
-
     });
   }
 
@@ -72,4 +81,39 @@ export class LogService {
     return localStorage["MYINUMBER"];
   }
 
+  getAssignmentCount(user) {
+    let logs = this.activityLog$;
+    let today = new Date();
+    let filterlog = logs.filter((el: EntryLog) => {
+      return el.iNumber == user.iNumber &&
+        el.action.indexOf("Incident") !== -1 &&
+        dateInRange(el.getFullDate(), yesterdayDate(today), today);
+    })
+    if (filterlog.length) {
+      let numAssigned = 0;
+      let numRemoved = 0;
+      filterlog.forEach((el: EntryLog) => {
+        if (el.action.indexOf("Assigned") !== -1) {
+          numAssigned++;
+        } else if (el.action.indexOf("Removed")) {
+          numRemoved++;
+        }
+      });
+      // console.log(filterlog)
+      return numAssigned - numRemoved;
+    }
+    return 0;
+
+    function dateInRange(arg: Date, start: Date, end: Date) {
+      if (arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    function yesterdayDate(date: Date): Date {
+      var yesterday = new Date(date.getTime() - (24 * 60 * 60 * 1000));
+      return yesterday;
+    }
+  }
 }

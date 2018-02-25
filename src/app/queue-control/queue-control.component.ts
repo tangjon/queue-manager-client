@@ -91,8 +91,7 @@ export class QueueControlComponent implements OnInit {
 
   getAssignmentCount(user) {
     let hours = 24;
-    let count = this.activityBookSerivce.getAssignmentCount(user);
-    // console.log(count);
+    let count = this.userService.logService.getAssignmentCount(user);
     return count;
   }
 
