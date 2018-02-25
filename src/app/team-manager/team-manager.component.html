@@ -39,16 +39,17 @@
         <span class="badge badge-success" *ngFor="let role of user.getUserRoles()">{{ role }}</span>
       </div>
       <div class="col-sm-2 text-right">
-          Toggle Roles:
+        Toggle Roles:
       </div>
       <div class="col-sm-4 text-left roll-change-panel">
-        <button  *ngFor="let role of user.getRoleList()" (click)="toggleRole(user,role)" class="badge" [class.badge-success]="this.user.hasRole(role)" [class.badge-danger]="!this.user.hasRole(role)">{{ role }}</button>
+        <button *ngFor="let role of user.getRoleList()" (click)="toggleRole(user,role)" class="badge" [class.badge-success]="this.user.hasRole(role)"
+          [class.badge-danger]="!this.user.hasRole(role)">{{ role }}</button>
       </div>
     </div>
   </div>
 </div>
 
-<div id="add-user-form">
+<!-- <div id="add-user-form">
   <div class="row">
     <div class="col">
       <div class="form-group">
@@ -64,7 +65,24 @@
     </div>
 
   </div>
-  <button type="button" class="btn btn-primary" (click)="addUser(inputName, inputiNumber)">Add User</button>
-  <!-- <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button> -->
+  <button type="button" class="btn btn-primary" (click)="addUser(inputName, inputiNumber)">Add User</button> -->
+<!-- <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button> -->
+<!-- </div> -->
 
-</div>
+<form id="add-user-form" #userForm="ngForm" (ngSubmit)="onAddUser(userForm)">
+  <div class="form-group">
+    <label>Name</label>
+    <input type="text" class="form-control" name="name" placeholder="User Name" required #name="ngModel" ngModel>
+    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+      Name is required
+    </div>
+  </div>
+  <div class="form-group">
+    <label>INumber</label>
+    <input type="text" class="form-control" #iNumber="ngModel" name="iNumber" placeholder="i12345" required ngModel>
+    <div [hidden]="iNumber.valid || iNumber.pristine" class="alert alert-danger">
+      INumber is required
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Add User</button>
+</form>

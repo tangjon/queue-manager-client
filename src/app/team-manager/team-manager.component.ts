@@ -3,22 +3,20 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
 import { UserService } from '../services/user.service';
-
+import { NgForm } from '@angular/forms'
 @Component({
   selector: 'app-team-manager',
   templateUrl: './team-manager.component.html',
   styleUrls: ['./team-manager.component.css']
 })
 export class TeamManagerComponent {
-  newUser: User;
-  inputName: string;
-  inputiNumber: string;
   showSpinner: boolean = true;
   itemsRef: AngularFireList<any>;
   users: Observable<any[]>;
   userList: Array<User>;
   errorMessage: string;
   constructor(public db: AngularFireDatabase, public userService: UserService) {
+
     // Get Users
     this.users = userService.getUsers();
     this.users.subscribe(r => {
@@ -34,16 +32,13 @@ export class TeamManagerComponent {
     }, error => {
       this.errorMessage = error;
     })
-    // Start with clear form
-    this.clearForm();
   }
 
   addUser(fName: string, iNumber: string) {
     if (fName && iNumber) {
-      this.userService.addUser(fName, iNumber).subscribe((user:User) => {
+      this.userService.addUser(fName, iNumber).subscribe((user: User) => {
         this.userList.push(user);
       })
-      this.clearForm();
     }
   }
   updateItem(user: User, fName: string, iNumber: string, usage: string) {
@@ -71,9 +66,6 @@ export class TeamManagerComponent {
   deleteEverything() {
     this.userService.deleteEverything();
   }
-  logIt(msg) {
-    console.log(msg)
-  }
   toggleRole(user: User, role: string) {
     let currBool = user.hasRole(role);
     this.userService.updateRole(user, role, !currBool).subscribe(t => {
@@ -81,8 +73,11 @@ export class TeamManagerComponent {
     })
   }
 
-  clearForm() {
-    this.inputiNumber = "";
-    this.inputName = "";
+  onAddUser(f: NgForm) {
+    if (f.valid) {
+      this.userService.addUser(f.value.name, f.value.iNumber).subscribe((user: User) => {
+        this.userList.push(user);
+      })
+    }
   }
 }
