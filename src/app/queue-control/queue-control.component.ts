@@ -100,7 +100,7 @@ export class QueueControlComponent implements OnInit {
     let index;
     let bool = user.isAvailable;
     user.setStatus(!bool);
-    this.userService.updateUser(user).subscribe(r => {
+    this.userService.updateAvailability(user, !bool).subscribe(r => {
       this.refreshLists();
     })
   }

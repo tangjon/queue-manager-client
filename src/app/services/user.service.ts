@@ -16,6 +16,7 @@ import { filter } from 'rxjs/operator/filter';
 import { IncidentSetService } from './incident-set.service';
 import { RoleSetService } from './role-set.service';
 import { UserSetService } from './user-set.service';
+import { LogService } from './log.service';
 
 @Injectable()
 export class UserService {
@@ -25,11 +26,14 @@ export class UserService {
       'Content-Type': 'application/json',
     })
   }
-  constructor(public db: AngularFireDatabase, public http: HttpClient, public activityBookService: ActivityBookService,
+  constructor(public db: AngularFireDatabase,
+    public http: HttpClient,
+    public activityBookService: ActivityBookService,
     public incidentSetService: IncidentSetService,
     public roleSetService: RoleSetService,
-    public userSetService: UserSetService) {
-  }
+    public userSetService: UserSetService,
+    public logService: LogService) { }
+
   getUsers(): Observable<User[]> {
     return Observable.forkJoin([
       this.userSetService.getUserSet(),
@@ -63,33 +67,56 @@ export class UserService {
       return userSet;
     })
   }
-  updateUser(user: User) {
-    // this.activityBookService.logUser(user);
+
+  updateUser(user: User) {    
     return this.userSetService.updateUserSet(user);
   }
+  updateAvailability(user: User, bool: boolean) {
+    console.log(user.getStatus())
+    this.logService.addLog(user, "Availability Changed", `Switched to ${ user.getStatus() }`);
+    return this.updateUser(user)
+  }
+
   deleteUser(key: string): Observable<any> {
     // return this.http.delete(this.userDBEndpoint + '?key=' + "'" + key + "'");
     return this.userSetService.deleteUserSet(key).map(r => {
       return true;
     });
   }
+
   updateRole(user: User, role: string, bool: boolean) {
+    let action = "";
+    if (user.hasRole(role)) {
+      action = "Unassigned"
+    } else {
+      action = "Assigned"
+    }
+    this.logService.addLog(user, "Role Changed", action + " " + role);
     return this.roleSetService.updateRoleSet(user, role, bool)
   }
   updateIncident(user: User, type: string, amount: number) {
-    this.activityBookService.logIncident(user, type, amount);
+    let aString = "";
+    if (user.getIncidentAmount(type) < amount) {
+      aString = "Incident Assigned"
+    } else {
+      aString = "Incident Unassigned"
+    }
+    this.logService.addLog(user, aString, user.getIncidentAmount(type) + " to " + amount + " in " + type);
     return this.incidentSetService.updateIncidentSet(user, type, amount);
   }
+
   resetRCC(user: User) {
     return this.userSetService.resetRCC(user)
   }
+
   resetIncidents(key) {
     return this.incidentSetService.resetIncidentSet(key);
   }
+
   updateQueueDays(user, amount) {
     let tmp = new User(user);
     tmp.currentQDays = amount;
-    this.activityBookService.logEntry(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays)
+    this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays)
     return this.updateUser(tmp);
   }
   getUser(iNumber: string) {
@@ -98,7 +125,7 @@ export class UserService {
       let user = data.find((user: User) => {
         return user.iNumber == iNumber;
       })
-      if(!user) throw new Error("User Not Found")
+      if (!user) throw new Error("User Not Found")
       return user;
     });
   }

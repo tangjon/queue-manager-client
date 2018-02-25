@@ -6,6 +6,7 @@ import { parse } from 'url';
 import { UserService } from '../services/user.service';
 import { ActivityBookService } from '../services/activity-book.service';
 import { Incidents } from '../model/incidents';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-rcc-management',
@@ -23,7 +24,7 @@ export class RccManagementComponent implements OnInit {
   currentDate: Date;
   nextResetDate: Date;
   lastResetDate: Date;
-  constructor(public db: AngularFireDatabase, public userSerivice: UserService, public activityBookService: ActivityBookService) {
+  constructor(public db: AngularFireDatabase, public userSerivice: UserService, public logService: LogService) {
     this.userSerivice.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {
@@ -128,7 +129,7 @@ export class RccManagementComponent implements OnInit {
   resetActivityLog() {
     let prompt = window.confirm("Are you sure you want to reset incident count for all users?\nPlease double check!\nIt may already be done!");
     if (prompt) {
-      this.activityBookService.resetLogs();
+      this.logService.purgeLogs();
     }
   }
 

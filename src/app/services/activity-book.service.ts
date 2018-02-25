@@ -31,38 +31,18 @@ export class ActivityBookService {
   }
   getBook(): Observable<ActivityBook> {
     return Observable.forkJoin([
-      this.getEntryLogs(),
       this.getQM()
     ])
       .map((data: any[]) => {
-        const [entryLogs, QM] = data;
+        const [QM] = data;
         let book = new ActivityBook();
-        // Copy Logs
-        entryLogs.forEach(log => {
-          book.addEntry(log);
-        });
+  
+
         // Set QM
         book.setActiveQM(QM);
         this.activityBook = book;
         return book;
       });
-  }
-
-  getEntryLogs(): Observable<Array<EntryLog>> {
-    let entryArr = new Array<EntryLog>();
-    return this.http.get(this.ACTIVITY_LOG_URL + "?$format=json", this.httpOptions)
-      .map((r: any) => {
-        let arr = new Array<EntryLog>();
-        let t = r.d.results.map(t => {
-          let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID)
-          tmp.setDateFromString(t.DATE)
-          return tmp;
-        })
-        t.forEach((el: EntryLog) => {
-          arr.push(el);
-        });
-        return arr;
-      })
   }
 
   getQM(): Observable<QmUser> {
@@ -78,55 +58,6 @@ export class ActivityBookService {
     }
     this.activityBook.setActiveQM(qm);
     return this.http.put(this.QM_URL, body, this.httpOptions)
-  }
-
-  logIncident(user: User, type: string, amount: number) {
-    let aString = "";
-    if (amount >= 0) {
-      aString = "Incident Assigned"
-    } else {
-      aString = "Incident Unassigned"
-    }
-    this.logEntry(user,
-      aString,
-      user.getIncidentAmount(type) + " to " + (user.getIncidentAmount(type) + amount) + " in " + type);
-  }
-
-  logRole(user: User, role) {
-    let action = "";
-    if (user.hasRole(role)) {
-      action = "Unassigned"
-
-    } else {
-      action = "Assigned"
-    }
-    this.logEntry(user, "Role Changed", action + " " + role)
-  }
-
-  logUser(user) {
-    this.logEntry(user, "User Updated", user.name + "'s credential have been updated")
-  }
-
-  logEntry(user, action, description) {
-    let pushId = this.db.createPushId();
-    let entry = new EntryLog(
-      user.name, user.iNumber,
-      action, description, this.getCachedINumber(),
-      pushId
-    );
-    let body = {
-      "PUSH_ID": pushId,
-      "ACTION": action,
-      "MANAGER": this.getCachedINumber(),
-      "DATE": JSON.stringify(entry.getFullDate()),
-      "DESCRIPTION": description,
-      "NAME": user.name,
-      "INUMBER": user.iNumber
-    }
-    this.http.post(this.ACTIVITY_LOG_URL, body, this.httpOptions)
-      .subscribe(t => {
-        this.activityBook.addEntry(entry);
-      });
   }
 
   resetLogs() {
