@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { EntryLog } from '../../model/entrylog';
 import { ActivityBook } from '../../model/activitybook';
-import { ActivityBookService } from '../../services/activity-book.service';
+import { LogService } from '../../services/log.service';
 
 @Component({
   selector: 'app-activity-log',
@@ -10,28 +10,18 @@ import { ActivityBookService } from '../../services/activity-book.service';
   styleUrls: ['./activity-log.component.css']
 })
 export class ActivityLogComponent implements OnInit {
-  activityLog: Array<EntryLog>;
-  showSpinner: boolean = true;
+  private activityLog: Array<EntryLog>;
+  private showSpinner: boolean = true;
 
-  constructor(public userService: UserService, public activityBookSerivce: ActivityBookService) {
+  constructor(public userService: UserService, public logService: LogService) {
   }
 
   ngOnInit() {
-    // Fixes timing issue when displaying logs in realtime
-    setTimeout(() => {
-      // this.activityBookSerivce.getBook()
-      this.activityBookSerivce.getBook().subscribe((book: ActivityBook) => {
-        this.activityLog = book.getLogs();
-        this.showSpinner = false;
-      })
-    }, 2000)
-  }
-
-  reSync() {
-    this.showSpinner = true;
-    this.activityBookSerivce.getBook().subscribe((book: ActivityBook) => {
-      this.activityLog = book.getLogs();
+    this.logService.activityLog$.subscribe(logs => {
       this.showSpinner = false;
+      this.activityLog = logs;
     })
   }
+
+
 }

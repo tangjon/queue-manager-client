@@ -22,7 +22,6 @@ import { ComponentBarComponent } from './shared/component-bar/component-bar.comp
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { SettingsComponent } from './shared/settings/settings.component';
 import { ActivityLogComponent } from './shared/activity-log/activity-log.component';
-import { ActivityBookService } from './services/activity-book.service';
 import { QmInfoComponent } from './shared/qm-info/qm-info.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -30,6 +29,7 @@ import { IncidentSetService } from './services/incident-set.service';
 import { RoleSetService } from './services/role-set.service';
 import { UserSetService } from './services/user-set.service';
 import { LoginService } from './services/login.service';
+import { LogService } from './services/log.service';
 
 const appRoutes: Routes = [
   {
@@ -74,7 +74,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes, { useHash: true }),
   ],
-  providers: [UserService, ActivityBookService, IncidentSetService, RoleSetService, UserSetService, LoginService],
+  providers: [UserService, IncidentSetService, RoleSetService, UserSetService, LoginService, LogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

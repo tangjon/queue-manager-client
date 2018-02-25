@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivityBookService } from '../../services/activity-book.service';
 import { QmUser } from '../../model/qmuser';
 import { ActivityBook } from '../../model/activitybook';
 import { UserService } from '../../services/user.service';
 import { User } from '../../model/user';
+import { Observable } from 'rxjs/Observable';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-qm-info',
@@ -12,34 +13,21 @@ import { User } from '../../model/user';
 })
 export class QmInfoComponent implements OnInit {
 
-  qmUser: QmUser;
-  constructor(public activityBookService: ActivityBookService, public userService: UserService) { }
+  qmUser: Observable<User>
+  constructor(public userService: UserService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.activityBookService.getQM().subscribe((qm: QmUser) => {
-      this.qmUser = qm;
-      this.userService.getUser(qm.getINumber()).subscribe((user: User) => {
-        this.qmUser.setName(user.name);
-      },
-        err => {
-          console.log(err)
-        })
-    })
+    this.qmUser = this.userService.getQM();
   }
 
   changeQM() {
-    let arg = window.prompt("You are changing the QM. What is your INumber?", this.qmUser.getINumber());
-    if (arg) {
-      this.activityBookService.updateManager(new QmUser(arg)).subscribe(r => {
-        this.userService.getUser(arg).subscribe((user: User) => {
-          // if (data.length) {
-          //   this.qmUser.setINumber(arg);
-          //   this.qmUser.setName(data[0].name);
-          // } else {
-          //   window.confirm("Not a valid iNumber");
-          // }
-        })
+    let uInput = prompt("Enter the iNumber of QM")
+    this.userService.setQM(uInput).subscribe(t => {
+      this.qmUser = this.userService.getQM()
+      this.snackBar.open("Welcome Queue Manager","Close",{ duration: 1000 })
+    },
+      err => {
+        alert(`'${uInput}' : User not found. Double check the iNumber`);
       })
-    }
   }
 }

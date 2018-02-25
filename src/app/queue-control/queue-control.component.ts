@@ -7,7 +7,6 @@ import 'rxjs/add/operator/pluck';
 import { RouteReuseStrategy } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { QmUser } from '../model/qmuser';
-import { ActivityBookService } from '../services/activity-book.service';
 import { ActivityBook } from '../model/activitybook';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
@@ -35,12 +34,10 @@ export class QueueControlComponent implements OnInit {
 
   qmUser: QmUser;
 
-  activityBook: ActivityBook;
   constructor(public db: AngularFireDatabase,
     private route: ActivatedRoute,
     private router: Router,
     public userService: UserService,
-    public activityBookSerivce: ActivityBookService,
     public snackBar: MatSnackBar
   ) { }
   ngOnInit(): void {
@@ -54,7 +51,6 @@ export class QueueControlComponent implements OnInit {
         this.showSpinner = false;
 
         this._userListAll = r;
-        console.log(r);
 
         this._userListCtx = r.filter((t: User) => {
           return t.role[this.paramId] == true;
@@ -82,17 +78,11 @@ export class QueueControlComponent implements OnInit {
           this.errorMessage = error;
         })
     });
-
-    this.activityBookSerivce.getBook().subscribe(book => {
-      // console.log(book)
-      this.activityBook = book;
-    })
   }
 
   getAssignmentCount(user) {
     let hours = 24;
-    let count = this.activityBookSerivce.getAssignmentCount(user);
-    // console.log(count);
+    let count = this.userService.logService.getAssignmentCount(user);
     return count;
   }
 
@@ -100,7 +90,7 @@ export class QueueControlComponent implements OnInit {
     let index;
     let bool = user.isAvailable;
     user.setStatus(!bool);
-    this.userService.updateUser(user).subscribe(r => {
+    this.userService.updateAvailability(user, !bool).subscribe(r => {
       this.refreshLists();
     })
   }
