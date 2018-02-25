@@ -15,11 +15,13 @@ export class ActivityLogComponent implements OnInit {
   private showSpinner: boolean = true;
 
   constructor(public userService: UserService, public activityBookSerivce: ActivityBookService, public logService: LogService) {
-    this.activityLog = logService.activityLog$;
-    this.showSpinner = false;
   }
 
   ngOnInit() {
+    this.logService.activityLog$.subscribe(logs => {
+      this.showSpinner = false;
+      this.activityLog = logs;
+    })
   }
 
 

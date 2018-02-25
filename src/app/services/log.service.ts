@@ -15,30 +15,29 @@ export class LogService {
     })
   }
   private logSource = new BehaviorSubject<EntryLog[]>(new Array<EntryLog>());
-  currentLog = this.logSource.asObservable();
-  activityLog$: Array<EntryLog>;
-
+  private activityLog: Array<EntryLog>;
+  activityLog$ = this.logSource.asObservable();
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-    this.activityLog$ = new Array<EntryLog>();
+    this.activityLog = new Array<EntryLog>();
     this.getLogs().subscribe(logs => {
-      console.log(this.activityLog$)
-      this.activityLog$ = logs;
+      this.activityLog = logs;
+      this.logSource.next(logs);
     })
   }
 
   private getLogs(): Observable<any> {
     return this.http.get(this.api, this.httpOptions).map((r: any) => {
-      this.activityLog$ = [];
+      this.activityLog = [];
       let t = r.d.results.map(t => {
         let tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID)
         tmp.setDateFromString(t.DATE)
         return tmp;
       })
       t.forEach((el: EntryLog) => {
-        this.activityLog$.push(el);
+        this.activityLog.push(el);
       });
-      return this.activityLog$;
+      return this.activityLog;
     })
   }
 
@@ -58,21 +57,22 @@ export class LogService {
       "NAME": user.name,
       "INUMBER": user.iNumber
     }
-    this.http.post(this.api, body, this.httpOptions)
-      .subscribe(t => {
-        this.activityLog$.push(entry);
-      });
+    this.http.post(this.api, body, this.httpOptions).subscribe(t => {
+      this.activityLog.push(entry);
+      this.logSource.next(this.activityLog);
+    });
   }
 
   purgeLogs() {
-    this.activityLog$.forEach((el: EntryLog) => {
+    this.activityLog.forEach((el: EntryLog) => {
       let url = `${this.api}('${el.pushID}')`;
       console.log(url)
       this.http.delete(url).subscribe(r => {
-        let index = this.activityLog$.findIndex((log: EntryLog) => {
+        let index = this.activityLog.findIndex((log: EntryLog) => {
           return log.pushID == el.pushID;
         })
-        this.activityLog$.splice(index, 1)
+        this.activityLog.splice(index, 1)
+        this.logSource.next(this.activityLog);
       })
     });
   }
@@ -82,7 +82,7 @@ export class LogService {
   }
 
   getAssignmentCount(user) {
-    let logs = this.activityLog$;
+    let logs = this.activityLog;
     let today = new Date();
     let filterlog = logs.filter((el: EntryLog) => {
       return el.iNumber == user.iNumber &&
