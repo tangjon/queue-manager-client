@@ -75,7 +75,7 @@ export class QueueControlComponent implements OnInit {
         this.updateSummary();
       },
         error => {
-          this.errorMessage = error;
+          this.errorMessage = "Restart the database\nhttps://account.hanatrial.ondemand.com/cockpit#/acc/p2000140239trial/dbs/qmdatabase/overview";
         })
     });
   }

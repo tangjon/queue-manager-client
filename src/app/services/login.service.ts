@@ -16,9 +16,13 @@ export class LoginService {
       this.user = user;
       localStorage[this.cacheKey] = this.user.iNumber;
     },
-      err => {
-        let p = prompt(this.loginMessage);
-        this.signIn(p);
+      (err: Error) => {
+        if (err.message != "Http failure response for (unknown url): 0 Unknown Error") {
+          let p = prompt(this.loginMessage);
+          console.log(err)
+          this.signIn(p);
+        }
+
       }
     )
   }
