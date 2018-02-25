@@ -30,14 +30,13 @@
 </div>
 <div id="rcc-management" class="table-responsive shadow">
     <h1 class="qTable-title">RCC Data</h1>
-
     <table class="table qTable">
-
         <thead>
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Current Queue Days</th>
                 <th scope="col">% Usage</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -50,25 +49,11 @@
                 <td>{{user.name + "(" + user.iNumber + ")"}}</td>
                 <td>{{user.currentQDays}}</td>
                 <td>{{user.usagePercent}}</td>
+                <td>
+                    <button class="btn btn-success" type="button" (click)="addQueueDay(user)">Add</button>
+                    <button class="btn btn-default" type="button" (click)="updateQueueDays(user)">Update</button>
+                </td>
             </tr>
         </tbody>
     </table>
-</div>
-
-<p class="instruction">Click user to edit RCC information</p>
-<div id="rcc-form">
-    <div class="row">
-        <div class="col">
-            <b> Selected Users:</b>
-            <span *ngIf="selectedUser"> {{ selectedUser.name + '(' + selectedUser.iNumber + ')' }}</span>
-        </div>
-        <div class="col">
-            <input #inputAddQDay type="number" placeholder="Add Queue Day">
-            <button class="btn btn-success" type="button" (click)="addQueueDay(inputAddQDay.value)">Add</button>
-        </div>
-        <div class="col">
-            <input #inputSetQDay type="number" placeholder="Set Queue Day" [value]="selectedUser ? selectedUser.currentQDays : ''">
-            <button class="btn btn-default" type="button" (click)="updateQueueDays(inputSetQDay.value)">Update</button>
-        </div>
-    </div>
 </div>

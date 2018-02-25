@@ -117,7 +117,7 @@ export class UserService {
     let tmp = new User(user);
     tmp.currentQDays = amount;
     this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays)
-    return this.updateUser(tmp);
+    return this.updateUser(tmp).map(r=>amount);
   }
   getUser(iNumber: string) {
     return this.getUsers().map((data: User[]) => {

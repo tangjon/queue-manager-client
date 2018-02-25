@@ -14,7 +14,6 @@ import { LogService } from '../services/log.service';
 })
 export class RccManagementComponent implements OnInit {
 
-  selectedUser: User;
   users: Observable<any[]>;
   showSpinner: boolean = true;
   _userList: Array<User>;
@@ -42,44 +41,36 @@ export class RccManagementComponent implements OnInit {
     this.currentDate = new Date();
   }
 
-  selectUser(user) {
-    this.selectedUser = user;
-  }
-
   // Increment by one
-  addQueueDay(val) {
-    if (val) {
-      let amount = parseInt(val);
-      if (this.selectedUser) {
-        let prompt = window.confirm(this.selectedUser.name + " will have " + this.selectedUser.currentQDays + " increased by " + val + " to " + (this.selectedUser.currentQDays + amount) + ". \nClick okay to confirm.");
-        if (prompt) {
-          let newAmount = this.selectedUser.currentQDays + amount;
-          this.userSerivice.updateQueueDays(this.selectedUser, newAmount).subscribe(r => {
-            this.selectedUser.currentQDays += amount;
-          })
-        }
+  addQueueDay(user) {
+    let pVal = prompt(`Enter the amount you want to add for ${user.name}`);
+    // parse value
+    let amount = parseInt(pVal);
+    if (!isNaN(amount)) {
+      if (window.confirm(`${user.name} will have ${user.currentQDays} increased by ${amount} to ${user.currentQDays + amount}. \nClick okay to confirm`)) {
+        let newAmount = user.currentQDays + amount;
+        this.userSerivice.updateQueueDays(user, newAmount).subscribe(r => {
+          user.currentQDays = r;
+          console.log(r);
+        })
       }
     }
   }
 
-  updateQueueDays(val) {
-    if (val) {
-      let amount = parseInt(val);
-      if (this.selectedUser && this.selectedUser.currentQDays != amount) {
-        let prompt = window.confirm(this.selectedUser.name + " will have " + this.selectedUser.currentQDays + " changed to " + val + ". \nClick okay to confirm.");
-        if (prompt) {
-          this.userSerivice.updateQueueDays(this.selectedUser, amount).subscribe(r => {
-            this.selectedUser.currentQDays = amount;
-          })
-        }
+  updateQueueDays(user) {
+    let pVal = prompt(`Enter the amount you want to overwrite for ${user.name}`);
+    // parse value
+    let amount = parseInt(pVal);
+    if (!isNaN(amount)) {
+      if (window.confirm(`${user.name} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
+        let newAmount = amount;
+        this.userSerivice.updateQueueDays(user, newAmount).subscribe(r => {
+          user.currentQDays = r;
+          console.log(r);
+        })
       }
     }
   }
-
-  clearSelectedUser() {
-
-  }
-
   // Oct-Dec = 1
   // Jan-Mar = 2
   // Apr-Jun = 3
@@ -136,5 +127,9 @@ export class RccManagementComponent implements OnInit {
     this.resetActivityLog();
     this.resetAllIncidents();
     this.resetActivityLog();
+  }
+
+  logIt(msg) {
+    console.log(msg);
   }
 }
