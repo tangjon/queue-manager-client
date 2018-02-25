@@ -2,23 +2,23 @@ import { QmUser } from "./qmuser";
 
 export class EntryLog {
     action: string;
-    private assignedQM: QmUser;
+    private logger: string;
     private date: Date;
     description: string;
     userName: string;
     iNumber: string;
     pushID: string;
-    constructor(userName, iNumber, action, description, queueManager: QmUser, pushID:string) {
+    constructor(userName, iNumber, action, description, logger: string, pushID:string) {
         this.action = action;
-        this.assignedQM = queueManager;
+        this.logger = logger;
         this.description = description;
         this.iNumber = iNumber;
         this.userName = userName;
         this.pushID = pushID;
         this.date = new Date();
     }
-    getManager() : QmUser {
-        return this.assignedQM;
+    getLogger() : string {
+        return this.logger;
     }
 
     getTimeFormatted() : string {
