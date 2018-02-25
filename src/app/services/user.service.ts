@@ -87,19 +87,19 @@ export class UserService {
     return this.incidentSetService.resetIncidentSet(key);
   }
   updateQueueDays(user, amount) {
-    this.getUserName("i13");
     let tmp = new User(user);
     tmp.currentQDays = amount;
     this.activityBookService.logEntry(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays)
     return this.updateUser(tmp);
   }
-  getUserName(iNumber: string) {
+  getUser(iNumber: string) {
     return this.getUsers().map((data: User[]) => {
       // filter array
-      let tmp = data.filter((user: User) => {
+      let user = data.find((user: User) => {
         return user.iNumber == iNumber;
       })
-      return tmp;
+      if(!user) throw new Error("User Not Found")
+      return user;
     });
   }
   // DEPRICATED

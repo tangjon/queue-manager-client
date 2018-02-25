@@ -25,7 +25,7 @@
 
     </ul>
     <div *ngIf="afAuth.authState | async as user">
-      <span style="color:white">Welcome Queue Manager!</span>
+      <span style="color:white">Welcome {{ loginService.user?.name }}!</span>
       <button (click)="logout()">Logout</button>
       <button routerLink="/settings" routerLinkActive="active">Settings</button>
       
