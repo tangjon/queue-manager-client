@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { User } from '../model/user';
 import { parse } from 'url';
 import { UserService } from '../services/user.service';
-import { ActivityBookService } from '../services/activity-book.service';
 import { Incidents } from '../model/incidents';
 import { LogService } from '../services/log.service';
 

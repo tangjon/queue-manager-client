@@ -11,8 +11,8 @@ import 'rxjs/add/observable/throw';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { EntryLog } from '../model/entrylog';
 import { ActivityBook } from '../model/activitybook';
-import { ActivityBookService } from './activity-book.service';
 import { filter } from 'rxjs/operator/filter';
+import { forkJoin } from 'rxjs/observable/forkJoin'
 import { IncidentSetService } from './incident-set.service';
 import { RoleSetService } from './role-set.service';
 import { UserSetService } from './user-set.service';
@@ -21,6 +21,7 @@ import { LogService } from './log.service';
 @Injectable()
 export class UserService {
   private api: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/users"
+  private qmapi: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')"
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -28,14 +29,13 @@ export class UserService {
   }
   constructor(public db: AngularFireDatabase,
     public http: HttpClient,
-    public activityBookService: ActivityBookService,
     public incidentSetService: IncidentSetService,
     public roleSetService: RoleSetService,
     public userSetService: UserSetService,
     public logService: LogService) { }
 
   getUsers(): Observable<User[]> {
-    return Observable.forkJoin([
+    return forkJoin([
       this.userSetService.getUserSet(),
       this.roleSetService.getRoleSet(),
       this.incidentSetService.getIncidentSet()
@@ -55,7 +55,7 @@ export class UserService {
   }
   addUser(name: string, iNumber: string): Observable<User> {
     let key = this.db.createPushId();
-    return Observable.forkJoin([
+    return forkJoin([
       this.userSetService.createUserSet(name, iNumber, key),
       this.roleSetService.createRoleSet(key),
       this.incidentSetService.createIncidentSet(key)
@@ -68,12 +68,12 @@ export class UserService {
     })
   }
 
-  updateUser(user: User) {    
+  updateUser(user: User) {
     return this.userSetService.updateUserSet(user);
   }
   updateAvailability(user: User, bool: boolean) {
     console.log(user.getStatus())
-    this.logService.addLog(user, "Availability Changed", `Switched to ${ user.getStatus() }`);
+    this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`);
     return this.updateUser(user)
   }
 
@@ -132,6 +132,24 @@ export class UserService {
   // DEPRICATED
   deleteEverything() {
     // this.db.object('users').remove();
+  }
+
+  getQM(): Observable<User> {
+    return this.http.get(this.qmapi, this.httpOptions).map((r: any) => { return r.d.INUMBER })
+      .switchMap(iNumber => {
+        return this.getUser(iNumber);
+      })
+  }
+
+  setQM(iNumber: string) {
+    return this.getUser(iNumber).switchMap(
+      (user: User) => {
+        let body = {
+          "INUMBER": user.iNumber
+        }
+        return this.http.put(this.qmapi, body, this.httpOptions)
+      }
+    )
   }
 
 }
