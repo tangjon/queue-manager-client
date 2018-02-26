@@ -6,12 +6,12 @@ import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http/src/params';
 import { Incidents } from '../model/incidents';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import { tap, map, catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { EntryLog } from '../model/entrylog';
 import { ActivityBook } from '../model/activitybook';
 import { filter } from 'rxjs/operator/filter';
+
 import { forkJoin } from 'rxjs/observable/forkJoin'
 import { IncidentSetService } from './incident-set.service';
 import { RoleSetService } from './role-set.service';
@@ -32,7 +32,8 @@ export class UserService {
     public incidentSetService: IncidentSetService,
     public roleSetService: RoleSetService,
     public userSetService: UserSetService,
-    public logService: LogService) { }
+    public logService: LogService) {
+  }
 
   getUsers(): Observable<User[]> {
     return forkJoin([
@@ -72,8 +73,10 @@ export class UserService {
   }
   updateAvailability(user: User, bool: boolean) {
     console.log(user.getStatus())
-    this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`);
     return this.updateUser(user)
+      .pipe(
+        tap((r) => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
+        ))
   }
 
   deleteUser(key: string): Observable<any> {
@@ -90,8 +93,10 @@ export class UserService {
     } else {
       action = "Assigned"
     }
-    this.logService.addLog(user, "Role Changed", action + " " + role);
     return this.roleSetService.updateRoleSet(user, role, bool)
+      .pipe(
+        tap((r) => this.logService.addLog(user, "Role Changed", action + " " + role))
+      )
   }
   updateIncident(user: User, type: string, amount: number) {
     let aString = "";
@@ -100,8 +105,10 @@ export class UserService {
     } else {
       aString = "Incident Unassigned"
     }
-    this.logService.addLog(user, aString, user.getIncidentAmount(type) + " to " + amount + " in " + type);
-    return this.incidentSetService.updateIncidentSet(user, type, amount);
+    return this.incidentSetService.updateIncidentSet(user, type, amount)
+      .pipe(
+        tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(type) + " to " + amount + " in " + type))
+      )
   }
 
   resetRCC(user: User) {
@@ -115,8 +122,10 @@ export class UserService {
   updateQueueDays(user, amount) {
     let tmp = new User(user);
     tmp.currentQDays = amount;
-    this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays)
-    return this.updateUser(tmp).map(r => amount);
+    return this.updateUser(tmp).map(r => amount)
+      .pipe(
+        tap(() => this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays))
+      );
   }
   getUser(iNumber: string) {
     return this.getUsers().map((data: User[]) => {
