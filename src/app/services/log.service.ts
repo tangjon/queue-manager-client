@@ -4,6 +4,7 @@ import { EntryLog } from '../model/entrylog';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/observable/forkJoin';
 
 
 @Injectable()
@@ -19,14 +20,14 @@ export class LogService {
   activityLog$ = this.logSource.asObservable();
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-    this.activityLog = new Array<EntryLog>();
-    this.getLogs().subscribe(logs => {
-      this.activityLog = logs;
-      this.logSource.next(logs);
-    })
+    // this.activityLog = new Array<EntryLog>();
+    // this.getLogs().subscribe(logs => {
+    //   this.activityLog = logs;
+    //   this.logSource.next(logs);
+    // })
   }
 
-  private getLogs(): Observable<any> {
+  getLogs(): Observable<any> {
     return this.http.get(this.api, this.httpOptions).map((r: any) => {
       this.activityLog = [];
       let t = r.d.results.map(t => {
@@ -38,6 +39,9 @@ export class LogService {
         this.activityLog.push(el);
       });
       return this.activityLog;
+    }).switchMap(r => {
+      this.logSource.next(r);
+      return this.logSource.asObservable();
     })
   }
 
@@ -64,17 +68,27 @@ export class LogService {
   }
 
   purgeLogs() {
+    let array = new Array<Observable<any>>();
     this.activityLog.forEach((el: EntryLog) => {
       let url = `${this.api}('${el.pushID}')`;
-      console.log(url)
-      this.http.delete(url).subscribe(r => {
-        let index = this.activityLog.findIndex((log: EntryLog) => {
-          return log.pushID == el.pushID;
-        })
-        this.activityLog.splice(index, 1)
-        this.logSource.next(this.activityLog);
-      })
+      array.push(this.http.delete(url))
     });
+
+    Observable.forkJoin(array).map(() => {
+      this.activityLog.splice(0,this.activityLog.length)  
+      this.logSource.next(this.activityLog)
+    }).subscribe(r => { })
+    // this.activityLog.forEach((el: EntryLog) => {
+    //   let url = `${this.api}('${el.pushID}')`;
+    //   console.log(url)
+    //   this.http.delete(url).subscribe(r => {
+    //     let index = this.activityLog.findIndex((log: EntryLog) => {
+    //       return log.pushID == el.pushID;
+    //     })
+    //     this.activityLog.splice(index, 1)
+    //     this.logSource.next(this.activityLog);
+    //   })
+    // });
   }
 
   getCachedINumber() {

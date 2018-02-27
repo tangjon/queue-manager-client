@@ -45,7 +45,7 @@
                     <app-loading-spinner></app-loading-spinner>
                 </td>
             </tr>
-            <tr *ngFor="let user of _userList; let i = index" (click)="selectUser(user)">
+            <tr *ngFor="let user of _userList; let i = index">
                 <td>{{user.name + "(" + user.iNumber + ")"}}</td>
                 <td>{{user.currentQDays}}</td>
                 <td>{{user.usagePercent}}</td>

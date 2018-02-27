@@ -1,5 +1,71 @@
-<h1>Settings</h1>
-<div id="settings-section">
+<div class="section">
+  <h1>Settings
+    <span class="badge badge-pill badge-warning">Work In Progress</span>
+  </h1>
+  <div class="row">
+    <div class="col">
+      <h4>Notice Board</h4>
+      <form>
+        <div class="form-group">
+          <label>For any announcements</label>
+          <textarea class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+              Show Notice Board
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+  <hr class="row">
+  <div>
+    <div class="row">
+      <div class="col">
+        <h4>Application Settings</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h5 class="card-title">Master Reset</h5>
+          <p class="card-text">Resets all numeric values for all users</p>
+          <button class="btn btn-danger">Reset</button>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h5 class="card-title">Reset Queue Days</h5>
+          <p class="card-text">Sets queue days for all users to zero</p>
+          <button class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h5 class="card-title">Reset Incidents</h5>
+          <p class="card-text">Sets incident counter for all users to zero</p>
+          <button class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h5 class="card-title">Reset Log Entries</h5>
+          <p class="card-text">Removes all log enties</p>
+          <button class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div id="settings-section">
   <div class="list-group">
     <div class="list-group-item">
       <h4 class="list-group-item-heading">
@@ -50,4 +116,4 @@
     </div>
 
   </div>
-</div>
+</div> -->
