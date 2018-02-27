@@ -56,14 +56,23 @@ export class QueueControlComponent implements OnInit {
           return t.role[this.paramId] == true;
         });
 
-        this._userListCtx.sort(
-          function (a, b) {
-            if (a.getAverageQDay() < b.getAverageQDay())
-              return -1;
-            if (a.getAverageQDay() > b.getAverageQDay())
-              return 1;
-            return 0;
-          })
+        this._userListCtx
+          .sort(
+            function (a, b) {
+              if (a.name < b.name)
+                return -1;
+              if (a.name > b.name)
+                return 1;
+              return 0;
+            })
+          .sort(
+            function (a, b) {
+              if (a.getAverageQDay() < b.getAverageQDay())
+                return -1;
+              if (a.getAverageQDay() > b.getAverageQDay())
+                return 1;
+              return 0;
+            })
 
         this._userListAvailable = this._userListCtx.filter((t: User) => {
           return t.isAvailable == true;
@@ -96,13 +105,22 @@ export class QueueControlComponent implements OnInit {
   }
 
   refreshLists() {
-    this._userListCtx.sort(function (a, b) {
-      if (a.getAverageQDay() < b.getAverageQDay())
-        return -1;
-      if (a.getAverageQDay() > b.getAverageQDay())
-        return 1;
-      return 0;
-    })
+    this._userListCtx.sort(
+      function (a, b) {
+        if (a.name < b.name)
+          return -1;
+        if (a.name > b.name)
+          return 1;
+        return 0;
+      })
+      .sort(
+        function (a, b) {
+          if (a.getAverageQDay() < b.getAverageQDay())
+            return -1;
+          if (a.getAverageQDay() > b.getAverageQDay())
+            return 1;
+          return 0;
+        })
     this._userListAvailable = this._userListCtx.filter(v => {
       return v.isAvailable == true;
     })
