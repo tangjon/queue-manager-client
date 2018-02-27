@@ -13,7 +13,7 @@
         <app-loading-spinner></app-loading-spinner>
       </td>
     </tr>
-    <tr *ngFor="let item of activityLog.reverse(); let i = index">
+    <tr *ngFor="let item of (activityLog$ | async )?.reverse(); let i = index">
       <td scope="row">{{item.getDateFormatted()}} {{item.getTimeFormatted()}}</td>
       <td>{{ item.getSummary() }}</td>
       <td>{{ item.getLogger() }}</td>
