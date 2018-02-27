@@ -21,10 +21,7 @@ export class User {
         }
         this.incidents = user.incidents || new Incidents();
         this.role = user.role || new Role();
-        this.currentQDays = user.currentQDays || user.CURRENTQDAYS || 0; // this is passed as a string from the server .... idk why
-        if(user.CURRENTQDAYS){
-            this.currentQDays = parseFloat(user.CURRENTQDAYS);
-        }
+        this.currentQDays = user.currentQDays || parseFloat(user.CURRENTQDAYS) || 0; // this is passed as a string from the server .... idk why
         this.usagePercent = user.usagePercent || parseFloat(user.USAGEPERCENT) || 1.0;
     }
 

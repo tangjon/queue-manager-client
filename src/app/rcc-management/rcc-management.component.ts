@@ -45,13 +45,12 @@ export class RccManagementComponent implements OnInit {
   addQueueDay(user) {
     let pVal = prompt(`Enter the amount you want to add for ${user.name}`);
     // parse value
-    let amount = parseInt(pVal);
+    let amount = parseFloat(pVal);
     if (!isNaN(amount)) {
       if (window.confirm(`${user.name} will have ${user.currentQDays} increased by ${amount} to ${user.currentQDays + amount}. \nClick okay to confirm`)) {
         let newAmount = user.currentQDays + amount;
         this.userSerivice.updateQueueDays(user, newAmount).subscribe(r => {
           user.currentQDays = r;
-          console.log(r);
         })
       }
     }
@@ -60,13 +59,12 @@ export class RccManagementComponent implements OnInit {
   updateQueueDays(user) {
     let pVal = prompt(`Enter the amount you want to overwrite for ${user.name}`);
     // parse value
-    let amount = parseInt(pVal);
+    let amount = parseFloat(pVal);
     if (!isNaN(amount)) {
       if (window.confirm(`${user.name} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
         let newAmount = amount;
         this.userSerivice.updateQueueDays(user, newAmount).subscribe(r => {
           user.currentQDays = r;
-          console.log(r);
         })
       }
     }
