@@ -84,7 +84,7 @@ export class User {
         } else {
             avg = 0;
         }
-        return parseFloat(avg).toFixed(2);
+        return parseFloat(avg).toFixed(3);
     }
     // TODO should be moved out
     resetIncidents() {
