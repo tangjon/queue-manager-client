@@ -11,18 +11,18 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./activity-log.component.css']
 })
 export class ActivityLogComponent implements OnInit {
-  private activityLog: Array<EntryLog>;
-  private showSpinner: boolean = true;
-  private activityLog$: Observable<any>;
-
+  activityLog: Array<EntryLog>;
+  showSpinner = true;
+  activityLog$: Observable<any>;
   constructor(public userService: UserService, public logService: LogService) {
   }
 
   ngOnInit() {
     this.activityLog$ = this.logService.getLogs();
-    this.activityLog$.subscribe(r => {
+    this.activityLog$.subscribe((logs: EntryLog[]) => {
       this.showSpinner = false;
-    })
+      // this.activityLog = logs;
+    });
   }
 
 

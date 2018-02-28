@@ -5,7 +5,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
 
 @Injectable()
@@ -38,6 +38,9 @@ export class LogService {
       });
       t.forEach((el: EntryLog) => {
         this.activityLog.push(el);
+      });
+      this.activityLog.sort(function (a: any, b: any) {
+        return b.date -  a.date;
       });
       return this.activityLog;
     }).switchMap(r => {
@@ -122,6 +125,7 @@ export class LogService {
     function dateInRange(arg: Date, start: Date, end: Date) {
       return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
     }
+
     function yesterdayDate(date: Date): Date {
       return new Date(date.getTime() - (24 * 60 * 60 * 1000));
     }
