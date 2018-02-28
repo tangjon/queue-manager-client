@@ -27,11 +27,13 @@ export class QueueControlComponent implements OnInit {
   errorMessage: string;
 
   showSpinner = true;
+
   constructor(public db: AngularFireDatabase,
-    private route: ActivatedRoute,
-    public userService: UserService,
-    public snackBar: MatSnackBar
-  ) { }
+              private route: ActivatedRoute,
+              public userService: UserService,
+              public snackBar: MatSnackBar) {
+  }
+
   ngOnInit(): void {
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
@@ -39,54 +41,21 @@ export class QueueControlComponent implements OnInit {
       this.showSpinner = true;
       this.paramId = value;
 
-      this.userService.getUsers().subscribe(r => {
-        this.showSpinner = false;
+      this.userService.getUsers().subscribe((users: Array<User>) => {
+          this.showSpinner = false;
+          this._userListAll = users;
+          this._userListCtx = users.filter((t: User) => {
+            return t.role[this.paramId] == true;
+          });
 
-        this._userListAll = r;
-
-        this._userListCtx = r.filter((t: User) => {
-          return t.role[this.paramId] == true;
-        });
-
-        this._userListCtx
-          .sort(
-            function (a, b) {
-              if (a.name < b.name) {
-                return -1;
-              }
-              if (a.name > b.name) {
-                return 1;
-              }
-              return 0;
-            })
-          .sort(
-            function (a, b) {
-              if (a.getAverageQDay() < b.getAverageQDay()) {
-                return -1;
-              }
-              if (a.getAverageQDay() > b.getAverageQDay()) {
-                return 1;
-              }
-              return 0;
-            });
-
-        this._userListAvailable = this._userListCtx.filter((t: User) => {
-          return t.isAvailable == true;
-        });
-        this._userListBusy = this._userListCtx.filter((t: User) => {
-          return t.isAvailable == false;
-        });
-
-        this.updateSummary();
-      },
+          this.prepareAvailable();
+          this.prepareBusy();
+          this.updateSummary();
+        },
         () => {
           this.errorMessage = 'Restart the database\nhttps://account.hanatrial.ondemand.com/cockpit#/acc/p2000140239trial/dbs/qmdatabase/overview';
         });
     });
-  }
-
-  getUserList() {
-
   }
 
   getAssignmentCount(user) {
@@ -102,7 +71,62 @@ export class QueueControlComponent implements OnInit {
   }
 
   refreshLists() {
-    this._userListCtx.sort(
+    this.prepareAvailable();
+    this.prepareBusy();
+
+  }
+
+  incIncidentAmount(user: User) {
+    const amount = 1;
+    const currAmount = user.incidents[this.paramId];
+    const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
+    if (prompt) {
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+        this.snackBar.open('Incident Added', 'Close', {duration: 1000});
+        user.incidents[this.paramId]++;
+        this.updateSummary();
+        this.refreshLists();
+      });
+    }
+  }
+
+  decIncidentAmount(user) {
+    const amount = -1;
+    const currAmount = user.incidents[this.paramId];
+    const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
+    if (prompt) {
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+        this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
+        user.incidents[this.paramId]--;
+        this.updateSummary();
+        this.refreshLists();
+      });
+    }
+
+  }
+
+  private prepareBusy() {
+    this._userListBusy = this._userListCtx.filter((t: User) => {
+      return t.isAvailable == false;
+    });
+
+    this._userListBusy.sort(
+      function (a, b) {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      })
+  }
+
+  private prepareAvailable() {
+    this._userListAvailable = this._userListCtx.filter((t: User) => {
+      return t.isAvailable == true;
+    });
+    this._userListAvailable.sort(
       function (a, b) {
         if (a.name < b.name) {
           return -1;
@@ -122,41 +146,6 @@ export class QueueControlComponent implements OnInit {
           }
           return 0;
         });
-    this._userListAvailable = this._userListCtx.filter(v => {
-      return v.isAvailable == true;
-    });
-    this._userListBusy = this._userListCtx.filter(v => {
-      return v.isAvailable == false;
-    });
-  }
-
-  incIncidentAmount(user: User) {
-    const amount = 1;
-    const currAmount = user.incidents[this.paramId];
-    const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
-    if (prompt) {
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-        this.snackBar.open('Incident Added', 'Close', { duration: 1000 });
-        user.incidents[this.paramId]++;
-        this.updateSummary();
-        this.refreshLists();
-      });
-    }
-  }
-
-  decIncidentAmount(user) {
-    const amount = -1;
-    const currAmount = user.incidents[this.paramId];
-    const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
-    if (prompt) {
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-        this.snackBar.open('Incident Removed', 'Close', { duration: 1000 });
-        user.incidents[this.paramId]--;
-        this.updateSummary();
-        this.refreshLists();
-      });
-    }
-
   }
 
   logIt(msg) {
