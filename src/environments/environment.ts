@@ -12,5 +12,6 @@ export const environment = {
     projectId: "queue-manager-fb-ajs",
     storageBucket: "queue-manager-fb-ajs.appspot.com",
     messagingSenderId: "1044152156042"
-  }
+  },
+  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/'
 };

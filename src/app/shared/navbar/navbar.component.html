@@ -1,5 +1,6 @@
 <nav id="qNavBar" class="shadow navbar navbar-expand-sm bg-inverse navbar-inverse">
-  <a class="navbar-brand" href="#">Queue Managerv2.1</a>
+  <a class="navbar-brand" href="#">Queue Managerv2.1 <span *ngIf="!isProd"
+                                                           class="badge badge-dark">{{dEnvironmentMsg}}</span></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -28,7 +29,7 @@
       <span style="color:white">Welcome {{ loginService.user?.name }}!</span>
       <button (click)="logout()">Logout</button>
       <button routerLink="/settings" routerLinkActive="active">Settings</button>
-      
+
     </div>
   </div>
 </nav>

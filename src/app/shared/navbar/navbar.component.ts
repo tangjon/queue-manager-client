@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
-import { LoginService } from '../../services/login.service';
+import {Component, OnInit} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {LoginService} from '../../services/login.service';
+import {environment} from "../../../environments/environment";
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
-
+  isProd = environment.production;
+  dEnvironmentMsg = "DEVELOPMENT";
   userName: string;
   constructor(public afAuth: AngularFireAuth, public loginService: LoginService) {
   }
 
   ngOnInit(): void {
-    let cachedINumber = localStorage[this.loginService.cacheKey]  // look at cache    
+    let cachedINumber = localStorage[this.loginService.cacheKey];  // look at cache
     this.loginService.signIn(cachedINumber);
   }
 
