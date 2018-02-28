@@ -1,22 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { User } from '../model/user';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../model/user';
+import {ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/pluck';
-import { RouteReuseStrategy } from '@angular/router';
-import { UserService } from '../services/user.service';
-import { QmUser } from '../model/qmuser';
-import { ActivityBook } from '../model/activitybook';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {UserService} from '../services/user.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-queue-control',
   templateUrl: './queue-control.component.html',
   styleUrls: ['./queue-control.component.css']
 })
 export class QueueControlComponent implements OnInit {
-
-  allUsers: Observable<any[]>;
   users: Observable<any[]>;
 
   id$: Observable<string>;
@@ -30,13 +26,9 @@ export class QueueControlComponent implements OnInit {
 
   errorMessage: string;
 
-  showSpinner: boolean = true;
-
-  qmUser: QmUser;
-
+  showSpinner = true;
   constructor(public db: AngularFireDatabase,
     private route: ActivatedRoute,
-    private router: Router,
     public userService: UserService,
     public snackBar: MatSnackBar
   ) { }
@@ -59,20 +51,24 @@ export class QueueControlComponent implements OnInit {
         this._userListCtx
           .sort(
             function (a, b) {
-              if (a.name < b.name)
+              if (a.name < b.name) {
                 return -1;
-              if (a.name > b.name)
+              }
+              if (a.name > b.name) {
                 return 1;
+              }
               return 0;
             })
           .sort(
             function (a, b) {
-              if (a.getAverageQDay() < b.getAverageQDay())
+              if (a.getAverageQDay() < b.getAverageQDay()) {
                 return -1;
-              if (a.getAverageQDay() > b.getAverageQDay())
+              }
+              if (a.getAverageQDay() > b.getAverageQDay()) {
                 return 1;
+              }
               return 0;
-            })
+            });
 
         this._userListAvailable = this._userListCtx.filter((t: User) => {
           return t.isAvailable == true;
@@ -83,72 +79,77 @@ export class QueueControlComponent implements OnInit {
 
         this.updateSummary();
       },
-        error => {
-          this.errorMessage = "Restart the database\nhttps://account.hanatrial.ondemand.com/cockpit#/acc/p2000140239trial/dbs/qmdatabase/overview";
-        })
+        () => {
+          this.errorMessage = 'Restart the database\nhttps://account.hanatrial.ondemand.com/cockpit#/acc/p2000140239trial/dbs/qmdatabase/overview';
+        });
     });
   }
 
+  getUserList() {
+
+  }
+
   getAssignmentCount(user) {
-    let hours = 24;
-    let count = this.userService.logService.getAssignmentCount(user);
-    return count;
+    return this.userService.logService.getAssignmentCount(user);
   }
 
   toggleStatus(user: User) {
-    let index;
-    let bool = user.isAvailable;
+    const bool = user.isAvailable;
     user.setStatus(!bool);
-    this.userService.updateAvailability(user, !bool).subscribe(r => {
+    this.userService.updateAvailability(user, !bool).subscribe(() => {
       this.refreshLists();
-    })
+    });
   }
 
   refreshLists() {
     this._userListCtx.sort(
       function (a, b) {
-        if (a.name < b.name)
+        if (a.name < b.name) {
           return -1;
-        if (a.name > b.name)
+        }
+        if (a.name > b.name) {
           return 1;
+        }
         return 0;
       })
       .sort(
         function (a, b) {
-          if (a.getAverageQDay() < b.getAverageQDay())
+          if (a.getAverageQDay() < b.getAverageQDay()) {
             return -1;
-          if (a.getAverageQDay() > b.getAverageQDay())
+          }
+          if (a.getAverageQDay() > b.getAverageQDay()) {
             return 1;
+          }
           return 0;
-        })
+        });
     this._userListAvailable = this._userListCtx.filter(v => {
       return v.isAvailable == true;
-    })
+    });
     this._userListBusy = this._userListCtx.filter(v => {
       return v.isAvailable == false;
-    })
+    });
   }
 
   incIncidentAmount(user: User) {
-    let amount = 1;
-    let currAmount = user.incidents[this.paramId];
-    let prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
+    const amount = 1;
+    const currAmount = user.incidents[this.paramId];
+    const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(r => {
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
         this.snackBar.open('Incident Added', 'Close', { duration: 1000 });
         user.incidents[this.paramId]++;
         this.updateSummary();
         this.refreshLists();
-      })
+      });
     }
   }
 
   decIncidentAmount(user) {
-    let amount = -1;
-    let currAmount = user.incidents[this.paramId];
-    let prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
+    const amount = -1;
+    const currAmount = user.incidents[this.paramId];
+    const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(r => {
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
         this.snackBar.open('Incident Removed', 'Close', { duration: 1000 });
         user.incidents[this.paramId]--;
         this.updateSummary();
@@ -159,7 +160,7 @@ export class QueueControlComponent implements OnInit {
   }
 
   logIt(msg) {
-    console.log(msg)
+    console.log(msg);
   }
 
   updateSummary() {
@@ -171,7 +172,7 @@ export class QueueControlComponent implements OnInit {
 
     let totalB = 0;
     this._userListCtx.forEach(element => {
-      totalB += element.incidents[this.paramId]
+      totalB += element.incidents[this.paramId];
     });
     this.totalIncidentsCtx = totalB;
   }
