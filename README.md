@@ -11,43 +11,52 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 1. NodeJs
-2. Firebase-Tools (OPTIONAL?)
+2. Angular Firebase
 3. Angular-Cli
+4. Angular Firebase Tools (Not needed)
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development environment running
+1. Install Node.Js [I'm an inline-style link](https://www.google.com)
 
-A simple npm install should get it working
+In the command line with Node.Js installed
 
-Install 
-1. Install Node Js : https://nodejs.org/en/ 
-2. Angular Cli
-3. Firebase (OPTIONAL?)
 ```
-npm install
+npm install // should install all dependencies
 ```
 
-## Deployment
-For local development
+## Local Development
 ```
 ng serve
 ```
-For Production
+
+## Deployment to Production
+Build static folder
 ```
 npm run build-prod
-copy last-build somewhere else
-git remote add origin https://git.hanatrial.ondemand.com/p2000140239trial/angular
-git push -f
 ```
-Head Over to Cloud IDE & Overide the repository
+Copy folder 'last-build' somewhere outside of the working directory i.e Desktop. Then commit and push files to a different repo.
+```
+git remote add origin https://gitlab.com/tangjon/Queue-Manager-FB-AJS.git
+git add . // add everything
+git commit -m "deploy" // message can be anything really
+git push -f // probably will ask to you to push upstream do that.
+```
+Head over to Hana Cloud Cockpit & Navigate to Web IDE
+   * Hit Reset Button (HARD)
+   * Hit Pull
+   * Right Click Project Folder -> Hana Cloud -> Deploy Existing 'queuemanager'
+   * DONE!
 
-Deploy!
-
+These links are all you need
+- [Application Link](https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/#/qm/NW) - Application Home
+- [Web IDE](https://webide-p2000140239trial.dispatcher.hanatrial.ondemand.com/index.html) - Deployment & Make project live
+- [WorkBench](https://qmdatabasep2000140239trial.hanatrial.ondemand.com/sap/hana/ide/) - Database and API Exposure
 
 ## Built With
 
 * [Firebase](https://firebase.google.com/) - Database
+* [AngularFire2](https://www.npmjs.com/package/angularfire2)
 * [Angular](https://angular.io/) - Front-end web framework
 * [NodeJs](https://nodejs.org/en/) - Dependency Management
 * [Boostrap](https://getbootstrap.com/) - Styling
