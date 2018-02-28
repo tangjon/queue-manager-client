@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
-import { LoginService } from '../../services/login.service';
+import {Component, OnInit} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {LoginService} from '../../services/login.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let cachedINumber = localStorage[this.loginService.cacheKey]  // look at cache    
+    let cachedINumber = localStorage[this.loginService.cacheKey];  // look at cache
     this.loginService.signIn(cachedINumber);
   }
 
