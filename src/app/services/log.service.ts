@@ -5,6 +5,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
+import {environment} from "../../environments/environment";
 
 
 @Injectable()
@@ -14,7 +15,7 @@ export class LogService {
       'Content-Type': 'application/json',
     })
   };
-  private api = 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/activity_log';
+  private api = environment.apiUrl + 'activity_log';
   private logSource = new BehaviorSubject<EntryLog[]>([]);
   private activityLog: Array<EntryLog>;
   activityLog$ = this.logSource.asObservable();

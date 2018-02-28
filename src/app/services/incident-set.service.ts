@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Incidents } from '../model/incidents';
-import { User } from '../model/user';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {Incidents} from '../model/incidents';
+import {User} from '../model/user';
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class IncidentSetService {
 
-  private api: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/incidents"
+  private api: string = environment.apiUrl + "incidents";
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  }
+  };
   constructor(public http: HttpClient) {
 
   }
@@ -29,7 +30,7 @@ export class IncidentSetService {
 
         let arr: Array<any> = res.d.results;
         let obj = {};
-        for (var i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
           let tmp = new Incidents();
           tmp.update(arr[i]);
           obj[arr[i].KEY] = tmp;
@@ -39,7 +40,7 @@ export class IncidentSetService {
   }
 
   updateIncidentSet(user: User, role: string, amount: number) {
-    // work around cause i dont have patch
+    // work around cause i don't have patch
     let tmp: Incidents = new Incidents();
     tmp.update(user.incidents);
     tmp[role] = amount;

@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Role } from '../model/role';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Incidents } from '../model/incidents';
-import { Observable } from 'rxjs/Observable';
-import { User } from '../model/user';
+import {Injectable} from '@angular/core';
+import {Role} from '../model/role';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../model/user';
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class RoleSetService {
-  private api: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/role"
+  private api: string = environment.apiUrl + "role";
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     })
-  }
+  };
   constructor(public http: HttpClient) { }
 
   // Handle with care booleans are return as strings!
@@ -30,7 +30,7 @@ export class RoleSetService {
         // OPTION 2 (ENTIRE SET)
         let arr: Array<any> = res.d.results;
         let obj = {};
-        for (var i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
           let tmp = new Role();
           tmp.update(arr[i]);
           obj[arr[i].KEY] = tmp;
@@ -46,9 +46,9 @@ export class RoleSetService {
     tmp[role] = status;
     // Work Around Server Doesnt Accept Boolean must convert to strings...
     // Convert to booleans to strings
-    let newRoles = {}
+    let newRoles = {};
     let keys = Object.keys(tmp);
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       newRoles[keys[i]] = tmp[keys[i]].toString();
     }
     let url = `${this.api}('${user.key}')`;

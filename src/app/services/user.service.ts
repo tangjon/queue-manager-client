@@ -1,32 +1,25 @@
-import { Injectable } from '@angular/core';
-import { User } from '../model/user';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { HttpParams } from '@angular/common/http/src/params';
-import { Incidents } from '../model/incidents';
-import { tap, map, catchError } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http/src/response';
-import { EntryLog } from '../model/entrylog';
-import { ActivityBook } from '../model/activitybook';
-import { filter } from 'rxjs/operator/filter';
+import {Injectable} from '@angular/core';
+import {User} from '../model/user';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {tap} from 'rxjs/operators';
 
-import { forkJoin } from 'rxjs/observable/forkJoin'
-import { IncidentSetService } from './incident-set.service';
-import { RoleSetService } from './role-set.service';
-import { UserSetService } from './user-set.service';
-import { LogService } from './log.service';
+import {forkJoin} from 'rxjs/observable/forkJoin'
+import {IncidentSetService} from './incident-set.service';
+import {RoleSetService} from './role-set.service';
+import {UserSetService} from './user-set.service';
+import {LogService} from './log.service';
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class UserService {
-  private api: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/users"
-  private qmapi: string = "https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/qm('current')"
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     })
-  }
+  };
+  private qmapi: string = environment.apiUrl + "qm('current')";
   constructor(public db: AngularFireDatabase,
     public http: HttpClient,
     public incidentSetService: IncidentSetService,
@@ -71,17 +64,18 @@ export class UserService {
   updateUser(user: User) {
     return this.userSetService.updateUserSet(user);
   }
-  updateAvailability(user: User, bool: boolean) {
-    console.log(user.getStatus())
+
+  updateAvailability(user: User, bools: boolean) {
+    console.log(user.getStatus());
     return this.updateUser(user)
       .pipe(
-        tap((r) => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
+        tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
         ))
   }
 
   deleteUser(key: string): Observable<any> {
     // return this.http.delete(this.userDBEndpoint + '?key=' + "'" + key + "'");
-    return this.userSetService.deleteUserSet(key).map(r => {
+    return this.userSetService.deleteUserSet(key).map(() => {
       return true;
     });
   }
@@ -95,7 +89,7 @@ export class UserService {
     }
     return this.roleSetService.updateRoleSet(user, role, bool)
       .pipe(
-        tap((r) => this.logService.addLog(user, "Role Changed", action + " " + role))
+        tap(() => this.logService.addLog(user, "Role Changed", action + " " + role))
       )
   }
   updateIncident(user: User, type: string, amount: number) {
@@ -122,7 +116,7 @@ export class UserService {
   updateQueueDays(user, amount) {
     let tmp = new User(user);
     tmp.currentQDays = amount;
-    return this.updateUser(tmp).map(r => amount)
+    return this.updateUser(tmp).map(() => amount)
       .pipe(
         tap(() => this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays))
       );
@@ -132,12 +126,13 @@ export class UserService {
       // filter array
       let user = data.find((user: User) => {
         return user.iNumber == iNumber;
-      })
-      if (!user) throw new Error("User Not Found")
+      });
+      if (!user) throw new Error("User Not Found");
       return user;
     });
   }
-  // DEPRICATED
+
+  // DEPRECATED
   deleteEverything() {
     // this.db.object('users').remove();
   }
@@ -152,9 +147,10 @@ export class UserService {
   setQM(iNumber: string) {
     return this.getUser(iNumber).switchMap(
       (user: User) => {
+        // noinspection SpellCheckingInspection
         let body = {
           "INUMBER": user.iNumber
-        }
+        };
         return this.http.put(this.qmapi, body, this.httpOptions)
       }
     )
