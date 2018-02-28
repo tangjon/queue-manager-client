@@ -67,6 +67,9 @@ export class LogService {
     };
     this.http.post(this.api, body, this.httpOptions).subscribe(() => {
       this.activityLog.push(entry);
+      this.activityLog.sort(function (a: any, b: any) {
+        return b.date -  a.date;
+      });
       this.logSource.next(this.activityLog);
     });
   }
