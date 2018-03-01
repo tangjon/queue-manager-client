@@ -1,5 +1,3 @@
-import {QmUser} from './qmuser';
-
 export class EntryLog {
   action: string;
   private logger: string;
@@ -24,9 +22,12 @@ export class EntryLog {
   }
 
   getTimeFormatted(): string {
-    return this.date.getHours().toString() + ':'
-      + this.date.getMinutes().toString() + ':'
-      + this.date.getSeconds().toString();
+    let hours = this.date.getHours().toString();
+    let minutes = this.date.getMinutes().toString();
+    let seconds = this.date.getSeconds().toString();
+    minutes = minutes.length < 2 ? '0' + minutes : minutes;
+    seconds = seconds.length < 2 ? '0' + seconds : seconds;
+    return `${hours}:${minutes}:${seconds} PST`
   }
 
   getDateFormatted(): string {
@@ -40,7 +41,6 @@ export class EntryLog {
     const day = this.date.getDate();
     const year = this.date.getFullYear();
     return `${month}/${day}/${year}`;
-
   }
 
   getSummary(): string {
