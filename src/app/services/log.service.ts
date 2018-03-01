@@ -40,7 +40,7 @@ export class LogService {
         this.activityLog.push(el);
       });
       this.activityLog.sort(function (a: any, b: any) {
-        return b.date -  a.date;
+        return b.date - a.date;
       });
       return this.activityLog;
     }).switchMap(r => {
@@ -68,7 +68,7 @@ export class LogService {
     this.http.post(this.api, body, this.httpOptions).subscribe(() => {
       this.activityLog.push(entry);
       this.activityLog.sort(function (a: any, b: any) {
-        return b.date -  a.date;
+        return b.date - a.date;
       });
       this.logSource.next(this.activityLog);
     });
@@ -109,7 +109,7 @@ export class LogService {
     const filterlog = logs.filter((el: EntryLog) => {
       return el.iNumber === user.iNumber &&
         el.action.indexOf('Incident') !== -1 &&
-        dateInRange(el.getFullDate(), yesterdayDate(today), today);
+        dateInRangeToday(el.getFullDate());
     });
     if (filterlog.length) {
       let numAssigned = 0;
@@ -127,6 +127,12 @@ export class LogService {
 
     function dateInRange(arg: Date, start: Date, end: Date) {
       return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
+    }
+
+    function dateInRangeToday(arg: Date): boolean {
+      const today = new Date();
+      const tmp = new Date(arg);
+      return tmp.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
     }
 
     function yesterdayDate(date: Date): Date {
