@@ -25,13 +25,15 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.noticeBoardMsg$ = this.db.object('notice-board');
-    this.noticeBoardMsg$.valueChanges().subscribe(msg => this.noticeBoardMsg = msg);
+    this.noticeBoardMsg$.valueChanges().subscribe(resp => {
+      this.noticeBoardMsg = resp.msg;
+      console.log(resp);
+    });
   }
 
   onSubmit(f: NgForm) {
-    let msg = f.value.message;
-    console.log(msg);
-    this.noticeBoardMsg$.set({msg: msg});
+    const msg = f.value.message;
+    this.db.object('notice-board/msg').set(msg);
   }
 
   overwriteIncidentCount(t: NgForm) {
