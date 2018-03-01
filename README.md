@@ -32,17 +32,29 @@ ng serve
 ```
 
 ## Deployment to Production
-Build static folder
+Build static folder 'last-build' with this:
 ```
 npm run build-prod
 ```
+
+### WAY 1 (SHORTER with git alias)
+In a separate folder:
+```
+clone https://gitlab.com/tangjon/Queue-Manager-Build.git
+Copy and replace all files in here with 'last-build' files. Don't overwrite .git folder
+git deploy
+```
+
+### WAY 2
 Copy folder 'last-build' somewhere outside of the working directory i.e Desktop. Then commit and push files to a different repo.
 ```
 git remote add origin https://gitlab.com/tangjon/Queue-Manager-FB-AJS.git
 git add . // add everything
 git commit -m "deploy" // message can be anything really
 git push -f // probably will ask to you to push upstream do that.
+
 ```
+### Deploy to Cloud Platform
 Head over to Hana Cloud Cockpit & Navigate to Web IDE
    * Hit Reset Button (HARD)
    * Hit Pull
