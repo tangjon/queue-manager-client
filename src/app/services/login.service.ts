@@ -13,6 +13,7 @@ export class LoginService {
   }
 
   signIn(iNumber) {
+    iNumber = iNumber.toLowerCase();
     this.userService.getUser(iNumber).subscribe((user: User) => {
       this.user = user;
       localStorage[this.cacheKey] = this.user.iNumber;
@@ -23,7 +24,6 @@ export class LoginService {
           console.log(err);
           this.signIn(p);
         }
-
       }
     )
   }
