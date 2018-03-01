@@ -26,6 +26,7 @@ npm install // should install all dependencies
 ```
 
 ## Local Development
+Please note that local development is on a seperate API/Database. Changes will not be made to the production system
 ```
 ng serve
 ```
