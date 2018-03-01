@@ -52,13 +52,12 @@ export class QueueControlComponent implements OnInit {
           this.prepareBusy();
           this.updateSummary();
         },
-        () => {
-          this.errorMessage = 'Possible Reasons for Error:\n' +
-            '/1 Restart the database\nhttps://account.hanatrial.ondemand.com/cockpit#/acc/p2000140239trial/dbs/qmdatabase/overview\n' +
-            '/2 Am I running in Chrome? Internet Explorer does not like me. I hope we can be friends one day';
+        (error) => {
+          this.errorMessage = 'Received an error: ' + error
         });
     });
   }
+
   getAssignmentCount(user) {
     return this.userService.logService.getAssignmentCount(user);
   }

@@ -2,15 +2,16 @@ import {Injectable} from '@angular/core';
 import {User} from '../model/user';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-
+import {catchError} from 'rxjs/operators/catchError'
 import {forkJoin} from 'rxjs/observable/forkJoin'
 import {IncidentSetService} from './incident-set.service';
 import {RoleSetService} from './role-set.service';
 import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 @Injectable()
 export class UserService {
@@ -20,12 +21,13 @@ export class UserService {
     })
   };
   private qmapi: string = environment.apiUrl + "qm('current')";
+
   constructor(public db: AngularFireDatabase,
-    public http: HttpClient,
-    public incidentSetService: IncidentSetService,
-    public roleSetService: RoleSetService,
-    public userSetService: UserSetService,
-    public logService: LogService) {
+              public http: HttpClient,
+              public incidentSetService: IncidentSetService,
+              public roleSetService: RoleSetService,
+              public userSetService: UserSetService,
+              public logService: LogService) {
   }
 
   getUsers(): Observable<User[]> {
@@ -44,8 +46,11 @@ export class UserService {
       });
       // return as an array
       return arr;
-    })
+    }).pipe(
+      catchError(this.handleError)
+    )
   }
+
   addUser(name: string, iNumber: string): Observable<User> {
     let key = this.db.createPushId();
     return forkJoin([
@@ -92,6 +97,7 @@ export class UserService {
         tap(() => this.logService.addLog(user, "Role Changed", action + " " + role))
       )
   }
+
   updateIncident(user: User, type: string, amount: number) {
     let aString = "";
     if (user.getIncidentAmount(type) < amount) {
@@ -121,6 +127,7 @@ export class UserService {
         tap(() => this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays))
       );
   }
+
   getUser(iNumber: string) {
     return this.getUsers().map((data: User[]) => {
       // filter array
@@ -138,7 +145,9 @@ export class UserService {
   }
 
   getQM(): Observable<User> {
-    return this.http.get(this.qmapi, this.httpOptions).map((r: any) => { return r.d.INUMBER })
+    return this.http.get(this.qmapi, this.httpOptions).map((r: any) => {
+      return r.d.INUMBER
+    })
       .switchMap(iNumber => {
         return this.getUser(iNumber);
       })
@@ -155,5 +164,23 @@ export class UserService {
       }
     )
   }
+
+  private handleError(error: HttpErrorResponse) {
+    // if (error.error instanceof ErrorEvent) {
+    //   // A client-side or network error occurred. Handle it accordingly.
+    //   console.error('An error occurred:', error.error.message);
+    // } else {
+    //   // The backend returned an unsuccessful response code.
+    //   // The response body may contain clues as to what went wrong,
+    //   console.error(
+    //     `Backend returned code ${error.status}, ` +
+    //     `body was: ${error.error}`);
+    //   console.log(error);
+    // }
+    console.error(error);
+    // return an ErrorObservable with a user-facing error message
+    return new ErrorObservable(
+      "Are you using Chrome? OR Database requires to be restarted =(");
+  };
 
 }

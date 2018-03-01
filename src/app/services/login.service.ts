@@ -13,15 +13,18 @@ export class LoginService {
   }
 
   signIn(iNumber) {
-    iNumber = iNumber.toLowerCase();
+    if (!iNumber) {
+      iNumber = "empty"
+    } else {
+      iNumber = iNumber.toLowerCase();
+    }
     this.userService.getUser(iNumber).subscribe((user: User) => {
       this.user = user;
       localStorage[this.cacheKey] = this.user.iNumber;
     },
       (err: Error) => {
-        if (err.message != "Http failure response for (unknown url): 0 Unknown Error" && iNumber != "admin") {
-          let p = prompt(this.loginMessage);
-          console.log(err);
+        if (err.message == "User Not Found" && iNumber != "admin") {
+          let p = prompt(this.loginMessage + '\n');
           this.signIn(p);
         }
       }
