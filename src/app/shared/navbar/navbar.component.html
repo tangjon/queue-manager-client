@@ -1,13 +1,13 @@
 <div id="navbar" class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-3 border-bottom box-shadow">
-  <a href="#" id="navbar-brand" class="my-0 mr-md-auto font-weight-normal">
+  <a href="#" id="navbar-brand" class="my-0">
     Queue Manager{{appVersion}}
     <span *ngIf="!isProd" class="badge badge-dark">{{dEnvironmentMsg}}</span>
 
   </a>
-  <nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-white" routerLink="/home" routerLinkActive="active">Home</a>
-    <a class="p-2 text-white" routerLink="/manage" routerLinkActive="active">Manage Team</a>
-    <a class="p-2 text-white" routerLink="/rcc" routerLinkActive="active">RCC</a>
+  <nav class="my-3 my-md-0 mr-md-auto">
+    <a class="ml-1 text-white" routerLink="/home" routerLinkActive="active">Home</a>
+    <a class="text-white" routerLink="/manage" routerLinkActive="active">Manage Team</a>
+    <a class="text-white" routerLink="/rcc" routerLinkActive="active">RCC</a>
   </nav>
   <div *ngIf="afAuth.authState | async">
     <span style="color:white">Welcome {{ loginService.user?.name }}!</span>

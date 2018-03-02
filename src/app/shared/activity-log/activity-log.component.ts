@@ -12,11 +12,15 @@ import {Observable} from 'rxjs/Observable';
 export class ActivityLogComponent implements OnInit {
   showSpinner = true;
   activityLog$: Observable<any>;
+  numOfResults = 50;
+
   constructor(public userService: UserService, public logService: LogService) {
   }
 
   ngOnInit() {
-    this.activityLog$ = this.logService.getLogs();
+    this.activityLog$ = this.logService.getLogs().map((log: EntryLog[]) => {
+      return log.slice(0, this.numOfResults);
+    });
     this.activityLog$.subscribe((logs: EntryLog[]) => {
       this.showSpinner = false;
     });
