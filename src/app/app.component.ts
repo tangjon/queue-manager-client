@@ -11,11 +11,15 @@ import {Observable} from 'rxjs/Observable';
 export class AppComponent {
   items: Observable<any[]>;
   errorMessage: string;
+
   constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
+    // window.onscroll = this.testScroll;
   }
+
   title = 'app';
 
-
-  copyToClipboard() {
-  }
+  // testScroll(ev) {
+  //   console.log(window.pageYOffset);
+  //   if (window.pageYOffset > 200) { console.log('User has scrolled at least 400 px!'); }
+  // }
 }
