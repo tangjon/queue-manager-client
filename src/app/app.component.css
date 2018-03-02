@@ -14,7 +14,7 @@ app-sidebar {
   padding-right: 16%;
 }
 
-@media (max-width: 1150px) and (max-height: 906px) {
+@media (max-width: 1150px) AND (max-height: 906px) {
   app-sidebar{
     width: 15%;
     position: inherit;
@@ -34,38 +34,15 @@ app-sidebar {
 @media (min-width: 1500px) {
   .main {
     padding-left: 10%;
+    padding-right: 10%;
+
   }
 }
 
 @media (min-width: 2000px) {
   .main {
     padding-left: 0;
+    padding-right: 0;
+
   }
 }
-
-/*@media (max-width: 1255px) {*/
-/*.sidenav {*/
-/*!*display: none;*!*/
-/*width: 100%;*/
-/*position: inherit;*/
-/*z-index: inherit;*/
-/*top: inherit;*/
-/*left: inherit;*/
-/*background: #2c3e50;*/
-/*overflow-x: hidden;*/
-/*}*/
-/*}*/
-
-/*@media (min-width: 1255px) {*/
-/*.main .container {*/
-/*margin: 0 0;*/
-/*padding: inherit;*/
-/*}*/
-/*}*/
-
-/*@media (min-width: 1800px) {*/
-/*.main {*/
-/*margin: 0 0;*/
-/*padding: inherit;*/
-/*}*/
-/*}*/
