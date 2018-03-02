@@ -9,8 +9,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatSnackBarModule
   ],
   declarations: [
-    LoadingSpinnerComponent,
-
+    LoadingSpinnerComponent
   ],
   exports: [
     LoadingSpinnerComponent

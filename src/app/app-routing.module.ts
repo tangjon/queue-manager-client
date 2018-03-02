@@ -4,7 +4,7 @@ import {TeamManagerComponent} from "./team-manager/team-manager.component";
 import {QueueDashboardComponent} from "./queue-dashboard/queue-dashboard.component";
 import {RouterModule, Routes} from "@angular/router";
 import {RccManagementComponent} from "./rcc-management/rcc-management.component";
-import {SettingsComponent} from "./shared/settings/settings.component";
+import {SettingsComponent} from "./settings/settings.component";
 
 const appRoutes: Routes = [
   {

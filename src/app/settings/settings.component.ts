@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {IncidentSetService} from '../../core/incident-set.service';
-import {UserService} from '../../core/user.service';
-import {User} from '../../model/user';
+import {IncidentSetService} from '../core/incident-set.service';
+import {UserService} from '../core/user.service';
+import {User} from '../model/user';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-settings',

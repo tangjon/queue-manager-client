@@ -9,7 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {RccManagementComponent} from './rcc-management/rcc-management.component';
 import {ComponentBarComponent} from './shared/component-bar/component-bar.component';
 import {SidebarComponent} from './shared/sidebar/sidebar.component';
-import {SettingsComponent} from './shared/settings/settings.component';
+import {SettingsComponent} from './settings/settings.component';
 import {ActivityLogComponent} from './shared/activity-log/activity-log.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {QueueDashboardModule} from './queue-dashboard/queue-dashboard.module';
