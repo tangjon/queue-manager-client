@@ -27,7 +27,6 @@ export class SettingsComponent implements OnInit {
     this.noticeBoardMsg$ = this.db.object('notice-board');
     this.noticeBoardMsg$.valueChanges().subscribe(resp => {
       this.noticeBoardMsg = resp.msg;
-      console.log(resp);
     });
   }
 
