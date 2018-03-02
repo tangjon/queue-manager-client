@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-import {User} from '../model/user';
+import {User} from '../../model/user';
 import {ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/pluck';
-import {UserService} from '../services/user.service';
+import {UserService} from '../../services/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
