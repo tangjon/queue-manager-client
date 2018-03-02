@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {LoginService} from '../../services/login.service';
+import {LoginService} from '../../core/login.service';
 import {environment} from '../../../environments/environment';
 
 @Component({

@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { QmUser } from '../../model/qmuser';
-import { ActivityBook } from '../../model/activitybook';
-import { UserService } from '../../services/user.service';
-import { User } from '../../model/user';
-import { Observable } from 'rxjs/Observable';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../../core/user.service';
+import {User} from '../../model/user';
+import {Observable} from 'rxjs/Observable';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-qm-info',
@@ -13,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class QmInfoComponent implements OnInit {
 
-  qmUser: Observable<User>
+  qmUser: Observable<User>;
   constructor(public userService: UserService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -21,9 +19,9 @@ export class QmInfoComponent implements OnInit {
   }
 
   changeQM() {
-    let uInput = prompt("Enter the iNumber of QM")
+    let uInput = prompt("Enter the iNumber of QM");
     this.userService.setQM(uInput).subscribe(t => {
-      this.qmUser = this.userService.getQM()
+        this.qmUser = this.userService.getQM();
       this.snackBar.open("Welcome Queue Manager","Close",{ duration: 1000 })
     },
       err => {

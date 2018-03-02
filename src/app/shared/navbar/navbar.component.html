@@ -1,68 +1,17 @@
-<nav id="qNavBar" class="shadow navbar navbar-expand-sm bg-inverse navbar-inverse">
-  <a class="navbar-brand" href="#">Queue Manager{{appVersion}} <span *ngIf="!isProd"
-                                                           class="badge badge-dark">{{dEnvironmentMsg}}</span></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/home" routerLinkActive="active">
-          Home
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/manage" routerLinkActive="active">
-          Manage Team
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/rcc" routerLinkActive="active">
-          RCC
-        </a>
-      </li>
+<div id="navbar" class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-3 border-bottom box-shadow">
+  <a href="#" id="navbar-brand" class="my-0">
+    Queue Manager{{appVersion}}
+    <span *ngIf="!isProd" class="badge badge-dark">{{dEnvironmentMsg}}</span>
 
-
-    </ul>
-    <div *ngIf="afAuth.authState | async as user">
-      <span style="color:white">Welcome {{ loginService.user?.name }}!</span>
-      <button (click)="logout()">Logout</button>
-      <button routerLink="/settings" routerLinkActive="active">Settings</button>
-
-    </div>
+  </a>
+  <nav class="my-3 my-md-0 mr-md-auto">
+    <a class="ml-1 text-white" routerLink="/home" routerLinkActive="active">Home</a>
+    <a class="text-white" routerLink="/manage" routerLinkActive="active">Manage Team</a>
+    <a class="text-white" routerLink="/rcc" routerLinkActive="active">RCC</a>
+  </nav>
+  <div *ngIf="afAuth.authState | async">
+    <span style="color:white">Welcome {{ loginService.user?.name }}!</span>
+    <button class="ml-1 my-1 my-md-0" (click)="logout()">Logout</button>
+    <button class="ml-1 my-1 my-md-0" routerLink="/settings" routerLinkActive="active">Settings</button>
   </div>
-</nav>
-
-
-
-
-<!-- <div class="row">
-    <div class="col">
-      <a class="nav-link" routerLink="/MS" routerLinkActive="active">MS </a>
-    </div>
-    <div class="col">
-      <a class="nav-link" routerLink="/SA" routerLinkActive="active">SA </a>
-    </div>
-    <div class="col">
-      <a class="nav-link" routerLink="/SM" routerLinkActive="active">SM </a>
-    </div>
-    <div class="col">
-      <a class="nav-link" routerLink="/FC-EA-IC-FIM" routerLinkActive="active">FC/EA/IC/FIM </a>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <a class="nav-link" routerLink="/DSM" routerLinkActive="active">DSM </a>
-    </div>
-    <div class="col">
-      <a class="nav-link" routerLink="/PCM" routerLinkActive="active">PCM </a>
-    </div>
-    <div class="col">
-      <a class="nav-link" routerLink="/RTC" routerLinkActive="active">RTC </a>
-    </div>
-    <div class="col">
-      <a class="nav-link" routerLink="/LOD-ANA-PL" routerLinkActive="active">LOD-ANA-PL</a>
-    </div>
-  </div>
-</div> -->
+</div>
