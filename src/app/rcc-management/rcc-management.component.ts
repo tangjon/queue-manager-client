@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../model/user';
-import {UserService} from '../services/user.service';
-import {LogService} from '../services/log.service';
+import {UserService} from '../core/user.service';
+import {LogService} from '../core/log.service';
 
 @Component({
   selector: 'app-rcc-management',

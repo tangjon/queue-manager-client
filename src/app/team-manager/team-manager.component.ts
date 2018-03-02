@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { User } from '../model/user';
-import { UserService } from '../services/user.service';
-import { NgForm } from '@angular/forms'
+import {Component} from '@angular/core';
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../model/user';
+import {UserService} from '../core/user.service';
+import {NgForm} from '@angular/forms'
+
 @Component({
   selector: 'app-team-manager',
   templateUrl: './team-manager.component.html',
@@ -52,7 +53,7 @@ export class TeamManagerComponent {
 
   }
   deleteItem(user: User) {
-    let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?")
+    let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?");
     if (prompt) {
       this.userService.deleteUser(user.key).subscribe(res => {
         if (res) {

@@ -1,13 +1,16 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {LoadingSpinnerComponent} from "./loading-spinner/loading-spinner.component";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MatSnackBarModule
   ],
   declarations: [
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+
   ],
   exports: [
     LoadingSpinnerComponent

@@ -18,9 +18,6 @@ import {SharedModule} from "../shared/shared.module";
     ClipboardComponent,
     QueueControlComponent,
     QmInfoComponent
-  ],
-  exports: [
-    QueueDashboardComponent
   ]
 })
 export class QueueDashboardModule {
