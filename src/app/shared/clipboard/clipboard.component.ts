@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-clipboard',
@@ -6,9 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./clipboard.component.css']
 })
 export class ClipboardComponent implements OnInit {
-  clipBoardText = "[EPM_QM_ASSIGNED]"
-  
-  constructor() { }
+  clipBoardText = '[EPM_QM_ASSIGNED]';
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
