@@ -4,9 +4,9 @@
 
 <div *ngIf="afAuth.authState | async">
   <app-navbar></app-navbar>
-
   <div class="main">
     <div class="container">
+      <app-notice-board></app-notice-board>
       <app-sidebar></app-sidebar>
       <app-component-bar></app-component-bar>
       <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>

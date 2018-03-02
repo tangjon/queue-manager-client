@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AngularFireDatabase} from "angularfire2/database";
 
 @Component({
   selector: 'app-notice-board',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notice-board.component.css']
 })
 export class NoticeBoardComponent implements OnInit {
-
-  constructor() { }
+  notice$;
+  message;
+  flag;
+  constructor(public db: AngularFireDatabase) {
+  }
 
   ngOnInit() {
+    this.notice$ = this.db.object('notice-board');
+    this.notice$.valueChanges().subscribe(resp => {
+      this.message = resp.msg;
+      this.flag = resp.flag || false;
+      console.log(resp);
+    });
   }
 
 }

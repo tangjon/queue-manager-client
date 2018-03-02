@@ -32,8 +32,14 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    const msg = f.value.message;
-    this.db.object('notice-board/msg').set(msg);
+    if (f.valid) {
+      const msg = f.value.message || "";
+      const flag = f.value.enable || false;
+      console.log(f);
+      console.log(flag, msg);
+      this.db.object('notice-board/msg').set(msg);
+      this.db.object('notice-board/flag').set(flag);
+    }
   }
 
   overwriteIncidentCount(t: NgForm) {

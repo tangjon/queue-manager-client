@@ -14,8 +14,6 @@ export class AppComponent {
 
   constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
     // window.onscroll = this.testScroll;
-
-    settings.
   }
 
   title = 'app';
