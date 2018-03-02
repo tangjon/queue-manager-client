@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
+import {Component} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent {
   }
   login(username: string, password: string) {
     // Todo this is work around
-    username += "@scout33.org"
+    username += "@scout33.org";
     this.afAuth.auth.signInWithEmailAndPassword(username, password)
       .catch(err => this.handleError(err));
 
@@ -27,6 +27,18 @@ export class LoginComponent {
   handleError(err) {
     this.authFlag = false;
     this.authMessage = err.code;
+    console.log("error!")
   }
 
+  onSubmit(f: NgForm) {
+    if (f.valid) {
+      let data = f.value;
+      let userName = data.inputUsername;
+      let password = data.inputPassword;
+      userName += "@scout33.org";
+      this.afAuth.auth.signInWithEmailAndPassword(userName, password)
+        .catch(err => this.handleError(err));
+    }
+  }
 }
+

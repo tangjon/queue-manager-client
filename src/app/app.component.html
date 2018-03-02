@@ -1,4 +1,7 @@
-<app-login></app-login>
+<div *ngIf="!(afAuth.authState | async)">
+  <app-login></app-login>
+</div>
+
 <div *ngIf="afAuth.authState | async as user">
   <app-navbar></app-navbar>
   <div class="container-fluid">
