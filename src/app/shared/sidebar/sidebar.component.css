@@ -1,3 +1,35 @@
-#sidebar {
-    margin-top: 17%;
+.sidenav {
+  width: 15%;
+  position: fixed;
+  z-index: 1;
+  top: 71px;
+  left: 10px;
+  background: #2c3e50;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #064579;
+}
+
+@media (max-width: 933px) {
+  .sidenav {
+    /*display: none;*/
+    width: 100%;
+    position: inherit;
+    z-index: inherit;
+    top: inherit;
+    left: inherit;
+    background: #2c3e50;
+    overflow-x: hidden;
+  }
+
 }

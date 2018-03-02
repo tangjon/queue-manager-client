@@ -27,7 +27,7 @@ export class EntryLog {
     let seconds = this.date.getSeconds().toString();
     minutes = minutes.length < 2 ? '0' + minutes : minutes;
     seconds = seconds.length < 2 ? '0' + seconds : seconds;
-    return `${hours}:${minutes}:${seconds} PST`
+    return `${hours}:${minutes}:${seconds}`
   }
 
   getDateFormatted(): string {

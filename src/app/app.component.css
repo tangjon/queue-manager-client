@@ -1,0 +1,10 @@
+.main {
+  margin-left: 17%; /* Same width as the sidebar + left position in px */
+}
+
+@media (min-width: 1800px) {
+  .main {
+    margin: auto;
+    padding: inherit;
+  }
+}
