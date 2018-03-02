@@ -16,6 +16,7 @@ import {QueueDashboardModule} from './queue-dashboard/queue-dashboard.module';
 import {SharedModule} from "./shared/shared.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {CoreModule} from "./core/core.module";
+import { NoticeBoardComponent } from './notice-board/notice-board.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {CoreModule} from "./core/core.module";
     ComponentBarComponent,
     SidebarComponent,
     SettingsComponent,
-    ActivityLogComponent
+    ActivityLogComponent,
+    NoticeBoardComponent
   ],
   imports: [
     BrowserModule,
