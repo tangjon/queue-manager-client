@@ -6,11 +6,13 @@
   <app-navbar></app-navbar>
 
   <div class="main">
-    <app-sidebar></app-sidebar>
-    <app-component-bar></app-component-bar>
-    <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-    <router-outlet></router-outlet>
-    <app-activity-log></app-activity-log>
+    <div class="container">
+      <app-sidebar></app-sidebar>
+      <app-component-bar></app-component-bar>
+      <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
+      <router-outlet></router-outlet>
+      <app-activity-log></app-activity-log>
+    </div>
   </div>
 </div>
 
