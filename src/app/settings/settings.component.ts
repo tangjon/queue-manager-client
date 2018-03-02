@@ -32,7 +32,6 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    console.log(f);
     if (f.valid) {
       const msg = f.value.message || "";
       const flag = f.value.flag || false;
