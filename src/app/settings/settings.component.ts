@@ -15,6 +15,7 @@ export class SettingsComponent implements OnInit {
 
   noticeBoardMsg$: AngularFireObject<any>;
   noticeBoardMsg;
+  noticeBoardFlag;
 
   constructor(public incidentSetService: IncidentSetService,
               public  userService: UserService,
@@ -26,14 +27,15 @@ export class SettingsComponent implements OnInit {
     this.noticeBoardMsg$ = this.db.object('notice-board');
     this.noticeBoardMsg$.valueChanges().subscribe(resp => {
       this.noticeBoardMsg = resp.msg;
+      this.noticeBoardFlag = resp.flag;
     });
   }
 
   onSubmit(f: NgForm) {
+    console.log(f);
     if (f.valid) {
       const msg = f.value.message || "";
-      const flag = f.value.enable || false;
-      console.log(f);
+      const flag = f.value.flag || false;
       console.log(flag, msg);
       this.db.object('notice-board/msg').set(msg);
       this.db.object('notice-board/flag').set(flag);
