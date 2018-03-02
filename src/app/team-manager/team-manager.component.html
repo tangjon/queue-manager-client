@@ -1,88 +1,94 @@
-<h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-<div id="team-manger" class="qm-tbl shadow">
-  <h1 class="qTable-title">Team Management</h1>
-  <!-- Table heading -->
-  <div class="qm-tbl-header">
-    <div class=" row">
-      <div class="text-center col-sm-1">#</div>
-      <div class="col">Name</div>
-      <div class="col">INumber</div>
-      <div class="col">% Usage</div>
-      <div class="col">Actions</div>
+<div class="container">
+
+
+  <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
+  <div id="team-manger" class="qm-tbl shadow">
+    <h1 class="qTable-title">Team Management</h1>
+    <!-- Table heading -->
+    <div class="qm-tbl-header">
+      <div class=" row">
+        <div class="text-center col-sm-1">#</div>
+        <div class="col">Name</div>
+        <div class="col">INumber</div>
+        <div class="col">% Usage</div>
+        <div class="col">Actions</div>
+      </div>
+    </div>
+    <!-- Table body -->
+    <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
+    <div class="qm-tbl-row" *ngFor="let user of userList; let i = index">
+      <div class="row"></div>
+      <div class="row">
+        <div class="text-center col-sm-1">{{i + 1}}</div>
+        <div class="col">
+          <input type="text" #updateName [value]="user.name"/>
+        </div>
+        <div class="col">
+          <input type="text" #updateiNumber [value]="user.iNumber"/>
+        </div>
+        <div class="col">
+          <input type="number" #updateUsage [value]="user.usagePercent"/>
+        </div>
+        <div class="col">
+          <button (click)="updateItem(user, updateName.value, updateiNumber.value,updateUsage.value )">Update</button>
+          <button (click)="deleteItem(user)">Delete</button>
+        </div>
+      </div>
+      <!-- User roles -->
+      <div class="row qm-tbl-detail">
+        <div class="col-sm">
+          Roles:
+          <!-- <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)"></button> -->
+          <span class="badge badge-success" *ngFor="let role of user.getUserRoles()">{{ role }}</span>
+        </div>
+        <div class="col-sm-2 text-right">
+          Toggle Roles:
+        </div>
+        <div class="col-sm-4 text-left roll-change-panel">
+          <button *ngFor="let role of user.getRoleList()" (click)="toggleRole(user,role)" class="badge"
+                  [class.badge-success]="this.user.hasRole(role)"
+                  [class.badge-danger]="!this.user.hasRole(role)">{{ role }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- Table body -->
-  <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
-  <div class="qm-tbl-row" *ngFor="let user of userList; let i = index">
-    <div class="row"></div>
+
+  <!-- <div id="add-user-form">
     <div class="row">
-      <div class="text-center col-sm-1">{{i + 1}}</div>
       <div class="col">
-        <input type="text" #updateName [value]="user.name" />
+        <div class="form-group">
+          <label>Name</label>
+          <input [(ngModel)]="inputName" [value]="inputName" type="text" class="form-control" id="inputName" placeholder="Enter First Name">
+        </div>
       </div>
       <div class="col">
-        <input type="text" #updateiNumber [value]="user.iNumber" />
+        <div class="form-group">
+          <label>iNumber</label>
+          <input [(ngModel)]="inputiNumber" [value]="inputiNumber" type="text" class="form-control" id="inputINumber" placeholder="iNumber">
+        </div>
       </div>
-      <div class="col">
-        <input type="number" #updateUsage [value]="user.usagePercent" />
-      </div>
-      <div class="col">
-        <button (click)="updateItem(user, updateName.value, updateiNumber.value,updateUsage.value )">Update</button>
-        <button (click)="deleteItem(user)">Delete</button>
+
+    </div>
+    <button type="button" class="btn btn-primary" (click)="addUser(inputName, inputiNumber)">Add User</button> -->
+  <!-- <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button> -->
+  <!-- </div> -->
+
+  <form id="add-user-form" #userForm="ngForm" (ngSubmit)="onAddUser(userForm)">
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" name="name" placeholder="User Name" required #name="ngModel" ngModel>
+      <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+        Name is required
       </div>
     </div>
-    <!-- User roles -->
-    <div class="row qm-tbl-detail">
-      <div class="col-sm">
-        Roles:
-        <!-- <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)"></button> -->
-        <span class="badge badge-success" *ngFor="let role of user.getUserRoles()">{{ role }}</span>
-      </div>
-      <div class="col-sm-2 text-right">
-        Toggle Roles:
-      </div>
-      <div class="col-sm-4 text-left roll-change-panel">
-        <button *ngFor="let role of user.getRoleList()" (click)="toggleRole(user,role)" class="badge" [class.badge-success]="this.user.hasRole(role)"
-          [class.badge-danger]="!this.user.hasRole(role)">{{ role }}</button>
+    <div class="form-group">
+      <label>INumber</label>
+      <input type="text" class="form-control" #iNumber="ngModel" name="iNumber" placeholder="i12345" required ngModel>
+      <div [hidden]="iNumber.valid || iNumber.pristine" class="alert alert-danger">
+        INumber is required
       </div>
     </div>
-  </div>
+    <button type="submit" class="btn btn-primary">Add User</button>
+  </form>
 </div>
-
-<!-- <div id="add-user-form">
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label>Name</label>
-        <input [(ngModel)]="inputName" [value]="inputName" type="text" class="form-control" id="inputName" placeholder="Enter First Name">
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label>iNumber</label>
-        <input [(ngModel)]="inputiNumber" [value]="inputiNumber" type="text" class="form-control" id="inputINumber" placeholder="iNumber">
-      </div>
-    </div>
-
-  </div>
-  <button type="button" class="btn btn-primary" (click)="addUser(inputName, inputiNumber)">Add User</button> -->
-<!-- <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button> -->
-<!-- </div> -->
-
-<form id="add-user-form" #userForm="ngForm" (ngSubmit)="onAddUser(userForm)">
-  <div class="form-group">
-    <label>Name</label>
-    <input type="text" class="form-control" name="name" placeholder="User Name" required #name="ngModel" ngModel>
-    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-      Name is required
-    </div>
-  </div>
-  <div class="form-group">
-    <label>INumber</label>
-    <input type="text" class="form-control" #iNumber="ngModel" name="iNumber" placeholder="i12345" required ngModel>
-    <div [hidden]="iNumber.valid || iNumber.pristine" class="alert alert-danger">
-      INumber is required
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Add User</button>
-</form>
