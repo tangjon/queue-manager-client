@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Role} from '../model/role';
+import {Role} from '../model/support';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../model/user';
@@ -31,14 +31,12 @@ export class RoleSetService {
   }
 
   updateRoleSet(user: User, role: string, status: boolean) {
-    console.log("here");
     // work around cause i dont have patch
     let tmp: Role = new Role();
     tmp.update(user.role);
     tmp[role] = status;
     // Work Around Server Doesnt Accept Boolean must convert to strings...
     // Convert to booleans to strings
-    console.log(user);
     let newRoles = {};
     let keys = Object.keys(tmp);
     for (let i = 0; i < keys.length; i++) {

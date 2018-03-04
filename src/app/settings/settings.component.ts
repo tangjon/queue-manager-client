@@ -35,7 +35,6 @@ export class SettingsComponent implements OnInit {
     if (f.valid) {
       const msg = f.value.message || "";
       const flag = f.value.flag || false;
-      console.log(flag, msg);
       this.db.object('notice-board/msg').set(msg);
       this.db.object('notice-board/flag').set(flag);
     }

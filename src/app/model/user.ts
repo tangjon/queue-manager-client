@@ -1,5 +1,5 @@
-import { Incidents } from "./incidents";
-import { Role } from "./role";
+import {Incidents} from "./incidents";
+import {Role} from "./support";
 
 export class User {
     iNumber: string;
@@ -9,7 +9,7 @@ export class User {
     incidents: Incidents;
     usagePercent: number;
     currentQDays: number;
-    role: Role
+  role: Role;
     // Needs to be able to read user-set object from db
     constructor(user) {
         this.iNumber = user.iNumber || user.INUMBER;
@@ -52,7 +52,7 @@ export class User {
             if (this.role[el] == true) {
                 list.push(el);
             }
-        })
+        });
         return list;
     }
 
@@ -65,7 +65,7 @@ export class User {
         let list: Array<string> = [];
         Object.keys(this.role).forEach(el => {
             list.push(el);
-        })
+        });
         return list;
     }
 
@@ -85,7 +85,7 @@ export class User {
     }
     // TODO should be moved out
     resetIncidents() {
-        let tmp = new Incidents()
+      let tmp = new Incidents();
         for (const key in tmp) {
             if (tmp.hasOwnProperty(key)) {
                 this.incidents[key] = 0;

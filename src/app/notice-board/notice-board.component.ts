@@ -18,7 +18,6 @@ export class NoticeBoardComponent implements OnInit {
     this.notice$.valueChanges().subscribe(resp => {
       this.message = resp.msg;
       this.flag = resp.flag || false;
-      console.log(resp);
     });
   }
 

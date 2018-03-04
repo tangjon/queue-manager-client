@@ -12,7 +12,7 @@ import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {Role} from "../model/role";
+import {Role} from "../model/support";
 
 @Injectable()
 export class UserService {
@@ -77,7 +77,6 @@ export class UserService {
   }
 
   updateAvailability(user: User, bools: boolean) {
-    console.log(user.getStatus());
     return this.updateUser(user)
       .pipe(
         tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)

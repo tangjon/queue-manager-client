@@ -43,7 +43,6 @@ export class UserSetService {
     let url = `${this.api}('${key}')`;
     return this.http.delete(url, this.httpOptions)
   }
-
   resetRCC(user: User) {
     user.currentQDays = 0;
     return this.updateUserSet(user);
