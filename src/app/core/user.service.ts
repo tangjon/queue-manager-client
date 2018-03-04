@@ -13,6 +13,7 @@ import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {Support} from "../model/support";
+import {IncidentBook} from "../model/incidents";
 
 @Injectable()
 export class UserService {
@@ -41,21 +42,25 @@ export class UserService {
       let arr = [];
       Object.keys(userSet).forEach(key => {
         // populate the user set
-        userSet[key].incidents = incidentSet[key];
+        userSet[key].incidentBook = incidentSet[key] || new IncidentBook();
         userSet[key].support = supportSet[key] || new Support();
         // if support set doesnt exist create it
         if (!supportSet[key]) {
           this.roleSetService.createRoleSet(key).subscribe(() => {
           })
         }
+        // if(!incidentSet[key]){
+        //   this.incidentSetService.createIncidentSet(key).subscribe(() => {
+        //   })
+        // }
         arr.push(userSet[key])
       });
       // return as an array
       return arr;
     })
       .pipe(
-      catchError(this.handleError)
-    )
+        catchError(this.handleError)
+      )
   }
 
   addUser(name: string, iNumber: string): Observable<User> {
@@ -172,7 +177,6 @@ export class UserService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log();
     // if (error.error instanceof ErrorEvent) {
     //   // A client-side or network error occurred. Handle it accordingly.
     //   console.error('An error occurred:', error.error.message);

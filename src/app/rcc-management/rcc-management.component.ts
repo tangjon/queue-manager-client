@@ -104,7 +104,7 @@ export class RccManagementComponent implements OnInit {
     if (prompt) {
       this._userList.forEach((user: User) => {
         this.userService.resetIncidents(user.key).subscribe(() => {
-          user.incidents.reset();
+          user.incidentBook.reset();
         })
       })
     }

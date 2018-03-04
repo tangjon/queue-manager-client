@@ -58,14 +58,23 @@ export class RoleSetService {
   }
 
   createRoleSet(key: string) {
-    let tmp = new Support();
-    let send = tmp.toJSONDBString();
-    send["KEY"] = key;
-    return this.http.post(this.api, send, this.httpOptions).map((r: any) => {
+
+    return this.productService.getProducts().switchMap((area: any[]) => {
+      // buiild a support object
       let tmp = new Support();
-      tmp.update(r.d);
-      return tmp;
+      area.forEach(key => {
+        tmp.areas[key] = false;
+      });
+      tmp.areas["KEY"] = key;
+      return this.http.post(this.api, tmp.toJSONDBString(), this.httpOptions).map((r: any) => {
+        let tmp = new Support();
+        console.log(r);
+        // tmp.update(r.d);
+        return tmp;
+      })
     })
+
+
   }
 
   deleteRoleSet(key: string) {

@@ -6,7 +6,7 @@ export class User {
   name: string;
   key: string;
   isAvailable: boolean;
-  incidents: IncidentBook;
+  incidentBook: IncidentBook;
   usagePercent: number;
   currentQDays: number;
   support: Support;
@@ -20,8 +20,8 @@ export class User {
     if (user.ISAVAILABLE) {
       this.isAvailable = JSON.parse(user.ISAVAILABLE)
     }
-    this.incidents = user.incidents || new IncidentBook();
-    this.support = user.role || new Support();
+    this.incidentBook = user.incidentBook || new IncidentBook();
+    this.support = user.support || new Support();
     this.currentQDays = user.currentQDays || parseFloat(user.CURRENTQDAYS) || 0; // this is passed as a string from the server .... idk why
     this.usagePercent = user.usagePercent || parseFloat(user.USAGEPERCENT) || 1.0;
   }
@@ -39,9 +39,8 @@ export class User {
   }
 
   getIncidentTotal(): number {
-    let keys = Object.keys(new IncidentBook());
     let total = 0;
-    keys.forEach(key => {
+    Object.keys(this.incidentBook.areas).forEach(key => {
       total += this.getIncidentAmount(key);
     });
     return total;
@@ -71,8 +70,8 @@ export class User {
   }
 
   getIncidentAmount(type: string): number {
-    // console.log(this.incidents[type])
-    return this.incidents[type]
+    // console.log(this.incidentBook[type])
+    return this.incidentBook.areas[type]
   }
 
   getAverageQDay(): any {
@@ -83,16 +82,6 @@ export class User {
       avg = 0;
     }
     return parseFloat(avg).toFixed(3);
-  }
-
-  // TODO should be moved out
-  resetIncidents() {
-    let tmp = new IncidentBook();
-    for (const key in tmp) {
-      if (tmp.hasOwnProperty(key)) {
-        this.incidents[key] = 0;
-      }
-    }
   }
 }
 

@@ -78,12 +78,12 @@ export class QueueControlComponent implements OnInit {
 
   incIncidentAmount(user: User) {
     const amount = 1;
-    const currAmount = user.incidents[this.paramId];
+    const currAmount = user.incidentBook.areas[this.paramId];
     const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
         this.snackBar.open('Incident Added', 'Close', {duration: 1000});
-        user.incidents[this.paramId]++;
+        user.incidentBook.areas[this.paramId]++;
         this.updateSummary();
         this.refreshLists();
       });
@@ -92,12 +92,12 @@ export class QueueControlComponent implements OnInit {
 
   decIncidentAmount(user) {
     const amount = -1;
-    const currAmount = user.incidents[this.paramId];
+    const currAmount = user.incidentBook.areas[this.paramId];
     const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
         this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
-        user.incidents[this.paramId]--;
+        user.incidentBook.areas[this.paramId]--;
         this.updateSummary();
         this.refreshLists();
       });
@@ -161,7 +161,7 @@ export class QueueControlComponent implements OnInit {
 
     let totalB = 0;
     this._userListCtx.forEach(element => {
-      totalB += element.incidents[this.paramId];
+      totalB += element.incidentBook.areas[this.paramId];
     });
     this.totalIncidentsCtx = totalB;
   }
