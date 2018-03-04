@@ -19,15 +19,6 @@ export class RoleSetService {
   getRoleSet(): Observable<any> {
     return this.http.get(this.api, this.httpOptions)
       .map((res: any) => {
-        // OPTION 1 (SINGULAR)
-        // let tmp = new Role();
-        // let array: Array<any> = res.d.results.filter(el => {
-        //   return el.KEY == key;
-        // });
-        // tmp.update(array[0])
-        // return tmp;
-
-        // OPTION 2 (ENTIRE SET)
         let arr: Array<any> = res.d.results;
         let obj = {};
         for (let i = 0; i < arr.length; i++) {
@@ -40,12 +31,14 @@ export class RoleSetService {
   }
 
   updateRoleSet(user: User, role: string, status: boolean) {
+    console.log("here");
     // work around cause i dont have patch
     let tmp: Role = new Role();
     tmp.update(user.role);
     tmp[role] = status;
     // Work Around Server Doesnt Accept Boolean must convert to strings...
     // Convert to booleans to strings
+    console.log(user);
     let newRoles = {};
     let keys = Object.keys(tmp);
     for (let i = 0; i < keys.length; i++) {

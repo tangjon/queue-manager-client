@@ -12,6 +12,7 @@ import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
+import {Role} from "../model/role";
 
 @Injectable()
 export class UserService {
@@ -41,7 +42,12 @@ export class UserService {
       Object.keys(userSet).forEach(key => {
         // populate the user set
         userSet[key].incidents = incidentSet[key];
-        userSet[key].role = roleSet[key];
+        userSet[key].role = roleSet[key] || new Role();
+        // if role set doesnt exist create it
+        if (!roleSet[key]) {
+          this.roleSetService.createRoleSet(key).subscribe(() => {
+          })
+        }
         arr.push(userSet[key])
       });
       // return as an array
