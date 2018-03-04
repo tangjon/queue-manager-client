@@ -8,6 +8,8 @@ export class Support {
     RTC: boolean;
     LOD_ANA_PL: boolean;
     NW: boolean;
+
+  // areas = {};
     constructor() {
         this.MS = false;
         this.SA = false;
@@ -20,7 +22,14 @@ export class Support {
         this.NW = false;
     }
 
+  getSupportAreas(): string[] {
+    return [];
+  }
+
+
+
     update(update) {
+      console.log(update);
         this.NW = false || JSON.parse(update.NW);
         this.MS = false || JSON.parse(update.MS);
         this.PCM = false || JSON.parse(update.PCM);
