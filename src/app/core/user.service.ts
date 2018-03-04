@@ -37,14 +37,14 @@ export class UserService {
       this.roleSetService.getRoleSet(),
       this.incidentSetService.getIncidentSet()
     ]).map(data => {
-      const [userSet, roleSet, incidentSet] = data;
+      const [userSet, supportSet, incidentSet] = data;
       let arr = [];
       Object.keys(userSet).forEach(key => {
         // populate the user set
         userSet[key].incidents = incidentSet[key];
-        userSet[key].role = roleSet[key] || new Support();
-        // if role set doesnt exist create it
-        if (!roleSet[key]) {
+        userSet[key].support = supportSet[key] || new Support();
+        // if support set doesnt exist create it
+        if (!supportSet[key]) {
           this.roleSetService.createRoleSet(key).subscribe(() => {
           })
         }
@@ -52,7 +52,8 @@ export class UserService {
       });
       // return as an array
       return arr;
-    }).pipe(
+    })
+      .pipe(
       catchError(this.handleError)
     )
   }
@@ -171,6 +172,7 @@ export class UserService {
   }
 
   private handleError(error: HttpErrorResponse) {
+    console.log();
     // if (error.error instanceof ErrorEvent) {
     //   // A client-side or network error occurred. Handle it accordingly.
     //   console.error('An error occurred:', error.error.message);
@@ -182,7 +184,6 @@ export class UserService {
     //     `body was: ${error.error}`);
     //   console.log(error);
     // }
-    console.error(error);
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(
       "Are you using Chrome? OR Database requires to be restarted =(");

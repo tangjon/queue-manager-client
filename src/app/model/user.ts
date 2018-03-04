@@ -9,7 +9,7 @@ export class User {
   incidents: Incidents;
   usagePercent: number;
   currentQDays: number;
-  role: Support;
+  support: Support;
 
   // Needs to be able to read user-set object from db
   constructor(user) {
@@ -21,7 +21,7 @@ export class User {
       this.isAvailable = JSON.parse(user.ISAVAILABLE)
     }
     this.incidents = user.incidents || new Incidents();
-    this.role = user.role || new Support();
+    this.support = user.role || new Support();
     this.currentQDays = user.currentQDays || parseFloat(user.CURRENTQDAYS) || 0; // this is passed as a string from the server .... idk why
     this.usagePercent = user.usagePercent || parseFloat(user.USAGEPERCENT) || 1.0;
   }
@@ -49,8 +49,8 @@ export class User {
 
   getUserRoles(): Array<string> {
     let list: Array<string> = [];
-    Object.keys(this.role).forEach(el => {
-      if (this.role[el] == true) {
+    Object.keys(this.support).forEach(el => {
+      if (this.support[el] == true) {
         list.push(el);
       }
     });
@@ -58,13 +58,13 @@ export class User {
   }
 
   hasRole(role: string): boolean {
-    let ref = this.role[role];
+    let ref = this.support.areas[role];
     return ref;
   }
 
   getRoleList(): Array<string> {
     let list: Array<string> = [];
-    Object.keys(this.role).forEach(el => {
+    Object.keys(this.support).forEach(el => {
       list.push(el);
     });
     return list;

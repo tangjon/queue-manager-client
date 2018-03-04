@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { User } from '../model/user';
-import { UserService } from '../core/user.service';
-import { NgForm } from '@angular/forms'
+import {Component} from '@angular/core';
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../model/user';
+import {UserService} from '../core/user.service';
+import {NgForm} from '@angular/forms'
+import {ProductService} from "../core/product.service";
+
 @Component({
   selector: 'app-team-manager',
   templateUrl: './team-manager.component.html',
@@ -15,8 +17,11 @@ export class TeamManagerComponent {
   users: Observable<any[]>;
   userList: Array<User>;
   errorMessage: string;
-  constructor(public db: AngularFireDatabase, public userService: UserService) {
 
+  productList: string[];
+
+  constructor(public db: AngularFireDatabase, public userService: UserService, public productService: ProductService) {
+    this.fetchProducts();
     // Get Users
     this.users = userService.getUsers();
     this.users.subscribe(r => {
@@ -34,6 +39,12 @@ export class TeamManagerComponent {
     })
   }
 
+  fetchProducts() {
+    this.productService.getProducts().subscribe(r => {
+      this.productList = r;
+    })
+  }
+
   addUser(fName: string, iNumber: string) {
     if (fName && iNumber) {
       this.userService.addUser(fName, iNumber).subscribe((user: User) => {
@@ -41,16 +52,19 @@ export class TeamManagerComponent {
       })
     }
   }
+
   updateItem(user: User, fName: string, iNumber: string, usage: string) {
     if (user && fName && iNumber && usage) {
       let iUsage = parseFloat(usage);
       user.name = fName;
       user.iNumber = iNumber;
       user.usagePercent = iUsage;
-      this.userService.updateUser(user).subscribe(r => { });
+      this.userService.updateUser(user).subscribe(r => {
+      });
     }
 
   }
+
   deleteItem(user: User) {
     let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?");
     if (prompt) {
@@ -63,13 +77,15 @@ export class TeamManagerComponent {
       })
     }
   }
+
   deleteEverything() {
     this.userService.deleteEverything();
   }
+
   toggleRole(user: User, role: string) {
     let currBool = user.hasRole(role);
     this.userService.updateRole(user, role, !currBool).subscribe(t => {
-      user.role[role] = !user.hasRole(role);
+      user.support.areas[role] = !user.hasRole(role);
     })
   }
 

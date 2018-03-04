@@ -37,14 +37,14 @@
       <div class="row qm-tbl-detail">
         <div class="col-sm">
           Roles:
-          <!-- <button type="button" class="btn btn-success" *ngFor="let role of getRoles(user)"></button> -->
+          <!-- <button type="button" class="btn btn-success" *ngFor="let support of getRoles(user)"></button> -->
           <span class="badge badge-success" *ngFor="let role of user.getUserRoles()">{{ role }}</span>
         </div>
         <div class="col-sm-2 text-right">
           Toggle Roles:
         </div>
         <div class="col-sm-4 text-left roll-change-panel">
-          <button *ngFor="let role of user.getRoleList()" (click)="toggleRole(user,role)" class="badge"
+          <button *ngFor="let role of productList" (click)="toggleRole(user,role)" class="badge"
                   [class.badge-success]="this.user.hasRole(role)"
                   [class.badge-danger]="!this.user.hasRole(role)">{{ role }}
           </button>

@@ -45,7 +45,7 @@ export class QueueControlComponent implements OnInit {
           this.showSpinner = false;
           this._userListAll = users;
           this._userListCtx = users.filter((t: User) => {
-            return t.role[this.paramId] == true;
+            return t.support.areas[this.paramId] == true;
           });
 
           this.prepareAvailable();

@@ -10,6 +10,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {AngularFireModule} from "angularfire2";
 import {environment} from "../../environments/environment";
 import {AngularFireDatabaseModule} from "angularfire2/database";
+import {ProductService} from "./product.service";
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import {AngularFireDatabaseModule} from "angularfire2/database";
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
-  providers: [UserService, IncidentSetService, RoleSetService, UserSetService, LoginService, LogService]
+  providers: [UserService, IncidentSetService, RoleSetService, UserSetService, LoginService, LogService, ProductService]
 })
 export class CoreModule {
 }
