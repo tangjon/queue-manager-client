@@ -1,4 +1,4 @@
-export class Role {
+export class Support {
     MS: boolean;
     SA: boolean;
     SM: boolean;

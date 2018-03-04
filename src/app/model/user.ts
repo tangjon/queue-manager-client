@@ -1,5 +1,5 @@
 import {Incidents} from "./incidents";
-import {Role} from "./support";
+import {Support} from "./support";
 
 export class User {
     iNumber: string;
@@ -9,7 +9,7 @@ export class User {
     incidents: Incidents;
     usagePercent: number;
     currentQDays: number;
-  role: Role;
+  role: Support;
     // Needs to be able to read user-set object from db
     constructor(user) {
         this.iNumber = user.iNumber || user.INUMBER;
@@ -20,7 +20,7 @@ export class User {
             this.isAvailable = JSON.parse(user.ISAVAILABLE)
         }
         this.incidents = user.incidents || new Incidents();
-        this.role = user.role || new Role();
+      this.role = user.role || new Support();
         this.currentQDays = user.currentQDays || parseFloat(user.CURRENTQDAYS) || 0; // this is passed as a string from the server .... idk why
         this.usagePercent = user.usagePercent || parseFloat(user.USAGEPERCENT) || 1.0;
     }

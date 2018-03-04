@@ -12,7 +12,7 @@ import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {Role} from "../model/support";
+import {Support} from "../model/support";
 
 @Injectable()
 export class UserService {
@@ -42,7 +42,7 @@ export class UserService {
       Object.keys(userSet).forEach(key => {
         // populate the user set
         userSet[key].incidents = incidentSet[key];
-        userSet[key].role = roleSet[key] || new Role();
+        userSet[key].role = roleSet[key] || new Support();
         // if role set doesnt exist create it
         if (!roleSet[key]) {
           this.roleSetService.createRoleSet(key).subscribe(() => {
@@ -99,7 +99,7 @@ export class UserService {
     }
     return this.roleSetService.updateRoleSet(user, role, bool)
       .pipe(
-        tap(() => this.logService.addLog(user, "Role Changed", action + " " + role))
+        tap(() => this.logService.addLog(user, "Support Changed", action + " " + role))
       )
   }
 

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Role} from '../model/support';
+import {Support} from '../model/support';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../model/user';
@@ -22,7 +22,7 @@ export class RoleSetService {
         let arr: Array<any> = res.d.results;
         let obj = {};
         for (let i = 0; i < arr.length; i++) {
-          let tmp = new Role();
+          let tmp = new Support();
           tmp.update(arr[i]);
           obj[arr[i].KEY] = tmp;
         }
@@ -32,7 +32,7 @@ export class RoleSetService {
 
   updateRoleSet(user: User, role: string, status: boolean) {
     // work around cause i dont have patch
-    let tmp: Role = new Role();
+    let tmp: Support = new Support();
     tmp.update(user.role);
     tmp[role] = status;
     // Work Around Server Doesnt Accept Boolean must convert to strings...
@@ -47,11 +47,11 @@ export class RoleSetService {
   }
 
   createRoleSet(key: string) {
-    let tmp = new Role();
+    let tmp = new Support();
     let send = tmp.toJSONDBString();
     send["KEY"] = key;
     return this.http.post(this.api, send, this.httpOptions).map((r:any) => {
-      let tmp = new Role();
+      let tmp = new Support();
       tmp.update(r.d);
       return tmp;
     })
