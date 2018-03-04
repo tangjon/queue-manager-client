@@ -1,4 +1,4 @@
-export class Incidents {
+export class IncidentBook {
     MS: number;
     SA: number;
     SM: number;
@@ -20,7 +20,7 @@ export class Incidents {
         this.LOD_ANA_PL = 0;
     }
     reset(): void {
-        let object = new Incidents();
+      let object = new IncidentBook();
         for (const key in object) {
             if (object.hasOwnProperty(key)) {
                 object[key] = 0;

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {Incidents} from '../model/incidents';
+import {IncidentBook} from '../model/incidents';
 import {User} from '../model/user';
 import {environment} from "../../environments/environment";
 
@@ -31,7 +31,7 @@ export class IncidentSetService {
         let arr: Array<any> = res.d.results;
         let obj = {};
         for (let i = 0; i < arr.length; i++) {
-          let tmp = new Incidents();
+          let tmp = new IncidentBook();
           tmp.update(arr[i]);
           obj[arr[i].KEY] = tmp;
         }
@@ -41,7 +41,7 @@ export class IncidentSetService {
 
   updateIncidentSet(user: User, role: string, amount: number) {
     // work around cause i don't have patch
-    let tmp: Incidents = new Incidents();
+    let tmp: IncidentBook = new IncidentBook();
     tmp.update(user.incidents);
     tmp[role] = amount;
     let url = `${this.api}('${user.key}')`;
@@ -49,10 +49,10 @@ export class IncidentSetService {
   }
 
   createIncidentSet(key: string) {
-    let tmp = new Incidents();
+    let tmp = new IncidentBook();
     tmp["KEY"] = key;
     return this.http.post(this.api, tmp, this.httpOptions).map((r: any) => {
-      let tmp = new Incidents();
+      let tmp = new IncidentBook();
       tmp.update(r.d);
       return tmp;
     });
@@ -64,7 +64,7 @@ export class IncidentSetService {
   }
 
   resetIncidentSet(key) {
-    let tmp = new Incidents();
+    let tmp = new IncidentBook();
     let url = `${this.api}('${key}')`;
     return this.http.put(url, tmp, this.httpOptions)
   }

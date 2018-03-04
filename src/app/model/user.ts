@@ -1,4 +1,4 @@
-import {Incidents} from "./incidents";
+import {IncidentBook} from "./incidents";
 import {Support} from "./support";
 
 export class User {
@@ -6,7 +6,7 @@ export class User {
   name: string;
   key: string;
   isAvailable: boolean;
-  incidents: Incidents;
+  incidents: IncidentBook;
   usagePercent: number;
   currentQDays: number;
   support: Support;
@@ -20,7 +20,7 @@ export class User {
     if (user.ISAVAILABLE) {
       this.isAvailable = JSON.parse(user.ISAVAILABLE)
     }
-    this.incidents = user.incidents || new Incidents();
+    this.incidents = user.incidents || new IncidentBook();
     this.support = user.role || new Support();
     this.currentQDays = user.currentQDays || parseFloat(user.CURRENTQDAYS) || 0; // this is passed as a string from the server .... idk why
     this.usagePercent = user.usagePercent || parseFloat(user.USAGEPERCENT) || 1.0;
@@ -39,7 +39,7 @@ export class User {
   }
 
   getIncidentTotal(): number {
-    let keys = Object.keys(new Incidents());
+    let keys = Object.keys(new IncidentBook());
     let total = 0;
     keys.forEach(key => {
       total += this.getIncidentAmount(key);
@@ -87,7 +87,7 @@ export class User {
 
   // TODO should be moved out
   resetIncidents() {
-    let tmp = new Incidents();
+    let tmp = new IncidentBook();
     for (const key in tmp) {
       if (tmp.hasOwnProperty(key)) {
         this.incidents[key] = 0;
