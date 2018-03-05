@@ -6,8 +6,8 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 import {catchError} from 'rxjs/operators/catchError'
 import {forkJoin} from 'rxjs/observable/forkJoin'
-import {IncidentSetService} from './incident-set.service';
-import {RoleSetService} from './role-set.service';
+import {IncidentSetService} from './incident-book-set.service';
+import {RoleSetService} from './support-set.service';
 import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
@@ -35,7 +35,7 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return forkJoin([
       this.userSetService.getUserSet(),
-      this.roleSetService.getRoleSet(),
+      this.roleSetService.getSupportSet(),
       this.incidentSetService.getIncidentSet()
     ]).map(data => {
       const [userSet, supportSet, incidentSet] = data;
@@ -46,7 +46,7 @@ export class UserService {
         userSet[key].support = supportSet[key] || new Support();
         // if support set doesnt exist create it
         if (!supportSet[key]) {
-          this.roleSetService.createRoleSet(key).subscribe(() => {
+          this.roleSetService.createSupportSet(key).subscribe(() => {
           })
         }
         // if(!incidentSet[key]){
@@ -67,7 +67,7 @@ export class UserService {
     let key = this.db.createPushId();
     return forkJoin([
       this.userSetService.createUserSet(name, iNumber, key),
-      this.roleSetService.createRoleSet(key),
+      this.roleSetService.createSupportSet(key),
       this.incidentSetService.createIncidentSet(key)
     ]).map((data: any[]) => {
       const [userSet, roleSet, incidentSet] = data;
@@ -103,7 +103,7 @@ export class UserService {
     } else {
       action = "Assigned"
     }
-    return this.roleSetService.updateRoleSet(user, role, bool)
+    return this.roleSetService.updateSupportSet(user, role, bool)
       .pipe(
         tap(() => this.logService.addLog(user, "Support Changed", action + " " + role))
       )

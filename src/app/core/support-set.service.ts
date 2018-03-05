@@ -6,6 +6,7 @@ import {User} from '../model/user';
 import {environment} from "../../environments/environment";
 import {ProductService} from "./product.service";
 import {forkJoin} from 'rxjs/observable/forkJoin'
+import {IncidentBook} from "../model/incidents";
 
 @Injectable()
 export class RoleSetService {
@@ -20,61 +21,64 @@ export class RoleSetService {
   }
 
   // Handle with care booleans are return as strings!
-  getRoleSet(): Observable<any> {
+  getSupportSet(): Observable<any> {
     return forkJoin([
       this.http.get(this.api, this.httpOptions).map((r: any) => r.d.results),
       this.productService.getProducts()
     ]).map((data: any[]) => {
-      const [respRoleSet, products] = data;
-      let obj = {};
-      respRoleSet.forEach((user: any) => {
-        let support = new Support();
-        let member = {};
-        let key = user.KEY;
+      // const [respRoleSet, products] = data;
+      // let obj = {};
+      // respRoleSet.forEach((user: any) => {
+      //   let support = new Support();
+      //   let member = {};
+      //   let key = user.KEY;
+      //   products.forEach((key: string) => {
+      //     member[key] = user[key];
+      //   });
+      //   support.set(member);
+      //   obj[key] = support;
+      // });
+      // return obj;
+
+      const [supportSetResponse, products] = data;
+      let supportSet = {};
+      // process incidentSetResponse to IncidentBooks
+      supportSetResponse.forEach((user: any) => {
+        let book = new Support();
+        // set incident book areas
         products.forEach((key: string) => {
-          member[key] = user[key];
+          book.updateArea(key, JSON.parse(user[key]));
         });
-        support.update(member);
-        obj[key] = support;
+        // add to incident set
+        supportSet[user.KEY] = book;
       });
-      return obj;
+      console.log(supportSet);
+      return supportSet;
     })
   }
 
-  updateRoleSet(user: User, role: string, status: boolean) {
-    // work around cause i dont have patch
-    let tmp: Support = new Support();
-    tmp.update(user.support.areas);
-    tmp.areas[role] = status;
+  updateSupportSet(user: User, area: string, status: boolean) {
+    let copy: Support = new Support();
+    copy.set(user.support.getAreas());
+    copy.updateArea(area,status);
     // Work Around Server Doesnt Accept Boolean must convert to strings...
     // Convert to booleans to strings
-    let updatedRoles = {};
-    let keys = Object.keys(tmp.areas);
-    for (let i = 0; i < keys.length; i++) {
-      updatedRoles[keys[i]] = tmp.areas[keys[i]].toString();
-    }
     let url = `${this.api}('${user.key}')`;
-    return this.http.put(url, updatedRoles, this.httpOptions);
+    return this.http.put(url, copy.toJSONDBString(), this.httpOptions);
   }
 
-  createRoleSet(key: string) {
-
-    return this.productService.getProducts().switchMap((area: any[]) => {
-      // buiild a support object
+  createSupportSet(key: string) {
+    return this.productService.getProducts().switchMap((areas: any[]) => {
+      // build a support object
       let tmp = new Support();
-      area.forEach(key => {
-        tmp.areas[key] = false;
+      areas.forEach(area => {
+        tmp.addArea(area)
       });
       tmp.areas["KEY"] = key;
       return this.http.post(this.api, tmp.toJSONDBString(), this.httpOptions).map((r: any) => {
-        let tmp = new Support();
-        console.log(r);
-        // tmp.set(r.d);
         return tmp;
       })
     })
-
-
   }
 
   deleteRoleSet(key: string) {

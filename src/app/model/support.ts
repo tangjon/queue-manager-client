@@ -9,8 +9,21 @@ export class Support {
     return [];
   }
 
+  addArea(area:string){
+    this.areas[area] = false;
+  }
 
-  update(update) {
+
+  updateArea(area: string, bool: boolean) {
+    this.areas[area] = bool;
+  }
+
+  getAreas(){
+    return this.areas;
+  }
+
+
+  set(update) {
     Object.keys(update).forEach(key => {
       this.areas[key] = JSON.parse(update[key]) || false;
     });

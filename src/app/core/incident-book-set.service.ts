@@ -76,7 +76,7 @@ export class IncidentSetService {
 
   resetIncidentSet(key) {
     let url = `${this.api}('${key}')`;
-    this.productService.getProducts().switchMap(products => {
+    return this.productService.getProducts().switchMap(products => {
       let tmp = new IncidentBook();
       products.forEach(el => tmp.addArea(el));
       return this.http.put(url, tmp, this.httpOptions);
