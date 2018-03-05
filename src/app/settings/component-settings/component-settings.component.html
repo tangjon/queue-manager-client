@@ -1,0 +1,17 @@
+<h4>Supported Products/Areas</h4>
+<div class="list-group">
+  <div *ngFor="let product of products$ | async" href="#" class="list-group-item">
+    {{product}} <span class="fa fa-minus-circle text-danger"></span>
+  </div>
+</div>
+
+<form class="form-inline my-3 mx-auto text-center" #addComponentForm="ngForm" (ngSubmit)="onSubmit(addComponentForm)">
+  <div class="form-group mb-2">
+    <label>Add New Component</label>
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="componentName" class="sr-only">Password</label>
+    <input type="text" class="form-control" id="componentName" placeholder="Enter a name" name="name" required ngModel>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Add</button>
+</form>

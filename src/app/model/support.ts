@@ -15,7 +15,7 @@ export class Support {
 
 
   updateArea(area: string, bool: boolean) {
-    this.areas[area] = bool;
+    this.areas[area] = Boolean(bool);
   }
 
   getAreas(){

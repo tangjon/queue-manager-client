@@ -1,0 +1,16 @@
+<h4>Notice Board</h4>
+<form #boardMsgForm="ngForm" (ngSubmit)="onSubmit(boardMsgForm)">
+  <div class="form-group">
+    <label>For any announcements</label>
+    <textarea class="form-control" rows="3" [(ngModel)]='noticeBoardMsg' name="message"></textarea>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck" name='flag' ngModel [checked]="noticeBoardFlag">
+      <label class="form-check-label" for="gridCheck">
+        Show Notice Board
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

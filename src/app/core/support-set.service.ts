@@ -6,7 +6,6 @@ import {User} from '../model/user';
 import {environment} from "../../environments/environment";
 import {ProductService} from "./product.service";
 import {forkJoin} from 'rxjs/observable/forkJoin'
-import {IncidentBook} from "../model/incidents";
 
 @Injectable()
 export class RoleSetService {
@@ -26,20 +25,6 @@ export class RoleSetService {
       this.http.get(this.api, this.httpOptions).map((r: any) => r.d.results),
       this.productService.getProducts()
     ]).map((data: any[]) => {
-      // const [respRoleSet, products] = data;
-      // let obj = {};
-      // respRoleSet.forEach((user: any) => {
-      //   let support = new Support();
-      //   let member = {};
-      //   let key = user.KEY;
-      //   products.forEach((key: string) => {
-      //     member[key] = user[key];
-      //   });
-      //   support.set(member);
-      //   obj[key] = support;
-      // });
-      // return obj;
-
       const [supportSetResponse, products] = data;
       let supportSet = {};
       // process incidentSetResponse to IncidentBooks
@@ -52,7 +37,6 @@ export class RoleSetService {
         // add to incident set
         supportSet[user.KEY] = book;
       });
-      console.log(supportSet);
       return supportSet;
     })
   }
