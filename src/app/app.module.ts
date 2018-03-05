@@ -29,7 +29,7 @@ import {SettingsModule} from "./settings/settings.module";
     ComponentBarComponent,
     SidebarComponent,
     ActivityLogComponent,
-    NoticeBoardComponent,
+    NoticeBoardComponent
   ],
   imports: [
     BrowserModule,

@@ -1,65 +1,16 @@
-<div class="section">
+<div class="section mb-3">
   <h1>Settings
     <span class="badge badge-pill badge-warning">Work In Progress</span>
   </h1>
   <div class="row">
     <div class="col">
-      <h4>Notice Board</h4>
-      <form #boardMsgForm="ngForm" (ngSubmit)="onSubmit(boardMsgForm)" >
-        <div class="form-group">
-          <label>For any announcements</label>
-          <textarea class="form-control" rows="3" [(ngModel)] = 'noticeBoardMsg' name="message"></textarea>
-        </div>
-        <div class="form-group">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck" name='flag' ngModel [checked]="noticeBoardFlag">
-            <label class="form-check-label" for="gridCheck">
-              Show Notice Board
-            </label>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+      <app-notice-board-setting></app-notice-board-setting>
     </div>
   </div>
   <hr class="row">
-  <div>
-    <div class="row">
-      <div class="col">
-        <h4>Application Settings</h4>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="card-body">
-          <h5 class="card-title">Master Reset</h5>
-          <p class="card-text">Resets all numeric values for all users</p>
-          <button class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card-body">
-          <h5 class="card-title">Reset Queue Days</h5>
-          <p class="card-text">Sets queue days for all users to zero</p>
-          <button class="btn btn-secondary">Reset</button>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="card-body">
-          <h5 class="card-title">Reset Incidents</h5>
-          <p class="card-text">Sets incident counter for all users to zero</p>
-          <button class="btn btn-secondary">Reset</button>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card-body">
-          <h5 class="card-title">Reset Log Entries</h5>
-          <p class="card-text">Removes all log enties</p>
-          <button class="btn btn-secondary">Reset</button>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col">
+      <app-application-settings></app-application-settings>
     </div>
   </div>
   <hr class="row">
@@ -68,15 +19,20 @@
       <h4>Incident Overwrite</h4>
       <form class="form-inline" #incidentOverwrite="ngForm" (ngSubmit)="overwriteIncidentCount(incidentOverwrite)">
         <label class="sr-only">Type</label>
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Incident Type" name="type" required ngModel>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Incident Type" name="type" required
+               ngModel>
         <label class="sr-only">iNumber</label>
-        <input type="text" class="form-control  mb-2 mr-sm-2 mb-sm-0" placeholder="iNumber" name="iNumber" required ngModel>
+        <input type="text" class="form-control  mb-2 mr-sm-2 mb-sm-0" placeholder="iNumber" name="iNumber" required
+               ngModel>
         <label class="sr-only">Amount</label>
-        <input type="text" class="form-control  mb-2 mr-sm-2 mb-sm-0" placeholder="Amount" name="amount" required ngModel>
+        <input type="text" class="form-control  mb-2 mr-sm-2 mb-sm-0" placeholder="Amount" name="amount" required
+               ngModel>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>
+  <hr class="row">
+  <app-component-settings></app-component-settings>
 </div>
 
 
