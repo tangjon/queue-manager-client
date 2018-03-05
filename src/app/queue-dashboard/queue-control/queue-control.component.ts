@@ -78,29 +78,36 @@ export class QueueControlComponent implements OnInit {
 
   incIncidentAmount(user: User) {
     const amount = 1;
-    const currAmount = user.incidentBook.areas[this.paramId];
+    const currAmount = user.incidentBook.data[this.paramId];
     const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-        this.snackBar.open('Incident Added', 'Close', {duration: 1000});
-        user.incidentBook.areas[this.paramId]++;
-        this.updateSummary();
-        this.refreshLists();
-      });
+          this.snackBar.open('Incident Added', 'Close', {duration: 1000});
+          user.incidentBook.data[this.paramId]++;
+          this.updateSummary();
+          this.refreshLists();
+        },
+        error => {
+          this.snackBar.open(error, 'Close', {duration: 2000});
+        }
+      );
     }
   }
 
   decIncidentAmount(user) {
     const amount = -1;
-    const currAmount = user.incidentBook.areas[this.paramId];
+    const currAmount = user.incidentBook.data[this.paramId];
     const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-        this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
-        user.incidentBook.areas[this.paramId]--;
-        this.updateSummary();
-        this.refreshLists();
-      });
+          this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
+          user.incidentBook.data[this.paramId]--;
+          this.updateSummary();
+          this.refreshLists();
+        }, error => {
+          this.snackBar.open(error, 'Close', {duration: 2000});
+        }
+      );
     }
 
   }
@@ -161,7 +168,7 @@ export class QueueControlComponent implements OnInit {
 
     let totalB = 0;
     this._userListCtx.forEach(element => {
-      totalB += element.incidentBook.areas[this.paramId];
+      totalB += element.incidentBook.data[this.paramId];
     });
     this.totalIncidentsCtx = totalB;
   }

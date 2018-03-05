@@ -69,7 +69,7 @@ export class RoleSetService {
       return this.http.post(this.api, tmp.toJSONDBString(), this.httpOptions).map((r: any) => {
         let tmp = new Support();
         console.log(r);
-        // tmp.update(r.d);
+        // tmp.set(r.d);
         return tmp;
       })
     })

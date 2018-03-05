@@ -1,7 +1,7 @@
 export class Support {
   areas = {};
 
-  // areas = {};
+  // data = {};
   constructor() {
   }
 

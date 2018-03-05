@@ -71,7 +71,7 @@ export class UserService {
       this.incidentSetService.createIncidentSet(key)
     ]).map((data: any[]) => {
       const [userSet, roleSet, incidentSet] = data;
-      // put all together
+      // put it all together
       userSet.incidents = incidentSet;
       userSet.role = roleSet;
       return userSet;

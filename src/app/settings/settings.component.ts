@@ -48,7 +48,7 @@ export class SettingsComponent implements OnInit {
           this.matSnackBar.open('Success', 'Close', {duration: 1000});
         },
         error => {
-          console.log('ERROR!');
+          this.matSnackBar.open('Error Occured', 'Close', {duration: 1000});
         }
       );
     }

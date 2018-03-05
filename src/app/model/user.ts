@@ -40,7 +40,7 @@ export class User {
 
   getIncidentTotal(): number {
     let total = 0;
-    Object.keys(this.incidentBook.areas).forEach(key => {
+    Object.keys(this.incidentBook.data).forEach(key => {
       total += this.getIncidentAmount(key);
     });
     return total;
@@ -71,7 +71,7 @@ export class User {
 
   getIncidentAmount(type: string): number {
     // console.log(this.incidentBook[type])
-    return this.incidentBook.areas[type]
+    return this.incidentBook.data[type]
   }
 
   getAverageQDay(): any {

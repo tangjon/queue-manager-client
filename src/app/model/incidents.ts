@@ -1,17 +1,28 @@
 export class IncidentBook {
-  areas = {};
+  data = {};
 
   constructor() {
   }
 
-  reset(): void {
-    Object.keys(this.areas).forEach(key => this.areas[key] = 0)
+  addArea(area: string) {
+    this.data[area] = 0;
   }
 
-  update(update): void {
-    Object.keys(update).forEach(key => {
+  updateArea(area: string, amount: number) {
+    this.data[area] = amount;
+  }
+
+  getData() {
+    return this.data;
+  }
+  reset(): void {
+    Object.keys(this.data).forEach(key => this.data[key] = 0)
+  }
+
+  set(data): void {
+    Object.keys(data).forEach(key => {
       if (key !== '__metadata') {
-        this.areas[key] = parseInt(update[key]) || 0;
+        this.data[key] = parseInt(data[key]) || 0;
       }
     });
   }
