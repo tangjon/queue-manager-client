@@ -27,7 +27,7 @@ export class UserService {
   constructor(public db: AngularFireDatabase,
               public http: HttpClient,
               public incidentSetService: IncidentSetService,
-              public roleSetService: RoleSetService,
+              public supportSetService: RoleSetService,
               public userSetService: UserSetService,
               public logService: LogService) {
   }
@@ -35,7 +35,7 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return forkJoin([
       this.userSetService.getUserSet(),
-      this.roleSetService.getSupportSet(),
+      this.supportSetService.getSupportSet(),
       this.incidentSetService.getIncidentSet()
     ]).map(data => {
       const [userSet, supportSet, incidentSet] = data;
@@ -46,7 +46,7 @@ export class UserService {
         userSet[key].support = supportSet[key] || new Support();
         // if support set doesnt exist create it
         if (!supportSet[key]) {
-          this.roleSetService.createSupportSet(key).subscribe(() => {
+          this.supportSetService.createSupportSet(key).subscribe(() => {
           })
         }
         // if(!incidentSet[key]){
@@ -67,7 +67,7 @@ export class UserService {
     let key = this.db.createPushId();
     return forkJoin([
       this.userSetService.createUserSet(name, iNumber, key),
-      this.roleSetService.createSupportSet(key),
+      this.supportSetService.createSupportSet(key),
       this.incidentSetService.createIncidentSet(key)
     ]).map((data: any[]) => {
       const [userSet, roleSet, incidentSet] = data;
@@ -103,7 +103,7 @@ export class UserService {
     } else {
       action = "Assigned"
     }
-    return this.roleSetService.updateSupportSet(user, role, bool)
+    return this.supportSetService.updateSupportSet(user, role, bool)
       .pipe(
         tap(() => this.logService.addLog(user, "Support Changed", action + " " + role))
       )

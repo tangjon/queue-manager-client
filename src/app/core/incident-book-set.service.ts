@@ -79,7 +79,7 @@ export class IncidentSetService {
     return this.productService.getProducts().switchMap(products => {
       let tmp = new IncidentBook();
       products.forEach(el => tmp.addArea(el));
-      return this.http.put(url, tmp, this.httpOptions);
+      return this.http.put(url, tmp.getData(), this.httpOptions);
     })
   }
 
