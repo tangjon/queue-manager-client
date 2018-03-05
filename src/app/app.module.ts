@@ -9,14 +9,14 @@ import {FormsModule} from '@angular/forms';
 import {RccManagementComponent} from './rcc-management/rcc-management.component';
 import {ComponentBarComponent} from './shared/component-bar/component-bar.component';
 import {SidebarComponent} from './shared/sidebar/sidebar.component';
-import {SettingsComponent} from './settings/settings.component';
 import {ActivityLogComponent} from './shared/activity-log/activity-log.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {QueueDashboardModule} from './queue-dashboard/queue-dashboard.module';
 import {SharedModule} from "./shared/shared.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {CoreModule} from "./core/core.module";
-import { NoticeBoardComponent } from './notice-board/notice-board.component';
+import {NoticeBoardComponent} from './notice-board/notice-board.component';
+import {SettingsModule} from "./settings/settings.module";
 
 @NgModule({
   declarations: [
@@ -28,9 +28,8 @@ import { NoticeBoardComponent } from './notice-board/notice-board.component';
     RccManagementComponent,
     ComponentBarComponent,
     SidebarComponent,
-    SettingsComponent,
     ActivityLogComponent,
-    NoticeBoardComponent
+    NoticeBoardComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +38,7 @@ import { NoticeBoardComponent } from './notice-board/notice-board.component';
     FormsModule,
     SharedModule,
     AppRoutingModule,
+    SettingsModule,
     CoreModule
   ],
   bootstrap: [AppComponent]
