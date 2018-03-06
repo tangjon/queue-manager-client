@@ -36,3 +36,23 @@
     </div>
   </div>
 </div>
+
+<!--<div class="tbl">-->
+  <!--<div *ngFor="let group of productList$ | async">-->
+  <!--{{group}}-->
+    <!--<tr *ngFor="let item of group.items"><td>{{item}}</td></tr>-->
+  <!--</div>-->
+<!--</div>-->
+<div class="text-center bg-danger">
+  <div class="row " *ngFor="let group of productListGrouped">
+    <div class="col-3" *ngFor="let p of group">
+      <a class="nav-link" [routerLink]="getRouterLink(p)" routerLinkActive="active">{{p}} </a>
+    </div>
+  </div>
+</div>
+
+<!--<div class="row">-->
+  <!--<div class="col" *ngFor="let product of productList$ | async; let i = index">-->
+    <!--<div *ngIf="i <= 3">{{product}}</div>-->
+  <!--</div>-->
+<!--</div>-->

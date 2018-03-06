@@ -24,6 +24,16 @@ export class ProductService {
         resArr.forEach(el => {
           arr.push(el.KEY);
         });
+
+        arr.sort(function (b, a) {
+          if (a > b) {
+            return -1;
+          }
+          if (a < b) {
+            return 1;
+          }
+          return 0;
+        });
         return arr;
       })
   }
