@@ -84,7 +84,7 @@ export class TeamManagerComponent {
 
   toggleRole(user: User, role: string) {
     let currBool = user.hasRole(role);
-    this.userService.updateRole(user, role, !currBool).subscribe(t => {
+    this.userService.updateSupport(user, role, !currBool).subscribe(t => {
       user.support.areas[role] = !user.hasRole(role);
     })
   }

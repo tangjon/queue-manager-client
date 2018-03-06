@@ -103,29 +103,31 @@ export class UserService {
     });
   }
 
-  updateRole(user: User, role: string, bool: boolean) {
+  updateSupport(user: User, productId: string, bool: boolean) {
     let action = "";
-    if (user.hasRole(role)) {
+    if (user.hasRole(productId)) {
       action = "Unassigned";
     } else {
       action = "Assigned";
     }
-    return this.supportSetService.updateSupportSet(user, role, bool)
+
+    return this.supportBookService.setSupport(user.key, productId, bool)
       .pipe(
-        tap(() => this.logService.addLog(user, "SupportBook Changed", action + " " + role))
+        tap(() => this.logService.addLog(user, "SupportBook Changed", action + " " + productId))
       );
   }
 
-  updateIncident(user: User, type: string, amount: number) {
+  updateIncident(user: User, productId: string, amount: number) {
     let aString = "";
-    if (user.getIncidentAmount(type) < amount) {
+    if (user.getIncidentAmount(productId) < amount) {
       aString = "Incident Assigned";
     } else {
       aString = "Incident Unassigned";
     }
-    return this.incidentSetService.updateIncidentSet(user, type, amount)
+
+    return this.incidentBookService.setCount(user.key,productId,amount)
       .pipe(
-        tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(type) + " to " + amount + " in " + type))
+        tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(productId) + " to " + amount + " in " + productId))
       );
   }
 

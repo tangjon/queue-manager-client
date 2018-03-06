@@ -36,7 +36,6 @@ export class IncidentBookService {
     const body = {
       COUNT: count
     };
-    console.log(url);
     return this.http.put(url, body, this.httpOptions);
   }
 

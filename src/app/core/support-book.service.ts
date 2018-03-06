@@ -29,12 +29,11 @@ export class SupportBookService {
     });
   }
 
-  setCount(UID: string, productKey: string, bool: boolean) {
+  setSupport(UID: string, productKey: string, bool: boolean) {
     const url = `${this.api}(KEY='${productKey}',UID='${UID}')`;
     const body = {
       SUPPORT: bool.toString()
     };
-    console.log(url);
     return this.http.put(url, body, this.httpOptions);
   }
 
