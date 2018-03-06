@@ -35,6 +35,7 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
+    this.supportBookService.initializeUser('dasd sadsa');
     return this.userSetService.getUserSetArray().switchMap((users: User[]) => {
       let userbatch$ = [];
       users.forEach(user => {
@@ -53,6 +54,7 @@ export class UserService {
   }
 
   addUser(name: string, iNumber: string): Observable<User> {
+    this.supportBookService.initializeUser('dasd sadsa');
     let key = this.db.createPushId();
     return forkJoin([
       this.userSetService.createUserSet(name, iNumber, key),

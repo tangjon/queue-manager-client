@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {ProductService} from "./product.service";
+import {forkJoin} from "rxjs/observable/forkJoin";
 
 @Injectable()
 export class SupportBookService {
@@ -11,7 +13,7 @@ export class SupportBookService {
     })
   };
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, public productService: ProductService) {
   }
 
   getSnapShot() {
@@ -37,8 +39,24 @@ export class SupportBookService {
   }
 
   // Needs to add new product to each engineer in the system...
-  add(UID: string, productKey: string) {
+  // go through each user and add support
+  addSupport(UID: string, productKey: string) {
 
+  }
+
+  // create row for each current product
+  initializeUser(UID) {
+    this.productService.getProducts().switchMap(prodList => {
+      let batch$ = [];
+      prodList.forEach(p => {
+        let body = {
+          "UID": UID,
+          "KEY": p
+        };
+        batch$.push(this.http.post(this.api, body, this.httpOptions))
+      });
+      return forkJoin(batch$);
+    })
   }
 
   remove(UID: string, productKey: string) {
