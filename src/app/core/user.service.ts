@@ -5,8 +5,6 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 import {forkJoin} from 'rxjs/observable/forkJoin';
-import {IncidentSetService} from './incident-book-set.service';
-import {RoleSetService} from './support-set.service';
 import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
@@ -25,8 +23,6 @@ export class UserService {
 
   constructor(public db: AngularFireDatabase,
               public http: HttpClient,
-              public incidentSetService: IncidentSetService,
-              public supportSetService: RoleSetService,
               public userSetService: UserSetService,
               public logService: LogService,
               public incidentBookService: IncidentBookService,

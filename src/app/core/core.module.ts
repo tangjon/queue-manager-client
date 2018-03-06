@@ -1,10 +1,8 @@
 import {NgModule} from '@angular/core';
 import {LoginService} from "./login.service";
-import {RoleSetService} from "./support-set.service";
 import {UserSetService} from "./user-set.service";
 import {UserService} from "./user.service";
 import {LogService} from "./log.service";
-import {IncidentSetService} from "./incident-book-set.service";
 import {AngularFireAuthModule} from "angularfire2/auth";
 import {HttpClientModule} from "@angular/common/http";
 import {AngularFireModule} from "angularfire2";
@@ -21,7 +19,7 @@ import {IncidentBookService} from "./incident-book.service";
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
-  providers: [UserService, IncidentSetService, RoleSetService, UserSetService, LoginService, LogService, ProductService, SupportBookService, IncidentBookService]
+  providers: [UserService, UserSetService, LoginService, LogService, ProductService, SupportBookService, IncidentBookService]
 })
 export class CoreModule {
 }
