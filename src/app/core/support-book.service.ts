@@ -46,17 +46,21 @@ export class SupportBookService {
 
   // create row for each current product
   initializeUser(UID) {
-    this.productService.getProducts().switchMap(prodList => {
-      let batch$ = [];
+    return this.productService.getProducts().switchMap(prodList => {
+      const batch$ = [];
       prodList.forEach(p => {
-        let body = {
+        const body = {
           "UID": UID,
           "KEY": p
         };
-        batch$.push(this.http.post(this.api, body, this.httpOptions))
+        batch$.push(this.http.post(this.api, body, this.httpOptions).map((r: any) => r.d));
       });
-      return forkJoin(batch$);
-    })
+      return forkJoin(batch$).map(res => {
+        const uSupportObj = {};
+        res.forEach((el: any) => uSupportObj[el.KEY] = el.SUPPORT);
+        return uSupportObj;
+      });
+    });
   }
 
   remove(UID: string, productKey: string) {

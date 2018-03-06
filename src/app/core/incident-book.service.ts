@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
+import {forkJoin} from "rxjs/observable/forkJoin";
+import {ProductService} from "./product.service";
 
 @Injectable()
 export class IncidentBookService {
@@ -11,7 +13,7 @@ export class IncidentBookService {
     })
   };
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, public productService: ProductService) {
   }
 
   // consider only using get?
@@ -41,6 +43,24 @@ export class IncidentBookService {
   // Needs to add new product to each engineer in the system...
   add(UID: string, productKey: string) {
 
+  }
+
+  initializeUser(UID) {
+    return this.productService.getProducts().switchMap(prodList => {
+      const batch$ = [];
+      prodList.forEach(p => {
+        const body = {
+          "UID": UID,
+          "KEY": p
+        };
+        batch$.push(this.http.post(this.api, body, this.httpOptions).map((r: any) => r.d));
+      });
+      return forkJoin(batch$).map(res => {
+        const uIncidentObj = {};
+        res.forEach((el: any) => uIncidentObj[el.KEY] = el.SUPPORT);
+        return uIncidentObj;
+      });
+    });
   }
 
   remove(UID: string, productKey: string) {

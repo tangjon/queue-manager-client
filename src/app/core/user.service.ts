@@ -4,7 +4,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {forkJoin} from 'rxjs/observable/forkJoin'
+import {forkJoin} from 'rxjs/observable/forkJoin';
 import {IncidentSetService} from './incident-book-set.service';
 import {RoleSetService} from './support-set.service';
 import {UserSetService} from './user-set.service';
@@ -37,7 +37,7 @@ export class UserService {
   getUsers(): Observable<User[]> {
     this.supportBookService.initializeUser('dasd sadsa');
     return this.userSetService.getUserSetArray().switchMap((users: User[]) => {
-      let userbatch$ = [];
+      const userbatch$ = [];
       users.forEach(user => {
         userbatch$.push(
           forkJoin([this.incidentBookService.get(user.key), this.supportBookService.get(user.key)])
@@ -49,25 +49,41 @@ export class UserService {
             })
         );
       });
-      return forkJoin(userbatch$)
+      return forkJoin(userbatch$);
     });
   }
 
   addUser(name: string, iNumber: string): Observable<User> {
-    this.supportBookService.initializeUser('dasd sadsa');
-    let key = this.db.createPushId();
+    const UID = this.db.createPushId();
     return forkJoin([
-      this.userSetService.createUserSet(name, iNumber, key),
-      this.supportSetService.createSupportSet(key),
-      this.incidentSetService.createIncidentSet(key)
-    ]).map((data: any[]) => {
-      const [userSet, roleSet, incidentSet] = data;
-      // put it all together
-      userSet.incidents = incidentSet;
-      userSet.role = roleSet;
-      return userSet;
-    })
+      this.userSetService.createUserSet(name, iNumber, UID),
+      this.supportBookService.initializeUser(UID),
+      this.incidentBookService.initializeUser(UID)
+    ]).map(data => {
+        const [userFrag, supportFrag, incidentFrag] = data;
+        const newUser = new User(userFrag);
+        newUser.incidentBook.set(incidentFrag);
+        newUser.support.set(supportFrag);
+        return newUser;
+      }
+    );
   }
+
+  // addUser(name: string, iNumber: string): Observable<User> {
+  //   const key = this.db.createPushId();
+  //   this.createUser(name, iNumber);
+  //   return forkJoin([
+  //     this.userSetService.createUserSet(name, iNumber, key),
+  //     this.supportSetService.createSupportSet(key),
+  //     this.incidentSetService.createIncidentSet(key)
+  //   ]).map((data: any[]) => {
+  //     const [userSet, roleSet, incidentSet] = data;
+  //     // put it all together
+  //     userSet.incidents = incidentSet;
+  //     userSet.role = roleSet;
+  //     return userSet;
+  //   });
+  // }
 
   updateUser(user: User) {
     return this.userSetService.updateUserSet(user);
@@ -77,7 +93,7 @@ export class UserService {
     return this.updateUser(user)
       .pipe(
         tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
-        ))
+        ));
   }
 
   deleteUser(key: string): Observable<any> {
@@ -90,31 +106,31 @@ export class UserService {
   updateRole(user: User, role: string, bool: boolean) {
     let action = "";
     if (user.hasRole(role)) {
-      action = "Unassigned"
+      action = "Unassigned";
     } else {
-      action = "Assigned"
+      action = "Assigned";
     }
     return this.supportSetService.updateSupportSet(user, role, bool)
       .pipe(
         tap(() => this.logService.addLog(user, "SupportBook Changed", action + " " + role))
-      )
+      );
   }
 
   updateIncident(user: User, type: string, amount: number) {
     let aString = "";
     if (user.getIncidentAmount(type) < amount) {
-      aString = "Incident Assigned"
+      aString = "Incident Assigned";
     } else {
-      aString = "Incident Unassigned"
+      aString = "Incident Unassigned";
     }
     return this.incidentSetService.updateIncidentSet(user, type, amount)
       .pipe(
         tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(type) + " to " + amount + " in " + type))
-      )
+      );
   }
 
   resetRCC(user: User) {
-    return this.userSetService.resetRCC(user)
+    return this.userSetService.resetRCC(user);
   }
 
   resetIncidents(key) {
@@ -122,7 +138,7 @@ export class UserService {
   }
 
   updateQueueDays(user, amount) {
-    let tmp = new User(user);
+    const tmp = new User(user);
     tmp.currentQDays = amount;
     return this.updateUser(tmp).map(() => amount)
       .pipe(
@@ -133,10 +149,12 @@ export class UserService {
   getUser(iNumber: string) {
     return this.getUsers().map((data: User[]) => {
       // filter array
-      let user = data.find((user: User) => {
+      const user = data.find((user: User) => {
         return user.iNumber == iNumber;
       });
-      if (!user) throw new Error("User Not Found");
+      if (!user) {
+        throw new Error("User Not Found");
+      }
       return user;
     });
   }
@@ -148,23 +166,23 @@ export class UserService {
 
   getQM(): Observable<User> {
     return this.http.get(this.qmapi, this.httpOptions).map((r: any) => {
-      return r.d.INUMBER
+      return r.d.INUMBER;
     })
       .switchMap(iNumber => {
         return this.getUser(iNumber);
-      })
+      });
   }
 
   setQM(iNumber: string) {
     return this.getUser(iNumber).switchMap(
       (user: User) => {
         // noinspection SpellCheckingInspection
-        let body = {
+        const body = {
           "INUMBER": user.iNumber
         };
-        return this.http.put(this.qmapi, body, this.httpOptions)
+        return this.http.put(this.qmapi, body, this.httpOptions);
       }
-    )
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -182,6 +200,6 @@ export class UserService {
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(
       "Are you using Chrome? OR Database requires to be restarted =(");
-  };
+  }
 
 }
