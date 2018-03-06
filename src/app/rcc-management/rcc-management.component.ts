@@ -91,9 +91,10 @@ export class RccManagementComponent implements OnInit {
     if (prompt) {
       this._userList.forEach((el: User) => {
         if (el.currentQDays != 0) {
-          this.userService.resetRCC(el).subscribe(() => {
-            el.currentQDays = 0;
-          })
+          // TODO RESET
+          // this.userService.resetRCC(el).subscribe(() => {
+          //   el.currentQDays = 0;
+          // })
         }
       });
     }
@@ -103,9 +104,10 @@ export class RccManagementComponent implements OnInit {
     let prompt = window.confirm("Are you sure you want to reset incident count for all users?\nPlease double check!\nIt may already be done!");
     if (prompt) {
       this._userList.forEach((user: User) => {
-        this.userService.resetIncidents(user.key).subscribe(() => {
-          user.incidentBook.reset();
-        })
+        // TODO RESET
+        // this.userService.resetIncidents(user.key).subscribe(() => {
+        //   user.incidentBook.reset();
+        // })
       })
     }
   }
