@@ -31,7 +31,6 @@ export class UserService {
               public logService: LogService,
               public incidentBookService: IncidentBookService,
               public supportBookService: SupportBookService) {
-    incidentBookService.setCount('-L6NWB0vTHL_YJzPVshf', 'NW', 10);
   }
 
   getUsers(): Observable<User[]> {
@@ -125,18 +124,20 @@ export class UserService {
       aString = "Incident Unassigned";
     }
 
-    return this.incidentBookService.setCount(user.key,productId,amount)
+    return this.incidentBookService.setCount(user.key, productId, amount)
       .pipe(
         tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(productId) + " to " + amount + " in " + productId))
       );
   }
 
+  // TODO DEPRECATED
   resetRCC(user: User) {
-    return this.userSetService.resetRCC(user);
+    // return this.userSetService.resetRCC(user);
   }
 
+  // TODO DEPRECATED
   resetIncidents(key) {
-    return this.incidentSetService.resetIncidentSet(key);
+    // return this.incidentSetService.resetIncidentSet(key);
   }
 
   updateQueueDays(user, amount) {
@@ -161,7 +162,7 @@ export class UserService {
     });
   }
 
-  // DEPRECATED
+  // TODO DEPRECATED
   deleteEverything() {
     // this.db.object('users').remove();
   }
