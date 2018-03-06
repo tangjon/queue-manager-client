@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Support} from '../model/support';
+import {SupportBook} from '../model/support_book';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../model/user';
@@ -29,7 +29,7 @@ export class RoleSetService {
       let supportSet = {};
       // process incidentSetResponse to IncidentBooks
       supportSetResponse.forEach((user: any) => {
-        let book = new Support();
+        let book = new SupportBook();
         // set incident book areas
         products.forEach((key: string) => {
           book.updateArea(key, JSON.parse(user[key]));
@@ -42,7 +42,7 @@ export class RoleSetService {
   }
 
   updateSupportSet(user: User, area: string, status: boolean) {
-    let copy: Support = new Support();
+    let copy: SupportBook = new SupportBook();
     copy.set(user.support.getAreas());
     copy.updateArea(area,status);
     // Work Around Server Doesnt Accept Boolean must convert to strings...
@@ -54,7 +54,7 @@ export class RoleSetService {
   createSupportSet(key: string) {
     return this.productService.getProducts().switchMap((areas: any[]) => {
       // build a support object
-      let tmp = new Support();
+      let tmp = new SupportBook();
       areas.forEach(area => {
         tmp.addArea(area)
       });

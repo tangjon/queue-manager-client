@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {IncidentBook} from '../model/incidents';
+import {IncidentBook} from '../model/incident_book';
 import {User} from '../model/user';
 import {environment} from "../../environments/environment";
 import {ProductService} from "./product.service";

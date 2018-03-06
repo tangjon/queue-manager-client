@@ -1,4 +1,4 @@
-export class Support {
+export class SupportBook {
   areas = {};
 
   // data = {};

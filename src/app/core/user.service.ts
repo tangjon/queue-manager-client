@@ -4,7 +4,6 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {catchError} from 'rxjs/operators/catchError'
 import {forkJoin} from 'rxjs/observable/forkJoin'
 import {IncidentSetService} from './incident-book-set.service';
 import {RoleSetService} from './support-set.service';
@@ -12,10 +11,8 @@ import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {Support} from "../model/support";
-import {IncidentBook} from "../model/incidents";
-import {SupportBookService} from "./support-book.service";
 import {IncidentBookService} from "./incident-book.service";
+import {SupportBookService} from "./support-book.service";
 
 @Injectable()
 export class UserService {
@@ -32,39 +29,27 @@ export class UserService {
               public supportSetService: RoleSetService,
               public userSetService: UserSetService,
               public logService: LogService,
-              public incidentBookService: IncidentBookService) {
+              public incidentBookService: IncidentBookService,
+              public supportBookService: SupportBookService) {
     incidentBookService.setCount('-L6NWB0vTHL_YJzPVshf', 'NW', 10);
   }
 
   getUsers(): Observable<User[]> {
-    return forkJoin([
-      this.userSetService.getUserSet(),
-      this.supportSetService.getSupportSet(),
-      this.incidentSetService.getIncidentSet()
-    ]).map(data => {
-      const [userSet, supportSet, incidentSet] = data;
-      let arr = [];
-      Object.keys(userSet).forEach(key => {
-        // populate the user set
-        userSet[key].incidentBook = incidentSet[key] || new IncidentBook();
-        userSet[key].support = supportSet[key] || new Support();
-        // if support set doesnt exist create it
-        if (!supportSet[key]) {
-          this.supportSetService.createSupportSet(key).subscribe(() => {
-          });
-        }
-        // if(!incidentSet[key]){
-        //   this.incidentSetService.createIncidentSet(key).subscribe(() => {
-        //   })
-        // }
-        arr.push(userSet[key])
+    return this.userSetService.getUserSetArray().switchMap((users: User[]) => {
+      let userbatch$ = [];
+      users.forEach(user => {
+        userbatch$.push(
+          forkJoin([this.incidentBookService.get(user.key), this.supportBookService.get(user.key)])
+            .map(data => {
+              const [incidentBook, supportBook] = data;
+              user.incidentBook.set(incidentBook);
+              user.support.set(supportBook);
+              return user;
+            })
+        );
       });
-      // return as an array
-      return arr;
-    })
-      .pipe(
-        catchError(this.handleError)
-      )
+      return forkJoin(userbatch$)
+    });
   }
 
   addUser(name: string, iNumber: string): Observable<User> {
@@ -109,7 +94,7 @@ export class UserService {
     }
     return this.supportSetService.updateSupportSet(user, role, bool)
       .pipe(
-        tap(() => this.logService.addLog(user, "Support Changed", action + " " + role))
+        tap(() => this.logService.addLog(user, "SupportBook Changed", action + " " + role))
       )
   }
 

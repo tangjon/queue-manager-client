@@ -20,9 +20,8 @@ export class IncidentBookService {
     this.http.get(url, this.httpOptions)
   }
 
-  get(UID: string, productKey: string) {
+  get(UID: string) {
     const url = `${this.api}?$filter=UID eq '${UID}'`;
-    console.log(url);
     return this.http.get(url).map((res: any) => {
       const uIncidentObj = {};
       res.d.results.forEach((el: any) => uIncidentObj[el.KEY] = el.COUNT);

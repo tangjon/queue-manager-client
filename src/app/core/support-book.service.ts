@@ -18,20 +18,30 @@ export class SupportBookService {
 
   }
 
-  get(UID: string, productKey: string) {
-    this.http.get(`${this.api}?$filter=UID eq ${UID}`).subscribe(t => console.log(t));
+  get(UID: string) {
+    const url = `${this.api}?$filter=UID eq '${UID}'`;
+    return this.http.get(url).map((res: any) => {
+      const uSupportObj = {};
+      res.d.results.forEach((el: any) => uSupportObj[el.KEY] = el.SUPPORT);
+      return uSupportObj;
+    });
   }
 
-  set(UID: string, productKey: string, bool: boolean) {
-
+  setCount(UID: string, productKey: string, bool: boolean) {
+    const url = `${this.api}(KEY='${productKey}',UID='${UID}')`;
+    const body = {
+      SUPPORT: bool.toString()
+    };
+    console.log(url);
+    return this.http.put(url, body, this.httpOptions);
   }
 
   // Needs to add new product to each engineer in the system...
-  add(productKey: string) {
+  add(UID: string, productKey: string) {
 
   }
 
-  remove(productKey: string) {
+  remove(UID: string, productKey: string) {
 
   }
 

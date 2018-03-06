@@ -26,6 +26,14 @@ export class UserSetService {
       })
   }
 
+  getUserSetArray() {
+    return this.http.get(this.api, this.httpOptions)
+      .map((res: any) => {
+        let arr: Array<any> = res.d.results;
+        return arr.map(rawUser => new User(rawUser));
+      })
+  }
+
   updateUserSet(user: User) {
     let body = this.generateBody(user);
     let url = `${this.api}('${user.key}')`;
