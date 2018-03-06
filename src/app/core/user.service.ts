@@ -14,6 +14,8 @@ import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {Support} from "../model/support";
 import {IncidentBook} from "../model/incidents";
+import {SupportBookService} from "./support-book.service";
+import {IncidentBookService} from "./incident-book.service";
 
 @Injectable()
 export class UserService {
@@ -29,7 +31,9 @@ export class UserService {
               public incidentSetService: IncidentSetService,
               public supportSetService: RoleSetService,
               public userSetService: UserSetService,
-              public logService: LogService) {
+              public logService: LogService,
+              public incidentBookService: IncidentBookService) {
+    incidentBookService.setCount('-L6NWB0vTHL_YJzPVshf', 'NW', 10);
   }
 
   getUsers(): Observable<User[]> {
@@ -47,7 +51,7 @@ export class UserService {
         // if support set doesnt exist create it
         if (!supportSet[key]) {
           this.supportSetService.createSupportSet(key).subscribe(() => {
-          })
+          });
         }
         // if(!incidentSet[key]){
         //   this.incidentSetService.createIncidentSet(key).subscribe(() => {
