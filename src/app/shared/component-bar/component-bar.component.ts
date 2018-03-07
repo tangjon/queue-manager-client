@@ -19,7 +19,6 @@ export class ComponentBarComponent implements OnInit {
     this.productList$ = this.productService.getProducts();
     this.productList$.subscribe(arr => {
       this.productListGrouped = this.formatComponentRows(arr);
-      console.log(this.productListGrouped);
     })
   }
 
@@ -39,7 +38,8 @@ export class ComponentBarComponent implements OnInit {
     }
     return newArr;
   }
-  getRouterLink(componentId){
+
+  getRouterLink(componentId) {
     return `qm/${componentId}`
   }
 

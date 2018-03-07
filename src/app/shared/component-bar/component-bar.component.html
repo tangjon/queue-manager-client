@@ -1,58 +1,10 @@
 <div *ngIf="afAuth.authState | async as user" class="mb-3">
   <h2 id="component-title" class="text-center">Components</h2>
-  <div id="component-menu" class="container text-center shadow">
-    <div class="row">
-      <div class="col">
-        <a class="nav-link" routerLink="qm/NW" routerLinkActive="active">NW </a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <a class="nav-link" routerLink="qm/MS" routerLinkActive="active">MS </a>
-      </div>
-      <div class="col">
-        <a class="nav-link" routerLink="qm/SA" routerLinkActive="active">SA </a>
-      </div>
-      <div class="col">
-        <a class="nav-link" routerLink="qm/SM" routerLinkActive="active">SM </a>
-      </div>
-      <div class="col">
-        <a class="nav-link" routerLink="qm/FC_EA_IC_FIM" routerLinkActive="active">FC/EA/IC/FIM </a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <a class="nav-link" routerLink="qm/DSM" routerLinkActive="active">DSM </a>
-      </div>
-      <div class="col">
-        <a class="nav-link" routerLink="qm/PCM" routerLinkActive="active">PCM </a>
-      </div>
-      <div class="col">
-        <a class="nav-link" routerLink="qm/RTC" routerLinkActive="active">RTC </a>
-      </div>
-      <div class="col">
-        <a class="nav-link" routerLink="qm/LOD_ANA_PL" routerLinkActive="active">LOD/ANA/PL</a>
+  <div id="component-menu-two" class="text-center shadow">
+    <div class="row " *ngFor="let group of productListGrouped">
+      <div class="col-3" *ngFor="let p of group">
+        <a class="nav-link" [routerLink]="getRouterLink(p)" routerLinkActive="active">{{p}} </a>
       </div>
     </div>
   </div>
 </div>
-
-<!--<div class="tbl">-->
-  <!--<div *ngFor="let group of productList$ | async">-->
-  <!--{{group}}-->
-    <!--<tr *ngFor="let item of group.items"><td>{{item}}</td></tr>-->
-  <!--</div>-->
-<!--</div>-->
-<div class="text-center bg-danger">
-  <div class="row " *ngFor="let group of productListGrouped">
-    <div class="col-3" *ngFor="let p of group">
-      <a class="nav-link" [routerLink]="getRouterLink(p)" routerLinkActive="active">{{p}} </a>
-    </div>
-  </div>
-</div>
-
-<!--<div class="row">-->
-  <!--<div class="col" *ngFor="let product of productList$ | async; let i = index">-->
-    <!--<div *ngIf="i <= 3">{{product}}</div>-->
-  <!--</div>-->
-<!--</div>-->
