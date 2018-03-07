@@ -12,7 +12,9 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class QmInfoComponent implements OnInit {
 
   qmUser: Observable<User>;
-  constructor(public userService: UserService, public snackBar: MatSnackBar) { }
+
+  constructor(public userService: UserService, public snackBar: MatSnackBar) {
+  }
 
   ngOnInit() {
     this.qmUser = this.userService.getQM();
@@ -20,12 +22,15 @@ export class QmInfoComponent implements OnInit {
 
   changeQM() {
     let uInput = prompt("Enter the iNumber of QM");
-    this.userService.setQM(uInput).subscribe(t => {
-        this.qmUser = this.userService.getQM();
-      this.snackBar.open("Welcome Queue Manager","Close",{ duration: 1000 })
-    },
-      err => {
-        alert(`'${uInput}' : User not found. Double check the iNumber`);
-      })
+    if (uInput.length) {
+      this.userService.setQM(uInput.toLowerCase()).subscribe(() => {
+          this.qmUser = this.userService.getQM();
+          this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
+        },
+        err => {
+          alert(`'${uInput}' : User not found. Double check the iNumber`);
+        })
+    }
+
   }
 }

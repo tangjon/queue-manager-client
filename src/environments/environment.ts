@@ -14,5 +14,5 @@ export const environment = {
     messagingSenderId: "1044152156042"
   },
   apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
-  appVersion: 'v2.11'
+  appVersion: 'v2.20'
 };

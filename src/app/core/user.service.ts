@@ -203,7 +203,7 @@ export class UserService {
   }
 
   setQM(iNumber: string) {
-    return this.getUser(iNumber).switchMap(
+    return this.getUser(iNumber.toLowerCase()).switchMap(
       (user: User) => {
         // noinspection SpellCheckingInspection
         const body = {

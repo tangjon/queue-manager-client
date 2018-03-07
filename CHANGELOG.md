@@ -3,7 +3,7 @@
 ## QM v2.11
 - Refactor services
 
-## QM v2.1 (Current)
+## QM v2.1
 - Improved UI
 - Cleaner code
 - Works only in Chrome
@@ -24,6 +24,12 @@
 
 ###  Quick Notes Sidebar
 - WIP but present
+
+## QM v2.2 (Current)
+- Support for adding new components
+- iNumbers are no longer case sensitive
+- New Settings sections to maintain the tool.
+- Time shift info
 
 # Features on the way...
 - Weather [LOW]

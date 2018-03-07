@@ -6,6 +6,7 @@ import {QueueControlComponent} from './queue-control/queue-control.component';
 import {ClipboardModule} from 'ngx-clipboard';
 import {QmInfoComponent} from './qm-info/qm-info.component';
 import {SharedModule} from "../shared/shared.module";
+import {ShiftInfoComponent} from './shift-info/shift-info.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {SharedModule} from "../shared/shared.module";
     QueueDashboardComponent,
     ClipboardComponent,
     QueueControlComponent,
-    QmInfoComponent
+    QmInfoComponent,
+    ShiftInfoComponent,
   ]
 })
 export class QueueDashboardModule {

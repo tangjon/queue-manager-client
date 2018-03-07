@@ -44,8 +44,8 @@ export class ComponentSettingsComponent implements OnInit {
   }
 
   removeProduct(productId) {
-    this.showSpinner = true;
     if (window.confirm(`Are you sure you want to remove component '${productId}'`)) {
+      this.showSpinner = true;
       this.userService.removeComponent(productId).subscribe(() => {
         this.showSpinner = false;
         this.snackBar.open(`Removed Support Product '${productId}'`, 'Close', {duration: 1000});
