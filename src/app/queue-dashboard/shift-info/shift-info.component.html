@@ -1,0 +1,8 @@
+*Testing, use for reference
+<div class="row">
+  <h4 *ngFor="let shift of SHIFTS" class="col-2 col-sm-auto"><span [class.badge-success]="shift.isOnline()"
+                                                                   [class.badge-danger]="!shift.isOnline()"
+                                                                   class="badge mr-1">{{shift.getStatus()}}</span>{{shift.location}}
+  </h4>
+</div>
+
