@@ -8,9 +8,11 @@ import {WorkShift} from "../../model/work_shift";
 })
 export class ShiftInfoComponent implements OnInit {
 
-  SHIFT_WEST = new WorkShift('West', new Date(820425600000), new Date(820425600000));
+  SHIFT_WEST = new WorkShift('West', new Date(820425600000), new Date(820458000000));
   SHIFT_EAST = new WorkShift('East', new Date(820414800000), new Date(820447200000));
-  SHIFTS = [this.SHIFT_EAST, this.SHIFT_WEST];
+  SHIFT_BRAZIL = new WorkShift('Brazil', new Date(820409400000), new Date(820443600000));
+
+  SHIFTS = [this.SHIFT_EAST, this.SHIFT_WEST, this.SHIFT_BRAZIL];
 
   // SHIFT_BRAZIL = new WorkShift();
 
@@ -19,7 +21,7 @@ export class ShiftInfoComponent implements OnInit {
 
   ngOnInit() {
     // this.SHIFT_WEST.start = new Date('December 31, 1995 05:00:00');
-    console.log(new Date('December 31, 1995 17:00:00').getTime())
+    // console.log(new Date('December 31, 1995 17:00:00').getTime())
   }
 
 
