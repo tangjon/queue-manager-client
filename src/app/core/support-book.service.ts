@@ -39,9 +39,6 @@ export class SupportBookService {
 
   // Needs to add new product to each engineer in the system...
   // go through each user and add support
-  addSupport(UID: string, productKey: string) {
-
-  }
 
   // create row for each current product
   initializeUser(UID) {
@@ -62,8 +59,16 @@ export class SupportBookService {
     });
   }
 
-  remove(UID: string, productKey: string) {
+  addComponet(UID: string, productKey: string) {
+    let body = {
+      KEY: productKey,
+      UID: UID
+    };
+    return this.http.post(this.api, body, this.httpOptions)
+  }
 
+  removeComponent(UID: string, productKey: string) {
+    return this.http.delete(`${this.api}(KEY='${productKey}',UID='${UID}')`)
   }
 
 

@@ -11,6 +11,7 @@ import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {IncidentBookService} from "./incident-book.service";
 import {SupportBookService} from "./support-book.service";
+import {ProductService} from "./product.service";
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,8 @@ export class UserService {
               public userSetService: UserSetService,
               public logService: LogService,
               public incidentBookService: IncidentBookService,
-              public supportBookService: SupportBookService) {
+              public supportBookService: SupportBookService,
+              public productService: ProductService) {
   }
 
   getUsers(): Observable<User[]> {
@@ -97,6 +99,36 @@ export class UserService {
     });
   }
 
+  addComponent(productId) {
+    return this.getUsers().switchMap((users) => {
+        let batchAdd$ = [];
+        users.forEach((user: User) => {
+          batchAdd$.push(this.supportBookService.addComponet(user.key, productId));
+          batchAdd$.push(this.incidentBookService.addComponet(user.key, productId));
+        });
+        batchAdd$.push(this.productService.addProduct(productId));
+        return forkJoin(batchAdd$).map(t => {
+          return "cats"
+        })
+      }
+    )
+  }
+
+  removeComponent(productId) {
+    return this.getUsers().switchMap((users) => {
+        let batchAdd$ = [];
+        users.forEach((user: User) => {
+          batchAdd$.push(this.supportBookService.removeComponent(user.key, productId));
+          batchAdd$.push(this.incidentBookService.removeComponent(user.key, productId));
+        });
+        batchAdd$.push(this.productService.removeProduct(productId));
+        return forkJoin(batchAdd$).map(t => {
+          return "cats"
+        })
+      }
+    )
+  }
+
   updateSupport(user: User, productId: string, bool: boolean) {
     let action = "";
     if (user.hasRole(productId)) {
@@ -104,7 +136,6 @@ export class UserService {
     } else {
       action = "Assigned";
     }
-
     return this.supportBookService.setSupport(user.key, productId, bool)
       .pipe(
         tap(() => this.logService.addLog(user, "SupportBook Changed", action + " " + productId))

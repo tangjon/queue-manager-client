@@ -38,11 +38,11 @@ export class ProductService {
       })
   }
 
-  addProducts() {
-
+  addProduct(productId) {
+    return this.http.post(this.api, {KEY: productId}, this.httpOptions)
   }
 
-  removeProduct() {
-
+  removeProduct(productId) {
+    return this.http.delete(`${this.api}('${productId}')`)
   }
 }

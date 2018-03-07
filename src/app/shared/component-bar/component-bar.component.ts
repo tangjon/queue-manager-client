@@ -27,9 +27,8 @@ export class ComponentBarComponent implements OnInit {
     let numOfGroups = Math.ceil(arr.length / 4);
     let newArr = [];
     for (let i = 0; i < numOfGroups; i++) {
-      newArr[i] = new Array(3);
+      newArr[i] = [];
     }
-
     for (let i = 0; i < arr.length; i++) {
       newArr[groupIndex][i % 4] = arr[i];
       if ((i + 1) % 4 == 0) {

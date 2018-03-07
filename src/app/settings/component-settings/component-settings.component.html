@@ -1,7 +1,14 @@
 <h4>Supported Products/Areas</h4>
+<p>Please Refresh the page after adding new products</p>
+
 <div class="list-group">
-  <div *ngFor="let product of products$ | async" href="#" class="list-group-item">
-    {{product}} <span class="fa fa-minus-circle text-danger"></span>
+  <div *ngIf="showSpinner">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  <div *ngIf="!showSpinner">
+    <div *ngFor="let product of productList" href="#" class="list-group-item">
+      {{product}} <span class="fa fa-minus-circle text-danger" (click)="removeProduct(product)"></span>
+    </div>
   </div>
 </div>
 

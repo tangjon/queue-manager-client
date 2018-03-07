@@ -40,8 +40,12 @@ export class IncidentBookService {
   }
 
   // Needs to add new product to each engineer in the system...
-  add(UID: string, productKey: string) {
-
+  addComponet(UID: string, productKey: string) {
+    let body = {
+      KEY: productKey,
+      UID: UID
+    };
+    return this.http.post(this.api, body, this.httpOptions)
   }
 
   initializeUser(UID) {
@@ -62,8 +66,8 @@ export class IncidentBookService {
     });
   }
 
-  remove(UID: string, productKey: string) {
-
+  removeComponent(UID: string, productKey: string) {
+    return this.http.delete(`${this.api}(KEY='${productKey}',UID='${UID}')`)
   }
 
 }
