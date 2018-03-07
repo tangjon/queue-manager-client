@@ -8,9 +8,9 @@ import {WorkShift} from "../../model/work_shift";
 })
 export class ShiftInfoComponent implements OnInit {
 
-  SHIFT_WEST = new WorkShift('West', new Date(820425600000), new Date(820458000000));
-  SHIFT_EAST = new WorkShift('East', new Date(820414800000), new Date(820447200000));
-  SHIFT_BRAZIL = new WorkShift('Brazil', new Date(820409400000), new Date(820443600000));
+  SHIFT_WEST = new WorkShift('West', new Date('December 31, 1995 08:00:00'), new Date('December 31, 1995 17:00:00'));
+  SHIFT_EAST = new WorkShift('East', new Date('December 31, 1995 06:00:00'), new Date('December 31, 1995 15:00:00'));
+  SHIFT_BRAZIL = new WorkShift('Brazil', new Date('December 31, 1995 04:30:00'), new Date('December 31, 1995 14:00:00'));
 
   SHIFTS = [this.SHIFT_EAST, this.SHIFT_WEST, this.SHIFT_BRAZIL];
 
