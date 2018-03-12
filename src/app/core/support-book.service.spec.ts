@@ -9,7 +9,7 @@ describe('SupportBookService', () => {
     });
   });
 
-  it('should be created', inject([SupportBookService], (service: SupportBookService) => {
-    expect(service).toBeTruthy();
-  }));
+  // it('should be created', inject([SupportBookService], (service: SupportBookService) => {
+  //   expect(service).toBeTruthy();
+  // }));
 });

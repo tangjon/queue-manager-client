@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './shared/navbar/navbar.component';
-import {FooterComponent} from './shared/footer/footer.component';
 import {LoginComponent} from './login/login.component';
 import {TeamManagerComponent} from './team-manager/team-manager.component';
 import {FormsModule} from '@angular/forms';
@@ -22,7 +21,6 @@ import {SettingsModule} from "./settings/settings.module";
   declarations: [
     AppComponent,
     NavbarComponent,
-    FooterComponent,
     LoginComponent,
     TeamManagerComponent,
     RccManagementComponent,

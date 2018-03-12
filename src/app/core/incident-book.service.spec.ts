@@ -9,7 +9,7 @@ describe('IncidentBookService', () => {
     });
   });
 
-  it('should be created', inject([IncidentBookService], (service: IncidentBookService) => {
-    expect(service).toBeTruthy();
-  }));
+  // it('should be created', inject([IncidentBookService], (service: IncidentBookService) => {
+  //   expect(service).toBeTruthy();
+  // }));
 });
