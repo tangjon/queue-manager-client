@@ -11,6 +11,7 @@ import {AngularFireDatabaseModule} from "angularfire2/database";
 import {ProductService} from "./product.service";
 import {SupportBookService} from "./support-book.service";
 import {IncidentBookService} from "./incident-book.service";
+import {ArchiveService} from "./archive.service";
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import {IncidentBookService} from "./incident-book.service";
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
-  providers: [UserService, UserSetService, LoginService, LogService, ProductService, SupportBookService, IncidentBookService]
+  providers: [UserService, UserSetService, LoginService, LogService, ProductService, SupportBookService, IncidentBookService, ArchiveService]
 })
 export class CoreModule {
 }

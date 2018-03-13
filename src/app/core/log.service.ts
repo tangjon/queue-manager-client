@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
+import {User} from "../model/user";
 
 
 @Injectable()
@@ -103,9 +104,9 @@ export class LogService {
     return localStorage['MYINUMBER'];
   }
 
-  getAssignmentCount(user) {
+  getAssignmentCount(user: User) {
+    // var url = this.api + "?$filter=INUMBER eq '" + user.iNumber + "'";
     const logs = this.activityLog;
-    const today = new Date();
     const filterlog = logs.filter((el: EntryLog) => {
       return el.iNumber === user.iNumber &&
         el.action.indexOf('Incident') !== -1 &&

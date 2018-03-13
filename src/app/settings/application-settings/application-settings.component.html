@@ -3,36 +3,42 @@
     <h4>Application Settings</h4>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card-body">
-      <h5 class="card-title">Master Reset</h5>
-      <p class="card-text">Resets all numeric values for all users</p>
-      <button class="btn btn-danger">Reset</button>
+<div *ngIf="showSpinner">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!showSpinner">
+  <div class="row">
+    <div class="col-sm-6 data-rest-btn">
+      <div class="card-body">
+        <h5 class="card-title">Archive and Reset</h5>
+        <p class="card-text">Resets all numeric values for all users</p>
+        <button class="btn btn-danger" (click)="archiveAndReset()">Reset</button>
+      </div>
+    </div>
+    <div class="col-sm-6 data-rest-btn">
+      <div class="card-body">
+        <h5 class="card-title">Reset Queue Days</h5>
+        <p class="card-text">Sets queue days for all users to zero</p>
+        <button class="btn btn-secondary" (click)="clearQueueDays()">Reset</button>
+      </div>
     </div>
   </div>
-  <div class="col-sm-6">
-    <div class="card-body">
-      <h5 class="card-title">Reset Queue Days</h5>
-      <p class="card-text">Sets queue days for all users to zero</p>
-      <button class="btn btn-secondary">Reset</button>
+  <div class="row">
+    <div class="col-sm-6 data-rest-btn">
+      <div class="card-body">
+        <h5 class="card-title">Reset Incidents</h5>
+        <p class="card-text">Sets incident counter for all users to zero</p>
+        <button class="btn btn-secondary" (click)="clearIncidents()">Reset</button>
+      </div>
+    </div>
+    <div class="col-sm-6 data-rest-btn">
+      <div class="card-body">
+        <h5 class="card-title">Reset Log Entries</h5>
+        <p class="card-text">Removes all log enties</p>
+        <button class="btn btn-secondary" (click)="clearEntryLogs()">Reset</button>
+      </div>
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card-body">
-      <h5 class="card-title">Reset Incidents</h5>
-      <p class="card-text">Sets incident counter for all users to zero</p>
-      <button class="btn btn-secondary">Reset</button>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card-body">
-      <h5 class="card-title">Reset Log Entries</h5>
-      <p class="card-text">Removes all log enties</p>
-      <button class="btn btn-secondary">Reset</button>
-    </div>
-  </div>
-</div>
+
 

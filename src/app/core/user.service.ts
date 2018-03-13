@@ -65,22 +65,6 @@ export class UserService {
     );
   }
 
-  // addUser(name: string, iNumber: string): Observable<User> {
-  //   const key = this.db.createPushId();
-  //   this.createUser(name, iNumber);
-  //   return forkJoin([
-  //     this.userSetService.createUserSet(name, iNumber, key),
-  //     this.supportSetService.createSupportSet(key),
-  //     this.incidentSetService.createIncidentSet(key)
-  //   ]).map((data: any[]) => {
-  //     const [userSet, roleSet, incidentSet] = data;
-  //     // put it all together
-  //     userSet.incidents = incidentSet;
-  //     userSet.role = roleSet;
-  //     return userSet;
-  //   });
-  // }
-
   updateUser(user: User) {
     return this.userSetService.updateUserSet(user);
   }
@@ -158,7 +142,7 @@ export class UserService {
 
   // TODO DEPRECATED
   resetRCC(user: User) {
-    // return this.userSetService.resetRCC(user);
+    return this.userSetService.resetRCC(user);
   }
 
   // TODO DEPRECATED
