@@ -9,8 +9,9 @@ import {forkJoin} from "rxjs/observable/forkJoin";
 @Injectable()
 export class ArchiveService {
   archivEntryAPI = environment.apiUrl + 'archive_entry';
-  archiveUserAPI = environment.apiUrl + 'archive_log';
-  archiveLogAPI = environment.apiUrl + 'archive_user';
+  archiveUserAPI = environment.apiUrl + 'archive_user';
+  archiveLogAPI = environment.apiUrl + 'archive_log';
+
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -26,12 +27,10 @@ export class ArchiveService {
   }
 
   add(logs: EntryLog[], users: User[]) {
-    console.log("oooooo");
 
     let archive_id = this.firebase.createPushId();
     let batch_user_add = [];
     users.forEach(user => {
-
       let body = this.generateBody(user, archive_id);
       batch_user_add.push(this.http.post(this.archiveUserAPI, body, this.httpOptions))
     });
@@ -51,7 +50,9 @@ export class ArchiveService {
       batch_log_add.push(this.http.post(this.archiveLogAPI, body, this.httpOptions))
     });
 
-    return forkJoin(forkJoin(batch_user_add), forkJoin(batch_log_add));
+    let archiveEntry$ = this.http.post(this.archivEntryAPI, {ID: archive_id, DATE: new Date().getTime()});
+
+    return forkJoin(archiveEntry$, forkJoin(batch_user_add), forkJoin(batch_log_add));
 
 
   }

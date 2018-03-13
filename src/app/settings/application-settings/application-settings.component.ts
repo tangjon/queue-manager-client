@@ -7,6 +7,7 @@ import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material";
 import {LogService} from "../../core/log.service";
 import {ArchiveService} from "../../core/archive.service";
+import {combineLatest} from "rxjs/observable/combineLatest";
 
 @Component({
   selector: 'app-application-settings',
@@ -83,11 +84,10 @@ export class ApplicationSettingsComponent implements OnInit {
 
   archiveAndReset() {
 
-    forkJoin([this.userSerivce.getUsers(), this.logService.getLogs()]).map(t => {
-      console.log(t);
-      return t;
+    combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
+      return this.archiveService.add(data[1], data[0]);
     }).subscribe(data => {
-      console.log(data);
+      console.log("SUCCESS!");
     })
 
   }
