@@ -53,3 +53,7 @@ body {
 .error-message {
   word-wrap: break-word;
 }
+
+a.nav-link.active {
+  background: linear-gradient(135deg, #fbb040 50%, #1d75bc 50%);
+}

@@ -14,5 +14,7 @@ export const environment = {
     messagingSenderId: "1044152156042"
   },
   apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
-  appVersion: 'v2.20'
+  appVersion: 'v2.20',
+  appName: 'Queue Manager Cloud Dispatcher',
+  appShort: 'QMCD'
 };

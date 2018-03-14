@@ -1,17 +1,34 @@
-<div id="navbar" class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-3 border-bottom box-shadow">
-  <a href="#" id="navbar-brand" class="my-0">
-    Queue Manager{{appVersion}}
-    <span *ngIf="!isProd" class="badge badge-dark">{{dEnvironmentMsg}}</span>
+<nav class="navbar navbar-expand-sm navbar-qmcd">
+  <a class="navbar-brand px-2" href="#">
+    <img src="/assets/logo-icon.png" width="30" height="30"
+         class="d-inline-block align-top" alt="">
+    {{appShort}} <span *ngIf="!isProd" class="badge badge-light">{{dEnvironmentMsg}}</span>
 
   </a>
-  <nav class="my-3 my-md-0 mr-md-auto">
-    <a class="ml-1 text-white" routerLink="/home" routerLinkActive="active">Home</a>
-    <a class="text-white" routerLink="/manage" routerLinkActive="active">Manage Team</a>
-    <a class="text-white" routerLink="/rcc" routerLinkActive="active">RCC</a>
-  </nav>
-  <div *ngIf="afAuth.authState | async">
-    <span style="color:white">Welcome {{ loginService.user?.name }}!</span>
-    <button class="ml-1 my-1 my-md-0" (click)="logout()">Logout</button>
-    <button class="ml-1 my-1 my-md-0" routerLink="/settings" routerLinkActive="active">Settings</button>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+      </li>
+      <li class="nav-item pl-1">
+        <a class="nav-link" routerLink="/manage" routerLinkActive="active">Manage Team</a>
+      </li>
+      <li class="nav-item pl-1">
+        <a class="nav-link" routerLink="/rcc" routerLinkActive="active">RCC</a>
+      </li>
+    </ul>
+
+    <div *ngIf="afAuth.authState | async">
+      <span style="color:white">Welcome {{ loginService.user?.name }}!</span>
+      <button class="ml-1 my-1 my-md-0" (click)="logout()">Logout</button>
+      <button class="ml-1 my-1 my-md-0" routerLink="/settings" routerLinkActive="active">Settings</button>
+    </div>
   </div>
-</div>
+
+
+</nav>
