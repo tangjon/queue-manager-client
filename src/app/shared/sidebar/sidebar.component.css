@@ -1,3 +1,22 @@
-.sidenav {
-  font-weight: 300;
+#sidebar-wrapper {
+  height: 100%;
+  /*background-color: #2c3e50;*/
+  background: linear-gradient(180deg, #2c3e50 0, #43586d 100%);
+  font-weight: 400;
+}
+
+#sidebar-wrapper hr {
+  border-top: 7px solid rgba(255, 255, 255, 0.4);
+}
+
+#sidebar-quick-notes {
+  background-color: #c73f3f;
+}
+
+#sidebar-nav {
+  width: 16.67%;
+  position: fixed;
+  z-index: 1;
+  top: 48px;
+  overflow-x: hidden;
 }

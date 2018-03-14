@@ -16,11 +16,13 @@ import {AppRoutingModule} from "./app-routing.module";
 import {CoreModule} from "./core/core.module";
 import {NoticeBoardComponent} from './notice-board/notice-board.component';
 import {SettingsModule} from "./settings/settings.module";
+import {QmInfoComponent} from "./shared/qm-info/qm-info.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    QmInfoComponent,
     LoginComponent,
     TeamManagerComponent,
     RccManagementComponent,

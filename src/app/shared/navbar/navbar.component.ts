@@ -10,6 +10,8 @@ import {environment} from '../../../environments/environment';
 })
 export class NavbarComponent implements OnInit {
   appVersion = environment.appVersion;
+  appName = environment.appName;
+  appShort = environment.appShort;
   isProd = environment.production;
   dEnvironmentMsg = 'DEVELOPMENT';
   userName: string;

@@ -4,7 +4,6 @@ import {QueueDashboardComponent} from './queue-dashboard.component';
 import {ClipboardComponent} from './clipboard/clipboard.component';
 import {QueueControlComponent} from './queue-control/queue-control.component';
 import {ClipboardModule} from 'ngx-clipboard';
-import {QmInfoComponent} from './qm-info/qm-info.component';
 import {SharedModule} from "../shared/shared.module";
 import {ShiftInfoComponent} from './shift-info/shift-info.component';
 
@@ -18,7 +17,6 @@ import {ShiftInfoComponent} from './shift-info/shift-info.component';
     QueueDashboardComponent,
     ClipboardComponent,
     QueueControlComponent,
-    QmInfoComponent,
     ShiftInfoComponent,
   ]
 })
