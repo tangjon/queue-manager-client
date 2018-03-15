@@ -23,3 +23,7 @@ div#rcc-info-panel {
     margin-bottom: 10px;
 }
 
+#rcc-component-header {
+  background-color: #e74c3c;
+}
+

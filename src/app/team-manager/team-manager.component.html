@@ -1,10 +1,10 @@
 
 
   <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-  <div id="team-manger" class="qm-tbl shadow">
-    <h1 class="qTable-title">Team Management</h1>
+  <div id="team-manger" class="qm-tbl">
+    <h1 class="qTable-title shadow-block">Team Management</h1>
     <!-- Table heading -->
-    <div class="qm-tbl-header">
+    <div class="qm-tbl-header shadow">
       <div class=" row">
         <div class="text-center col-sm-1">#</div>
         <div class="col">Name</div>
@@ -15,7 +15,7 @@
     </div>
     <!-- Table body -->
     <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
-    <div class="qm-tbl-row" *ngFor="let user of userList; let i = index">
+    <div class="qm-tbl-row shadow" *ngFor="let user of userList; let i = index">
       <div class="row"></div>
       <div class="row">
         <div class="text-center col-sm-1">{{i + 1}}</div>
