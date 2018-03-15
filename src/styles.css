@@ -57,3 +57,30 @@ body {
 a.nav-link.active {
   background: linear-gradient(135deg, #fbb040 50%, #1d75bc 50%);
 }
+
+.shadow-box {
+  height: 150px;
+  width: 300px;
+  margin: 20px;
+  border: 1px solid #ccc;
+}
+
+.shadow-top {
+  box-shadow: 0 -5px 5px -5px #333;
+}
+
+.shadow-right {
+  box-shadow: 5px 0 5px -5px #333;
+}
+
+.shadow-bottom {
+  box-shadow: 0 5px 5px -5px #333;
+}
+
+.shadow-left {
+  box-shadow: -5px 0 5px -5px #333;
+}
+
+.shadow-all {
+  box-shadow: 0 0 5px #333;
+}

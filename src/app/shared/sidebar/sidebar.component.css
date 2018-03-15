@@ -1,7 +1,8 @@
 #sidebar-wrapper {
   height: 100%;
   /*background-color: #2c3e50;*/
-  background: linear-gradient(180deg, #2c3e50 0, #43586d 100%);
+  /*background: linear-gradient(180deg, #2c3e50 0, #43586d 100%);*/
+  background: linear-gradient(180deg, #3a5066 0, #43586d 100%);
   font-weight: 400;
 }
 
@@ -10,13 +11,14 @@
 }
 
 #sidebar-quick-notes {
-  background: linear-gradient(135deg, #c33f3f 68%, #ab3434 50%)
+  /*background: linear-gradient(135deg, #c33f3f 68%, #ab3434 50%)*/
+  background: linear-gradient(135deg, #C73F40 94%, #9a3636 10%);
 }
 
 #sidebar-nav {
   width: 16.67%;
   position: fixed;
   z-index: 1;
-  top: 48px;
+  top: 46px;
   overflow-x: hidden;
 }
