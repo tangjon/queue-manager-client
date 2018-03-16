@@ -50,6 +50,24 @@ export class LogService {
     });
   }
 
+  getLogsArchivable() : Observable<any>{
+    return this.http.get(this.api, this.httpOptions).map((r: any) => {
+      this.activityLog = [];
+      const t = r.d.results.map((t: any) => {
+        const tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID);
+        tmp.setDateFromString(t.DATE);
+        return tmp;
+      });
+      t.forEach((el: EntryLog) => {
+        this.activityLog.push(el);
+      });
+      this.activityLog.sort(function (a: any, b: any) {
+        return b.date - a.date;
+      });
+      return this.activityLog;
+    })
+  }
+
   addLog(user, action, description) {
     const pushId = this.db.createPushId();
     const entry = new EntryLog(

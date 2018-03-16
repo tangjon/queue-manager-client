@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../core/user.service";
-import {forkJoin} from "rxjs/observable/forkJoin";
+import {forkJoin} from 'rxjs/observable/forkJoin';
 import {IncidentBookService} from "../../core/incident-book.service";
 import {User} from "../../model/user";
 import {ProductService} from "../../core/product.service";
@@ -10,6 +10,7 @@ import {ArchiveService} from "../../core/archive.service";
 import {combineLatest} from "rxjs/observable/combineLatest";
 import {tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
+
 // import * as $ from 'jquery'
 @Component({
   selector: 'app-application-settings',
@@ -36,11 +37,13 @@ export class ApplicationSettingsComponent implements OnInit {
   archive() {
     if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
       this.showSpinner = true;
-      combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
+      forkJoin([this.userSerivce.getUsers(), this.logService.getLogsArchivable()]).switchMap(data => {
         return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
-
           let d = new Date();
-          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify({users: data[0], logs: data[1]}));
+          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify({
+            users: data[0],
+            logs: data[1]
+          }));
         }));
       }).subscribe(resp => {
           this.resetProgressArr[0] = true;
@@ -68,7 +71,6 @@ export class ApplicationSettingsComponent implements OnInit {
       //   this.showSpinner = false;
       //   this.snackbar.open('Queue Days Reset', 'Close', {duration: 1000});
       // })
-
       this.userSerivce.getUsers().switchMap(users => {
         let batchCall = [];
         users.forEach((user: User) => {
