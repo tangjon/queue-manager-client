@@ -51,16 +51,17 @@
 
 #sidebar-next-reset-date {
   background: linear-gradient(135deg, #4CAF50 94%, #347737 10%);
-  margin: 6px;
+  border: 5px solid #347737;
+
 }
 
 #sidebar-next-reset-date:after {
-  background-color: #347737;
-  content: '';
-  position: absolute;
-  top: 258px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  z-index: -1;
+  /*background-color: #347737;*/
+  /*content: '';*/
+  /*position: center;*/
+  /*top: 0;*/
+  /*left: 0px;*/
+  /*right: 0px;*/
+  /*bottom: 0px;*/
+  /*z-index: -1;*/
 }

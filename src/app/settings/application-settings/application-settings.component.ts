@@ -10,7 +10,7 @@ import {ArchiveService} from "../../core/archive.service";
 import {combineLatest} from "rxjs/observable/combineLatest";
 import {tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
-
+// import * as $ from 'jquery'
 @Component({
   selector: 'app-application-settings',
   templateUrl: './application-settings.component.html',
@@ -37,12 +37,10 @@ export class ApplicationSettingsComponent implements OnInit {
     if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
       this.showSpinner = true;
       combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
-        console.log("hello");
         return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
-          console.log("hello2");
 
           let d = new Date();
-          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify(data));
+          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify({users: data[0], logs: data[1]}));
         }));
       }).subscribe(resp => {
           this.resetProgressArr[0] = true;
@@ -50,7 +48,7 @@ export class ApplicationSettingsComponent implements OnInit {
           this.snackbar.open('Application Archive Reset Success!', 'Close', {duration: 1000});
         },
         err => {
-          this.snackbar.open(`An error has occured ${err.message}`, 'Close')
+          this.snackbar.open(`An error has occurred ${err.message}`, 'Close')
         })
     }
   }
@@ -125,9 +123,11 @@ export class ApplicationSettingsComponent implements OnInit {
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename + '.txt');
+    element.setAttribute('id', 'dd');
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
+    // $('#dd').ready
     document.body.removeChild(element);
   }
 
