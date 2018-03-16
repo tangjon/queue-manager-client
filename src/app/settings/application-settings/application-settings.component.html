@@ -10,9 +10,12 @@
   <div class="row">
     <div class="col-sm-6 data-rest-btn">
       <div class="card-body">
-        <h5 class="card-title">Archive and Reset</h5>
+        <h5 class="card-title">Archive and Reset (May take a while)</h5>
         <p class="card-text">Resets all numeric values for all users</p>
+
         <button class="btn btn-danger" (click)="archiveAndReset()">Reset</button>
+        <button id="btn-download" class="btn btn-danger" (click)="promptDownload()">Save</button>
+
       </div>
     </div>
     <div class="col-sm-6 data-rest-btn">

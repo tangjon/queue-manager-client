@@ -8,6 +8,8 @@ import {MatSnackBar} from "@angular/material";
 import {LogService} from "../../core/log.service";
 import {ArchiveService} from "../../core/archive.service";
 import {combineLatest} from "rxjs/observable/combineLatest";
+import {tap} from 'rxjs/operators';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-application-settings',
@@ -20,7 +22,8 @@ export class ApplicationSettingsComponent implements OnInit {
 
   constructor(public userSerivce: UserService, public incidentBook: IncidentBookService,
               public productService: ProductService, public snackbar: MatSnackBar, public logService: LogService,
-              public archiveService: ArchiveService) {
+              public archiveService: ArchiveService,
+              private sanitizer: DomSanitizer) {
   }
 
 
@@ -84,15 +87,44 @@ export class ApplicationSettingsComponent implements OnInit {
 
   archiveAndReset() {
 
-    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?")) {
+    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
+      this.showSpinner = true;
       combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
-        return this.archiveService.add(data[1], data[0]);
-      }).subscribe(data => {
-        this.snackbar.open('Application Archive Reset Success!', 'Close', {duration: 1000});
-      })
+        return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
+          let d = new Date();
+          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify(data));
+        }));
+      }).subscribe(resp => {
+
+          this.showSpinner = false;
+          this.snackbar.open('Application Archive Reset Success!', 'Close', {duration: 1000});
+        },
+        err => {
+          this.snackbar.open(`An error has occured ${err.message}`, 'Close')
+        })
     }
 
 
+  }
+
+  download(filename, text) {
+    let btnRef = document.getElementById('btn-download');
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename + '.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  promptDownload() {
+    this.download("", "HELLO WORLD")
+  }
+
+
+  sanitize(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
 }
