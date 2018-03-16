@@ -19,15 +19,37 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class ApplicationSettingsComponent implements OnInit {
 
   showSpinner = false;
+  // 1 - Archive 2 - Reset Incidents 3 - Reset Queue Days 4 - Reset Log
+  resetProgressArr = [false, false, false, false]; // me being lazy
+
 
   constructor(public userSerivce: UserService, public incidentBook: IncidentBookService,
               public productService: ProductService, public snackbar: MatSnackBar, public logService: LogService,
               public archiveService: ArchiveService,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer,) {
   }
 
 
   ngOnInit() {
+  }
+
+  archive() {
+    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
+      this.showSpinner = true;
+      combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
+        return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
+          let d = new Date();
+          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify(data));
+        }));
+      }).subscribe(resp => {
+          this.resetProgressArr[0] = true;
+          this.showSpinner = false;
+          this.snackbar.open('Application Archive Reset Success!', 'Close', {duration: 1000});
+        },
+        err => {
+          this.snackbar.open(`An error has occured ${err.message}`, 'Close')
+        })
+    }
   }
 
   clearQueueDays() {
@@ -54,6 +76,7 @@ export class ApplicationSettingsComponent implements OnInit {
         return forkJoin(batchCall);
       }).subscribe(() => {
         this.showSpinner = false;
+        this.resetProgressArr[1] = true;
         this.snackbar.open('Queue Days Reset', 'Close', {duration: 1000});
       })
     }
@@ -61,7 +84,14 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   clearEntryLogs() {
-
+    if (window.confirm("Are you sure you want to purge enty logs?")) {
+      this.showSpinner = true;
+      this.logService.purgeLogs().subscribe(() => {
+        this.snackbar.open('Logs were purged succesfully', 'Close', {duration: 1000});
+        this.showSpinner = false;
+        this.resetProgressArr[3] = true;
+      })
+    }
   }
 
   clearIncidents() {
@@ -78,6 +108,7 @@ export class ApplicationSettingsComponent implements OnInit {
         });
         return forkJoin(batchCall);
       }).subscribe(() => {
+        this.resetProgressArr[2] = true;
         this.showSpinner = false;
         this.snackbar.open('Incidents Reset', 'Close', {duration: 1000});
       })
@@ -85,27 +116,6 @@ export class ApplicationSettingsComponent implements OnInit {
 
   }
 
-  archiveAndReset() {
-
-    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
-      this.showSpinner = true;
-      combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
-        return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
-          let d = new Date();
-          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify(data));
-        }));
-      }).subscribe(resp => {
-
-          this.showSpinner = false;
-          this.snackbar.open('Application Archive Reset Success!', 'Close', {duration: 1000});
-        },
-        err => {
-          this.snackbar.open(`An error has occured ${err.message}`, 'Close')
-        })
-    }
-
-
-  }
 
   download(filename, text) {
     let btnRef = document.getElementById('btn-download');
@@ -121,10 +131,4 @@ export class ApplicationSettingsComponent implements OnInit {
   promptDownload() {
     this.download("", "HELLO WORLD")
   }
-
-
-  sanitize(url: string) {
-    return this.sanitizer.bypassSecurityTrustUrl(url);
-  }
-
 }

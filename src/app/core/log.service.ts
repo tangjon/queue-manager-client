@@ -82,11 +82,10 @@ export class LogService {
       array.push(this.http.delete(url));
     });
 
-    Observable.forkJoin(array).map(() => {
+    return Observable.forkJoin(array).map(() => {
       this.activityLog.splice(0, this.activityLog.length);
       this.logSource.next(this.activityLog);
-    }).subscribe(() => {
-    });
+    })
     // this.activityLog.forEach((el: EntryLog) => {
     //   let url = `${this.api}('${el.pushID}')`;
     //   console.log(url)
