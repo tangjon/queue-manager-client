@@ -140,14 +140,8 @@ export class UserService {
       );
   }
 
-  // TODO DEPRECATED
   resetRCC(user: User) {
     return this.userSetService.resetRCC(user);
-  }
-
-  // TODO DEPRECATED
-  resetIncidents(key) {
-    // return this.incidentSetService.resetIncidentSet(key);
   }
 
   updateQueueDays(user, amount) {

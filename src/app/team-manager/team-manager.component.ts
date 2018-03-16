@@ -35,7 +35,7 @@ export class TeamManagerComponent {
           return 0;
         });
     }, error => {
-      this.errorMessage = error;
+      this.errorMessage = error.message;
     })
   }
 

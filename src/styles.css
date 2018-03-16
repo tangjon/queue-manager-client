@@ -68,6 +68,7 @@ a.nav-link.active {
 }
 
 .error-message {
+  white-space: pre-wrap;
   word-wrap: break-word;
 }
 

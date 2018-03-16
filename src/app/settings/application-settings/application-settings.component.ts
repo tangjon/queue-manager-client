@@ -84,11 +84,14 @@ export class ApplicationSettingsComponent implements OnInit {
 
   archiveAndReset() {
 
-    combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
-      return this.archiveService.add(data[1], data[0]);
-    }).subscribe(data => {
-      console.log("SUCCESS!");
-    })
+    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?")) {
+      combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
+        return this.archiveService.add(data[1], data[0]);
+      }).subscribe(data => {
+        this.snackbar.open('Application Archive Reset Success!', 'Close', {duration: 1000});
+      })
+    }
+
 
   }
 

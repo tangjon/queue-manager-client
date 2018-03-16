@@ -53,7 +53,7 @@ export class QueueControlComponent implements OnInit {
           this.updateSummary();
         },
         (error) => {
-          this.errorMessage = 'Received an error: ' + error
+          this.errorHandler(error)
         });
     });
   }
@@ -88,7 +88,8 @@ export class QueueControlComponent implements OnInit {
           this.refreshLists();
         },
         error => {
-          this.snackBar.open(error, 'Close', {duration: 2000});
+
+          this.errorHandler(error)
         }
       );
     }
@@ -105,11 +106,29 @@ export class QueueControlComponent implements OnInit {
           this.updateSummary();
           this.refreshLists();
         }, error => {
-          this.snackBar.open(error, 'Close', {duration: 2000});
+        this.errorHandler(error)
         }
       );
     }
 
+  }
+
+  logIt(msg) {
+    console.log(msg);
+  }
+
+  updateSummary() {
+    let totalA = 0;
+    this._userListAll.forEach(user => {
+      totalA += user.getIncidentTotal();
+    });
+    this.totalIncidents = totalA;
+
+    let totalB = 0;
+    this._userListCtx.forEach(element => {
+      totalB += element.incidentBook.data[this.paramId];
+    });
+    this.totalIncidentsCtx = totalB;
   }
 
   private prepareBusy() {
@@ -155,22 +174,9 @@ export class QueueControlComponent implements OnInit {
         });
   }
 
-  logIt(msg) {
-    console.log(msg);
-  }
-
-  updateSummary() {
-    let totalA = 0;
-    this._userListAll.forEach(user => {
-      totalA += user.getIncidentTotal();
-    });
-    this.totalIncidents = totalA;
-
-    let totalB = 0;
-    this._userListCtx.forEach(element => {
-      totalB += element.incidentBook.data[this.paramId];
-    });
-    this.totalIncidentsCtx = totalB;
+  private errorHandler(error) {
+    this.errorMessage = `Received an error: ${error.message}\nConsider the following:\n1.Are you using Chrome?\n2.Please Restart the Database`;
+    this.snackBar.open(error.message, 'Close');
   }
 
 

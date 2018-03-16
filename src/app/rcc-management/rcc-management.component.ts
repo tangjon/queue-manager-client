@@ -30,7 +30,7 @@ export class RccManagementComponent implements OnInit {
         return 0;
       });
     }, error => {
-      this.errorMessage = error;
+      this.errorMessage = error.message;
     })
   }
 
