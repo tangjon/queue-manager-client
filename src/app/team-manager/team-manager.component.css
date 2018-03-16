@@ -56,8 +56,11 @@ div#add-user-form {
     float: right;
   }
 
-  #team-manger h1.qTable-title {
-      background-color: #2980b9
+#team-manger-component-header {
+    background-color: #1d75bc;
+    /*margin-bottom: 15px;*/
+    /*-webkit-box-shadow: 10px 10px grey;*/
+    /*box-shadow: 6px 6px #0d62a7;*/
   }
 
 

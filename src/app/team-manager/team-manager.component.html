@@ -1,10 +1,10 @@
 
 
   <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-  <div id="team-manger" class="qm-tbl shadow">
-    <h1 class="qTable-title">Team Management</h1>
+  <div id="team-manger" class="qm-tbl">
+    <h1 class="component-header" id="team-manger-component-header">Team Management</h1>
     <!-- Table heading -->
-    <div class="qm-tbl-header">
+    <div class="qm-tbl-header shadow">
       <div class=" row">
         <div class="text-center col-sm-1">#</div>
         <div class="col">Name</div>
@@ -15,7 +15,7 @@
     </div>
     <!-- Table body -->
     <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
-    <div class="qm-tbl-row" *ngFor="let user of userList; let i = index">
+    <div class="qm-tbl-row shadow" *ngFor="let user of userList; let i = index">
       <div class="row"></div>
       <div class="row">
         <div class="text-center col-sm-1">{{i + 1}}</div>
@@ -52,26 +52,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div id="add-user-form">
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label>Name</label>
-          <input [(ngModel)]="inputName" [value]="inputName" type="text" class="form-control" id="inputName" placeholder="Enter First Name">
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label>iNumber</label>
-          <input [(ngModel)]="inputiNumber" [value]="inputiNumber" type="text" class="form-control" id="inputINumber" placeholder="iNumber">
-        </div>
-      </div>
-
-    </div>
-    <button type="button" class="btn btn-primary" (click)="addUser(inputName, inputiNumber)">Add User</button> -->
-  <!-- <button type="button" class="btn btn-danger" (click)="deleteEverything()">Remove All</button> -->
-  <!-- </div> -->
 
   <form id="add-user-form" #userForm="ngForm" (ngSubmit)="onAddUser(userForm)">
     <div class="form-group">
