@@ -22,3 +22,18 @@
   top: 46px;
   overflow-x: hidden;
 }
+
+#sidebar-nav:after {
+  background-color: #9a3636;
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+
+#sidebar-quick-notes {
+  margin: 6px;
+}
