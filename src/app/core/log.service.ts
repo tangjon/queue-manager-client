@@ -18,8 +18,8 @@ export class LogService {
   };
   private api = environment.apiUrl + 'activity_log';
   private logSource = new BehaviorSubject<EntryLog[]>([]);
-  private activityLog: Array<EntryLog>;
   activityLog$ = this.logSource.asObservable();
+  private activityLog: Array<EntryLog>;
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     // this.activityLog = new Array<EntryLog>();
@@ -75,17 +75,22 @@ export class LogService {
     });
   }
 
-  purgeLogs() {
+  purgeLogs(): Observable<any> {
     const array = [];
     this.activityLog.forEach((el: EntryLog) => {
       const url = `${this.api}('${el.pushID}')`;
       array.push(this.http.delete(url));
     });
+    console.log(array);
+    if (array.length == 0) {
+      return Observable.of({});
+    } else {
+      return Observable.forkJoin(array).map(() => {
+        this.activityLog.splice(0, this.activityLog.length);
+        this.logSource.next(this.activityLog);
+      })
+    }
 
-    return Observable.forkJoin(array).map(() => {
-      this.activityLog.splice(0, this.activityLog.length);
-      this.logSource.next(this.activityLog);
-    })
     // this.activityLog.forEach((el: EntryLog) => {
     //   let url = `${this.api}('${el.pushID}')`;
     //   console.log(url)

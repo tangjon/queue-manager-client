@@ -19,7 +19,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class ApplicationSettingsComponent implements OnInit {
 
   showSpinner = false;
-  // 1 - Archive 2 - Reset Incidents 3 - Reset Queue Days 4 - Reset Log
+  // 1 - Archive 2 -  Reset Queue3 -Reset Incidents  Days 4 - Reset Log
   resetProgressArr = [false, false, false, false]; // me being lazy
 
 
@@ -37,7 +37,10 @@ export class ApplicationSettingsComponent implements OnInit {
     if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
       this.showSpinner = true;
       combineLatest([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
+        console.log("hello");
         return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
+          console.log("hello2");
+
           let d = new Date();
           this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify(data));
         }));
