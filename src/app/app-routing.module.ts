@@ -5,6 +5,7 @@ import {QueueDashboardComponent} from "./queue-dashboard/queue-dashboard.compone
 import {RouterModule, Routes} from "@angular/router";
 import {RccManagementComponent} from "./rcc-management/rcc-management.component";
 import {SettingsComponent} from "./settings/settings.component";
+import {AboutComponent} from "./about/about.component";
 
 const appRoutes: Routes = [
   {
@@ -16,7 +17,8 @@ const appRoutes: Routes = [
   {path: 'manage', component: TeamManagerComponent},
   {path: 'rcc', component: RccManagementComponent},
   {path: 'qm/:id', component: QueueDashboardComponent},
-  {path: 'settings', component: SettingsComponent}
+  {path: 'settings', component: SettingsComponent},
+  {path: 'about', component: AboutComponent}
 ];
 
 

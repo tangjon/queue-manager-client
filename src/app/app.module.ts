@@ -17,6 +17,7 @@ import {CoreModule} from "./core/core.module";
 import {NoticeBoardComponent} from './notice-board/notice-board.component';
 import {SettingsModule} from "./settings/settings.module";
 import {QmInfoComponent} from "./shared/qm-info/qm-info.component";
+import {AboutComponent} from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {QmInfoComponent} from "./shared/qm-info/qm-info.component";
     ComponentBarComponent,
     SidebarComponent,
     ActivityLogComponent,
-    NoticeBoardComponent
+    NoticeBoardComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
