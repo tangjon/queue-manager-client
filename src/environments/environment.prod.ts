@@ -8,7 +8,8 @@ export const environment = {
     storageBucket: "queue-manager-fb-ajs.appspot.com",
     messagingSenderId: "1044152156042"
   },
-  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/',
+  // apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/hana_hello/data.xsodata/',
+  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_prod/data.xsodata/',
   appVersion: 'v2.20',
   appName: 'Queue Manager Cloud Dispatcher',
   appShort: 'QMCD'

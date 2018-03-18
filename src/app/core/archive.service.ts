@@ -53,7 +53,7 @@ export class ArchiveService {
     if (batch_log_add.length == 0) {
       batch_log_add.push(Observable.of({}));
     }
-    let archiveEntry$ = this.http.post(this.archivEntryAPI, {ID: archive_id, DATE: new Date().getTime()});
+    let archiveEntry$ = this.http.post(this.archivEntryAPI, {ID: archive_id, DATE: new Date()});
 
     return forkJoin(archiveEntry$, forkJoin(batch_user_add), forkJoin(batch_log_add));
 
