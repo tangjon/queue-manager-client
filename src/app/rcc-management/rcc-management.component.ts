@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {User} from '../model/user';
 import {UserService} from '../core/user.service';
 import {LogService} from '../core/log.service';
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-rcc-management',
@@ -19,7 +20,7 @@ export class RccManagementComponent implements OnInit {
 
   currentDate: Date;
 
-  constructor(public db: AngularFireDatabase, public userService: UserService, public logService: LogService) {
+  constructor(public db: AngularFireDatabase, public userService: UserService, public logService: LogService, public matSnackBar: MatSnackBar) {
     this.userService.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {
@@ -48,6 +49,8 @@ export class RccManagementComponent implements OnInit {
         let newAmount = user.currentQDays + amount;
         this.userService.updateQueueDays(user, newAmount).subscribe(r => {
           user.currentQDays = r;
+        }, err => {
+          this.matSnackBar.open("Error occured: " + err.message, "Close");
         })
       }
     }
@@ -61,6 +64,8 @@ export class RccManagementComponent implements OnInit {
       if (window.confirm(`${user.name} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
         this.userService.updateQueueDays(user, amount).subscribe(r => {
           user.currentQDays = r;
+        }, err => {
+          this.matSnackBar.open("Error occured: " + err.message, "Close");
         })
       }
     }
