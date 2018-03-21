@@ -149,7 +149,13 @@ export class UserService {
     tmp.currentQDays = amount;
     return this.updateUser(tmp).map(() => amount)
       .pipe(
-        tap(() => this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays))
+        tap(() => {
+            console.log("NOT SUPPOSED TO HAPPEN");
+            this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays);
+          },
+          () => console.log("ERROR!"),
+          () => console.log("COMPLETED!!!")
+        )
       );
   }
 
