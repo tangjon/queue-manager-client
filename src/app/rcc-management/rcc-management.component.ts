@@ -94,44 +94,6 @@ export class RccManagementComponent implements OnInit {
     return this.daysLeftInQuarter(new Date())
   }
 
-  resetRCC() {
-    let prompt = window.confirm("Are you sure you want to reset queue days?\nPlease double check!\nIt may already be done!");
-    if (prompt) {
-      this._userList.forEach((el: User) => {
-        if (el.currentQDays != 0) {
-          // TODO RESET
-          // this.userService.resetRCC(el).subscribe(() => {
-          //   el.currentQDays = 0;
-          // })
-        }
-      });
-    }
-  }
-
-  resetAllIncidents() {
-    let prompt = window.confirm("Are you sure you want to reset incident count for all users?\nPlease double check!\nIt may already be done!");
-    if (prompt) {
-      this._userList.forEach((user: User) => {
-        // TODO RESET
-        // this.userService.resetIncidents(user.key).subscribe(() => {
-        //   user.incidentBook.reset();
-        // })
-      })
-    }
-  }
-  resetActivityLog() {
-    let prompt = window.confirm("Are you sure you want to reset incident count for all users?\nPlease double check!\nIt may already be done!");
-    if (prompt) {
-      this.logService.purgeLogs();
-    }
-  }
-
-  masterReset() {
-    this.resetActivityLog();
-    this.resetAllIncidents();
-    this.resetRCC();
-  }
-
   logIt(msg) {
     console.log(msg);
   }

@@ -18,6 +18,8 @@ import {NoticeBoardComponent} from './notice-board/notice-board.component';
 import {SettingsModule} from "./settings/settings.module";
 import {QmInfoComponent} from "./shared/qm-info/qm-info.component";
 import {AboutComponent} from './about/about.component';
+import { NotificationComponent } from './notification/notification.component';
+import {NotificationModule} from "./notification/notification.module";
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import {AboutComponent} from './about/about.component';
     SharedModule,
     AppRoutingModule,
     SettingsModule,
+    NotificationModule,
     CoreModule
   ],
   bootstrap: [AppComponent]
