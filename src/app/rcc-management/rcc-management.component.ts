@@ -5,6 +5,7 @@ import {User} from '../model/user';
 import {UserService} from '../core/user.service';
 import {LogService} from '../core/log.service';
 import {MatSnackBar} from "@angular/material";
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-rcc-management',
@@ -40,7 +41,7 @@ export class RccManagementComponent implements OnInit {
   }
 
   // Increment by one
-  addQueueDay(user) {
+  addQueueDay(user: User) {
     let pVal = prompt(`Enter the amount you want to add for ${user.name}`);
     // parse value
     let amount = parseFloat(pVal);
@@ -49,6 +50,8 @@ export class RccManagementComponent implements OnInit {
         let newAmount = user.currentQDays + amount;
         this.userService.updateQueueDays(user, newAmount).subscribe(r => {
           user.currentQDays = r;
+          let selector = `#${user.iNumber}.css-checkbox`;
+          $(selector).attr("checked", "checked"); //jquery to check the box
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         })
