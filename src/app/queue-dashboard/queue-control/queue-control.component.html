@@ -31,7 +31,7 @@
       <tr *ngFor="let user of _userListAvailable; let i = index">
         <th scope="row">
           {{i + 1}}
-          <img *ngIf="getAssignmentCount(user) > 3" class="on-fire text-center" src="../../../assets/fireball.gif"
+          <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
                style="display: block">
         </th>
         <td>{{user.name + "(" + user.iNumber + ")"}}</td>
