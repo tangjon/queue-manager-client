@@ -26,3 +26,9 @@
   width: 13.5px;
   margin: auto;
 }
+
+
+tr.high-workload{
+  border-width: 5px;
+  border-left: solid red;
+}

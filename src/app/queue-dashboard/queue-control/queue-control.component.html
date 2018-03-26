@@ -28,7 +28,7 @@
           <app-loading-spinner></app-loading-spinner>
         </td>
       </tr>
-      <tr *ngFor="let user of _userListAvailable; let i = index">
+      <tr *ngFor="let user of _userListAvailable; let i = index" [class.high-workload]="getAssignmentCount(user) >= 3">
         <th scope="row">
           {{i + 1}}
           <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
