@@ -1,7 +1,7 @@
 
 
   <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-  <div id="team-manger" class="qm-tbl">
+  <div id="team-manger" class="qm-tbl mt-3">
     <h1 class="component-header" id="team-manger-component-header">Team Management</h1>
     <!-- Table heading -->
     <div class="qm-tbl-header shadow">
@@ -38,7 +38,7 @@
         <div class="col-sm">
           Roles:
           <!-- <button type="button" class="btn btn-success" *ngFor="let support of getRoles(user)"></button> -->
-          <span class="badge badge-success" *ngFor="let role of user.getUserRoles()">{{ role }}</span>
+          <span class="badge badge-success" *ngFor="let role of productList"><div *ngIf="this.user.hasRole(role)">{{role}}</div></span>
         </div>
         <div class="col-sm-2 text-right">
           Toggle Roles:
@@ -53,20 +53,36 @@
     </div>
   </div>
 
-  <form id="add-user-form" #userForm="ngForm" (ngSubmit)="onAddUser(userForm)">
-    <div class="form-group">
-      <label>Name</label>
-      <input type="text" class="form-control" name="name" placeholder="User Name" required #name="ngModel" ngModel>
-      <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-        Name is required
+  <form class="qm-form shadow mb-4" #addUserForm="ngForm" (ngSubmit)="onAddUser(addUserForm)">
+    <div class="form-row mb-2">
+      <div class="col">
+        <label>Name</label>
+        <input type="text" class="form-control" #name="ngModel" name="name" placeholder="ex. John" required
+               minlength="3" ngModel>
+        <div *ngIf="name.invalid && (name.dirty || name.touched)"
+             class="alert alert-danger">
+          <div *ngIf="name?.errors.required">
+            iNumber is required.
+          </div>
+          <div *ngIf="name?.errors.minlength">
+            Name must be at least 3 characters long.
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <label>iNumber</label>
+        <input type="text" class="form-control" #iNumber="ngModel" name="iNumber" placeholder="ex. i123456" required
+               minlength="7" ngModel>
+        <div *ngIf="iNumber.invalid && (iNumber.dirty || iNumber.touched)"
+             class="alert alert-danger">
+          <div *ngIf="iNumber?.errors.required">
+            iNumber is required.
+          </div>
+          <div *ngIf="iNumber?.errors.minlength">
+            iNumber must be at least 7 characters long.
+          </div>
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <label>INumber</label>
-      <input type="text" class="form-control" #iNumber="ngModel" name="iNumber" placeholder="i12345" required ngModel>
-      <div [hidden]="iNumber.valid || iNumber.pristine" class="alert alert-danger">
-        INumber is required
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Add User</button>
+    <button type="submit" [disabled]="!addUserForm.valid" class="btn btn-primary mb-2">Add User</button>
   </form>

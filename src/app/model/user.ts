@@ -46,6 +46,7 @@ export class User {
     return total;
   }
 
+  ///TODO THIS IS BROKEN!
   getUserRoles(): Array<string> {
     let list: Array<string> = [];
     Object.keys(this.support).forEach(el => {
@@ -53,6 +54,7 @@ export class User {
         list.push(el);
       }
     });
+    console.log(list);
     return list;
   }
 

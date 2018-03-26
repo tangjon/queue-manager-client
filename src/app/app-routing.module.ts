@@ -1,11 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TeamManagerComponent} from "./team-manager/team-manager.component";
-import {QueueDashboardComponent} from "./queue-dashboard/queue-dashboard.component";
 import {RouterModule, Routes} from "@angular/router";
-import {RccManagementComponent} from "./rcc-management/rcc-management.component";
 import {SettingsComponent} from "./settings/settings.component";
 import {AboutComponent} from "./about/about.component";
+import {RccDashboardComponent} from "./rcc-dashboard/rcc-dashboard.component";
+import {TeamDashboardComponent} from "./team-dashboard/team-dashboard.component";
 
 const appRoutes: Routes = [
   {
@@ -14,9 +13,9 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
   {path: 'home', redirectTo: 'qm/NW'},
-  {path: 'manage', component: TeamManagerComponent},
-  {path: 'rcc', component: RccManagementComponent},
-  {path: 'qm/:id', component: QueueDashboardComponent},
+  {path: 'manage', component: TeamDashboardComponent},
+  {path: 'rcc', component: RccDashboardComponent},
+  // {path: 'qm/:id', component: QueueDashboardComponent},
   {path: 'settings', component: SettingsComponent},
   {path: 'about', component: AboutComponent}
 ];

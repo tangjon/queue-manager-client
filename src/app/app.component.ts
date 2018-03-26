@@ -16,8 +16,6 @@ export class AppComponent {
     // window.onscroll = this.testScroll;
   }
 
-  title = 'app';
-
   // testScroll(ev) {
   //   console.log(window.pageYOffset);
   //   if (window.pageYOffset > 200) { console.log('User has scrolled at least 400 px!'); }

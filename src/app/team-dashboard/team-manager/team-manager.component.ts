@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-import {User} from '../model/user';
-import {UserService} from '../core/user.service';
+import {User} from '../../model/user';
+import {UserService} from '../../core/user.service';
 import {NgForm} from '@angular/forms'
-import {ProductService} from "../core/product.service";
+import {ProductService} from "../../core/product.service";
 
 @Component({
   selector: 'app-team-manager',
@@ -90,9 +90,10 @@ export class TeamManagerComponent {
   }
 
   onAddUser(f: NgForm) {
-    if (f.valid) {
+    if (f.valid && f.value.name && f.value.iNumber) {
       this.userService.addUser(f.value.name, f.value.iNumber).subscribe((user: User) => {
         this.userList.push(user);
+        f.resetForm();
       })
     }
   }

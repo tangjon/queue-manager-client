@@ -39,7 +39,7 @@ export class ComponentBarComponent implements OnInit {
   }
 
   getRouterLink(componentId) {
-    return `qm/${componentId}`
+    return `/qm/${componentId}`
   }
 
 }

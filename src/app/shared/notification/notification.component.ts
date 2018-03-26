@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Notification} from "../model/notification";
+import {Notification} from "../../model/notification";
 
 @Component({
   selector: 'app-notification',
@@ -19,7 +19,7 @@ export class NotificationComponent implements OnInit {
 
   getResetNotification(): Notification {
     let display = false;
-    if (this.daysLeftInQuarter(new Date) >= 7) {
+    if (this.daysLeftInQuarter(new Date) <= 7) {
       display = true;
     }
     return new Notification(
