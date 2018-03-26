@@ -12,6 +12,8 @@ import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {IncidentBookService} from "./incident-book.service";
 import {SupportBookService} from "./support-book.service";
 import {ProductService} from "./product.service";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {EntryLog} from "../model/entrylog";
 
 @Injectable()
 export class UserService {
@@ -21,6 +23,7 @@ export class UserService {
     })
   };
   private qmapi: string = environment.apiUrl + "qm('current')";
+  private userSource = new BehaviorSubject<User[]>([]);
 
   constructor(public db: AngularFireDatabase,
               public http: HttpClient,
@@ -29,6 +32,12 @@ export class UserService {
               public incidentBookService: IncidentBookService,
               public supportBookService: SupportBookService,
               public productService: ProductService) {
+    this.db.object('queue-last-change').valueChanges().subscribe(r => {
+      this.getUserBHO().subscribe(() => {
+        console.log("hello");
+
+      })
+    });
   }
 
   getUsers(): Observable<User[]> {
@@ -47,6 +56,13 @@ export class UserService {
       });
       return forkJoin(userbatch$);
     });
+  }
+
+  getUserBHO() {
+    return this.getUsers().switchMap((users: User[]) => {
+      this.userSource.next(users);
+      return this.userSource.asObservable();
+    })
   }
 
   addUser(name: string, iNumber: string): Observable<User> {
@@ -136,7 +152,10 @@ export class UserService {
 
     return this.incidentBookService.setCount(user.key, productId, amount)
       .pipe(
-        tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(productId) + " to " + amount + " in " + productId))
+        tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(productId) + " to " + amount + " in " + productId)),
+        tap(() => {
+          this.db.object('queue-last-change').set(new Date().getTime());
+        })
       );
   }
 
