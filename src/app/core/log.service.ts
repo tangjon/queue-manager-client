@@ -22,11 +22,10 @@ export class LogService {
   private activityLog: Array<EntryLog>;
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-    // this.activityLog = new Array<EntryLog>();
-    // this.getLogs().subscribe(logs => {
-    //   this.activityLog = logs;
-    //   this.logSource.next(logs);
-    // })
+    // Make logs "real-time"
+    this.db.object('log-last-change').valueChanges().subscribe(r => {
+      this.getLogs().subscribe(()=>{})
+    });
   }
 
   getLogs(): Observable<any> {
@@ -90,6 +89,7 @@ export class LogService {
         return b.date - a.date;
       });
       this.logSource.next(this.activityLog);
+      this.db.object('log-last-change').set(new Date().getTime());
     });
   }
 

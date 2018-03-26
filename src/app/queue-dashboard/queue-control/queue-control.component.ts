@@ -58,6 +58,8 @@ export class QueueControlComponent implements OnInit {
     });
   }
 
+
+
   getAssignmentCount(user) {
     return this.userService.logService.getAssignmentCount(user);
   }
