@@ -39,7 +39,6 @@ export class QueueControlComponent implements OnInit {
 
   ngOnInit(): void {
     this.users$ = this.userService.getUserBHO().pipe(tap(() => this.showSpinner = false));
-
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
@@ -71,6 +70,7 @@ export class QueueControlComponent implements OnInit {
 
   toggleStatus(user: User) {
     const bool = user.isAvailable;
+    this.showSpinner = true;
     user.setStatus(!bool);
     this.userService.updateAvailability(user, !bool).subscribe(() => {
       // this.refreshLists();
@@ -78,8 +78,8 @@ export class QueueControlComponent implements OnInit {
   }
 
   refreshLists() {
-    this.prepareAvailable();
-    this.prepareBusy();
+    // this.prepareAvailable();
+    // this.prepareBusy();
 
   }
 
@@ -88,6 +88,7 @@ export class QueueControlComponent implements OnInit {
     const currAmount = user.incidentBook.data[this.paramId];
     const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
+      this.showSpinner = true;
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           this.snackBar.open('Incident Added', 'Close', {duration: 1000});
           user.incidentBook.data[this.paramId]++;
@@ -125,17 +126,17 @@ export class QueueControlComponent implements OnInit {
   }
 
   updateSummary() {
-    let totalA = 0;
-    this._userListAll.forEach(user => {
-      totalA += user.getIncidentTotal();
-    });
-    this.totalIncidents = totalA;
-
-    let totalB = 0;
-    this._userListCtx.forEach(element => {
-      totalB += element.incidentBook.data[this.paramId];
-    });
-    this.totalIncidentsCtx = totalB;
+    // let totalA = 0;
+    // this._userListAll.forEach(user => {
+    //   totalA += user.getIncidentTotal();
+    // });
+    // this.totalIncidents = totalA;
+    //
+    // let totalB = 0;
+    // this._userListCtx.forEach(element => {
+    //   totalB += element.incidentBook.data[this.paramId];
+    // });
+    // this.totalIncidentsCtx = totalB;
   }
 
   private prepareBusy() {

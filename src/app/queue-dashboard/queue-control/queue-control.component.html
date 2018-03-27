@@ -22,12 +22,18 @@
         <th scope="col">Actions</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngIf="showSpinner">
-        <td colspan="9">
-          <app-loading-spinner></app-loading-spinner>
-        </td>
-      </tr>
+
+    <tbody *ngIf="showSpinner" class="text-center">
+    <!--<td colspan="9">-->
+    <app-loading-spinner></app-loading-spinner>
+    <!--</td>-->
+    </tbody>
+    <tbody *ngIf="!showSpinner">
+    <!--<tr *ngIf="showSpinner">-->
+    <!--<td colspan="9">-->
+    <!--<app-loading-spinner></app-loading-spinner>-->
+    <!--</td>-->
+    <!--</tr>-->
       <tr *ngFor="let user of users$ | async | isAvailable:paramId :true | sortByAlpha | sortByAVGQDay; let i = index"
           [class.high-workload]="getAssignmentCount(user) >= 3">
         <th scope="row">
