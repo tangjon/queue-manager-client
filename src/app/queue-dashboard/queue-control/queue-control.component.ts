@@ -25,6 +25,7 @@ export class QueueControlComponent implements OnInit {
   _userListBusy: Array<User>;
   _userListAvailable: Array<User>;
 
+  _userList: Array<User>;
   users$: Observable<User[]>;
 
   errorMessage: string;
@@ -38,30 +39,30 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.users$ = this.userService.getUserBHO().pipe(tap(() => this.showSpinner = false));
+    // this.users$ = this.userService.getUserBHO().pipe(tap(() => this.showSpinner = false));
     // Get Param :id in url
+    // this.userService.getUsers().subscribe((users: Array<User>) => {
+    //   users.forEach(el => {
+    //     let t = this.userService.logService.getAssignmentCountv2(el, new Date('March 19, 2018 00:00:00'), new Date('March 23, 2018 24:00:00'));
+    //     console.log(el.name, t);
+    //   })
+    // });
+
+
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
-      // this.showSpinner = true;
       this.paramId = value;
-
-      // this.userService.getUsers().subscribe((users: Array<User>) => {
-      //     this.showSpinner = false;
-      //     this._userListAll = users;
-      //     this._userListCtx = users.filter((t: User) => {
-      //       return t.support.areas[this.paramId] == true;
-      //     });
-      //
-      //     this.prepareAvailable();
-      //     this.prepareBusy();
-      //     this.updateSummary();
-      //   },
-      //   (error) => {
-      //     this.errorHandler(error)
-      //   });
+      this.showSpinner = true;
+      this.userService.getUsers().subscribe((users: Array<User>) => {
+          this.showSpinner = false;
+          this._userList = users;
+          this.updateSummary();
+        },
+        (error) => {
+          this.errorHandler(error)
+        });
     });
   }
-
 
 
   getAssignmentCount(user) {
@@ -70,17 +71,9 @@ export class QueueControlComponent implements OnInit {
 
   toggleStatus(user: User) {
     const bool = user.isAvailable;
-    this.showSpinner = true;
-    user.setStatus(!bool);
     this.userService.updateAvailability(user, !bool).subscribe(() => {
-      // this.refreshLists();
+      user.setStatus(!bool);
     });
-  }
-
-  refreshLists() {
-    // this.prepareAvailable();
-    // this.prepareBusy();
-
   }
 
   incIncidentAmount(user: User) {
@@ -88,15 +81,14 @@ export class QueueControlComponent implements OnInit {
     const currAmount = user.incidentBook.data[this.paramId];
     const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
-      this.showSpinner = true;
+      // this.showSpinner = true;
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+          // this.showSpinner = false;
           this.snackBar.open('Incident Added', 'Close', {duration: 1000});
           user.incidentBook.data[this.paramId]++;
           this.updateSummary();
-          this.refreshLists();
         },
         error => {
-
           this.errorHandler(error)
         }
       );
@@ -112,9 +104,8 @@ export class QueueControlComponent implements OnInit {
           this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
           user.incidentBook.data[this.paramId]--;
           this.updateSummary();
-          this.refreshLists();
         }, error => {
-        this.errorHandler(error)
+          this.errorHandler(error)
         }
       );
     }
@@ -126,61 +117,17 @@ export class QueueControlComponent implements OnInit {
   }
 
   updateSummary() {
-    // let totalA = 0;
-    // this._userListAll.forEach(user => {
-    //   totalA += user.getIncidentTotal();
-    // });
-    // this.totalIncidents = totalA;
-    //
-    // let totalB = 0;
-    // this._userListCtx.forEach(element => {
-    //   totalB += element.incidentBook.data[this.paramId];
-    // });
-    // this.totalIncidentsCtx = totalB;
-  }
-
-  private prepareBusy() {
-    this._userListBusy = this._userListCtx.filter((t: User) => {
-      return t.isAvailable == false;
+    let totalA = 0;
+    this._userList.forEach(user => {
+      totalA += user.getIncidentTotal();
     });
+    this.totalIncidents = totalA;
 
-    this._userListBusy.sort(
-      function (a, b) {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      })
-  }
-
-  private prepareAvailable() {
-    this._userListAvailable = this._userListCtx.filter((t: User) => {
-      return t.isAvailable == true;
+    let totalB = 0;
+    this._userList.forEach(element => {
+      totalB += element.incidentBook.data[this.paramId];
     });
-    this._userListAvailable
-      .sort(
-      function (a, b) {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      })
-      .sort(
-        function (a, b) {
-          if (a.getAverageQDay() < b.getAverageQDay()) {
-            return -1;
-          }
-          if (a.getAverageQDay() > b.getAverageQDay()) {
-            return 1;
-          }
-          return 0;
-        });
+    this.totalIncidentsCtx = totalB;
   }
 
   private errorHandler(error) {

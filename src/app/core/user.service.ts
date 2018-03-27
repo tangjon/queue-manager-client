@@ -31,11 +31,14 @@ export class UserService {
               public incidentBookService: IncidentBookService,
               public supportBookService: SupportBookService,
               public productService: ProductService) {
-    this.db.object('queue-last-change').valueChanges().subscribe(r => {
-      this.getUserBHO().subscribe(() => {
-        console.log("hello");
 
-      })
+    this.getUserv2("-L6NWB0vTHL_YJzPVshf").subscribe(()=>{});
+    this.getUser("i864363").subscribe(t=>console.log(t));
+    this.db.object('queue-last-change').valueChanges().subscribe(r => {
+      // this.getUserBHO().subscribe(() => {
+      //   console.log("hello");
+      //
+      // })
     });
   }
 
@@ -55,6 +58,34 @@ export class UserService {
       });
       return forkJoin(userbatch$);
     });
+  }
+
+
+  getUser(iNumber: string) {
+    return this.getUsers().map((data: User[]) => {
+      // filter array
+      const user = data.find((user: User) => {
+        return user.iNumber == iNumber;
+      });
+      if (!user) {
+        throw new Error("User Not Found");
+      }
+      return user;
+    });
+  }
+
+  getUserv2(key){
+    return forkJoin([this.userSetService.getUserSet({key:key}),
+      this.supportBookService.get(key),
+      this.incidentBookService.get(key)
+    ]).map( data => {
+      const [userSet ,incidentBook, supportBook] = data;
+      let user = new User(userSet);
+      user.incidentBook.set(incidentBook);
+      user.support.set(supportBook);
+      console.log(user);
+      return user;
+    })
   }
 
   getUserBHO() {
@@ -180,18 +211,6 @@ export class UserService {
       );
   }
 
-  getUser(iNumber: string) {
-    return this.getUsers().map((data: User[]) => {
-      // filter array
-      const user = data.find((user: User) => {
-        return user.iNumber == iNumber;
-      });
-      if (!user) {
-        throw new Error("User Not Found");
-      }
-      return user;
-    });
-  }
 
   // TODO DEPRECATED
   deleteEverything() {

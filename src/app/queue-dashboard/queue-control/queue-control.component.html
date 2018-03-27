@@ -4,103 +4,98 @@
   <h6 id="available-title" class="qTable-title">{{ ( _userListAvailable)?.length }} Available</h6>
   <table class="table qTable text-center">
     <thead>
-      <tr>
-        <!-- <th colspan="1" scope="col"></th>
-        <th colspan="3" scope="col">
-          {{ (users | async)?.length }} Employees in EPM-BPC team</th>
-        <th colspan="5" scope="col">Incidents</th> -->
-      </tr>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Assign</th>
-        <th scope="col">Remove</th>
-        <th scope="col">{{ paramId }} Incidents</th>
-        <th scope="col">Total Incidents<span class="badge badge-success">+24hrs</span></th>
-        <th scope="col">AVG Q-DAY</th>
-        <th scope="col">Status</th>
-        <th scope="col">Actions</th>
-      </tr>
+    <tr>
+      <!-- <th colspan="1" scope="col"></th>
+      <th colspan="3" scope="col">
+        {{ (users | async)?.length }} Employees in EPM-BPC team</th>
+      <th colspan="5" scope="col">Incidents</th> -->
+    </tr>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Assign</th>
+      <th scope="col">Remove</th>
+      <th scope="col">{{ paramId }} Incidents</th>
+      <th scope="col">Total Incidents<span class="badge badge-success">+24hrs</span></th>
+      <th scope="col">AVG Q-DAY</th>
+      <th scope="col">Status</th>
+      <th scope="col">Actions</th>
+    </tr>
     </thead>
-
     <tbody *ngIf="showSpinner" class="text-center">
-    <!--<td colspan="9">-->
-    <app-loading-spinner></app-loading-spinner>
-    <!--</td>-->
+    <tr>
+      <td colspan="9">
+        <app-loading-spinner></app-loading-spinner>
+      </td>
+    </tr>
     </tbody>
     <tbody *ngIf="!showSpinner">
-    <!--<tr *ngIf="showSpinner">-->
-    <!--<td colspan="9">-->
-    <!--<app-loading-spinner></app-loading-spinner>-->
-    <!--</td>-->
-    <!--</tr>-->
-      <tr *ngFor="let user of users$ | async | isAvailable:paramId :true | sortByAlpha | sortByAVGQDay; let i = index"
-          [class.high-workload]="getAssignmentCount(user) >= 3">
-        <th scope="row">
-          {{i + 1}}
-          <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
-               style="display: block">
-        </th>
-        <td>{{user.name + "(" + user.iNumber + ")"}}</td>
-        <td>
+    <tr *ngFor="let user of _userList | isAvailable:paramId :true | sortByAlpha | sortByAVGQDay; let i = index"
+        [class.high-workload]="getAssignmentCount(user) >= 3">
+      <th scope="row">
+        {{i + 1}}
+        <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
+             style="display: block">
+      </th>
+      <td>{{user.name + "(" + user.iNumber + ")"}}</td>
+      <td>
 
-          <button (click)="incIncidentAmount(user)" class="btn btn-success">
-            <i class="fa fa-plus-square fa-sm"></i>
-          </button>
-        </td>
-        <td>
-          <button (click)="decIncidentAmount(user)" class="btn btn-danger">
-            <i class="fa fa-minus-square fa-sm"> </i>
-          </button>
-        </td>
-        <td>{{ user.getIncidentAmount(paramId) }} </td>
-        <td>{{ user.getIncidentTotal() }}
-          <span *ngIf="getAssignmentCount(user) >= 0" class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
-          <span *ngIf="getAssignmentCount(user) < 0" class="badge badge-danger assigned-twenty-four">{{getAssignmentCount(user)}}</span>
+        <button (click)="incIncidentAmount(user)" class="btn btn-success">
+          <i class="fa fa-plus-square fa-sm"></i>
+        </button>
+      </td>
+      <td>
+        <button (click)="decIncidentAmount(user)" class="btn btn-danger">
+          <i class="fa fa-minus-square fa-sm"> </i>
+        </button>
+      </td>
+      <td>{{ user.getIncidentAmount(paramId) }}</td>
+      <td>{{ user.getIncidentTotal() }}
+        <span *ngIf="getAssignmentCount(user) >= 0" class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
+        <span *ngIf="getAssignmentCount(user) < 0" class="badge badge-danger assigned-twenty-four">{{getAssignmentCount(user)}}</span>
 
-        </td>
-        <td>{{ user.getAverageQDay() }}</td>
-        <td>
-          <i class="fa fa-check-circle fa-lg" style="color:green;"></i>
-        </td>
-        <td>
-          <button (click)="toggleStatus(user)">Toggle</button>
-        </td>
-      </tr>
+      </td>
+      <td>{{ user.getAverageQDay() }}</td>
+      <td>
+        <i class="fa fa-check-circle fa-lg" style="color:green;"></i>
+      </td>
+      <td>
+        <button (click)="toggleStatus(user)">Toggle</button>
+      </td>
+    </tr>
     </tbody>
   </table>
 </div>
-
 
 
 <div class="table-responsive shadow">
   <h6 id="unavailable-title" class="qTable-title">{{ ( _userListBusy)?.length }} Unavailable</h6>
   <table class="table qTable text-center">
     <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">{{ paramId }} Incidents</th>
-        <th scope="col">Total</th>
-        <th scope="col">AVG Q-DAY</th>
-        <th scope="col">Status</th>
-        <th scope="col">Actions</th>
-      </tr>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">{{ paramId }} Incidents</th>
+      <th scope="col">Total</th>
+      <th scope="col">AVG Q-DAY</th>
+      <th scope="col">Status</th>
+      <th scope="col">Actions</th>
+    </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let bUser of users$ | async | isAvailable:paramId :false | sortByAlpha; let i = index">
-        <th scope="row">{{i + 1}}</th>
-        <td>{{bUser.name + "(" + bUser.iNumber + ")"}}</td>
-        <td>{{ bUser.getIncidentAmount(paramId) }} </td>
-        <td>{{ bUser.getIncidentTotal() }} </td>
-        <td>{{ bUser.getAverageQDay() }}</td>
-        <td>
-          <i class="fa fa-times fa-lg" style="color:red;"></i>
-        </td>
-        <td>
-          <button (click)="toggleStatus(bUser)">Toggle</button>
-        </td>
-      </tr>
+    <tr *ngFor="let bUser of _userList | isAvailable:paramId :false | sortByAlpha; let i = index">
+      <th scope="row">{{i + 1}}</th>
+      <td>{{bUser.name + "(" + bUser.iNumber + ")"}}</td>
+      <td>{{ bUser.getIncidentAmount(paramId) }}</td>
+      <td>{{ bUser.getIncidentTotal() }}</td>
+      <td>{{ bUser.getAverageQDay() }}</td>
+      <td>
+        <i class="fa fa-times fa-lg" style="color:red;"></i>
+      </td>
+      <td>
+        <button (click)="toggleStatus(bUser)">Toggle</button>
+      </td>
+    </tr>
     </tbody>
   </table>
 </div>

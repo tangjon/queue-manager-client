@@ -2,7 +2,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {User} from "../../model/user";
 
 @Pipe({
-  name: 'filter'
+  name: 'filter',
+  pure: false
 })
 export class FilterPipe implements PipeTransform {
 
@@ -14,7 +15,8 @@ export class FilterPipe implements PipeTransform {
 
 
 @Pipe({
-  name: 'sortByAlpha'
+  name: 'sortByAlpha',
+  pure: false
 })
 export class SortByAlpha implements PipeTransform {
 
@@ -36,7 +38,8 @@ export class SortByAlpha implements PipeTransform {
 
 
 @Pipe({
-  name: 'sortByAVGQDay'
+  name: 'sortByAVGQDay',
+  pure: false
 })
 
 export class SortByAVGQDay implements PipeTransform {
@@ -60,7 +63,8 @@ export class SortByAVGQDay implements PipeTransform {
 
 
 @Pipe({
-  name: 'isAvailable'
+  name: 'isAvailable',
+  pure: false
 })
 export class IsAvailable implements PipeTransform {
 

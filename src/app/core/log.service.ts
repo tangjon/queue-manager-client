@@ -112,6 +112,41 @@ export class LogService {
     return localStorage['MYINUMBER'];
   }
 
+  getAssignmentCountv2(user: User, date_begin, date_end){
+    const logs = this.activityLog;
+    const filterlog = logs.filter((el: EntryLog) => {
+      return el.iNumber === user.iNumber &&
+        el.action.indexOf('Incident') !== -1 && dateInRange(el.getFullDate(),date_begin,date_end);
+    });
+    if (filterlog.length) {
+      let numAssigned = 0;
+      let numRemoved = 0;
+      filterlog.forEach((el: EntryLog) => {
+        if (el.action.indexOf('Assigned') !== -1) {
+          numAssigned++;
+        } else if (el.action.indexOf('Removed')) {
+          numRemoved++;
+        }
+      });
+      return numAssigned - numRemoved;
+    }
+    return 0;
+
+    function dateInRange(arg: Date, start: Date, end: Date): boolean {
+      return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
+    }
+
+    function dateInRangeToday(arg: Date): boolean {
+      const today = new Date();
+      const tmp = new Date(arg);
+      return tmp.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
+    }
+
+    function yesterdayDate(date: Date): Date {
+      return new Date(date.getTime() - (24 * 60 * 60 * 1000));
+    }
+  }
+
   getAssignmentCount(user: User) {
     // var url = this.api + "?$filter=INUMBER eq '" + user.iNumber + "'";
     const logs = this.activityLog;
