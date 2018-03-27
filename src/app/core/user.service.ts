@@ -32,10 +32,10 @@ export class UserService {
               public supportBookService: SupportBookService,
               public productService: ProductService) {
     this.db.object('queue-last-change').valueChanges().subscribe(r => {
-      this.getUserBHO().subscribe(() => {
-        console.log("hello");
-
-      })
+      // this.getUserBHO().subscribe(() => {
+      //   console.log("hello");
+      //
+      // })
     });
   }
 
@@ -55,6 +55,24 @@ export class UserService {
       });
       return forkJoin(userbatch$);
     });
+  }
+
+
+  getUser(iNumber: string) {
+    return this.getUsers().map((data: User[]) => {
+      // filter array
+      const user = data.find((user: User) => {
+        return user.iNumber == iNumber;
+      });
+      if (!user) {
+        throw new Error("User Not Found");
+      }
+      return user;
+    });
+  }
+
+  getUserv2(key){
+
   }
 
   getUserBHO() {
@@ -180,18 +198,6 @@ export class UserService {
       );
   }
 
-  getUser(iNumber: string) {
-    return this.getUsers().map((data: User[]) => {
-      // filter array
-      const user = data.find((user: User) => {
-        return user.iNumber == iNumber;
-      });
-      if (!user) {
-        throw new Error("User Not Found");
-      }
-      return user;
-    });
-  }
 
   // TODO DEPRECATED
   deleteEverything() {

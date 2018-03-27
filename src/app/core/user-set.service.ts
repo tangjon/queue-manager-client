@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../model/user';
 import {environment} from "../../environments/environment";
+import {Observable} from "rxjs/Observable";
+import {tap} from 'rxjs/operators';
+import {BodyParser} from "../model/bodyParser";
 
 @Injectable()
 export class UserSetService {
@@ -11,10 +14,17 @@ export class UserSetService {
       'Content-Type': 'application/json',
     })
   };
-  constructor(public http: HttpClient) { }
+
+  constructor(public http: HttpClient) {
+    this.getUserSet({
+      key: '-L6NWB0vTHL_YJzPVshf'
+    }).subscribe((t) => {
+      console.log(t);
+    })
+  }
 
 
-  getUserSet() {
+  getUserSets() {
     return this.http.get(this.api, this.httpOptions)
       .map((res: any) => {
         let arr: Array<any> = res.d.results;
@@ -24,6 +34,17 @@ export class UserSetService {
         }
         return obj;
       })
+  }
+
+  getUserSet(query): Observable<any> {
+    if (!query.key && !query.iNumber) return Observable.of([]);
+    if (query.key) {
+      return this.http.get(this.api + `('${query.key}')`, this.httpOptions)
+        .map((r) => BodyParser.parseBody(r));
+    } else {
+      return this.http.get(this.api + `?$filter=INUMBER eq '${query.iNumber}'`, this.httpOptions)
+        .map((r) => BodyParser.parseBody(r));
+    }
   }
 
   getUserSetArray() {
@@ -39,6 +60,7 @@ export class UserSetService {
     let url = `${this.api}('${user.key}')`;
     return this.http.put(url, body, this.httpOptions);
   }
+
   createUserSet(name, iNumber, key) {
     let user = new User({name: name, iNumber: iNumber, key: key});
     let body = this.generateBody(user);
@@ -51,6 +73,7 @@ export class UserSetService {
     let url = `${this.api}('${key}')`;
     return this.http.delete(url, this.httpOptions)
   }
+
   resetRCC(user: User) {
     user.currentQDays = 0;
     return this.updateUserSet(user);
@@ -67,4 +90,11 @@ export class UserSetService {
       USAGEPERCENT: user.usagePercent.toString()
     };
   }
+
+  // Removes __metadata from the body;
+  // private bodyParser(body) {
+  //   const { __metadata, ...newObject } = body.d;
+  //   console.log(newObject);
+  //   return newObject;
+  // }
 }

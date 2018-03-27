@@ -43,7 +43,7 @@ export class RccManagementComponent implements OnInit {
   // Increment by one
   addQueueDay(user: User) {
     let pVal = prompt(`Enter the amount you want to add for ${user.name}`);
-    // parse value
+    // parseBody value
     let amount = parseFloat(pVal);
     if (!isNaN(amount)) {
       if (window.confirm(`${user.name} will have ${user.currentQDays} increased by ${amount} to ${user.currentQDays + amount}. \nClick okay to confirm`)) {
@@ -61,7 +61,7 @@ export class RccManagementComponent implements OnInit {
 
   updateQueueDays(user) {
     let pVal = prompt(`Enter the amount you want to overwrite for ${user.name}`);
-    // parse value
+    // parseBody value
     let amount = parseFloat(pVal);
     if (!isNaN(amount)) {
       if (window.confirm(`${user.name} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
