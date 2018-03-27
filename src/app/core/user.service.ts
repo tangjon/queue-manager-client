@@ -13,7 +13,6 @@ import {IncidentBookService} from "./incident-book.service";
 import {SupportBookService} from "./support-book.service";
 import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {EntryLog} from "../model/entrylog";
 
 @Injectable()
 export class UserService {
@@ -62,7 +61,7 @@ export class UserService {
     return this.getUsers().switchMap((users: User[]) => {
       this.userSource.next(users);
       return this.userSource.asObservable();
-    })
+    });
   }
 
   addUser(name: string, iNumber: string): Observable<User> {
@@ -89,7 +88,10 @@ export class UserService {
     return this.updateUser(user)
       .pipe(
         tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
-        ));
+        ),
+        tap(() => {
+          this.db.object('queue-last-change').set(new Date().getTime());
+        }));
   }
 
   deleteUser(key: string): Observable<any> {

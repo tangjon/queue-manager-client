@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/pluck';
 import {UserService} from '../../core/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-queue-control',
@@ -24,6 +25,8 @@ export class QueueControlComponent implements OnInit {
   _userListBusy: Array<User>;
   _userListAvailable: Array<User>;
 
+  users$: Observable<User[]>;
+
   errorMessage: string;
 
   showSpinner = true;
@@ -35,26 +38,28 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.users$ = this.userService.getUserBHO().pipe(tap(() => this.showSpinner = false));
+
     // Get Param :id in url
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
-      this.showSpinner = true;
+      // this.showSpinner = true;
       this.paramId = value;
 
-      this.userService.getUsers().subscribe((users: Array<User>) => {
-          this.showSpinner = false;
-          this._userListAll = users;
-          this._userListCtx = users.filter((t: User) => {
-            return t.support.areas[this.paramId] == true;
-          });
-
-          this.prepareAvailable();
-          this.prepareBusy();
-          this.updateSummary();
-        },
-        (error) => {
-          this.errorHandler(error)
-        });
+      // this.userService.getUsers().subscribe((users: Array<User>) => {
+      //     this.showSpinner = false;
+      //     this._userListAll = users;
+      //     this._userListCtx = users.filter((t: User) => {
+      //       return t.support.areas[this.paramId] == true;
+      //     });
+      //
+      //     this.prepareAvailable();
+      //     this.prepareBusy();
+      //     this.updateSummary();
+      //   },
+      //   (error) => {
+      //     this.errorHandler(error)
+      //   });
     });
   }
 
@@ -68,7 +73,7 @@ export class QueueControlComponent implements OnInit {
     const bool = user.isAvailable;
     user.setStatus(!bool);
     this.userService.updateAvailability(user, !bool).subscribe(() => {
-      this.refreshLists();
+      // this.refreshLists();
     });
   }
 
@@ -154,7 +159,8 @@ export class QueueControlComponent implements OnInit {
     this._userListAvailable = this._userListCtx.filter((t: User) => {
       return t.isAvailable == true;
     });
-    this._userListAvailable.sort(
+    this._userListAvailable
+      .sort(
       function (a, b) {
         if (a.name < b.name) {
           return -1;

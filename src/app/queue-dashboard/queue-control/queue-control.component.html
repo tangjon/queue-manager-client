@@ -28,7 +28,8 @@
           <app-loading-spinner></app-loading-spinner>
         </td>
       </tr>
-      <tr *ngFor="let user of _userListAvailable; let i = index" [class.high-workload]="getAssignmentCount(user) >= 3">
+      <tr *ngFor="let user of users$ | async | isAvailable:paramId :true | sortByAlpha | sortByAVGQDay; let i = index"
+          [class.high-workload]="getAssignmentCount(user) >= 3">
         <th scope="row">
           {{i + 1}}
           <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
@@ -81,7 +82,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let bUser of _userListBusy; let i = index">
+    <tr *ngFor="let bUser of users$ | async | isAvailable:paramId :false | sortByAlpha; let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{bUser.name + "(" + bUser.iNumber + ")"}}</td>
         <td>{{ bUser.getIncidentAmount(paramId) }} </td>
