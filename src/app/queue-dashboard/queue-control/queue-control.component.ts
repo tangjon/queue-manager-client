@@ -39,15 +39,6 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.users$ = this.userService.getUserBHO().pipe(tap(() => this.showSpinner = false));
-    // Get Param :id in url
-    // this.userService.getUsers().subscribe((users: Array<User>) => {
-    //   users.forEach(el => {
-    //     let t = this.userService.logService.getAssignmentCountv2(el, new Date('March 19, 2018 00:00:00'), new Date('March 23, 2018 24:00:00'));
-    //     console.log(el.name, t);
-    //   })
-    // });
-
 
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {

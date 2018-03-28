@@ -33,10 +33,7 @@ export class UserService {
               public productService: ProductService) {
 
     this.db.object('queue-last-change').valueChanges().subscribe(r => {
-      // this.getUserBHO().subscribe(() => {
-      //   console.log("hello");
-      //
-      // })
+        console.log(r);
     });
   }
 
@@ -121,7 +118,7 @@ export class UserService {
         tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
         ),
         tap(() => {
-          this.db.object('queue-last-change').set(new Date().getTime());
+          this.db.object('queue-last-change').set({key: user.key, action: "Availability Changed", value:bool});
         }));
   }
 
@@ -187,7 +184,7 @@ export class UserService {
       .pipe(
         tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(productId) + " to " + amount + " in " + productId)),
         tap(() => {
-          this.db.object('queue-last-change').set(new Date().getTime());
+          this.db.object('queue-last-change').set({key:user.key, action: "Incident Assigned", productId: productId , value:amount});
         })
       );
   }
