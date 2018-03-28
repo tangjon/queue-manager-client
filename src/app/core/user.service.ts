@@ -113,8 +113,10 @@ export class UserService {
     return this.userSetService.updateUserSet(user);
   }
 
-  updateAvailability(user: User, bools: boolean) {
-    return this.updateUser(user)
+  updateAvailability(user: User, bool: boolean) {
+    let tmp = new User(user);
+    tmp.setStatus(bool);
+    return this.updateUser(tmp)
       .pipe(
         tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
         ),
