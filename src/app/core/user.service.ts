@@ -32,8 +32,6 @@ export class UserService {
               public supportBookService: SupportBookService,
               public productService: ProductService) {
 
-    this.getUserv2("-L6NWB0vTHL_YJzPVshf").subscribe(()=>{});
-    this.getUser("i864363").subscribe(t=>console.log(t));
     this.db.object('queue-last-change').valueChanges().subscribe(r => {
       // this.getUserBHO().subscribe(() => {
       //   console.log("hello");

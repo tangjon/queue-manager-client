@@ -16,6 +16,7 @@ import {SettingsModule} from "./settings/settings.module";
 import {AboutComponent} from './about/about.component';
 import {RccDashboardModule} from "./rcc-dashboard/rcc-dashboard.module";
 import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
+import {DashboardModule} from "./dashboard/dashboard.module";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
     SharedModule,
     AppRoutingModule,
     SettingsModule,
-    CoreModule
+    CoreModule,
+    DashboardModule
   ],
   bootstrap: [AppComponent]
 })
