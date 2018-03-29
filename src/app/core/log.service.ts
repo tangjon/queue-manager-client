@@ -10,6 +10,8 @@ import {User} from "../shared/model/user";
 
 type Action = 'Incident Assigned' | 'Incident Unassigned' | 'Availability Changed' | 'Queue Days Changed'
 
+
+
 @Injectable()
 export class LogService {
   httpOptions = {
@@ -61,15 +63,7 @@ export class LogService {
       action, description, this.getCachedINumber(),
       pushId
     );
-    const body = {
-      'PUSH_ID': pushId,
-      'ACTION': action,
-      'MANAGER': this.getCachedINumber(),
-      'DATE': JSON.stringify(entry.getFullDate()),
-      'DESCRIPTION': description,
-      'NAME': user.name,
-      'INUMBER': user.iNumber
-    };
+    const body = this.generateBody(pushId, action, entry, description, user);
     this.http.post(this.api, body, this.httpOptions).subscribe(() => {
       this.activityLog.push(entry);
       this.activityLog.sort(function (a: any, b: any) {
@@ -94,6 +88,18 @@ export class LogService {
         this.logSource.next(this.activityLog);
       })
     }
+  }
+
+  private generateBody(pushId: string | null, action: Action, entry: EntryLog, description, user) {
+    return {
+      'PUSH_ID': pushId,
+      'ACTION': action,
+      'MANAGER': this.getCachedINumber(),
+      'DATE': JSON.stringify(entry.getFullDate()),
+      'DESCRIPTION': description,
+      'NAME': user.name,
+      'INUMBER': user.iNumber
+    };
   }
 
   getCachedINumber() {
