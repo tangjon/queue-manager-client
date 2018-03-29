@@ -175,7 +175,7 @@ export class UserService {
     return this.incidentBookService.set(user.key, productId, amount)
       .pipe(
         tap(() => {
-          if(amount){
+          if(amount > user.getIncidentAmount(productId)){
             this.logService.addLog(user, 'Incident Assigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
           } else {
             this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
