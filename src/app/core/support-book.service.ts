@@ -16,10 +16,6 @@ export class SupportBookService {
   constructor(public http: HttpClient, public productService: ProductService) {
   }
 
-  getSnapShot() {
-
-  }
-
   get(UID: string) {
     const url = `${this.api}?$filter=UID eq '${UID}'`;
     return this.http.get(url).map((res: any) => {
@@ -37,11 +33,8 @@ export class SupportBookService {
     return this.http.put(url, body, this.httpOptions);
   }
 
-  // Needs to add new product to each engineer in the system...
-  // go through each user and add supportBook
-
   // create row for each current product
-  initializeUser(UID) {
+  initializeUserSet(UID) {
     return this.productService.getProducts().switchMap(prodList => {
       const batch$ = [];
       prodList.forEach(p => {

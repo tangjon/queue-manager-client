@@ -94,8 +94,8 @@ export class UserService {
     const UID = this.db.createPushId();
     return forkJoin([
       this.userSetService.createUserSet(name, iNumber, UID),
-      this.supportBookService.initializeUser(UID),
-      this.incidentBookService.initializeUser(UID)
+      this.supportBookService.initializeUserSet(UID),
+      this.incidentBookService.initializeIncidentSet(UID)
     ]).map(data => {
         const [userFrag, supportFrag, incidentFrag] = data;
         const newUser = new User(userFrag);
