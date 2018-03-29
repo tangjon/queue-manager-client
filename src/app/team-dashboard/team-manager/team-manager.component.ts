@@ -78,10 +78,6 @@ export class TeamManagerComponent {
     }
   }
 
-  deleteEverything() {
-    this.userService.deleteEverything();
-  }
-
   toggleRole(user: User, role: string) {
     let currBool = user.hasRole(role);
     this.userService.updateSupport(user, role, !currBool).subscribe(t => {

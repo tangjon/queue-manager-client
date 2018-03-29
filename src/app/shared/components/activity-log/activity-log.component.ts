@@ -18,7 +18,7 @@ export class ActivityLogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activityLog$ = this.logService.getLogs().map((log: EntryLog[]) => {
+    this.activityLog$ = this.logService.getLogsAsSource().map((log: EntryLog[]) => {
       return log.slice(0, this.numOfResults);
     });
     this.activityLog$.subscribe((logs: EntryLog[]) => {

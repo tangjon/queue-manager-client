@@ -36,7 +36,7 @@ export class ApplicationSettingsComponent implements OnInit {
   archive() {
     if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
       this.showSpinner = true;
-      forkJoin([this.userSerivce.getUsers(), this.logService.getLogsArchivable()]).switchMap(data => {
+      forkJoin([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
         return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
           let d = new Date();
           this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify({

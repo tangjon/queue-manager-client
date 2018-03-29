@@ -8,6 +8,7 @@ import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
 
+type Action = 'Incident Assigned' | 'Incident Unassigned' | 'Availability Changed' | 'Queue Days Changed'
 
 @Injectable()
 export class LogService {
@@ -24,18 +25,18 @@ export class LogService {
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     // Make logs "real-time"
     this.db.object('log-last-change').valueChanges().subscribe(r => {
-      this.getLogs().subscribe(()=>{})
+      this.getLogsAsSource().subscribe(()=>{})
     });
   }
 
-  getLogs(): Observable<any> {
-    return this.getLogsArchivable().switchMap(r => {
+  getLogsAsSource(): Observable<any> {
+    return this.getLogs().switchMap(r => {
       this.logSource.next(r);
       return this.logSource.asObservable();
     });
   }
 
-  getLogsArchivable() : Observable<any>{
+  getLogs() : Observable<any>{
     return this.http.get(this.api, this.httpOptions).map((r: any) => {
       this.activityLog = [];
       const t = r.d.results.map((t: any) => {
@@ -53,7 +54,7 @@ export class LogService {
     })
   }
 
-  addLog(user, action, description) {
+  addLog(user, action:Action, description) {
     const pushId = this.db.createPushId();
     const entry = new EntryLog(
       user.name, user.iNumber,

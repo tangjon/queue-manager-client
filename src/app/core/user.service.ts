@@ -123,7 +123,6 @@ export class UserService {
   }
 
   deleteUser(key: string): Observable<any> {
-    // return this.http.delete(this.userDBEndpoint + '?key=' + "'" + key + "'");
     return this.userSetService.deleteUserSet(key).map(() => {
       return true;
     });
@@ -211,12 +210,6 @@ export class UserService {
           () => console.log("COMPLETED!!!")
         )
       );
-  }
-
-
-  // TODO DEPRECATED
-  deleteEverything() {
-    // this.db.object('users').remove();
   }
 
   getQM(): Observable<User> {
