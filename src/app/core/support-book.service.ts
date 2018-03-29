@@ -38,7 +38,7 @@ export class SupportBookService {
   }
 
   // Needs to add new product to each engineer in the system...
-  // go through each user and add support
+  // go through each user and add supportBook
 
   // create row for each current product
   initializeUser(UID) {

@@ -46,7 +46,7 @@ export class UserService {
             .map(data => {
               const [incidentBook, supportBook] = data;
               user.incidentBook.set(incidentBook);
-              user.support.set(supportBook);
+              user.supportBook.set(supportBook);
               return user;
             })
         );
@@ -77,7 +77,7 @@ export class UserService {
       const [userSet ,incidentBook, supportBook] = data;
       let user = new User(userSet);
       user.incidentBook.set(incidentBook);
-      user.support.set(supportBook);
+      user.supportBook.set(supportBook);
       console.log(user);
       return user;
     })
@@ -100,7 +100,7 @@ export class UserService {
         const [userFrag, supportFrag, incidentFrag] = data;
         const newUser = new User(userFrag);
         newUser.incidentBook.set(incidentFrag);
-        newUser.support.set(supportFrag);
+        newUser.supportBook.set(supportFrag);
         return newUser;
       }
     );
