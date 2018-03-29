@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User} from '../model/user';
+import {User} from '../shared/model/user';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';

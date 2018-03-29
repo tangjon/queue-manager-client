@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../core/user.service';
-import {User} from '../../model/user';
+import {User} from '../../shared/model/user';
 import {Observable} from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material/snack-bar';
 

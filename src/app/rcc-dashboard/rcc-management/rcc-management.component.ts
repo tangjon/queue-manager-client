@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-import {User} from '../../model/user';
+import {User} from '../../shared/model/user';
 import {UserService} from '../../core/user.service';
 import {LogService} from '../../core/log.service';
 import {MatSnackBar} from "@angular/material";

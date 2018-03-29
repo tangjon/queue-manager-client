@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {LoginService} from '../../core/login.service';
-import {environment} from '../../../environments/environment';
+import {LoginService} from '../../../core/login.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {WorkShift} from "../../model/work_shift";
+import {WorkShift} from "../../shared/model/work_shift";
 
 @Component({
   selector: 'app-shift-info',

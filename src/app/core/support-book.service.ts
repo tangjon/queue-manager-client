@@ -3,7 +3,6 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ProductService} from "./product.service";
 import {forkJoin} from "rxjs/observable/forkJoin";
-import {BodyParser} from "../model/bodyParser";
 
 @Injectable()
 export class SupportBookService {

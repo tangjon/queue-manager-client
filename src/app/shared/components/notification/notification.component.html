@@ -1,0 +1,6 @@
+<div *ngFor="let note of notification_array">
+  <div *ngIf="note.active" class="alert alert-info alert-dismissible" style="margin-top:18px;">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+    <strong>{{note.type}}</strong> {{note.message}}
+  </div>
+</div>

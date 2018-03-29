@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../core/user.service";
 import {forkJoin} from 'rxjs/observable/forkJoin';
 import {IncidentBookService} from "../../core/incident-book.service";
-import {User} from "../../model/user";
+import {User} from "../../shared/model/user";
 import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material";
 import {LogService} from "../../core/log.service";
 import {ArchiveService} from "../../core/archive.service";
-import {combineLatest} from "rxjs/observable/combineLatest";
 import {tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 

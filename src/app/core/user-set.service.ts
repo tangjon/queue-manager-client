@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {User} from '../model/user';
+import {User} from '../shared/model/user';
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs/Observable";
-import {tap} from 'rxjs/operators';
-import {BodyParser} from "../model/bodyParser";
+import {BodyParser} from "../shared/model/bodyParser";
 
 @Injectable()
 export class UserSetService {

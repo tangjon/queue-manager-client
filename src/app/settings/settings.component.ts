@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {UserService} from '../core/user.service';
-import {User} from '../model/user';
+import {User} from '../shared/model/user';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {IncidentBookService} from "../core/incident-book.service";

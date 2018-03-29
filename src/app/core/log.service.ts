@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {EntryLog} from '../model/entrylog';
+import {EntryLog} from '../shared/model/entrylog';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
-import {User} from "../model/user";
+import {User} from "../shared/model/user";
 
 
 @Injectable()
