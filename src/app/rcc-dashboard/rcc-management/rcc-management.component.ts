@@ -21,7 +21,7 @@ export class RccManagementComponent implements OnInit {
 
   currentDate: Date;
 
-  constructor(public db: AngularFireDatabase, public userService: UserService, public logService: LogService, public matSnackBar: MatSnackBar) {
+  constructor(public db: AngularFireDatabase, public userService: UserService, public matSnackBar: MatSnackBar) {
     this.userService.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {

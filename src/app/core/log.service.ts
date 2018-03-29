@@ -19,8 +19,17 @@ export class LogService {
   };
   private api = environment.apiUrl + 'activity_log';
   private logSource = new BehaviorSubject<EntryLog[]>([]);
-  activityLog$ = this.logSource.asObservable();
   private activityLog: Array<EntryLog>;
+
+  /* Restructure
+  *  1. Subscribe to logSource
+  *  2. Initialized with all logs
+  *  3. Subsequent logs are passed individually
+  * */
+
+  /*
+* [PARTIALLY REFACTORED] March 29th 2018
+* */
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     // Make logs "real-time"

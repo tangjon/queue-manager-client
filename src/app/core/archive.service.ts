@@ -7,6 +7,9 @@ import {AngularFireDatabase} from "angularfire2/database";
 import {forkJoin} from "rxjs/observable/forkJoin";
 import {Observable} from "rxjs/Observable";
 
+/*
+* [REFACTORED] March 29th 2018
+* */
 
 @Injectable()
 export class ArchiveService {
@@ -53,15 +56,13 @@ export class ArchiveService {
 
     // Return as on observable
     return forkJoin(archiveEntry$, forkJoin(batch_user_add), forkJoin(batch_log_add));
-
-
   }
 
   remove() {
 
   }
 
-  generateLogBody(ARCHIVE_KEY: string | null, log: EntryLog) {
+  private generateLogBody(ARCHIVE_KEY: string | null, log: EntryLog) {
     return {
       ARCHIVE_KEY: ARCHIVE_KEY,
       KEY: log.KEY,

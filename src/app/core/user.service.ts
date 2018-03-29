@@ -3,7 +3,7 @@ import {User} from '../shared/model/user';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {tap} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {forkJoin} from 'rxjs/observable/forkJoin';
 import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
@@ -13,6 +13,9 @@ import {IncidentBookService} from "./incident-book.service";
 import {SupportBookService} from "./support-book.service";
 import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch'
 
 @Injectable()
 export class UserService {
@@ -35,6 +38,13 @@ export class UserService {
     // this.db.object('queue-last-change').valueChanges().subscribe(r => {
     //     console.log(r);
     // });
+    this.getUserv2('cat').subscribe(
+      () => {
+      },
+      err => {
+        console.log(err)
+      }
+    );
   }
 
   getUsers(): Observable<User[]> {
@@ -69,8 +79,9 @@ export class UserService {
     });
   }
 
-  getUserv2(key) {
-    return forkJoin([this.userSetService.getUserSet({key: key}),
+  getUserv2(key): Observable<User> {
+    return forkJoin([
+      this.userSetService.getUserSet({key: key}),
       this.supportBookService.get(key),
       this.incidentBookService.get(key)
     ]).map(data => {
@@ -78,9 +89,8 @@ export class UserService {
       let user = new User(userSet);
       user.incidentBook.set(incidentBook);
       user.supportBook.set(supportBook);
-      console.log(user);
       return user;
-    })
+    }).catch(error => Observable.throw(new ErrorObservable("User Not Found")))
   }
 
   getUserBHO() {
@@ -152,7 +162,7 @@ export class UserService {
         });
         batchAdd$.push(this.productService.removeProduct(productId));
         return forkJoin(batchAdd$).map(t => {
-          return "cats"
+          return "cats" //TODO what is this?
         })
       }
     )
@@ -175,7 +185,7 @@ export class UserService {
     return this.incidentBookService.set(user.key, productId, amount)
       .pipe(
         tap(() => {
-          if(amount > user.getIncidentAmount(productId)){
+          if (amount > user.getIncidentAmount(productId)) {
             this.logService.addLog(user, 'Incident Assigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
           } else {
             this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
@@ -193,25 +203,23 @@ export class UserService {
   }
 
   resetRCC(user: User) {
-    console.log(user);
-    console.log(JSON.parse(JSON.stringify(user)));
+    // console.log(user);
+    // console.log("DEEP", Helper.deepCopy(user));
     let tmp = new User(user);
     tmp.currentQDays = 0;
     return this.userSetService.resetRCC(tmp);
   }
 
   updateQueueDays(user, amount) {
-    const tmp = new User(user);
+    let tmp = new User(user);
     tmp.currentQDays = amount;
     return this.updateUser(tmp).map(() => amount)
       .pipe(
         tap(() => {
-            console.log("NOT SUPPOSED TO HAPPEN");
-            this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays);
-          },
-          () => console.log("ERROR!"),
-          () => console.log("COMPLETED!!!")
-        )
+          this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays);
+        }),
+        catchError(
+          err => this.handleError(err))
       );
   }
 
