@@ -26,15 +26,15 @@ export class ArchiveService {
 
   add(logs: EntryLog[], users: User[]) {
     // Generate a KEY
-    let archive_id = this.firebase.createPushId();
+    const ARCHIVE_KEY = this.firebase.createPushId();
 
     // Prepare Archive Entry
-    let archiveEntry$ = this.http.post(this.archivEntryAPI, this.generateArchiveEntryBody(archive_id));
+    let archiveEntry$ = this.http.post(this.archivEntryAPI, this.generateArchiveEntryBody(ARCHIVE_KEY));
 
     // Prepare Requests for Users
     let batch_user_add = [];
     users.forEach(user => {
-      let body = this.generateUserBody(user, archive_id);
+      let body = this.generateUserBody(user, ARCHIVE_KEY);
       batch_user_add.push(this.http.post(this.archiveUserAPI, body, this.httpOptions))
     });
     if (batch_user_add.length == 0) {
@@ -44,7 +44,7 @@ export class ArchiveService {
     // Prepare Requests for Logs
     let batch_log_add = [];
     logs.forEach((log: EntryLog) => {
-      const body = this.generateLogBody(archive_id, log);
+      const body = this.generateLogBody(ARCHIVE_KEY, log);
       batch_log_add.push(this.http.post(this.archiveLogAPI, body, this.httpOptions))
     });
     if (batch_log_add.length == 0) {
@@ -61,9 +61,9 @@ export class ArchiveService {
 
   }
 
-  generateLogBody(archive_id: string | null, log: EntryLog) {
+  generateLogBody(ARCHIVE_KEY: string | null, log: EntryLog) {
     return {
-      ARCHIVE_ID: archive_id,
+      ARCHIVE_KEY: ARCHIVE_KEY,
       KEY: log.KEY,
       ACTION: log.action,
       MANAGER: log.getLogger(),
@@ -74,17 +74,18 @@ export class ArchiveService {
     };
   }
 
-  private generateArchiveEntryBody(archive_id) {
+  private generateArchiveEntryBody(ARCHIVE_KEY) {
     return {
-      ID: archive_id,
+      KEY: ARCHIVE_KEY,
       DATE: new Date()
     }
   }
 
-  private generateUserBody(user: User, archive_id) {
+
+  private generateUserBody(user: User, ARCHIVE_KEY) {
     // noinspection SpellCheckingInspection
     return {
-      ARCHIVE_ID: archive_id,
+      ARCHIVE_KEY: ARCHIVE_KEY,
       INUMBER: user.iNumber,
       NAME: user.name,
       KEY: user.key,
