@@ -23,12 +23,7 @@ export class ArchiveService {
   constructor(public http: HttpClient, public firebase: AngularFireDatabase) {
   }
 
-  get() {
-
-  }
-
   add(logs: EntryLog[], users: User[]) {
-
     let archive_id = this.firebase.createPushId();
     let batch_user_add = [];
     users.forEach(user => {
@@ -40,7 +35,7 @@ export class ArchiveService {
     logs.forEach((log: EntryLog) => {
       const body = {
         'ARCHIVE_ID': archive_id,
-        'PUSH_ID': log.pushID,
+        'PUSH_ID': log.KEY,
         'ACTION': log.action,
         'MANAGER': log.getLogger(),
         'DATE': JSON.stringify(log.getFullDate()),

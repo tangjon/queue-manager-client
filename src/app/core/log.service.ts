@@ -82,7 +82,7 @@ export class LogService {
   purgeLogs(): Observable<any> {
     const array = [];
     this.activityLog.forEach((el: EntryLog) => {
-      const url = `${this.api}('${el.pushID}')`;
+      const url = `${this.api}('${el.KEY}')`;
       array.push(this.http.delete(url));
     });
     console.log(array);
@@ -96,11 +96,11 @@ export class LogService {
     }
 
     // this.activityLog.forEach((el: EntryLog) => {
-    //   let url = `${this.api}('${el.pushID}')`;
+    //   let url = `${this.api}('${el.KEY}')`;
     //   console.log(url)
     //   this.http.delete(url).subscribe(r => {
     //     let index = this.activityLog.findIndex((log: EntryLog) => {
-    //       return log.pushID == el.pushID;
+    //       return log.KEY == el.KEY;
     //     })
     //     this.activityLog.splice(index, 1)
     //     this.logSource.next(this.activityLog);

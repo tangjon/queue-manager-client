@@ -5,15 +5,15 @@ export class EntryLog {
   description: string;
   userName: string;
   iNumber: string;
-  pushID: string;
+  KEY: string;
 
-  constructor(userName, iNumber, action, description, logger: string, pushID: string) {
+  constructor(userName, iNumber, action, description, logger: string, key: string) {
     this.action = action;
     this.logger = logger;
     this.description = description;
     this.iNumber = iNumber;
     this.userName = userName;
-    this.pushID = pushID;
+    this.KEY = key;
     this.date = new Date();
   }
 
