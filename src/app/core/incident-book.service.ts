@@ -42,7 +42,7 @@ export class IncidentBookService {
     return this.http.post(this.api, body, this.httpOptions)
   }
 
-  initializeIncidentSet(UID) {
+  createIncidentSet(UID) {
     return this.productService.getProducts().switchMap(prodList => {
       const batch$ = [];
       prodList.forEach(p => {

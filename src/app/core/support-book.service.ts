@@ -34,7 +34,7 @@ export class SupportBookService {
   }
 
   // create row for each current product
-  initializeUserSet(UID) {
+  createSupportSet(UID) {
     return this.productService.getProducts().switchMap(prodList => {
       const batch$ = [];
       prodList.forEach(p => {
