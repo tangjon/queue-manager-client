@@ -47,7 +47,7 @@ export class ApplicationSettingsComponent implements OnInit {
       }).subscribe(resp => {
           this.resetProgressArr[0] = true;
           this.showSpinner = false;
-          this.snackbar.open('Application Archive Reset Success!', 'Close', {duration: 1000});
+          this.snackbar.open('Application Archive Success!', 'Close');
         },
         err => {
           this.snackbar.open(`An error has occurred ${err.message}`, 'Close')
