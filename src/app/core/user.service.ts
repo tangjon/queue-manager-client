@@ -32,9 +32,9 @@ export class UserService {
               public supportBookService: SupportBookService,
               public productService: ProductService) {
 
-    this.db.object('queue-last-change').valueChanges().subscribe(r => {
-        console.log(r);
-    });
+    // this.db.object('queue-last-change').valueChanges().subscribe(r => {
+    //     console.log(r);
+    // });
   }
 
   getUsers(): Observable<User[]> {
