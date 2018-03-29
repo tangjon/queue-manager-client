@@ -58,22 +58,10 @@ export class ApplicationSettingsComponent implements OnInit {
   clearQueueDays() {
     if (window.confirm("Are you sure you want to reset Queue Days?")) {
       this.showSpinner = true;
-
-      // this.userSerivce.getUsers().switchMap(users => {
-      //   console.log(JSON.stringify(users))
-      //   let batchCall = [];
-      //   users.forEach((user: User) => {
-      //       batchCall.push(this.userSerivce.updateQueueDays(user, 0));
-      //   });
-      //   return forkJoin(batchCall);
-      // }).subscribe(() => {
-      //   this.showSpinner = false;
-      //   this.snackbar.open('Queue Days Reset', 'Close', {duration: 1000});
-      // })
       this.userSerivce.getUsers().switchMap(users => {
         let batchCall = [];
         users.forEach((user: User) => {
-          batchCall.push(this.userSerivce.resetRCC(user));
+          batchCall.push(this.userSerivce.resetRCC(user).pipe(tap(()=> user.currentQDays = 0)));
         });
         return forkJoin(batchCall);
       }).subscribe(() => {
@@ -105,7 +93,7 @@ export class ApplicationSettingsComponent implements OnInit {
         let batchCall = [];
         users.forEach((user: User) => {
           products.forEach(product => {
-            batchCall.push(this.incidentBook.setCount(user.key, product, 0));
+            batchCall.push(this.incidentBook.set(user.key, product, 0));
           })
         });
         return forkJoin(batchCall);

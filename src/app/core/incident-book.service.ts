@@ -4,6 +4,10 @@ import {environment} from "../../environments/environment";
 import {forkJoin} from "rxjs/observable/forkJoin";
 import {ProductService} from "./product.service";
 
+/*
+* [REFACTORED] March 29th 2018
+* */
+
 @Injectable()
 export class IncidentBookService {
   api = environment.apiUrl + 'incident_book';
@@ -25,21 +29,12 @@ export class IncidentBookService {
     });
   }
 
-  setCount(UID: string, productKey: string, count: number) {
+  set(UID: string, productKey: string, count: number) {
     const url = `${this.api}(KEY='${productKey}',UID='${UID}')`;
     const body = {
       COUNT: count
     };
     return this.http.put(url, body, this.httpOptions);
-  }
-
-  // Needs to add new product to each engineer in the system...
-  addComponet(UID: string, productKey: string) {
-    let body = {
-      KEY: productKey,
-      UID: UID
-    };
-    return this.http.post(this.api, body, this.httpOptions)
   }
 
   createIncidentSet(UID) {
@@ -58,6 +53,14 @@ export class IncidentBookService {
         return uIncidentObj;
       });
     });
+  }
+
+  addComponent(UID: string, productKey: string) {
+    let body = {
+      KEY: productKey,
+      UID: UID
+    };
+    return this.http.post(this.api, body, this.httpOptions)
   }
 
   removeComponent(UID: string, productKey: string) {

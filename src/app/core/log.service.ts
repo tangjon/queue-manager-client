@@ -8,9 +8,7 @@ import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
 
-type Action = 'Incident Assigned' | 'Incident Unassigned' | 'Availability Changed' | 'Queue Days Changed'
-
-
+type Action = 'Incident Assigned' | 'Incident Unassigned' | 'Availability Changed' | 'Queue Days Changed' | 'Support Changed'
 
 @Injectable()
 export class LogService {
@@ -57,6 +55,7 @@ export class LogService {
   }
 
   addLog(user, action:Action, description) {
+    console.log(action);
     const pushId = this.db.createPushId();
     const entry = new EntryLog(
       user.name, user.iNumber,

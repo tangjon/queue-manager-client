@@ -2,6 +2,11 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
+import {BodyParser} from "../shared/helper/bodyParser";
+
+/*
+* [REFACTORED] March 29th 2018
+* */
 
 @Injectable()
 export class ProductService {
@@ -19,23 +24,26 @@ export class ProductService {
   getProducts(): Observable<string[]> {
     return this.http.get(this.api, this.httpOptions)
       .map((res: any) => {
-        let resArr: Array<any> = res.d.results;
-        let arr = [];
-        resArr.forEach(el => {
-          arr.push(el.KEY);
+        let productList = [];
+        BodyParser.parseBody(res).forEach(el => {
+          productList.push(el.KEY);
         });
+        sortAlpha(productList); // sorts array alphabetically
+        return productList;
+      });
 
-        arr.sort(function (b, a) {
-          if (a > b) {
-            return -1;
-          }
-          if (a < b) {
-            return 1;
-          }
-          return 0;
-        });
-        return arr;
-      })
+    function sortAlpha(arr){
+      arr.sort(function (b, a) {
+        if (a > b) {
+          return -1;
+        }
+        if (a < b) {
+          return 1;
+        }
+        return 0;
+      });
+      return arr;
+    }
   }
 
   addProduct(productId) {

@@ -132,8 +132,8 @@ export class UserService {
     return this.getUsers().switchMap((users) => {
         let batchAdd$ = [];
         users.forEach((user: User) => {
-          batchAdd$.push(this.supportBookService.addComponet(user.key, productId));
-          batchAdd$.push(this.incidentBookService.addComponet(user.key, productId));
+          batchAdd$.push(this.supportBookService.addComponent(user.key, productId));
+          batchAdd$.push(this.incidentBookService.addComponent(user.key, productId));
         });
         batchAdd$.push(this.productService.addProduct(productId));
         return forkJoin(batchAdd$).map(t => {
@@ -165,36 +165,39 @@ export class UserService {
     } else {
       action = "Assigned";
     }
-    return this.supportBookService.setSupport(user.key, productId, bool)
+    return this.supportBookService.set(user.key, productId, bool)
       .pipe(
-        tap(() => this.logService.addLog(user, "SupportBook Changed", action + " " + productId))
+        tap(() => this.logService.addLog(user, "Support Changed", action + " " + productId))
       );
   }
 
   updateIncident(user: User, productId: string, amount: number) {
-    let aString = "";
-    if (user.getIncidentAmount(productId) < amount) {
-      aString = "Incident Assigned";
-    } else {
-      aString = "Incident Unassigned";
-    }
-
-    return this.incidentBookService.setCount(user.key, productId, amount)
+    return this.incidentBookService.set(user.key, productId, amount)
       .pipe(
-        tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(productId) + " to " + amount + " in " + productId)),
         tap(() => {
-          this.db.object('queue-last-change').set({
-            key: user.key,
-            action: "Incident Assigned",
-            productId: productId,
-            value: amount
-          });
+          if(amount){
+            this.logService.addLog(user, 'Incident Assigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
+          } else {
+            this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
+          }
+        }),
+        tap(() => {
+          // this.db.object('queue-last-change').set({
+          //   key: user.key,
+          //   action: "Incident Assigned",
+          //   productId: productId,
+          //   value: amount
+          // });
         })
       );
   }
 
   resetRCC(user: User) {
-    return this.userSetService.resetRCC(user);
+    console.log(user);
+    console.log(JSON.parse(JSON.stringify(user)));
+    let tmp = new User(user);
+    tmp.currentQDays = 0;
+    return this.userSetService.resetRCC(tmp);
   }
 
   updateQueueDays(user, amount) {

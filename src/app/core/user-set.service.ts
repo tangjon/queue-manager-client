@@ -5,6 +5,9 @@ import {environment} from "../../environments/environment";
 import {Observable} from "rxjs/Observable";
 import {BodyParser} from "../shared/helper/bodyParser";
 
+/*
+* [REFACTORED] March 29th 2018
+* */
 
 interface Query {
   key?: string;
@@ -61,9 +64,7 @@ export class UserSetService {
   }
 
   resetRCC(user: User) {
-    let tmp = new User(user);
-    tmp.currentQDays = 0;
-    return this.updateUserSet(tmp);
+    return this.updateUserSet(user);
   }
 
   private generateBody(user: User) {

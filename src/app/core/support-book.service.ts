@@ -3,6 +3,11 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ProductService} from "./product.service";
 import {forkJoin} from "rxjs/observable/forkJoin";
+import {Observable} from "rxjs/Observable";
+
+/*
+* [REFACTORED] March 29th 2018
+* */
 
 @Injectable()
 export class SupportBookService {
@@ -25,7 +30,12 @@ export class SupportBookService {
     });
   }
 
-  setSupport(UID: string, productKey: string, bool: boolean) {
+  /**
+   * @param UID Unique ID entry on database
+   * @param productKey  i.e 'NW' or 'SA.
+   * @param bool Value to be set to user
+   */
+  set(UID: string, productKey: string, bool: boolean): Observable<any> {
     const url = `${this.api}(KEY='${productKey}',UID='${UID}')`;
     const body = {
       SUPPORT: bool.toString()
@@ -34,7 +44,7 @@ export class SupportBookService {
   }
 
   // create row for each current product
-  createSupportSet(UID) {
+  createSupportSet(UID): Observable<any> {
     return this.productService.getProducts().switchMap(prodList => {
       const batch$ = [];
       prodList.forEach(p => {
@@ -52,7 +62,12 @@ export class SupportBookService {
     });
   }
 
-  addComponet(UID: string, productKey: string) {
+  /**
+  * Called when a component is added from application. Typically called for all users
+  * @param UID
+  * @param productKey Product key to be added. i.e 'NW"
+  */
+  addComponent(UID: string, productKey: string): Observable<any> {
     let body = {
       KEY: productKey,
       UID: UID
@@ -60,7 +75,12 @@ export class SupportBookService {
     return this.http.post(this.api, body, this.httpOptions)
   }
 
-  removeComponent(UID: string, productKey: string) {
+  /**
+   * Called when a component is removed from application. Typically called for all users
+   * @param UID
+   * @param productKey Product key to be removed. i.e 'NW"
+   */
+  removeComponent(UID: string, productKey: string): Observable<any> {
     return this.http.delete(`${this.api}(KEY='${productKey}',UID='${UID}')`)
   }
 
