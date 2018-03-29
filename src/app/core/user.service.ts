@@ -38,13 +38,14 @@ export class UserService {
     // this.db.object('queue-last-change').valueChanges().subscribe(r => {
     //     console.log(r);
     // });
-    this.getUserv2('cat').subscribe(
-      () => {
-      },
-      err => {
-        console.log(err)
-      }
-    );
+    // this.getUserByNumber('').subscribe(
+    //   (t) => {
+    //     console.log(t);
+    //   },
+    //   err => {
+    //     console.log(err)
+    //   }
+    // );
   }
 
   getUsers(): Observable<User[]> {
@@ -79,7 +80,23 @@ export class UserService {
     });
   }
 
-  getUserv2(key): Observable<User> {
+  getUserByNumber(iNumber: string): Observable<User> {
+    if(!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
+    return this.userSetService.getUserSet({iNumber: iNumber.toLowerCase()}).switchMap(userSet => {
+      return forkJoin([
+        this.supportBookService.get(userSet[0].key),
+        this.incidentBookService.get(userSet[0].key)
+      ]).map(data => {
+        const [incidentBook, supportBook] = data;
+        let user = new User(userSet[0]);
+        user.incidentBook.set(incidentBook);
+        user.supportBook.set(supportBook);
+        return user;
+      })
+    }).catch(error => Observable.throw(new ErrorObservable("User Not Found")))
+  }
+
+  getUserByKey(key): Observable<User> {
     return forkJoin([
       this.userSetService.getUserSet({key: key}),
       this.supportBookService.get(key),
