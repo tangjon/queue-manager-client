@@ -81,32 +81,19 @@ export class LogService {
   }
 
   purgeLogs(): Observable<any> {
-    const array = [];
+    const $batch = [];
     this.activityLog.forEach((el: EntryLog) => {
       const url = `${this.api}('${el.KEY}')`;
-      array.push(this.http.delete(url));
+      $batch.push(this.http.delete(url));
     });
-    console.log(array);
-    if (array.length == 0) {
+    if ($batch.length == 0) {
       return Observable.of({});
     } else {
-      return Observable.forkJoin(array).map(() => {
+      return Observable.forkJoin($batch).map(() => {
         this.activityLog.splice(0, this.activityLog.length);
         this.logSource.next(this.activityLog);
       })
     }
-
-    // this.activityLog.forEach((el: EntryLog) => {
-    //   let url = `${this.api}('${el.KEY}')`;
-    //   console.log(url)
-    //   this.http.delete(url).subscribe(r => {
-    //     let index = this.activityLog.findIndex((log: EntryLog) => {
-    //       return log.KEY == el.KEY;
-    //     })
-    //     this.activityLog.splice(index, 1)
-    //     this.logSource.next(this.activityLog);
-    //   })
-    // });
   }
 
   getCachedINumber() {
