@@ -16,12 +16,6 @@ export class IncidentBookService {
   constructor(public http: HttpClient, public productService: ProductService) {
   }
 
-  // consider only using get?
-  getSnapShot() {
-    const url = `${this.api}`;
-    this.http.get(url, this.httpOptions)
-  }
-
   get(UID: string) {
     const url = `${this.api}?$filter=UID eq '${UID}'`;
     return this.http.get(url).map((res: any) => {

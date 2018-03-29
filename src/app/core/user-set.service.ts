@@ -3,7 +3,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../shared/model/user';
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs/Observable";
-import {BodyParser} from "../shared/model/bodyParser";
+import {BodyParser} from "../shared/helper/bodyParser";
+
+
+interface Query {
+  key?: string;
+  iNumber?: string;
+}
 
 @Injectable()
 export class UserSetService {
@@ -15,27 +21,9 @@ export class UserSetService {
   };
 
   constructor(public http: HttpClient) {
-    // this.getUserSet({
-    //   key: '-L6NWB0vTHL_YJzPVshf'
-    // }).subscribe((t) => {
-    //   console.log(t);
-    // })
   }
 
-
-  getUserSets() {
-    return this.http.get(this.api, this.httpOptions)
-      .map((res: any) => {
-        let arr: Array<any> = res.d.results;
-        let obj = {};
-        for (let i = 0; i < arr.length; i++) {
-          obj[arr[i].KEY] = new User(arr[i]);
-        }
-        return obj;
-      })
-  }
-
-  getUserSet(query): Observable<any> {
+  getUserSet(query: Query): Observable<any> {
     if (!query.key && !query.iNumber) return Observable.of([]);
     if (query.key) {
       return this.http.get(this.api + `('${query.key}')`, this.httpOptions)
@@ -46,11 +34,10 @@ export class UserSetService {
     }
   }
 
-  getUserSetArray() {
+  getUserSets() {
     return this.http.get(this.api, this.httpOptions)
       .map((res: any) => {
-        let arr: Array<any> = res.d.results;
-        return arr.map(rawUser => new User(rawUser));
+        return BodyParser.parseBody(res).map(rawUser => new User(rawUser));
       })
   }
 
@@ -74,8 +61,9 @@ export class UserSetService {
   }
 
   resetRCC(user: User) {
-    user.currentQDays = 0;
-    return this.updateUserSet(user);
+    let tmp = new User(user);
+    tmp.currentQDays = 0;
+    return this.updateUserSet(tmp);
   }
 
   private generateBody(user: User) {
@@ -89,11 +77,4 @@ export class UserSetService {
       USAGEPERCENT: user.usagePercent.toString()
     };
   }
-
-  // Removes __metadata from the body;
-  // private bodyParser(body) {
-  //   const { __metadata, ...newObject } = body.d;
-  //   console.log(newObject);
-  //   return newObject;
-  // }
 }

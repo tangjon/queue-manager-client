@@ -38,7 +38,7 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.userSetService.getUserSetArray().switchMap((users: User[]) => {
+    return this.userSetService.getUserSets().switchMap((users: User[]) => {
       const userbatch$ = [];
       users.forEach(user => {
         userbatch$.push(
@@ -69,12 +69,12 @@ export class UserService {
     });
   }
 
-  getUserv2(key){
-    return forkJoin([this.userSetService.getUserSet({key:key}),
+  getUserv2(key) {
+    return forkJoin([this.userSetService.getUserSet({key: key}),
       this.supportBookService.get(key),
       this.incidentBookService.get(key)
-    ]).map( data => {
-      const [userSet ,incidentBook, supportBook] = data;
+    ]).map(data => {
+      const [userSet, incidentBook, supportBook] = data;
       let user = new User(userSet);
       user.incidentBook.set(incidentBook);
       user.supportBook.set(supportBook);
@@ -118,7 +118,7 @@ export class UserService {
         tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
         ),
         tap(() => {
-          this.db.object('queue-last-change').set({key: user.key, action: "Availability Changed", value:bool});
+          this.db.object('queue-last-change').set({key: user.key, action: "Availability Changed", value: bool});
         }));
   }
 
@@ -184,7 +184,12 @@ export class UserService {
       .pipe(
         tap(() => this.logService.addLog(user, aString, user.getIncidentAmount(productId) + " to " + amount + " in " + productId)),
         tap(() => {
-          this.db.object('queue-last-change').set({key:user.key, action: "Incident Assigned", productId: productId , value:amount});
+          this.db.object('queue-last-change').set({
+            key: user.key,
+            action: "Incident Assigned",
+            productId: productId,
+            value: amount
+          });
         })
       );
   }
