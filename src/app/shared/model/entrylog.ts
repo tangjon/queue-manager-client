@@ -24,28 +24,11 @@ export class EntryLog {
   }
 
   getTimeFormatted(): string {
-    let hours = this.date.getHours().toString();
-    let minutes = this.date.getMinutes().toString();
-    let seconds = this.date.getSeconds().toString();
-    minutes = minutes.length < 2 ? '0' + minutes : minutes;
-    seconds = seconds.length < 2 ? '0' + seconds : seconds;
-    return moment(this.date).format("dddd, MMMM Do YYYY, hh:mm:ss a")
-
-
-    // return `${hours}:${minutes}:${seconds}`
+    return moment(this.date).format("kk:mm:ss")
   }
 
   getDateFormatted(): string {
-    const monthNames = [
-      '1', '2', '3',
-      '4', '5', '6', '7',
-      '8', '9', '1',
-      '11', '12'
-    ];
-    const month = monthNames[this.date.getMonth()];
-    const day = this.date.getDate();
-    const year = this.date.getFullYear();
-    return `${month}/${day}/${year}`;
+    return moment(this.date).format('MM/DD/YYYY')
   }
 
   getSummary(): string {
