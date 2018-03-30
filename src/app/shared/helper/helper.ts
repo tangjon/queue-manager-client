@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export class Helper {
 
   static deepCopy(obj){
@@ -8,4 +10,11 @@ export class Helper {
     return JSON.parse(JSON.stringify(obj));
   }
 
+  static dateInRange(date:Date, start:Date, end:Date){
+    return moment(date).isBetween(start, end);
+  }
+
+  static dateWithin(date:Date, range){
+    return moment(date).isBetween(moment().startOf(range), moment().endOf(range));
+  }
 }

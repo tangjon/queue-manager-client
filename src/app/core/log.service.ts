@@ -7,8 +7,14 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
+import {Helper} from "../shared/helper/helper";
 
-type Action = 'Incident Assigned' | 'Incident Unassigned' | 'Availability Changed' | 'Queue Days Changed' | 'Support Changed'
+type Action =
+  'Incident Assigned'
+  | 'Incident Unassigned'
+  | 'Availability Changed'
+  | 'Queue Days Changed'
+  | 'Support Changed'
 
 @Injectable()
 export class LogService {
@@ -34,7 +40,8 @@ export class LogService {
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     // Make logs "real-time"
     this.db.object('log-last-change').valueChanges().subscribe(r => {
-      this.getLogsAsSource().subscribe(()=>{})
+      this.getLogsAsSource().subscribe(() => {
+      })
     });
   }
 
@@ -45,7 +52,7 @@ export class LogService {
     });
   }
 
-  getLogs() : Observable<any>{
+  getLogs(): Observable<any> {
     return this.http.get(this.api, this.httpOptions).map((r: any) => {
       this.activityLog = [];
       const t = r.d.results.map((t: any) => {
@@ -63,7 +70,8 @@ export class LogService {
     })
   }
 
-  addLog(user, action:Action, description) {
+
+  addLog(user, action: Action, description) {
     console.log(action);
     const pushId = this.db.createPushId();
     const entry = new EntryLog(
@@ -114,11 +122,11 @@ export class LogService {
     return localStorage['MYINUMBER'];
   }
 
-  getAssignmentCountv2(user: User, date_begin, date_end){
+  getAssignmentCountv2(user: User, date_begin, date_end) {
     const logs = this.activityLog;
     const filterlog = logs.filter((el: EntryLog) => {
       return el.iNumber === user.iNumber &&
-        el.action.indexOf('Incident') !== -1 && dateInRange(el.getFullDate(),date_begin,date_end);
+        el.action.indexOf('Incident') !== -1 && dateInRange(el.getFullDate(), date_begin, date_end);
     });
     if (filterlog.length) {
       let numAssigned = 0;
@@ -147,6 +155,14 @@ export class LogService {
     function yesterdayDate(date: Date): Date {
       return new Date(date.getTime() - (24 * 60 * 60 * 1000));
     }
+  }
+
+  static filterAction(logs:EntryLog[], action:Action,) {
+    return logs.filter((log:EntryLog)=> log.action === action);
+  }
+
+  static filterDate(logs:EntryLog[], date: Date, dateStart: Date, dateEnd:Date){
+    // return logs.filter((log:EntryLog)=> Helper.dateInRange(date,dateStart,dateEnd));
   }
 
   getAssignmentCount(user: User) {
