@@ -18,7 +18,7 @@ export class LoginService {
     } else {
       iNumber = iNumber.toLowerCase();
     }
-    this.userService.getUser(iNumber).subscribe((user: User) => {
+    this.userService.getUserByNumber(iNumber).subscribe((user: User) => {
       this.user = user;
       localStorage[this.cacheKey] = this.user.iNumber;
     },

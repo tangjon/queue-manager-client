@@ -67,18 +67,18 @@ export class UserService {
   }
 
 
-  getUser(iNumber: string) {
-    return this.getUsers().map((data: User[]) => {
-      // filter array
-      const user = data.find((user: User) => {
-        return user.iNumber == iNumber;
-      });
-      if (!user) {
-        throw new Error("User Not Found");
-      }
-      return user;
-    });
-  }
+  // getUserByNumber(iNumber: string) {
+  //   return this.getUsers().map((data: User[]) => {
+  //     // filter array
+  //     const user = data.find((user: User) => {
+  //       return user.iNumber == iNumber;
+  //     });
+  //     if (!user) {
+  //       throw new Error("User Not Found");
+  //     }
+  //     return user;
+  //   });
+  // }
 
   getUserByNumber(iNumber: string): Observable<User> {
     if(!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
@@ -93,7 +93,7 @@ export class UserService {
         user.supportBook.set(supportBook);
         return user;
       })
-    }).catch(error => Observable.throw(new ErrorObservable("User Not Found")))
+    }).catch(() => Observable.throw(new ErrorObservable("User Not Found")))
   }
 
   getUserByKey(key): Observable<User> {
@@ -245,12 +245,12 @@ export class UserService {
       return r.d.INUMBER;
     })
       .switchMap(iNumber => {
-        return this.getUser(iNumber);
+        return this.getUserByNumber(iNumber);
       });
   }
 
   setQM(iNumber: string) {
-    return this.getUser(iNumber.toLowerCase()).switchMap(
+    return this.getUserByNumber(iNumber).switchMap(
       (user: User) => {
         // noinspection SpellCheckingInspection
         const body = {
