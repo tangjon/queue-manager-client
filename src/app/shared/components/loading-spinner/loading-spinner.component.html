@@ -1,4 +1,6 @@
 <div class="spinner">
+  <p  *ngIf="message" class="spinner-message">{{message}}</p>
+  <p *ngIf="!message" class="spinner-message">Loading</p>
   <div class="rect1"></div>
   <div class="rect2"></div>
   <div class="rect3"></div>

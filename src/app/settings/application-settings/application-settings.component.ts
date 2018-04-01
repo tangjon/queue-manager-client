@@ -22,6 +22,8 @@ export class ApplicationSettingsComponent implements OnInit {
   // 1 - Archive 2 -  Reset Queue3 -Reset Incidents  Days 4 - Reset Log
   resetProgressArr = [false, false, false, false]; // me being lazy
 
+  showAdvanceSettings: boolean = false;
+  progressMessage;
 
   constructor(public userSerivce: UserService, public incidentBook: IncidentBookService,
               public productService: ProductService, public snackbar: MatSnackBar, public logService: LogService,
@@ -33,18 +35,32 @@ export class ApplicationSettingsComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggleAdvancedSettings() {
+    this.showAdvanceSettings = !this.showAdvanceSettings;
+  }
+
+  oneClickReset() {
+    this.showSpinner = true;
+    this.progressMessage= "Loading";
+    forkJoin(
+      this.initiateArchive().pipe(tap(()=>{this.progressMessage = "Archiving..."})),
+      this.initiateClearIncidents().pipe(tap(()=>{this.progressMessage = "Clearing Incidents..."})),
+      this.initiateClearQueueDays().pipe(tap(()=>{this.progressMessage = "Clearing Queue...";})),
+      this.logService.purgeLogs().pipe(tap(()=>{this.progressMessage = "Purging Logs...";}))
+    )
+      .subscribe(() => {
+      this.showSpinner = false;
+      this.snackbar.open('One Click Reset Complete!', 'Close');
+    }, err => {
+      this.snackbar.open(`An error has occurred ${err.message}`, 'Close')
+    })
+  }
+
   archive() {
     if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
       this.showSpinner = true;
-      forkJoin([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
-        return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
-          let d = new Date();
-          this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify({
-            users: data[0],
-            logs: data[1]
-          }));
-        }));
-      }).subscribe(resp => {
+      this.progressMessage = "Archiving...";
+      this.initiateArchive().subscribe(resp => {
           this.resetProgressArr[0] = true;
           this.showSpinner = false;
           this.snackbar.open('Application Archive Success!', 'Close');
@@ -58,13 +74,8 @@ export class ApplicationSettingsComponent implements OnInit {
   clearQueueDays() {
     if (window.confirm("Are you sure you want to reset Queue Days?")) {
       this.showSpinner = true;
-      this.userSerivce.getUsers().switchMap(users => {
-        let batchCall = [];
-        users.forEach((user: User) => {
-          batchCall.push(this.userSerivce.resetRCC(user).pipe(tap(()=> user.currentQDays = 0)));
-        });
-        return forkJoin(batchCall);
-      }).subscribe(() => {
+      this.progressMessage = "Clearing Queue Days...";
+      this.initiateClearQueueDays().subscribe(() => {
         this.showSpinner = false;
         this.resetProgressArr[1] = true;
         this.snackbar.open('Queue Days Reset', 'Close', {duration: 1000});
@@ -76,6 +87,7 @@ export class ApplicationSettingsComponent implements OnInit {
   clearEntryLogs() {
     if (window.confirm("Are you sure you want to purge enty logs?")) {
       this.showSpinner = true;
+      this.progressMessage = "Clearing Entry Logs...";
       this.logService.purgeLogs().subscribe(() => {
         this.snackbar.open('Logs were purged succesfully', 'Close', {duration: 1000});
         this.showSpinner = false;
@@ -87,17 +99,8 @@ export class ApplicationSettingsComponent implements OnInit {
   clearIncidents() {
     if (window.confirm("Are you sure you want to reset incident counts to 0?")) {
       this.showSpinner = true;
-      forkJoin([this.userSerivce.getUsers(), this.productService.getProducts()]).switchMap(data => {
-        let users = data[0];
-        let products = data[1];
-        let batchCall = [];
-        users.forEach((user: User) => {
-          products.forEach(product => {
-            batchCall.push(this.incidentBook.set(user.key, product, 0));
-          })
-        });
-        return forkJoin(batchCall);
-      }).subscribe(() => {
+      this.progressMessage = "Clearing Incidents...";
+      this.initiateClearIncidents().subscribe(() => {
         this.resetProgressArr[2] = true;
         this.showSpinner = false;
         this.snackbar.open('Incidents Reset', 'Close', {duration: 1000});
@@ -105,7 +108,6 @@ export class ApplicationSettingsComponent implements OnInit {
     }
 
   }
-
 
   download(filename, text) {
     let btnRef = document.getElementById('btn-download');
@@ -120,7 +122,39 @@ export class ApplicationSettingsComponent implements OnInit {
     document.body.removeChild(element);
   }
 
-  promptDownload() {
-    this.download("", "HELLO WORLD")
+  private initiateArchive() {
+    return forkJoin([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
+      return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
+        let d = new Date();
+        this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify({
+          users: data[0],
+          logs: data[1]
+        }));
+      }));
+    });
+  }
+
+  private initiateClearQueueDays() {
+    return this.userSerivce.getUsers().switchMap(users => {
+      let batchCall = [];
+      users.forEach((user: User) => {
+        batchCall.push(this.userSerivce.resetRCC(user).pipe(tap(() => user.currentQDays = 0)));
+      });
+      return forkJoin(batchCall);
+    })
+  }
+
+  private initiateClearIncidents() {
+    return forkJoin([this.userSerivce.getUsers(), this.productService.getProducts()]).switchMap(data => {
+      let users = data[0];
+      let products = data[1];
+      let batchCall = [];
+      users.forEach((user: User) => {
+        products.forEach(product => {
+          batchCall.push(this.incidentBook.set(user.key, product, 0));
+        })
+      });
+      return forkJoin(batchCall);
+    })
   }
 }

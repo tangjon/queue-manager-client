@@ -6,10 +6,10 @@
   </div>
 </div>
 <div *ngIf="showSpinner">
-  <app-loading-spinner></app-loading-spinner>
+  <app-loading-spinner [message]="progressMessage"></app-loading-spinner>
 </div>
 <div *ngIf="!showSpinner">
-  <div class="row">
+  <div class="row" *ngIf="showAdvanceSettings">
     <div class="col-sm-6 data-rest-btn">
       <div class="card-body">
         <h5 class="card-title">Archive (May take a while)</h5>
@@ -17,8 +17,6 @@
         <button class="btn btn-danger" (click)="archive()"><span class="badge badge-light mr-1">1</span>Archive <i
           *ngIf="resetProgressArr[0]" class="fa fa-check-circle" style="color:white;"></i></button>
         <div id="btn-download"></div>
-
-        <!--<button id="btn-download" class="btn btn-danger" (click)="promptDownload()">Save</button>-->
       </div>
     </div>
     <div class="col-sm-6 data-rest-btn">
@@ -30,7 +28,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div  class="row" *ngIf="showAdvanceSettings">
     <div class="col-sm-6 data-rest-btn">
       <div class="card-body">
         <h5 class="card-title">Reset Incidents</h5>
@@ -46,6 +44,12 @@
         <button class="btn btn-secondary" (click)="clearEntryLogs()"><span class="badge badge-light mr-1">4</span>Reset
           <i *ngIf="resetProgressArr[3]" class="fa fa-check-circle" style="color:white;"></i></button>
       </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!showAdvanceSettings">
+    <div class="col">
+      <button class="btn btn-primary my-2" (click)="oneClickReset()">Easy One Click Button</button>
+      <button class="btn btn-link my-2" (click)="toggleAdvancedSettings()">Advanced</button>
     </div>
   </div>
 </div>
