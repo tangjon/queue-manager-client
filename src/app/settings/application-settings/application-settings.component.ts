@@ -41,19 +41,27 @@ export class ApplicationSettingsComponent implements OnInit {
 
   oneClickReset() {
     this.showSpinner = true;
-    this.progressMessage= "Loading";
-    forkJoin(
-      this.initiateArchive().pipe(tap(()=>{this.progressMessage = "Archiving..."})),
-      this.initiateClearIncidents().pipe(tap(()=>{this.progressMessage = "Clearing Incidents..."})),
-      this.initiateClearQueueDays().pipe(tap(()=>{this.progressMessage = "Clearing Queue...";})),
-      this.logService.purgeLogs().pipe(tap(()=>{this.progressMessage = "Purging Logs...";}))
-    )
-      .subscribe(() => {
+    this.progressMessage = "Archiving...";
+    this.initiateArchive().switchMap(() => {
+      return forkJoin(
+        this.initiateClearIncidents().pipe(tap(() => {
+          this.progressMessage = "Clearing Incidents..."
+        })),
+        this.initiateClearQueueDays().pipe(tap(() => {
+          this.progressMessage = "Clearing Queue...";
+        })),
+        this.logService.purgeLogs().pipe(tap(() => {
+          this.progressMessage = "Purging Logs...";
+        }))
+      )
+    }).subscribe(() => {
       this.showSpinner = false;
       this.snackbar.open('One Click Reset Complete!', 'Close');
     }, err => {
       this.snackbar.open(`An error has occurred ${err.message}`, 'Close')
     })
+
+
   }
 
   archive() {
