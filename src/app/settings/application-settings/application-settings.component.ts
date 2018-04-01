@@ -40,32 +40,36 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   oneClickReset() {
-    this.showSpinner = true;
-    this.progressMessage = "Archiving...";
-    this.initiateArchive().switchMap(() => {
-      return forkJoin(
-        this.initiateClearIncidents().pipe(tap(() => {
-          this.progressMessage = "Clearing Incidents..."
-        })),
-        this.initiateClearQueueDays().pipe(tap(() => {
-          this.progressMessage = "Clearing Queue...";
-        })),
-        this.logService.purgeLogs().pipe(tap(() => {
-          this.progressMessage = "Purging Logs...";
-        }))
-      )
-    }).subscribe(() => {
-      this.showSpinner = false;
-      this.snackbar.open('One Click Reset Complete!', 'Close');
-    }, err => {
-      this.snackbar.open(`An error has occurred ${err.message}`, 'Close')
-    })
+
+    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")){
+      this.showSpinner = true;
+      this.progressMessage = "Archiving...";
+      this.initiateArchive().switchMap(() => {
+        return forkJoin(
+          this.initiateClearIncidents().pipe(tap(() => {
+            this.progressMessage = "Clearing Incidents..."
+          })),
+          this.initiateClearQueueDays().pipe(tap(() => {
+            this.progressMessage = "Clearing Queue...";
+          })),
+          this.logService.purgeLogs().pipe(tap(() => {
+            this.progressMessage = "Purging Logs...";
+          }))
+        )
+      }).subscribe(() => {
+        this.showSpinner = false;
+        this.snackbar.open('One Click Reset Complete!', 'Close');
+      }, err => {
+        this.snackbar.open(`An error has occurred ${err.message}`, 'Close')
+      })
+    }
+
 
 
   }
 
   archive() {
-    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
+    if (window.confirm("Are you sure you want to archive everything?\nThis will take a while!!!!")) {
       this.showSpinner = true;
       this.progressMessage = "Archiving...";
       this.initiateArchive().subscribe(resp => {
@@ -80,7 +84,7 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   clearQueueDays() {
-    if (window.confirm("Are you sure you want to reset Queue Days?")) {
+    if (window.confirm("Are you sure you want to reset queue days?")) {
       this.showSpinner = true;
       this.progressMessage = "Clearing Queue Days...";
       this.initiateClearQueueDays().subscribe(() => {
