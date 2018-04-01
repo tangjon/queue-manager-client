@@ -54,7 +54,6 @@ export class User {
         list.push(el);
       }
     });
-    console.log(list);
     return list;
   }
 
