@@ -142,10 +142,10 @@ export class UserService {
     tmp.setStatus(bool);
     return this.updateUser(tmp)
       .pipe(
-        tap(() => this.logService.addLog(user, "Availability Changed", `Switched to ${user.getStatus()}`)
+        tap(() => this.logService.addLog(tmp, "Availability Changed", `Switched to ${tmp.getStatus()}`)
         ),
         tap(() => {
-          this.db.object('queue-last-change').set({key: user.key, action: "Availability Changed", value: bool});
+          this.db.object('queue-last-change').set({key: tmp.key, action: "Availability Changed", value: bool});
         }));
   }
 
