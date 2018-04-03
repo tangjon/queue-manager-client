@@ -19,13 +19,10 @@ export class QueueControlComponent implements OnInit {
   paramId: string;
   totalIncidents: number;
   totalIncidentsCtx: number;
-  _userListAll: Array<User>;
-  _userListCtx: Array<User>;
   _userListBusy: Array<User>;
   _userListAvailable: Array<User>;
 
   _userList: Array<User>;
-  users$: Observable<User[]>;
 
   errorMessage: string;
 
