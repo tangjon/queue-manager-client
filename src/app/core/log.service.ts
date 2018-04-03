@@ -39,8 +39,8 @@ export class LogService {
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     // Make logs "real-time"
     this.db.object('log-last-change').valueChanges().subscribe(r => {
-      this.getLogsAsSource().subscribe(() => {
-      })
+      // this.getLogsAsSource().subscribe(() => {
+      // })
     });
   }
 
