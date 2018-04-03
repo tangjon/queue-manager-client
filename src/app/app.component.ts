@@ -12,7 +12,19 @@ export class AppComponent {
   items: Observable<any[]>;
   errorMessage: string;
 
+  INITIALIZED = false;
+
   constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
+
+    db.object('system-refresh').valueChanges().subscribe(()=>{
+      if(this.INITIALIZED){
+        if(window.confirm("QMCD is requesting to refresh the browser. Please click ok for full functionality")){
+          location.reload();
+        }
+      } else {
+        this.INITIALIZED = true;
+      }
+    })
     // window.onscroll = this.testScroll;
   }
 
