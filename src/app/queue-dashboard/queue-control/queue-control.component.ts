@@ -22,7 +22,8 @@ export class QueueControlComponent implements OnInit {
   _userListBusy: Array<User>;
   _userListAvailable: Array<User>;
 
-  _userList: Array<User>;
+  _userList: Array<User> = [];
+  _userListHeavy: Array<User> = [];
 
   errorMessage: string;
 

@@ -30,7 +30,7 @@
     </tr>
     </tbody>
     <tbody *ngIf="!showSpinner">
-    <tr *ngFor="let user of _userList | isAvailable:paramId :true | sortByAlpha | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
+    <tr *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
         [class.high-workload]="getAssignmentCount(user) >= 3">
       <th scope="row">
         {{i + 1}}
@@ -63,6 +63,40 @@
         <button (click)="toggleStatus(user)">Toggle</button>
       </td>
     </tr>
+    <tr class="bg-danger" *ngFor="let user of _userListHeavy | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
+        [class.high-workload]="getAssignmentCount(user) >= 3">
+      <th scope="row">
+        {{i + 1}}
+        <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
+             style="display: block">
+      </th>
+      <td>{{user.name + "(" + user.iNumber + ")"}}</td>
+      <td>
+
+        <button (click)="incIncidentAmount(user)" class="btn btn-success">
+          <i class="fa fa-plus-square fa-sm"></i>
+        </button>
+      </td>
+      <td>
+        <button (click)="decIncidentAmount(user)" class="btn btn-danger">
+          <i class="fa fa-minus-square fa-sm"> </i>
+        </button>
+      </td>
+      <td>{{ user.getIncidentAmount(paramId) }}</td>
+      <td>{{ user.getIncidentTotal() }}
+        <span *ngIf="getAssignmentCount(user) >= 0" class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
+        <span *ngIf="getAssignmentCount(user) < 0" class="badge badge-danger assigned-twenty-four">{{getAssignmentCount(user)}}</span>
+
+      </td>
+      <td>{{ user.getAverageQDay() }}</td>
+      <td>
+        <i class="fa fa-check-circle fa-lg" style="color:green;"></i>
+      </td>
+      <td>
+        <button (click)="toggleStatus(user)">Toggle</button>
+      </td>
+    </tr>
+
     </tbody>
   </table>
 </div>

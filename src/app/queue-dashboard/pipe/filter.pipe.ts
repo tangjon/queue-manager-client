@@ -1,6 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {User} from "../../shared/model/user";
 import {QueueControlComponent} from "../queue-control/queue-control.component";
+import {forEach} from "@angular/router/src/utils/collection";
+import {LogService} from "../../core/log.service";
 
 @Pipe({
   name: 'filter',
@@ -81,31 +83,81 @@ export class IsAvailable implements PipeTransform {
   pure: false
 })
 export class SortByPriority implements PipeTransform {
-  private group(user:User[]){
-    let object ={};
+  private groupByUsage(user: User[]) {
+    let object = {};
     user.forEach((user: User) => {
-        if(!object[user.usagePercent.toString()]){ object[user.usagePercent.toString()] = [];}
-        object[user.usagePercent.toString()].push(user);
+      if (!object[user.usagePercent.toString()]) {
+        object[user.usagePercent.toString()] = [];
+      }
+      object[user.usagePercent.toString()].push(user);
     });
     let arr = [];
     let i = 0;
-    Object.keys(object).forEach(key=>{
+    Object.keys(object).forEach(key => {
       arr[i] = object[key];
       i++;
     });
     return arr;
   }
 
-  private rankGroup(group:any[], totalIncidents:number, membersAvailable: number){
-    let usagePercent = group[0].usagePercent;
-    return (1/(totalIncidents*usagePercent/membersAvailable)).toFixed(4);
+  private groupByAQD(user: User[]) {
+    let object = {};
+    user.forEach((user: User) => {
+      if (!object[user.getAverageQDay().toString()]) {
+        object[user.getAverageQDay().toString()] = [];
+      }
+      object[user.getAverageQDay().toString()].push(user);
+    });
+    let arr = [];
+    let i = 0;
+    Object.keys(object).forEach(key => {
+      arr[i] = object[key];
+      i++;
+    });
+    return arr;
   }
 
-  transform(value: any, totalIncidents:number): any {
-    if (!value) return [];
-    this.group(value).forEach(group=>{
-      console.log(group[0].usagePercent.toString() + ":",this.rankGroup(group, totalIncidents,value.length));
+  private rankGroup(group: any[], totalIncidents: number, membersAvailable: number) {
+    let usagePercent = group[0].usagePercent;
+    return (1 / (totalIncidents * usagePercent / membersAvailable)).toFixed(4);
+  }
+
+  private merge(arr) {
+    let tmp = [];
+    arr.forEach(r => {
+      tmp = tmp.concat(r);
     });
-    return value;
+    return tmp;
+  }
+
+  private sortByIncidents(group){
+    return group.sort(
+      function (a:User, b:User) {
+        if (a.getIncidentTotal() < b.getIncidentTotal()) {
+          return -1;
+        }
+        if (a.getIncidentTotal() > b.getIncidentTotal()) {
+          return 1;
+        }
+        return 0;
+      });
+  }
+
+  constructor(public logService: LogService) {
+  }
+
+  transform(value: any, totalIncidents: number): any {
+    let max = 3;
+    if (!value) return [];
+
+    let  t= this.groupByAQD(value).map(el=>{
+      return this.sortByIncidents(el);
+    });
+
+    // this.sinkHeavy(this.merge(value), max);
+    // console.log(this.group(value));
+    // console.log(value);
+    // console.log(this.merge(value));
+    return this.merge(t);
   }
 }
