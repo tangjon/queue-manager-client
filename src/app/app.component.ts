@@ -3,6 +3,10 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Observable} from 'rxjs/Observable';
 
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ModalConfirmComponent } from "./shared/components/modal-confirm/modal-confirm.component";
+import {ModalInfoComponent} from "./shared/components/modal-info/modal-info.component";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,10 +15,9 @@ import {Observable} from 'rxjs/Observable';
 export class AppComponent {
   items: Observable<any[]>;
   errorMessage: string;
-
   INITIALIZED = false;
-
-  constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
+  bsModalRef: BsModalRef;
+  constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth,private modalService: BsModalService) {
 
     db.object('system-refresh').valueChanges().subscribe(()=>{
       if(this.INITIALIZED){
@@ -26,6 +29,13 @@ export class AppComponent {
       }
     })
     // window.onscroll = this.testScroll;
+  }
+
+  openConfirmDialog() {
+    this.bsModalRef = this.modalService.show(ModalConfirmComponent);
+    this.bsModalRef.content.onClose.subscribe(result => {
+      console.log('results', result);
+    })
   }
 
   // testScroll(ev) {

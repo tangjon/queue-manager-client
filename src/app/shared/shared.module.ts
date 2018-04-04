@@ -6,6 +6,8 @@ import {NotificationComponent} from "./components/notification/notification.comp
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {AppRoutingModule} from "../app-routing.module";
 import {SidebarComponent} from "./components/sidebar/sidebar.component";
+import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
+import { ModalInfoComponent } from './components/modal-info/modal-info.component';
 
 @NgModule({
   imports: [
@@ -17,13 +19,19 @@ import {SidebarComponent} from "./components/sidebar/sidebar.component";
     SidebarComponent,
     LoadingSpinnerComponent,
     NotificationComponent,
-    NavbarComponent
+    NavbarComponent,
+    ModalConfirmComponent,
+    ModalInfoComponent
   ],
   exports: [
     SidebarComponent,
     LoadingSpinnerComponent,
     NotificationComponent,
     NavbarComponent
+  ],
+  entryComponents:[
+    ModalConfirmComponent,
+    ModalInfoComponent
   ]
 })
 export class SharedModule { }
