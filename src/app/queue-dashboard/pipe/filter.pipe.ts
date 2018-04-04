@@ -143,11 +143,8 @@ export class SortByPriority implements PipeTransform {
       });
   }
 
-  constructor(public logService: LogService) {
-  }
 
   transform(value: any, totalIncidents: number): any {
-    let max = 3;
     if (!value) return [];
 
     let  t= this.groupByAQD(value).map(el=>{
