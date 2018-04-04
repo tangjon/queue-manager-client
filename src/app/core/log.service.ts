@@ -39,7 +39,7 @@ export class LogService {
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     // Make logs "real-time"
-    this.db.object('log-last-change').valueChanges().subscribe(r => {
+    this.db.object(environment.firebaseRootUrl + '/log-last-change').valueChanges().subscribe(r => {
       // this.getLogsAsSource().subscribe(() => {
       // })
     });
@@ -85,7 +85,7 @@ export class LogService {
         return b.date - a.date;
       });
       this.logSource.next(this.activityLog);
-      this.db.object('log-last-change').set(new Date().getTime());
+      this.db.object(environment.firebaseRootUrl + '/log-last-change').set(new Date().getTime());
     }, err=> this.handleError(err, "add log failed"));
   }
 
