@@ -9,7 +9,7 @@ import {ShiftInfoComponent} from './shift-info/shift-info.component';
 import {ComponentBarComponent} from "./component-bar/component-bar.component";
 import {QmInfoComponent} from "./qm-info/qm-info.component";
 import {QueueDashboardRoutingModule} from "./queue-dashboard-routing.module";
-import {FilterPipe, IsAvailable, SortByAlpha, SortByAVGQDay} from './pipe/filter.pipe';
+import {FilterPipe, IsAvailable, SortByAlpha, SortByAVGQDay, SortByPriority} from './pipe/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import {FilterPipe, IsAvailable, SortByAlpha, SortByAVGQDay} from './pipe/filter
     FilterPipe,
     IsAvailable,
     SortByAVGQDay,
-    SortByAlpha
+    SortByAlpha,
+    SortByPriority
   ],
   imports: [
     CommonModule,

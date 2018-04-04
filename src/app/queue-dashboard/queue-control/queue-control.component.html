@@ -30,7 +30,7 @@
     </tr>
     </tbody>
     <tbody *ngIf="!showSpinner">
-    <tr *ngFor="let user of _userList | isAvailable:paramId :true | sortByAlpha | sortByAVGQDay; let i = index"
+    <tr *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
         [class.high-workload]="getAssignmentCount(user) >= 3">
       <th scope="row">
         {{i + 1}}
