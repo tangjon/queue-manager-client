@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from "angularfire2/database";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-notice-board',
@@ -14,7 +15,7 @@ export class NoticeBoardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.notice$ = this.db.object('notice-board');
+    this.notice$ = this.db.object(environment.firebaseRootUrl+ '/notice-board');
     this.notice$.valueChanges().subscribe(resp => {
       this.message = resp.msg;
       this.flag = resp.flag || false;
