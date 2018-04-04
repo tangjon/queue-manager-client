@@ -119,7 +119,7 @@ export class SortByPriority implements PipeTransform {
 
   private rankGroup(group: any[], totalIncidents: number, membersAvailable: number) {
     let usagePercent = group[0].usagePercent;
-    return (1 / (totalIncidents * usagePercent / membersAvailable)).toFixed(4);
+    return (1/(totalIncidents*usagePercent/membersAvailable)).toFixed(4);
   }
 
   private merge(arr) {
