@@ -34,18 +34,6 @@ export class UserService {
               public incidentBookService: IncidentBookService,
               public supportBookService: SupportBookService,
               public productService: ProductService) {
-
-    // this.db.object('queue-last-change').valueChanges().subscribe(r => {
-    //     console.log(r);
-    // });
-    // this.getUserByNumber('').subscribe(
-    //   (t) => {
-    //     console.log(t);
-    //   },
-    //   err => {
-    //     console.log(err)
-    //   }
-    // );
   }
 
   getUsers(): Observable<User[]> {
@@ -65,20 +53,6 @@ export class UserService {
       return forkJoin(userbatch$);
     });
   }
-
-
-  // getUserByNumber(iNumber: string) {
-  //   return this.getUsers().map((data: User[]) => {
-  //     // filter array
-  //     const user = data.find((user: User) => {
-  //       return user.iNumber == iNumber;
-  //     });
-  //     if (!user) {
-  //       throw new Error("User Not Found");
-  //     }
-  //     return user;
-  //   });
-  // }
 
   getUserByNumber(iNumber: string): Observable<User> {
     if(!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
@@ -207,14 +181,6 @@ export class UserService {
           } else {
             this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
           }
-        }),
-        tap(() => {
-          // this.db.object('queue-last-change').set({
-          //   key: user.key,
-          //   action: "Incident Assigned",
-          //   productId: productId,
-          //   value: amount
-          // });
         })
       );
   }

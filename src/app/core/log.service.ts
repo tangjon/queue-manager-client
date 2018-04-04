@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {EntryLog} from '../shared/model/entrylog';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
@@ -7,6 +7,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 type Action =
   'Incident Assigned'
@@ -85,7 +86,7 @@ export class LogService {
       });
       this.logSource.next(this.activityLog);
       this.db.object('log-last-change').set(new Date().getTime());
-    });
+    }, err=> this.handleError(err, "add log failed"));
   }
 
   purgeLogs(): Observable<any> {
@@ -100,7 +101,7 @@ export class LogService {
       return Observable.forkJoin($batch).map(() => {
         this.activityLog.splice(0, this.activityLog.length);
         this.logSource.next(this.activityLog);
-      })
+      }).catch(err => Observable.throw(this.handleError(err,"purge log failed")))
     }
   }
 
@@ -198,5 +199,22 @@ export class LogService {
     function yesterdayDate(date: Date): Date {
       return new Date(date.getTime() - (24 * 60 * 60 * 1000));
     }
+  }
+
+  private handleError(error: HttpErrorResponse, message:string) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+      console.log(error);
+    }
+    // return an ErrorObservable with a user-facing error message
+    return new ErrorObservable(
+      message);
   }
 }
