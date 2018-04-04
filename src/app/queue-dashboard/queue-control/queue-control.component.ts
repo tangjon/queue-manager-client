@@ -36,7 +36,7 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    console.log("hello");
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
       this.paramId = value;
@@ -153,6 +153,10 @@ export class QueueControlComponent implements OnInit {
   private errorHandler(error) {
     this.errorMessage = `Received an error: ${error.message}\nConsider the following:\n1.Are you using Chrome?\n2.Please Restart the Database`;
     this.snackBar.open(error.message, 'Close');
+  }
+
+  onRefresh(){
+    this.ngOnInit();
   }
 
 
