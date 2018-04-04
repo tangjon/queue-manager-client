@@ -36,4 +36,6 @@ tr.high-workload{
 .qm-refresh{
   float: right;
   margin: 6px;
+  background-color: #2c3e50;
+  border-color: #fbb040
 }
