@@ -19,14 +19,8 @@ export class QueueControlComponent implements OnInit {
   paramId: string;
   totalIncidents: number;
   totalIncidentsCtx: number;
-  _userListBusy: Array<User>;
-  _userListAvailable: Array<User>;
-
   _userList: Array<User> = [];
-  _userListHeavy: Array<User> = [];
-
   errorMessage: string;
-
   showSpinner = true;
 
   constructor(public db: AngularFireDatabase,
