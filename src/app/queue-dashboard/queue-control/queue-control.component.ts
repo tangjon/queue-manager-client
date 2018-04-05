@@ -6,6 +6,8 @@ import 'rxjs/add/operator/pluck';
 import {UserService} from '../../core/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from "../../shared/model/user";
+import {environment} from "../../../environments/environment";
+import {LogService} from "../../core/log.service";
 
 @Component({
   selector: 'app-queue-control',
@@ -23,14 +25,27 @@ export class QueueControlComponent implements OnInit {
   errorMessage: string;
   showSpinner = true;
 
+  applicationChangeFlag;
+  initializeFlag;
   constructor(public db: AngularFireDatabase,
               private route: ActivatedRoute,
               public userService: UserService,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar, public logService: LogService) {
   }
 
   ngOnInit(): void {
-    console.log("hello");
+    this.applicationChangeFlag = false;
+    this.initializeFlag = false;
+    // listen to application changes
+    this.db.object(environment.firebaseRootUrl + '/log-last-change/user').valueChanges().subscribe((r:any) => {
+      // See if application is initialized and see if logger is the one using the tool
+      if(this.initializeFlag && atob(this.logService.getCachedINumber()) !== r){
+        this.applicationChangeFlag = true;
+      } else {
+        this.initializeFlag = true;
+      }
+    });
+
     this.id$ = this.route.params.pluck('id');
     this.id$.subscribe(value => {
       this.paramId = value;
@@ -46,11 +61,9 @@ export class QueueControlComponent implements OnInit {
     });
 
 
-
-
   }
 
-  simulate(){
+  simulate() {
     // setInterval(()=>{
     //   // console.log(this._userList);
     //   let user = this._userList[Math.floor(Math.random() * this._userList.length)];
@@ -144,13 +157,13 @@ export class QueueControlComponent implements OnInit {
     this.totalIncidentsCtx = totalB;
   }
 
+  onRefresh() {
+    this.ngOnInit();
+  }
+
   private errorHandler(error) {
     this.errorMessage = `Received an error: ${error.message}\nConsider the following:\n1.Are you using Chrome?\n2.Please Restart the Database`;
     this.snackBar.open(error.message, 'Close');
-  }
-
-  onRefresh(){
-    this.ngOnInit();
   }
 
 

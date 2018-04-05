@@ -1,5 +1,10 @@
 <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-<h1 class="component-header">QM: {{id$ | async }}   <button class="qm-refresh btn" (click)="onRefresh()"><i class="fa fa-exclamation-circle"></i> Refresh</button></h1>
+<h1 class="component-header">QM: {{id$ | async }}
+  <button class="qm-refresh btn" (click)="onRefresh()">
+    <i class="fa fa-check" *ngIf="!applicationChangeFlag" style="color: green"></i>
+    <i class="fa fa-exclamation-circle" *ngIf="applicationChangeFlag" style="color: orange"></i>
+    Refresh</button>
+</h1>
 <div class="table-responsive shadow">
   <h6 id="available-title" class="qTable-title">{{ ( _userList | isAvailable:paramId: true)?.length }} Available</h6>
   <table class="table qTable text-center">
@@ -24,8 +29,9 @@
     </tr>
     </tbody>
     <tbody *ngIf="!showSpinner">
-    <tr *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
-        [class.high-workload]="getAssignmentCount(user) >= 3">
+    <tr
+      *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
+      [class.high-workload]="getAssignmentCount(user) >= 3">
       <th scope="row">
         {{i + 1}}
         <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
@@ -63,7 +69,8 @@
 
 
 <div class="table-responsive shadow">
-  <h6 id="unavailable-title" class="qTable-title">{{ ( _userList | isAvailable:paramId: false)?.length }} Unavailable</h6>
+  <h6 id="unavailable-title" class="qTable-title">{{ ( _userList | isAvailable:paramId: false)?.length }}
+    Unavailable</h6>
   <table class="table qTable text-center">
     <thead>
     <tr>
