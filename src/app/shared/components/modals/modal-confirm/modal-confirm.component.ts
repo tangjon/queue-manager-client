@@ -3,16 +3,6 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {Subject} from "rxjs/Subject";
 
 
-export interface ModalInterface{
-  content?: {
-    title: string,
-    message: string,
-    onConfirm:Subject<any>,
-    onCancel:Subject<any>,
-    onHide:Subject<any>
-  }
-}
-
 @Component({
   selector: 'app-modal-confirm',
   templateUrl: './modal-confirm.component.html',
@@ -52,7 +42,6 @@ export class ModalConfirmComponent implements OnInit {
     this._bsModalRef.hide();
   }
 
-  public
 
 
 

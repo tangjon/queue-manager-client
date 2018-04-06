@@ -5,8 +5,8 @@ import {Observable} from 'rxjs/Observable';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { ModalConfirmComponent } from "./shared/components/modal-confirm/modal-confirm.component";
-import {ModalInfoComponent} from "./shared/components/modal-info/modal-info.component";
+import { ModalConfirmComponent } from "./shared/components/modals/modal-confirm/modal-confirm.component";
+import {ModalInfoComponent} from "./shared/components/modals/modal-info/modal-info.component";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -10,7 +10,8 @@ import {environment} from "../../../environments/environment";
 import {LogService} from "../../core/log.service";
 import {BsModalService} from "ngx-bootstrap/modal";
 import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
-import {ModalConfirmComponent, ModalInterface} from "../../shared/components/modal-confirm/modal-confirm.component";
+import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
+import {ModalInterface} from "../../shared/components/modals/modal-interface";
 
 @Component({
   selector: 'app-queue-control',

@@ -6,8 +6,13 @@ import {NotificationComponent} from "./components/notification/notification.comp
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {AppRoutingModule} from "../app-routing.module";
 import {SidebarComponent} from "./components/sidebar/sidebar.component";
-import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
-import { ModalInfoComponent } from './components/modal-info/modal-info.component';
+import { ModalConfirmComponent } from './components/modals/modal-confirm/modal-confirm.component';
+import { ModalInfoComponent } from './components/modals/modal-info/modal-info.component';
+import { ModalInputComponent } from './components/modals/modal-input/modal-input.component';
+
+/*
+* entryComponents: Modal components need to be here or they won't work
+* */
 
 @NgModule({
   imports: [
@@ -21,7 +26,8 @@ import { ModalInfoComponent } from './components/modal-info/modal-info.component
     NotificationComponent,
     NavbarComponent,
     ModalConfirmComponent,
-    ModalInfoComponent
+    ModalInfoComponent,
+    ModalInputComponent,
   ],
   exports: [
     SidebarComponent,
@@ -31,7 +37,8 @@ import { ModalInfoComponent } from './components/modal-info/modal-info.component
   ],
   entryComponents:[
     ModalConfirmComponent,
-    ModalInfoComponent
+    ModalInfoComponent,
+    ModalInputComponent
   ]
 })
 export class SharedModule { }
