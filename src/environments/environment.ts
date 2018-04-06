@@ -16,5 +16,6 @@ export const environment = {
   apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
   appVersion: 'v2.20',
   appName: 'Queue Manager Cloud Dispatcher',
-  appShort: 'QMCD'
+  appShort: 'QMCD',
+  firebaseRootUrl: 'dev'
 };

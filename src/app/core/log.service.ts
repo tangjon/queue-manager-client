@@ -38,12 +38,9 @@ export class LogService {
 * */
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-    // Make logs "real-time"
-    this.db.object('log-last-change').valueChanges().subscribe(r => {
-      // this.getLogsAsSource().subscribe(() => {
-      // })
-    });
+
   }
+
 
   getLogsAsSource(): Observable<any> {
     return this.getLogs().switchMap(r => {
@@ -71,7 +68,7 @@ export class LogService {
   }
 
 
-  addLog(user, action: Action, description) {
+  addLog(user:User, action: Action, description) {
     const pushId = this.db.createPushId();
     const entry = new EntryLog(
       user.name, user.iNumber,
@@ -85,7 +82,8 @@ export class LogService {
         return b.date - a.date;
       });
       this.logSource.next(this.activityLog);
-      this.db.object('log-last-change').set(new Date().getTime());
+
+      this.db.object(environment.firebaseRootUrl + '/log-last-change').set({ user: atob(this.getCachedINumber()), date: new Date().getTime()});
     }, err=> this.handleError(err, "add log failed"));
   }
 

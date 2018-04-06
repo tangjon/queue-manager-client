@@ -55,7 +55,7 @@ export class UserService {
   }
 
   getUserByNumber(iNumber: string): Observable<User> {
-    if(!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
+    if (!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
     return this.userSetService.getUserSet({iNumber: iNumber.toLowerCase()}).switchMap(userSet => {
       return forkJoin([
         this.supportBookService.get(userSet[0].key),
@@ -119,7 +119,11 @@ export class UserService {
         tap(() => this.logService.addLog(tmp, "Availability Changed", `Switched to ${tmp.getStatus()}`)
         ),
         tap(() => {
-          this.db.object('queue-last-change').set({key: tmp.key, action: "Availability Changed", value: bool});
+          this.db.object(environment.firebaseRootUrl + '/queue-last-change').set({
+            key: tmp.key,
+            action: "Availability Changed",
+            value: bool
+          });
         }));
   }
 

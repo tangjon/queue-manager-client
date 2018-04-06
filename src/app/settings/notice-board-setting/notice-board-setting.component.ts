@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AngularFireDatabase, AngularFireObject} from "angularfire2/database";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-notice-board-setting',
@@ -17,6 +18,10 @@ export class NoticeBoardSettingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.db.object(environment.firebaseRootUrl + '/notice-board').valueChanges().subscribe((r:any) => {
+      this.noticeBoardFlag = r.flag;
+      this.noticeBoardMsg = r.msg;
+    })
   }
 
 
@@ -24,8 +29,8 @@ export class NoticeBoardSettingComponent implements OnInit {
     if (f.valid) {
       const msg = f.value.message || "";
       const flag = f.value.flag || false;
-      this.db.object('notice-board/msg').set(msg);
-      this.db.object('notice-board/flag').set(flag);
+      this.db.object(environment.firebaseRootUrl + '/notice-board/msg').set(msg);
+      this.db.object(environment.firebaseRootUrl + '/notice-board/flag').set(flag);
     }
   }
 }
