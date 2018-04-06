@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Subject} from "rxjs/Subject";
 import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
 
@@ -7,13 +7,13 @@ import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
   templateUrl: './modal-input.component.html',
   styleUrls: ['./modal-input.component.css']
 })
-export class ModalInputComponent implements OnInit{
+export class ModalInputComponent implements OnInit {
 
   public title = "Please Confirm";
   public message = "";
-  public onCancel: Subject<boolean>;
-  public onConfirm: Subject<boolean>;
-  public onHide: Subject<boolean>;
+  public onCancel: Subject<any>;
+  public onConfirm: Subject<any>;
+  public onHide: Subject<any>;
 
   constructor(private _bsModalRef: BsModalRef) {
 
@@ -25,8 +25,14 @@ export class ModalInputComponent implements OnInit{
     this.onHide = new Subject();
   }
 
-  public confirm(): void {
-    this.onConfirm.next();
+  public confirm(input: number): void {
+    if (input) {
+    } else {
+      input = 0;
+    }
+    console.log(input);
+    this.onConfirm.next(input);
+
     this._bsModalRef.hide();
   }
 
@@ -35,7 +41,7 @@ export class ModalInputComponent implements OnInit{
     this._bsModalRef.hide();
   }
 
-  public hide(){
+  public hide() {
     this.onHide.next();
     this._bsModalRef.hide();
   }

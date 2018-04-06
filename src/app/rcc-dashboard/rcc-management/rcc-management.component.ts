@@ -6,6 +6,10 @@ import {UserService} from '../../core/user.service';
 import {LogService} from '../../core/log.service';
 import {MatSnackBar} from "@angular/material";
 import * as $ from 'jquery';
+import {BsModalService} from "ngx-bootstrap";
+import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
+import {ModalInterface} from "../../shared/components/modals/modal-interface";
+import {ModalInputComponent} from "../../shared/components/modals/modal-input/modal-input.component";
 
 @Component({
   selector: 'app-rcc-management',
@@ -21,7 +25,16 @@ export class RccManagementComponent implements OnInit {
 
   currentDate: Date;
 
-  constructor(public db: AngularFireDatabase, public userService: UserService, public matSnackBar: MatSnackBar) {
+  constructor(
+    public db: AngularFireDatabase,
+    public userService: UserService,
+    public matSnackBar: MatSnackBar,
+    public modalService: BsModalService
+    ) {
+
+  }
+
+  ngOnInit(): void {
     this.userService.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {
@@ -33,11 +46,14 @@ export class RccManagementComponent implements OnInit {
       });
     }, error => {
       this.errorMessage = error.message;
-    })
+    });
+    this.currentDate = new Date();
   }
 
-  ngOnInit(): void {
-    this.currentDate = new Date();
+  onAddQDay(user: User){
+    let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent);
+    bsModalRef.content.title = "Add Queue Days";
+    bsModalRef.content.message = `Enter the amount you want to add for ${user.name}`
   }
 
   // Increment by one

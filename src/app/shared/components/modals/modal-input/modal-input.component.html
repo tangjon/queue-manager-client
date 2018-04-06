@@ -1,4 +1,5 @@
-<div class="alert-box">
+<!--<div class="modal-dialog">-->
+<div class="modal-content">
   <div class="modal-header">
     <h4 class="modal-title">{{title}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="hide()">
@@ -8,9 +9,12 @@
   <div *ngIf="message" class="modal-body">
     {{message}}
   </div>
-  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  <div class="modal-body">
+    <input #qInput class="form-control" id="inputNumber" placeholder="0">
+  </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" (click)="confirm()">Confirm</button>
+    <button type="button" class="btn btn-success" (click)="confirm(qInput.value)">Confirm</button>
     <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
   </div>
 </div>
+<!--</div>-->
