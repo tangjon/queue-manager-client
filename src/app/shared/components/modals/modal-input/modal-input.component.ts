@@ -30,9 +30,7 @@ export class ModalInputComponent implements OnInit {
     } else {
       input = 0;
     }
-    console.log(input);
     this.onConfirm.next(input);
-
     this._bsModalRef.hide();
   }
 

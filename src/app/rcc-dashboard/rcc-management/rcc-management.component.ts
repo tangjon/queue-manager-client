@@ -25,12 +25,10 @@ export class RccManagementComponent implements OnInit {
 
   currentDate: Date;
 
-  constructor(
-    public db: AngularFireDatabase,
-    public userService: UserService,
-    public matSnackBar: MatSnackBar,
-    public modalService: BsModalService
-    ) {
+  constructor(public db: AngularFireDatabase,
+              public userService: UserService,
+              public matSnackBar: MatSnackBar,
+              public modalService: BsModalService) {
 
   }
 
@@ -50,10 +48,23 @@ export class RccManagementComponent implements OnInit {
     this.currentDate = new Date();
   }
 
-  onAddQDay(user: User){
+  onAddQDay(user: User) {
     let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent);
     bsModalRef.content.title = "Add Queue Days";
-    bsModalRef.content.message = `Enter the amount you want to add for ${user.name}`
+    bsModalRef.content.message = `Enter the amount you want to add for ${user.name}`;
+    bsModalRef.content.onConfirm.subscribe(val => {
+      let amount = parseFloat(val);
+      if (!isNaN(amount)) {
+        let newAmount = user.currentQDays + amount;
+        this.userService.updateQueueDays(user, newAmount).subscribe(r => {
+          user.currentQDays = r;
+          let selector = `#${user.iNumber}.css-checkbox`;
+          $(selector).attr("checked", "checked"); //jquery to check the box
+        }, err => {
+          this.matSnackBar.open("Error occured: " + err.message, "Close");
+        })
+      }
+    })
   }
 
   // Increment by one
@@ -89,6 +100,7 @@ export class RccManagementComponent implements OnInit {
       }
     }
   }
+
   // Oct-Dec = 1
   // Jan-Mar = 2
   // Apr-Jun = 3
@@ -98,6 +110,7 @@ export class RccManagementComponent implements OnInit {
     let q = [2, 3, 4, 1];
     return q[Math.floor(d.getMonth() / 3)];
   }
+
   daysLeftInQuarter(d) {
     d = d || new Date();
     // d.setDate(d.getDate() + 43)
