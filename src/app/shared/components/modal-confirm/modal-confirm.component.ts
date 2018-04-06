@@ -1,33 +1,58 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {Subject} from "rxjs/Subject";
+
+
+export interface ModalInterface{
+  content?: {
+    title: string,
+    message: string,
+    onConfirm:Subject<any>,
+    onCancel:Subject<any>,
+    onHide:Subject<any>
+  }
+}
 
 @Component({
   selector: 'app-modal-confirm',
   templateUrl: './modal-confirm.component.html',
   styleUrls: ['./modal-confirm.component.css']
 })
+
 export class ModalConfirmComponent implements OnInit {
 
-  public onClose: Subject<boolean>;
+  public title = "Please Confirm";
+  public message = "";
+  public onCancel: Subject<boolean>;
+  public onConfirm: Subject<boolean>;
+  public onHide: Subject<boolean>;
 
   constructor(private _bsModalRef: BsModalRef) {
 
   }
 
   public ngOnInit(): void {
-    this.onClose = new Subject();
+    this.onCancel = new Subject();
+    this.onConfirm = new Subject();
+    this.onHide = new Subject();
   }
 
-  public onConfirm(): void {
-    this.onClose.next(true);
+  public confirm(): void {
+    this.onConfirm.next();
     this._bsModalRef.hide();
   }
 
-  public onCancel(): void {
-    this.onClose.next(false);
+  public cancel(): void {
+    this.onCancel.next();
     this._bsModalRef.hide();
   }
+
+  public hide(){
+    this.onHide.next();
+    this._bsModalRef.hide();
+  }
+
+  public
 
 
 

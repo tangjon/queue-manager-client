@@ -16,8 +16,7 @@ export class AppComponent {
   items: Observable<any[]>;
   errorMessage: string;
   INITIALIZED = false;
-  bsModalRef: BsModalRef;
-  constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth,private modalService: BsModalService) {
+  constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
 
     db.object('system-refresh').valueChanges().subscribe(()=>{
       if(this.INITIALIZED){
@@ -29,13 +28,6 @@ export class AppComponent {
       }
     })
     // window.onscroll = this.testScroll;
-  }
-
-  openConfirmDialog() {
-    this.bsModalRef = this.modalService.show(ModalConfirmComponent);
-    this.bsModalRef.content.onClose.subscribe(result => {
-      console.log('results', result);
-    })
   }
 
   // testScroll(ev) {

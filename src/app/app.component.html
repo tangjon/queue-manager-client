@@ -12,12 +12,8 @@
           <app-sidebar></app-sidebar>
         </div>
         <div class="col-lg-8 col">
-
-
           <app-notification></app-notification>
           <app-notice-board></app-notice-board>
-          <button class="btn btn-primary" (click)="openConfirmDialog()">Open Confirm box</button>
-
           <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
           <router-outlet></router-outlet>
           <app-activity-log></app-activity-log>
