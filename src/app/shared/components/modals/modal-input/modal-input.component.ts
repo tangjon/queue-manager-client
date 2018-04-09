@@ -25,13 +25,11 @@ export class ModalInputComponent implements OnInit {
     this.onHide = new Subject();
   }
 
-  public confirm(input: number): void {
-    if (input) {
-    } else {
-      input = 0;
+  public confirm(input: string): void {
+    if(input.trim()){
+      this.onConfirm.next(input);
+      this._bsModalRef.hide();
     }
-    this.onConfirm.next(input);
-    this._bsModalRef.hide();
   }
 
   public cancel(): void {

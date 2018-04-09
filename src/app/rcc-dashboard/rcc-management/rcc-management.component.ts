@@ -63,6 +63,8 @@ export class RccManagementComponent implements OnInit {
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         })
+      } else {
+        this.matSnackBar.open(`Invalid input: '${val}'`, "Close", {duration: 5000});
       }
     })
   }
