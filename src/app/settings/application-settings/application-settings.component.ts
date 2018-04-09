@@ -40,7 +40,6 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   oneClickReset() {
-
     if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")){
       this.showSpinner = true;
       this.progressMessage = "Archiving...";
