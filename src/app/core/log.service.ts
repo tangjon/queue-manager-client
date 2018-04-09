@@ -84,7 +84,7 @@ export class LogService {
       this.logSource.next(this.activityLog);
 
       this.db.object(environment.firebaseRootUrl + '/log-last-change').set({ user: atob(this.getCachedINumber()), date: new Date().getTime()});
-    }, err=> this.handleError(err, "add log failed"));
+    }, err=> this.db.object(environment.firebaseRootUrl + '/error').set({ date: new Date(), msg: err}));
   }
 
   purgeLogs(): Observable<any> {
