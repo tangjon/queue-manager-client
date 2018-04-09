@@ -162,6 +162,7 @@ export class LogService {
     // return logs.filter((log:EntryLog)=> Helper.dateInRange(date,dateStart,dateEnd));
   }
 
+
   getAssignmentCount(user: User) {
     // var url = this.api + "?$filter=INUMBER eq '" + user.iNumber + "'";
     const logs = this.activityLog;
