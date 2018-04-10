@@ -36,7 +36,7 @@
     "ngx-clipboard": "^10.0.0",
     "rxjs": "^5.5.6",
     "typescript": "^2.6.2",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular/cli": "^1.6.7",
