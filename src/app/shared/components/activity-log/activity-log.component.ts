@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {EntryLog} from '../../model/entrylog';
 import {LogService} from '../../../core/log.service';
 import {Observable} from 'rxjs/Observable';
 
@@ -21,6 +20,4 @@ export class ActivityLogComponent implements OnInit {
     this.activityLog$ = this.logService.getLogAsSubject(this.NUM_OF_RESULTS);
     this.activityLog$.subscribe(()=>this.showSpinner=false);
   }
-
-
 }

@@ -5,11 +5,13 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <div *ngIf="message" class="modal-body">{{message}}</div>
   <div *ngIf="message" class="modal-body">
-    {{message}}
+    1. Are you using Chrome as a browser?<br>
+    2. Is the database running? See documentation on Microsoft Teams!<br>
+    3. Contact tangjoncl@gmail.com | jonathan.tang01@sap.com
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" (click)="confirm()">Confirm</button>
-    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="confirm()">Refresh</button>
   </div>
 </div>

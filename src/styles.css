@@ -105,5 +105,8 @@ a.nav-link.active {
   padding: 22px;
 }
 
-
+/*Modals*/
+.modal-body{
+  word-wrap: break-word;
+}
 /*                     */

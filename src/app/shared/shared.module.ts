@@ -6,9 +6,10 @@ import {NotificationComponent} from "./components/notification/notification.comp
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {AppRoutingModule} from "../app-routing.module";
 import {SidebarComponent} from "./components/sidebar/sidebar.component";
-import { ModalConfirmComponent } from './components/modals/modal-confirm/modal-confirm.component';
-import { ModalInfoComponent } from './components/modals/modal-info/modal-info.component';
-import { ModalInputComponent } from './components/modals/modal-input/modal-input.component';
+import {ModalConfirmComponent} from './components/modals/modal-confirm/modal-confirm.component';
+import {ModalInfoComponent} from './components/modals/modal-info/modal-info.component';
+import {ModalInputComponent} from './components/modals/modal-input/modal-input.component';
+import {ModalServerErrorComponent} from './components/modals/modal-server-error/modal-server-error.component';
 
 /*
 * entryComponents: Modal components need to be here or they won't work
@@ -28,6 +29,7 @@ import { ModalInputComponent } from './components/modals/modal-input/modal-input
     ModalConfirmComponent,
     ModalInfoComponent,
     ModalInputComponent,
+    ModalServerErrorComponent,
   ],
   exports: [
     SidebarComponent,
@@ -38,7 +40,8 @@ import { ModalInputComponent } from './components/modals/modal-input/modal-input
   entryComponents:[
     ModalConfirmComponent,
     ModalInfoComponent,
-    ModalInputComponent
+    ModalInputComponent,
+    ModalServerErrorComponent
   ]
 })
 export class SharedModule { }

@@ -24,11 +24,11 @@ export class UserService {
       'Content-Type': 'application/json',
     })
   };
+  /* ERROR MESSAGES */
+  USER_NOT_FOUND:string = "USER NOT FOUND";
   private qmapi: string = environment.apiUrl + "qm('current')";
   private userSource = new BehaviorSubject<User[]>([]);
 
-  /* ERROR MESSAGES */
-  public USER_NOT_FOUND = "User Not Found";
   constructor(public db: AngularFireDatabase,
               public http: HttpClient,
               public userSetService: UserSetService,
@@ -69,7 +69,11 @@ export class UserService {
         user.supportBook.set(supportBook);
         return user;
       })
-    }).catch(() => Observable.throw(new ErrorObservable("User Not Found")))
+    }).pipe(
+      catchError((e)=>this.handleError(e))
+    )
+
+      // .catch(() => Observable.throw(new ErrorObservable("User Not Found")))
   }
 
   getUserByKey(key): Observable<User> {
@@ -233,7 +237,7 @@ export class UserService {
     );
   }
 
-  private handleError(error: HttpErrorResponse) {
+  handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
@@ -244,10 +248,16 @@ export class UserService {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
       console.log(error);
+
+      if(error.error == null){
+        console.log(this.USER_NOT_FOUND);
+        return new ErrorObservable(this.USER_NOT_FOUND);
+      }
     }
-    // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable(
-      "Are you using Chrome? OR Database requires to be restarted =(");
+    // // return an ErrorObservable with a user-facing error message
+    // return new ErrorObservable(
+    //   "Are you using Chrome? OR Database requires to be restarted =(");
+    return new ErrorObservable("Something went wrong: " + error.message)
   }
 
 }

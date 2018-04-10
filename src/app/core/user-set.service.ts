@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {User} from '../shared/model/user';
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs/Observable";
 import {BodyParser} from "../shared/helper/bodyParser";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 /*
 * [REFACTORED] March 29th 2018
@@ -28,13 +29,14 @@ export class UserSetService {
 
   getUserSet(query: Query): Observable<any> {
     if (!query.key && !query.iNumber) return Observable.of([]);
+    let qBody = "";
     if (query.key) {
-      return this.http.get(this.api + `('${query.key}')`, this.httpOptions)
-        .map((r) => BodyParser.parseBody(r));
+      qBody = `('${query.key}')`
     } else {
-      return this.http.get(this.api + `?$filter=INUMBER eq '${query.iNumber}'`, this.httpOptions)
-        .map((r) => BodyParser.parseBody(r));
+      qBody = `?$filter=INUMBER eq '${query.iNumber}'`
     }
+    return this.http.get(this.api + qBody, this.httpOptions)
+      .map((r) => BodyParser.parseBody(r))
   }
 
   getUserSets() {
@@ -77,5 +79,9 @@ export class UserSetService {
       CURRENTQDAYS: user.currentQDays.toString(),
       USAGEPERCENT: user.usagePercent.toString()
     };
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if(error.statusText==="Unknown Error") return new ErrorObservable(`Something went wrong: ${error.message}`);
   }
 }
