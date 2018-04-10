@@ -19,19 +19,16 @@ type Action =
 
 @Injectable()
 export class LogService {
+  // HTTP Request Options
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     })
   };
+  // Service URL API Call
   private api = environment.apiUrl + 'activity_log';
+  // Subject to be subscribed to by other components and services
   public logSource = new BehaviorSubject<EntryLog[]>([]);
-
-  /* Restructure
-  *  1. Subscribe to logSource
-  *  2. Initialized with all logs
-  *  3. Subsequent logs are passed individually
-  * */
 
   /*
 * [PARTIALLY REFACTORED] March 29th 2018
