@@ -19,6 +19,7 @@ type Action =
   | 'Support Changed'
 
 @Injectable()
+
 export class LogService {
   // HTTP Request Options
   httpOptions = {
@@ -30,7 +31,7 @@ export class LogService {
   private api = environment.apiUrl + 'activity_log';
 
   // Subject to be subscribed to by other components and services
-  public logSource = new BehaviorSubject<EntryLog[]>([]);
+  private logSource = new BehaviorSubject<EntryLog[]>([]);
 
   /*
 * [PARTIALLY REFACTORED] March 29th 2018
@@ -48,7 +49,7 @@ export class LogService {
    * @returns             Array of entry logs.
    * @param numOfResults  Number of results to return.
    */
-  getLogAsSubject(numOfResults?): Observable<EntryLog[]> {
+  getLogAsSubject(numOfResults?: number): Observable<EntryLog[]> {
     if (numOfResults) {
       return this.logSource.asObservable().map(log => log.slice(0, numOfResults))
     } else {
@@ -57,7 +58,7 @@ export class LogService {
   }
 
   /**
-   * Get all logs on database.
+   * Get all logs from database.
    * @returns Array of logs
    */
   getLogs(): Observable<any[]> {
@@ -79,7 +80,7 @@ export class LogService {
   }
 
   /**
-   * Get all logs on database.
+   * Add a log to database
    * @returns
    * @param user The user performing an action
    * @param action The action done.
@@ -106,6 +107,9 @@ export class LogService {
     }, err => this.db.object(environment.firebaseRootUrl + '/error').set({date: new Date(), msg: err}));
   }
 
+  /**
+   * Delete all logs on database
+   */
   purgeLogs(): Observable<any> {
     const $batch = [];
     this.logSource.getValue().forEach((el: EntryLog) => {
@@ -123,31 +127,11 @@ export class LogService {
     }
   }
 
-  getAssignmentCountByDate(user: User, date_begin, date_end) {
-    const logs = this.logSource.getValue();
-    const filterlog = logs.filter((el: EntryLog) => {
-      return el.iNumber === user.iNumber &&
-        el.action.indexOf('Incident') !== -1 && dateInRange(el.getFullDate(), date_begin, date_end);
-    });
-    if (filterlog.length) {
-      let numAssigned = 0;
-      let numRemoved = 0;
-      filterlog.forEach((el: EntryLog) => {
-        if (el.action.indexOf('Assigned') !== -1) {
-          numAssigned++;
-        } else if (el.action.indexOf('Removed')) {
-          numRemoved++;
-        }
-      });
-      return numAssigned - numRemoved;
-    }
-    return 0;
-
-    function dateInRange(arg: Date, start: Date, end: Date): boolean {
-      return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
-    }
-  }
-
+  /**
+   * Retrieve the amount of incidents assigned to {user} in the past 24 hours
+   * @param user
+   * @return {number}
+   */
   getAssignmentCount(user: User) {
     const logs = this.logSource.getValue();
     const filterlog = logs.filter((el: EntryLog) => {
@@ -173,6 +157,31 @@ export class LogService {
       const today = new Date();
       const tmp = new Date(arg);
       return tmp.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
+    }
+  }
+
+  getAssignmentCountByDate(user: User, date_begin, date_end) {
+    const logs = this.logSource.getValue();
+    const filterlog = logs.filter((el: EntryLog) => {
+      return el.iNumber === user.iNumber &&
+        el.action.indexOf('Incident') !== -1 && dateInRange(el.getFullDate(), date_begin, date_end);
+    });
+    if (filterlog.length) {
+      let numAssigned = 0;
+      let numRemoved = 0;
+      filterlog.forEach((el: EntryLog) => {
+        if (el.action.indexOf('Assigned') !== -1) {
+          numAssigned++;
+        } else if (el.action.indexOf('Removed')) {
+          numRemoved++;
+        }
+      });
+      return numAssigned - numRemoved;
+    }
+    return 0;
+
+    function dateInRange(arg: Date, start: Date, end: Date): boolean {
+      return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
     }
   }
 
