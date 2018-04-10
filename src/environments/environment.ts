@@ -4,7 +4,16 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+  // Meta Data
   production: false,
+  appVersion: 'v2.20',
+  appName: 'Queue Manager Cloud Dispatcher',
+  appShort: 'QMCD',
+
+  // Hana Cloud API
+  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
+
+  // Firebase config and api
   firebase: {
     apiKey: "AIzaSyCoesP_YkwMmpJaGWO3PO7A9VgjnrrmlxQ",
     authDomain: "queue-manager-fb-ajs.firebaseapp.com",
@@ -13,9 +22,8 @@ export const environment = {
     storageBucket: "queue-manager-fb-ajs.appspot.com",
     messagingSenderId: "1044152156042"
   },
-  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
-  appVersion: 'v2.20',
-  appName: 'Queue Manager Cloud Dispatcher',
-  appShort: 'QMCD',
-  firebaseRootUrl: 'dev'
+  firebaseRootUrl: 'dev',
+
+  // Local Storage Variable
+  KEY_CACHE_INUMBER: 'USER_INUMBER'
 };

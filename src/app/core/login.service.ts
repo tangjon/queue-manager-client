@@ -51,7 +51,6 @@ export class LoginService {
           bsModalRef.content.message = err;
           bsModalRef.content.onConfirm.subscribe(()=> location.reload());
           bsModalRef.content.onHide.subscribe(()=> this.signOut());
-
         }
       }
     )
