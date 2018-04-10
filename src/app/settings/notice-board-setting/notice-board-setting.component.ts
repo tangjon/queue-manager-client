@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AngularFireDatabase, AngularFireObject} from "angularfire2/database";
 import {environment} from "../../../environments/environment";
+import {AngularFireAuth} from "angularfire2/auth";
 
 @Component({
   selector: 'app-notice-board-setting',
@@ -14,14 +15,19 @@ export class NoticeBoardSettingComponent implements OnInit {
   noticeBoardMsg;
   noticeBoardFlag;
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
   }
 
   ngOnInit() {
-    this.db.object(environment.firebaseRootUrl + '/notice-board').valueChanges().subscribe((r:any) => {
-      this.noticeBoardFlag = r.flag;
-      this.noticeBoardMsg = r.msg;
-    })
+    this.afAuth.authState.subscribe((auth)=>{
+      if(auth){
+        this.db.object(environment.firebaseRootUrl + '/notice-board').valueChanges().subscribe((r:any) => {
+          this.noticeBoardFlag = r.flag;
+          this.noticeBoardMsg = r.msg;
+        })
+      }
+    });
+
   }
 
 

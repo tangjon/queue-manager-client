@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const cachedINumber = localStorage[this.loginService.cacheKey];  // look at cache
+    const cachedINumber = localStorage[this.loginService.CACHE_KEY];  // look at cache
     this.loginService.signIn(cachedINumber);
   }
 
