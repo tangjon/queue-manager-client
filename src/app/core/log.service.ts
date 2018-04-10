@@ -8,6 +8,7 @@ import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
+import {catchError} from "rxjs/operators";
 
 type Action =
   'Incident Assigned'
@@ -116,7 +117,9 @@ export class LogService {
       return Observable.forkJoin($batch).map(() => {
         this.activityLog.splice(0, this.activityLog.length);
         this.logSource.next(this.activityLog);
-      }).catch(err => Observable.throw(this.handleError(err,"purge log failed")))
+      }).pipe(
+        catchError(err=>Observable.throw(this.handleError(err,"purge log failed"))
+      ))
     }
   }
 
