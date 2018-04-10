@@ -10,7 +10,7 @@ import {ModalServerErrorComponent} from "../shared/components/modals/modal-serve
 @Injectable()
 export class LoginService {
   // noinspection SpellCheckingInspection
-  CACHE_KEY = "MYINUMBER";
+  CACHE_KEY = "USER_INUMBER";
   user: User;
 
   constructor(public userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
@@ -58,7 +58,7 @@ export class LoginService {
   }
 
   signOut() {
-    localStorage[this.CACHE_KEY] = "";
+    localStorage.clear();
     this.afAuth.auth.signOut();
   }
 
