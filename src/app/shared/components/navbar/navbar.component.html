@@ -26,7 +26,7 @@
       </li>
     </ul>
 
-    <div *ngIf="afAuth.authState | async">
+    <div>
       <span style="color:white">Welcome {{ loginService.user?.name }}!</span>
       <button class="ml-1 my-1 my-md-0" (click)="logout()">Logout</button>
       <button class="ml-1 my-1 my-md-0" routerLink="/settings" routerLinkActive="active">Settings</button>
