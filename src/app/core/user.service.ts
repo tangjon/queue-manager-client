@@ -71,8 +71,6 @@ export class UserService {
     }).pipe(
       catchError((e)=>this.handleError(e))
     )
-
-      // .catch(() => Observable.throw(new ErrorObservable("User Not Found")))
   }
 
   getUserByKey(key): Observable<User> {

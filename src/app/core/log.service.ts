@@ -137,7 +137,7 @@ export class LogService {
 
   getCachedINumber() {
     // TODO Circular dependency here
-    return localStorage["USER_INUMBER"];
+    return localStorage[environment.KEY_CACHE_INUMBER];
   }
 
   getAssignmentCountv2(user: User, date_begin, date_end) {

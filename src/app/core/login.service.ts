@@ -6,11 +6,12 @@ import {ModalInterface} from "../shared/components/modals/modal-interface";
 import {ModalInputComponent} from "../shared/components/modals/modal-input/modal-input.component";
 import {AngularFireAuth} from "angularfire2/auth";
 import {ModalServerErrorComponent} from "../shared/components/modals/modal-server-error/modal-server-error.component";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class LoginService {
-  // noinspection SpellCheckingInspection
-  CACHE_KEY = "USER_INUMBER";
+  // Component Variables
+  KEY_CACHE_INUMBER = environment.KEY_CACHE_INUMBER;
   user: User;
 
   constructor(public userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
@@ -23,7 +24,7 @@ export class LoginService {
     }
     this.userService.getUserByNumber(iNumber.toLowerCase()).subscribe((user: User) => {
         this.user = user;
-        localStorage[this.CACHE_KEY] = this.user.iNumber;
+        localStorage[this.KEY_CACHE_INUMBER] = this.user.iNumber;
       },
       (err) => {
         if (err === this.userService.USER_NOT_FOUND && iNumber != "admin") {
