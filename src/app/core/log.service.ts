@@ -9,7 +9,6 @@ import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError, tap} from "rxjs/operators";
-import {Helper} from "../shared/helper/helper";
 
 type Action =
   'Incident Assigned'
@@ -20,9 +19,13 @@ type Action =
 
 @Injectable()
 
+
+/**
+ * Service that handles call to Logs on database
+ */
 export class LogService {
   // HTTP Request Options
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     })
@@ -32,10 +35,6 @@ export class LogService {
 
   // Subject to be subscribed to by other components and services
   private logSource = new BehaviorSubject<EntryLog[]>([]);
-
-  /*
-* [PARTIALLY REFACTORED] March 29th 2018
-* */
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     /* Populate Log Subject Behavior */
@@ -185,7 +184,7 @@ export class LogService {
     }
   }
 
-  /* HELPER FUNCTIONS */
+  // HELPER FUNCTIONS
   getCachedINumber() {
     return localStorage[environment.KEY_CACHE_INUMBER];
   }
