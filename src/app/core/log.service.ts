@@ -191,10 +191,22 @@ export class LogService {
   }
 
   // HELPER FUNCTIONS
+  /**
+   * @returns cached Inumber stored in localstorage
+   */
   getCachedINumber() {
     return localStorage[environment.KEY_CACHE_INUMBER];
   }
 
+  /**
+   * Generates a request body to be to sent to the api url
+   * @param {string | null} pushId
+   * @param {Action} action
+   * @param {EntryLog} entry
+   * @param description
+   * @param user
+   * @returns {{PUSH_ID: string | null; ACTION: Action; MANAGER: any; DATE: string; DESCRIPTION: any; NAME; INUMBER: string | any}}
+   */
   private generateBody(pushId: string | null, action: Action, entry: EntryLog, description, user) {
     return {
       'PUSH_ID': pushId,
