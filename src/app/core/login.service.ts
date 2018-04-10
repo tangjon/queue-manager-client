@@ -28,7 +28,7 @@ export class LoginService {
       },
       (err) => {
         if (err === this.userService.USER_NOT_FOUND && iNumber != "admin") {
-          // This is all dialog for seconday login
+          // This is all dialog for secondary login
           let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent, {
             animated: true,
             keyboard: false,

@@ -9,13 +9,10 @@ import {environment} from '../../../../environments/environment';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  appVersion = environment.appVersion;
-  appName = environment.appName;
   appShort = environment.appShort;
   isProd = environment.production;
   dEnvironmentMsg = 'DEVELOPMENT';
-  userName: string;
-  constructor(public afAuth: AngularFireAuth, public loginService: LoginService) {
+  constructor(public loginService: LoginService) {
   }
 
   ngOnInit(): void {
@@ -24,7 +21,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.afAuth.auth.signOut();
     this.loginService.signOut();
   }
 
