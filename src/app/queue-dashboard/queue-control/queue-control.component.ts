@@ -8,6 +8,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from "../../shared/model/user";
 import {environment} from "../../../environments/environment";
 import {LogService} from "../../core/log.service";
+import {BsModalService} from "ngx-bootstrap/modal";
+import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
+import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
+import {ModalInterface} from "../../shared/components/modals/modal-interface";
 
 @Component({
   selector: 'app-queue-control',
@@ -15,31 +19,38 @@ import {LogService} from "../../core/log.service";
   styleUrls: ['./queue-control.component.css']
 })
 export class QueueControlComponent implements OnInit {
-  users: Observable<any[]>;
+  // alert variable
 
+  // users
+  users: Observable<any[]>;
+  _userList: Array<User> = [];
+
+  // Info variables
+  errorMessage: string;
+  showSpinner = true;
   id$: Observable<string>;
   paramId: string;
   totalIncidents: number;
   totalIncidentsCtx: number;
-  _userList: Array<User> = [];
-  errorMessage: string;
-  showSpinner = true;
-
+  // Refresh Button Variables
   applicationChangeFlag;
   initializeFlag;
+
   constructor(public db: AngularFireDatabase,
               private route: ActivatedRoute,
               public userService: UserService,
-              public snackBar: MatSnackBar, public logService: LogService) {
+              public snackBar: MatSnackBar,
+              public logService: LogService,
+              private modalService: BsModalService) {
   }
 
   ngOnInit(): void {
     this.applicationChangeFlag = false;
     this.initializeFlag = false;
     // listen to application changes
-    this.db.object(environment.firebaseRootUrl + '/log-last-change/user').valueChanges().subscribe((r:any) => {
+    this.db.object(environment.firebaseRootUrl + '/log-last-change/user').valueChanges().subscribe((r: any) => {
       // See if application is initialized and see if logger is the one using the tool
-      if(this.initializeFlag && atob(this.logService.getCachedINumber()) !== r){
+      if (this.initializeFlag && atob(this.logService.getCachedINumber()) !== r) {
         this.applicationChangeFlag = true;
       } else {
         this.initializeFlag = true;
@@ -61,6 +72,86 @@ export class QueueControlComponent implements OnInit {
     });
 
 
+  }
+
+  onAddIncident(user: User) {
+    let amount = 1;
+    let bsModalRef: ModalInterface = this.modalService.show(ModalConfirmComponent);
+    bsModalRef.content.title = "Incident Assignment";
+    bsModalRef.content.message = `You are assigning +${amount} incident(s) to ${user.name}(${user.iNumber})`;
+    bsModalRef.content.onCancel.subscribe(() => {
+    });
+    bsModalRef.content.onConfirm.subscribe(() => {
+      console.log("CONFIRM");
+      const currAmount = user.incidentBook.data[this.paramId];
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+          // this.showSpinner = false;
+          this.snackBar.open('Incident Added', 'Close', {duration: 1000});
+          user.incidentBook.data[this.paramId]++;
+          this.updateSummary();
+        },
+        error => {
+          this.errorHandler(error)
+        }
+      );
+    });
+  }
+
+  onRemoveIncident(user: User){
+    let amount = -1;
+    let bsModalRef: ModalInterface = this.modalService.show(ModalConfirmComponent);
+    bsModalRef.content.title = "Incident Removal";
+    bsModalRef.content.message = `You are removing ${amount} incident(s) from ${user.name}(${user.iNumber})`;
+    bsModalRef.content.onCancel.subscribe(() => {
+    });
+    bsModalRef.content.onConfirm.subscribe(() => {
+      console.log("CONFIRM");
+      const currAmount = user.incidentBook.data[this.paramId];
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+          this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
+          user.incidentBook.data[this.paramId]--;
+          this.updateSummary();
+        }, error => {
+          this.errorHandler(error)
+        }
+      );
+    });
+  }
+
+  decIncidentAmount(user) {
+    const amount = -1;
+    const currAmount = user.incidentBook.data[this.paramId];
+    const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
+    if (prompt) {
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+          this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
+          user.incidentBook.data[this.paramId]--;
+          this.updateSummary();
+        }, error => {
+          this.errorHandler(error)
+        }
+      );
+    }
+
+  }
+
+  incIncidentAmount(user: User) {
+    const amount = 1;
+    const currAmount = user.incidentBook.data[this.paramId];
+    const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
+    if (prompt) {
+      // this.showSpinner = true;
+      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+          // this.showSpinner = false;
+          this.snackBar.open('Incident Added', 'Close', {duration: 1000});
+          user.incidentBook.data[this.paramId]++;
+          this.updateSummary();
+        },
+        error => {
+          this.errorHandler(error)
+        }
+      );
+    }
   }
 
   simulate() {
@@ -91,7 +182,6 @@ export class QueueControlComponent implements OnInit {
 
   }
 
-
   getAssignmentCount(user) {
     return this.userService.logService.getAssignmentCount(user);
   }
@@ -101,42 +191,6 @@ export class QueueControlComponent implements OnInit {
     this.userService.updateAvailability(user, !bool).subscribe(() => {
       user.setStatus(!bool);
     });
-  }
-
-  incIncidentAmount(user: User) {
-    const amount = 1;
-    const currAmount = user.incidentBook.data[this.paramId];
-    const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
-    if (prompt) {
-      // this.showSpinner = true;
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-          // this.showSpinner = false;
-          this.snackBar.open('Incident Added', 'Close', {duration: 1000});
-          user.incidentBook.data[this.paramId]++;
-          this.updateSummary();
-        },
-        error => {
-          this.errorHandler(error)
-        }
-      );
-    }
-  }
-
-  decIncidentAmount(user) {
-    const amount = -1;
-    const currAmount = user.incidentBook.data[this.paramId];
-    const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
-    if (prompt) {
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-          this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
-          user.incidentBook.data[this.paramId]--;
-          this.updateSummary();
-        }, error => {
-          this.errorHandler(error)
-        }
-      );
-    }
-
   }
 
   logIt(msg) {

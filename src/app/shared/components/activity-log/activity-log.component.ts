@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../../core/user.service';
 import {EntryLog} from '../../model/entrylog';
 import {LogService} from '../../../core/log.service';
 import {Observable} from 'rxjs/Observable';
@@ -10,20 +9,17 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./activity-log.component.css']
 })
 export class ActivityLogComponent implements OnInit {
+  /* General Variables */
   showSpinner = true;
+  NUM_OF_RESULTS = 50;
   activityLog$: Observable<any>;
-  numOfResults = 50;
 
-  constructor(public userService: UserService, public logService: LogService) {
+  constructor(public logService: LogService) {
   }
 
   ngOnInit() {
-    this.activityLog$ = this.logService.getLogsAsSource().map((log: EntryLog[]) => {
-      return log.slice(0, this.numOfResults);
-    });
-    this.activityLog$.subscribe((logs: EntryLog[]) => {
-      this.showSpinner = false;
-    });
+    this.activityLog$ = this.logService.getLogAsSubject(this.NUM_OF_RESULTS);
+    this.activityLog$.subscribe(()=>this.showSpinner=false);
   }
 
 

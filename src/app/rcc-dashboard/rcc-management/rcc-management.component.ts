@@ -6,6 +6,10 @@ import {UserService} from '../../core/user.service';
 import {LogService} from '../../core/log.service';
 import {MatSnackBar} from "@angular/material";
 import * as $ from 'jquery';
+import {BsModalService} from "ngx-bootstrap";
+import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
+import {ModalInterface} from "../../shared/components/modals/modal-interface";
+import {ModalInputComponent} from "../../shared/components/modals/modal-input/modal-input.component";
 
 @Component({
   selector: 'app-rcc-management',
@@ -21,7 +25,14 @@ export class RccManagementComponent implements OnInit {
 
   currentDate: Date;
 
-  constructor(public db: AngularFireDatabase, public userService: UserService, public matSnackBar: MatSnackBar) {
+  constructor(public db: AngularFireDatabase,
+              public userService: UserService,
+              public matSnackBar: MatSnackBar,
+              public modalService: BsModalService) {
+
+  }
+
+  ngOnInit(): void {
     this.userService.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {
@@ -33,11 +44,29 @@ export class RccManagementComponent implements OnInit {
       });
     }, error => {
       this.errorMessage = error.message;
-    })
+    });
+    this.currentDate = new Date();
   }
 
-  ngOnInit(): void {
-    this.currentDate = new Date();
+  onAddQDay(user: User) {
+    let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent);
+    bsModalRef.content.title = "Add Queue Days";
+    bsModalRef.content.message = `Enter the amount you want to add for ${user.name}`;
+    bsModalRef.content.onConfirm.subscribe(val => {
+      let amount = parseFloat(val);
+      if (!isNaN(amount)) {
+        let newAmount = user.currentQDays + amount;
+        this.userService.updateQueueDays(user, newAmount).subscribe(r => {
+          user.currentQDays = r;
+          let selector = `#${user.iNumber}.css-checkbox`;
+          $(selector).attr("checked", "checked"); //jquery to check the box
+        }, err => {
+          this.matSnackBar.open("Error occured: " + err.message, "Close");
+        })
+      } else {
+        this.matSnackBar.open(`Invalid input: '${val}'`, "Close", {duration: 5000});
+      }
+    })
   }
 
   // Increment by one
@@ -73,6 +102,7 @@ export class RccManagementComponent implements OnInit {
       }
     }
   }
+
   // Oct-Dec = 1
   // Jan-Mar = 2
   // Apr-Jun = 3
@@ -82,6 +112,7 @@ export class RccManagementComponent implements OnInit {
     let q = [2, 3, 4, 1];
     return q[Math.floor(d.getMonth() / 3)];
   }
+
   daysLeftInQuarter(d) {
     d = d || new Date();
     // d.setDate(d.getDate() + 43)

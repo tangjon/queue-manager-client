@@ -24,8 +24,8 @@ export class LogService {
     })
   };
   private api = environment.apiUrl + 'activity_log';
-  private logSource = new BehaviorSubject<EntryLog[]>([]);
-  private activityLog: Array<EntryLog>;
+  public logSource = new BehaviorSubject<EntryLog[]>([]);
+  private activityLog: Array<EntryLog> = [];
 
   /* Restructure
   *  1. Subscribe to logSource
@@ -38,53 +38,70 @@ export class LogService {
 * */
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-
+    /* Populate Log Subject Behavior */
+    this.getLogs().subscribe(logs=>{
+      this.logSource.next(logs);
+    })
   }
 
-
-  getLogsAsSource(): Observable<any> {
-    return this.getLogs().switchMap(r => {
-      this.logSource.next(r);
+  /**
+   * Get Logs as an observable from a behavior subject. New updates will be listened to.
+   * @returns             Array of entry logs.
+   * @param numOfResults  Number of results to return.
+   */
+  getLogAsSubject(numOfResults?): Observable<EntryLog[]> {
+    if(numOfResults){
+      return this.logSource.asObservable().map(log=>log.slice(0,numOfResults))
+    } else {
       return this.logSource.asObservable();
-    });
+    }
   }
 
-  getLogs(): Observable<any> {
+  /**
+   * Get all logs on database.
+   * @returns Array of logs
+   */
+  getLogs(): Observable<any[]> {
     return this.http.get(this.api, this.httpOptions).map((r: any) => {
-      this.activityLog = [];
+      let arr = [];
       const t = r.d.results.map((t: any) => {
         const tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID);
         tmp.setDateFromString(t.DATE);
         return tmp;
       });
       t.forEach((el: EntryLog) => {
-        this.activityLog.push(el);
+        arr.push(el);
       });
-      this.activityLog.sort(function (a: any, b: any) {
+      arr.sort(function (a: any, b: any) {
         return b.date - a.date;
       });
-      return this.activityLog;
+      return arr;
     })
   }
 
-
+  /**
+   * Get all logs on database.
+   * @returns
+   * @param user The user performing an action
+   * @param action The action done.
+   * @param description i.e  April(i1232) : 0 to 1 in NW.
+   */
   addLog(user:User, action: Action, description) {
+    // Create Entry Log from model
     const pushId = this.db.createPushId();
-    const entry = new EntryLog(
+    const entry: EntryLog = new EntryLog(
       user.name, user.iNumber,
       action, description, this.getCachedINumber(),
       pushId
     );
+    // Prepare request body
     const body = this.generateBody(pushId, action, entry, description, user);
     this.http.post(this.api, body, this.httpOptions).subscribe(() => {
-      this.activityLog.push(entry);
-      this.activityLog.sort(function (a: any, b: any) {
-        return b.date - a.date;
-      });
-      this.logSource.next(this.activityLog);
-
+      let tmp = this.logSource.getValue();
+      tmp.unshift(entry);
+      this.logSource.next(tmp);
       this.db.object(environment.firebaseRootUrl + '/log-last-change').set({ user: atob(this.getCachedINumber()), date: new Date().getTime()});
-    }, err=> this.handleError(err, "add log failed"));
+    }, err=> this.db.object(environment.firebaseRootUrl + '/error').set({ date: new Date(), msg: err}));
   }
 
   purgeLogs(): Observable<any> {
@@ -161,6 +178,7 @@ export class LogService {
   static filterDate(logs:EntryLog[], date: Date, dateStart: Date, dateEnd:Date){
     // return logs.filter((log:EntryLog)=> Helper.dateInRange(date,dateStart,dateEnd));
   }
+
 
   getAssignmentCount(user: User) {
     // var url = this.api + "?$filter=INUMBER eq '" + user.iNumber + "'";
