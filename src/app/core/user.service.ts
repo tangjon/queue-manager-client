@@ -27,6 +27,8 @@ export class UserService {
   private qmapi: string = environment.apiUrl + "qm('current')";
   private userSource = new BehaviorSubject<User[]>([]);
 
+  /* ERROR MESSAGES */
+  public USER_NOT_FOUND = "User Not Found";
   constructor(public db: AngularFireDatabase,
               public http: HttpClient,
               public userSetService: UserSetService,
@@ -81,7 +83,7 @@ export class UserService {
       user.incidentBook.set(incidentBook);
       user.supportBook.set(supportBook);
       return user;
-    }).catch(error => Observable.throw(new ErrorObservable("User Not Found")))
+    }).catch(error => Observable.throw(new ErrorObservable(this.USER_NOT_FOUND)))
   }
 
   getUserBHO() {
