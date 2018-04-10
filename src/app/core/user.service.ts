@@ -15,7 +15,6 @@ import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch'
 
 @Injectable()
 export class UserService {
@@ -87,7 +86,9 @@ export class UserService {
       user.incidentBook.set(incidentBook);
       user.supportBook.set(supportBook);
       return user;
-    }).catch(error => Observable.throw(new ErrorObservable(this.USER_NOT_FOUND)))
+    }).pipe(
+      catchError((e)=>this.handleError(e))
+    )
   }
 
   getUserBHO() {
@@ -250,7 +251,6 @@ export class UserService {
       console.log(error);
 
       if(error.error == null){
-        console.log(this.USER_NOT_FOUND);
         return new ErrorObservable(this.USER_NOT_FOUND);
       }
     }
