@@ -32,13 +32,13 @@ export class LogService {
   // Subject to be subscribed to by other components and services
   public logSource = new BehaviorSubject<EntryLog[]>([]);
 
-    /*
-  * [PARTIALLY REFACTORED] March 29th 2018
-  * */
+  /*
+* [PARTIALLY REFACTORED] March 29th 2018
+* */
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     /* Populate Log Subject Behavior */
-    this.getLogs().subscribe(logs=>{
+    this.getLogs().subscribe(logs => {
       this.logSource.next(logs);
     })
   }
@@ -49,8 +49,8 @@ export class LogService {
    * @param numOfResults  Number of results to return.
    */
   getLogAsSubject(numOfResults?): Observable<EntryLog[]> {
-    if(numOfResults){
-      return this.logSource.asObservable().map(log=>log.slice(0,numOfResults))
+    if (numOfResults) {
+      return this.logSource.asObservable().map(log => log.slice(0, numOfResults))
     } else {
       return this.logSource.asObservable();
     }
@@ -85,7 +85,7 @@ export class LogService {
    * @param action The action done.
    * @param description i.e  April(i1232) : 0 to 1 in NW.
    */
-  addLog(user:User, action: Action, description) {
+  addLog(user: User, action: Action, description) {
     // Create Entry Log from model
     const pushId = this.db.createPushId();
     const entry: EntryLog = new EntryLog(
@@ -99,8 +99,11 @@ export class LogService {
       let tmp = this.logSource.getValue();
       tmp.unshift(entry);
       this.logSource.next(tmp);
-      this.db.object(environment.firebaseRootUrl + '/log-last-change').set({ user: atob(this.getCachedINumber()), date: new Date().getTime()});
-    }, err=> this.db.object(environment.firebaseRootUrl + '/error').set({ date: new Date(), msg: err}));
+      this.db.object(environment.firebaseRootUrl + '/log-last-change').set({
+        user: atob(this.getCachedINumber()),
+        date: new Date().getTime()
+      });
+    }, err => this.db.object(environment.firebaseRootUrl + '/error').set({date: new Date(), msg: err}));
   }
 
   purgeLogs(): Observable<any> {
@@ -115,15 +118,9 @@ export class LogService {
       return Observable.forkJoin($batch).pipe(tap(() => {
         this.logSource.next([]);
       })).pipe(
-        catchError(err=>Observable.throw(this.handleError(err,"purge log failed"))
-      ))
+        catchError(err => Observable.throw(this.handleError(err, "purge log failed"))
+        ))
     }
-  }
-
-
-
-  getCachedINumber() {
-    return localStorage[environment.KEY_CACHE_INUMBER];
   }
 
   getAssignmentCountByDate(user: User, date_begin, date_end) {
@@ -149,26 +146,7 @@ export class LogService {
     function dateInRange(arg: Date, start: Date, end: Date): boolean {
       return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
     }
-
-    function dateInRangeToday(arg: Date): boolean {
-      const today = new Date();
-      const tmp = new Date(arg);
-      return tmp.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
-    }
-
-    function yesterdayDate(date: Date): Date {
-      return new Date(date.getTime() - (24 * 60 * 60 * 1000));
-    }
   }
-
-  static filterAction(logs:EntryLog[], action:Action,) {
-    return logs.filter((log:EntryLog)=> log.action === action);
-  }
-
-  static filterDate(logs:EntryLog[], date: Date, dateStart: Date, dateEnd:Date){
-    // return logs.filter((log:EntryLog)=> Helper.dateInRange(date,dateStart,dateEnd));
-  }
-
 
   getAssignmentCount(user: User) {
     const logs = this.logSource.getValue();
@@ -191,22 +169,17 @@ export class LogService {
     }
     return 0;
 
-    function dateInRange(arg: Date, start: Date, end: Date) {
-      return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
-    }
-
     function dateInRangeToday(arg: Date): boolean {
       const today = new Date();
       const tmp = new Date(arg);
       return tmp.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
     }
-
-    function yesterdayDate(date: Date): Date {
-      return new Date(date.getTime() - (24 * 60 * 60 * 1000));
-    }
   }
 
   /* HELPER FUNCTIONS */
+  getCachedINumber() {
+    return localStorage[environment.KEY_CACHE_INUMBER];
+  }
 
   private generateBody(pushId: string | null, action: Action, entry: EntryLog, description, user) {
     return {
@@ -220,7 +193,7 @@ export class LogService {
     };
   }
 
-  private handleError(error: HttpErrorResponse, message:string) {
+  private handleError(error: HttpErrorResponse, message: string) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
