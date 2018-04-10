@@ -185,8 +185,7 @@ export class LogService {
 
 
   getAssignmentCount(user: User) {
-    // var url = this.api + "?$filter=INUMBER eq '" + user.iNumber + "'";
-    const logs = this.activityLog;
+    const logs = this.logSource.getValue();
     const filterlog = logs.filter((el: EntryLog) => {
       return el.iNumber === user.iNumber &&
         el.action.indexOf('Incident') !== -1 &&
