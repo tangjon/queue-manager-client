@@ -8,7 +8,7 @@ import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {catchError} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 
 type Action =
   'Incident Assigned'
@@ -26,7 +26,6 @@ export class LogService {
   };
   private api = environment.apiUrl + 'activity_log';
   public logSource = new BehaviorSubject<EntryLog[]>([]);
-  private activityLog: Array<EntryLog> = [];
 
   /* Restructure
   *  1. Subscribe to logSource
@@ -107,17 +106,16 @@ export class LogService {
 
   purgeLogs(): Observable<any> {
     const $batch = [];
-    this.activityLog.forEach((el: EntryLog) => {
+    this.logSource.getValue().forEach((el: EntryLog) => {
       const url = `${this.api}('${el.KEY}')`;
       $batch.push(this.http.delete(url));
     });
     if ($batch.length == 0) {
-      return Observable.of({});
+      return Observable.of([]);
     } else {
-      return Observable.forkJoin($batch).map(() => {
-        this.activityLog.splice(0, this.activityLog.length);
-        this.logSource.next(this.activityLog);
-      }).pipe(
+      return Observable.forkJoin($batch).pipe(tap(() => {
+        this.logSource.next([]);
+      })).pipe(
         catchError(err=>Observable.throw(this.handleError(err,"purge log failed"))
       ))
     }
@@ -136,12 +134,11 @@ export class LogService {
   }
 
   getCachedINumber() {
-    // TODO Circular dependency here
     return localStorage[environment.KEY_CACHE_INUMBER];
   }
 
-  getAssignmentCountv2(user: User, date_begin, date_end) {
-    const logs = this.activityLog;
+  getAssignmentCountByDate(user: User, date_begin, date_end) {
+    const logs = this.logSource.getValue();
     const filterlog = logs.filter((el: EntryLog) => {
       return el.iNumber === user.iNumber &&
         el.action.indexOf('Incident') !== -1 && dateInRange(el.getFullDate(), date_begin, date_end);
