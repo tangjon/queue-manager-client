@@ -22,6 +22,7 @@ type Action =
 
 /**
  * Service that handles call to Logs on database
+ * [April 10th, 2018]
  */
 export class LogService {
   // HTTP Request Options
@@ -32,12 +33,16 @@ export class LogService {
   };
   // Service URL API Call
   private api = environment.apiUrl + 'activity_log';
-
   // Subject to be subscribed to by other components and services
   private logSource = new BehaviorSubject<EntryLog[]>([]);
 
+  /**
+   * Initializes log behavior subject. New updates will be listened to from modules that subscribe to it.
+   * @param http
+   * @param db for real-time functionality. Tell the tool what was was last changed
+   */
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-    /* Populate Log Subject Behavior */
+    // Populate Log Behavior Subject
     this.getLogs().subscribe(logs => {
       this.logSource.next(logs);
     })
@@ -126,6 +131,7 @@ export class LogService {
     }
   }
 
+  // TODO EFFICIENCY - Use better assignment counter
   /**
    * Retrieve the amount of incidents assigned to {user} in the past 24 hours
    * @param user
