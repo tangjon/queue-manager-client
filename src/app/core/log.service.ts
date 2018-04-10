@@ -9,6 +9,7 @@ import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError, tap} from "rxjs/operators";
+import {Helper} from "../shared/helper/helper";
 
 type Action =
   'Incident Assigned'
@@ -27,12 +28,13 @@ export class LogService {
   };
   // Service URL API Call
   private api = environment.apiUrl + 'activity_log';
+
   // Subject to be subscribed to by other components and services
   public logSource = new BehaviorSubject<EntryLog[]>([]);
 
-  /*
-* [PARTIALLY REFACTORED] March 29th 2018
-* */
+    /*
+  * [PARTIALLY REFACTORED] March 29th 2018
+  * */
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     /* Populate Log Subject Behavior */
@@ -118,17 +120,7 @@ export class LogService {
     }
   }
 
-  private generateBody(pushId: string | null, action: Action, entry: EntryLog, description, user) {
-    return {
-      'PUSH_ID': pushId,
-      'ACTION': action,
-      'MANAGER': this.getCachedINumber(),
-      'DATE': JSON.stringify(entry.getFullDate()),
-      'DESCRIPTION': description,
-      'NAME': user.name,
-      'INUMBER': user.iNumber
-    };
-  }
+
 
   getCachedINumber() {
     return localStorage[environment.KEY_CACHE_INUMBER];
@@ -214,6 +206,20 @@ export class LogService {
     }
   }
 
+  /* HELPER FUNCTIONS */
+
+  private generateBody(pushId: string | null, action: Action, entry: EntryLog, description, user) {
+    return {
+      'PUSH_ID': pushId,
+      'ACTION': action,
+      'MANAGER': this.getCachedINumber(),
+      'DATE': JSON.stringify(entry.getFullDate()),
+      'DESCRIPTION': description,
+      'NAME': user.name,
+      'INUMBER': user.iNumber
+    };
+  }
+
   private handleError(error: HttpErrorResponse, message:string) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -227,7 +233,7 @@ export class LogService {
       console.log(error);
     }
     // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable(
-      message);
+    return new ErrorObservable("Something went wrong: " + error);
   }
+
 }

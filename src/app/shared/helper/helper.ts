@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import {unitOfTime} from "moment";
 
 export class Helper {
 
@@ -14,7 +15,7 @@ export class Helper {
     return moment(date).isBetween(start, end);
   }
 
-  static dateWithin(date:Date, range){
+  static dateWithin(date:Date, range: unitOfTime.StartOf){
     return moment(date).isBetween(moment().startOf(range), moment().endOf(range));
   }
 }
