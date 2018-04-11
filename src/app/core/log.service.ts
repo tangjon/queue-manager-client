@@ -103,7 +103,7 @@ export class LogService {
     );
     // Prepare request body
     const body = this.generateBody(pushId, action, entry, description, user);
-    this.http.post(this.api, body, this.httpOptions)
+    this.http.post(this.api, body + "s", this.httpOptions)
       .pipe(
         catchError(e => this.handleError(e, "Failed to add log"))
       )
@@ -226,7 +226,7 @@ export class LogService {
     };
   }
 
-  private handleError(error: HttpErrorResponse, message: string) {
+  private handleError(error: HttpErrorResponse, message?: string) {
     if (message.length == 0) {
       message = "Something went wrong"
     }
