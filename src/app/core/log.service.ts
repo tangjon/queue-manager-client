@@ -92,11 +92,12 @@ export class LogService {
    * @param description i.e  April(i1232) : 0 to 1 in NW.
    */
   addLog(user: User, action: Action, description) {
+    let cINumber = this.getCachedINumber() || "UNKNOWN";
     // Create Entry Log from model
     const pushId = this.db.createPushId();
     const entry: EntryLog = new EntryLog(
       user.name, user.iNumber,
-      action, description, this.getCachedINumber(),
+      action, description, cINumber,
       pushId
     );
     // Prepare request body
@@ -106,7 +107,7 @@ export class LogService {
       tmp.unshift(entry);
       this.logSource.next(tmp);
       this.db.object(environment.firebaseRootUrl + '/log-last-change').set({
-        user: atob(this.getCachedINumber()),
+        user: atob(cINumber),
         date: new Date().getTime()
       });
     }, err => this.db.object(environment.firebaseRootUrl + '/error').set({date: new Date(), msg: err}));
