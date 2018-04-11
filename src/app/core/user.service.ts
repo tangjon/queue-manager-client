@@ -246,8 +246,6 @@ export class UserService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
-      console.log(error);
-
       if(error.error == null){
         return new ErrorObservable(this.USER_NOT_FOUND);
       }

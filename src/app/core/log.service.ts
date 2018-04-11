@@ -18,8 +18,6 @@ type Action =
   | 'Support Changed'
 
 
-
-
 /**
  * Service that handles call to Logs on database
  * [April 10th, 2018]
@@ -46,7 +44,7 @@ export class LogService {
     // Populate Log Behavior Subject
     this.getLogs().subscribe(logs => {
       this.logSource.next(logs);
-    })
+    }, error => console.log(error))
   }
 
   /**
@@ -81,7 +79,9 @@ export class LogService {
         return b.date - a.date;
       });
       return arr;
-    })
+    }).pipe(
+      catchError(e => this.handleError(e, "Failed to get logs"))
+    )
   }
 
   /**
@@ -91,6 +91,7 @@ export class LogService {
    * @param action The action done.
    * @param description i.e  April(i1232) : 0 to 1 in NW.
    */
+  // TODO Should return an observable so front end and know whether a log was successful
   addLog(user: User, action: Action, description) {
     let cINumber = this.getCachedINumber() || "UNKNOWN";
     // Create Entry Log from model
@@ -102,15 +103,19 @@ export class LogService {
     );
     // Prepare request body
     const body = this.generateBody(pushId, action, entry, description, user);
-    this.http.post(this.api, body, this.httpOptions).subscribe(() => {
-      let tmp = this.logSource.getValue();
-      tmp.unshift(entry);
-      this.logSource.next(tmp);
-      this.db.object(environment.firebaseRootUrl + '/log-last-change').set({
-        user: atob(cINumber),
-        date: new Date().getTime()
-      });
-    }, err => this.db.object(environment.firebaseRootUrl + '/error').set({date: new Date(), msg: err}));
+    this.http.post(this.api, body, this.httpOptions)
+      .pipe(
+        catchError(e => this.handleError(e, "Failed to add log"))
+      )
+      .subscribe(() => {
+        let tmp = this.logSource.getValue();
+        tmp.unshift(entry);
+        this.logSource.next(tmp);
+        this.db.object(environment.firebaseRootUrl + '/log-last-change').set({
+          user: atob(cINumber),
+          date: new Date().getTime()
+        });
+      }, err => this.db.object(environment.firebaseRootUrl + '/error').set({date: new Date(), msg: err}));
   }
 
   /**
@@ -128,7 +133,7 @@ export class LogService {
       return Observable.forkJoin($batch).pipe(tap(() => {
         this.logSource.next([]);
       })).pipe(
-        catchError(err => Observable.throw(this.handleError(err, "purge log failed"))
+        catchError(err => Observable.throw(this.handleError(err, "Purge Log Failure"))
         ))
     }
   }
@@ -222,6 +227,9 @@ export class LogService {
   }
 
   private handleError(error: HttpErrorResponse, message: string) {
+    if (message.length == 0) {
+      message = "Something went wrong"
+    }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
@@ -230,11 +238,11 @@ export class LogService {
       // The response body may contain clues as to what went wrong,
       console.error(
         `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `body was: ${JSON.stringify(error.error)}`);
       console.log(error);
     }
     // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable("Something went wrong: " + error);
+    return new ErrorObservable(`${message}: ${error.message}`);
   }
 
 }
