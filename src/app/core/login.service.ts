@@ -14,7 +14,7 @@ export class LoginService {
   KEY_CACHE_INUMBER = environment.KEY_CACHE_INUMBER;
   user: User;
 
-  constructor(public userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
+  constructor(private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
 
   }
 
@@ -60,9 +60,5 @@ export class LoginService {
   signOut() {
     localStorage.clear();
     this.afAuth.auth.signOut();
-  }
-
-  getUser() {
-    return this.user;
   }
 }

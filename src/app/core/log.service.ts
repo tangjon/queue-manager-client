@@ -17,13 +17,14 @@ type Action =
   | 'Queue Days Changed'
   | 'Support Changed'
 
-@Injectable()
+
 
 
 /**
  * Service that handles call to Logs on database
  * [April 10th, 2018]
  */
+@Injectable()
 export class LogService {
   // HTTP Request Options
   private httpOptions = {

@@ -6,15 +6,15 @@ import {Observable} from "rxjs/Observable";
 import {BodyParser} from "../shared/helper/bodyParser";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
-/*
-* [REFACTORED] March 29th 2018
-* */
-
 interface Query {
   key?: string;
   iNumber?: string;
 }
 
+/**
+ * Service that retrieves a portion of the user object
+ * i.e Current Queue Days, RCC Information
+ */
 @Injectable()
 export class UserSetService {
   private api: string = environment.apiUrl + 'users';
@@ -27,26 +27,40 @@ export class UserSetService {
   constructor(public http: HttpClient) {
   }
 
+  /**
+   * Get user set with specific query
+   * @param query json object with member of 'key' or iNumber
+   * @return user set object, portion of user a user object
+   */
   getUserSet(query: Query): Observable<any> {
+    let url;
     if (!query.key && !query.iNumber) return Observable.of([]);
-    let qBody = "";
     if (query.key) {
-      qBody = `('${query.key}')`
+      url = this.api + `('${query.key}')`
     } else {
-      qBody = `?$filter=INUMBER eq '${query.iNumber}'`
+      url = this.api + `?$filter=INUMBER eq '${query.iNumber}'`
     }
-    return this.http.get(this.api + qBody, this.httpOptions)
+    return this.http.get(url, this.httpOptions)
       .map((r) => BodyParser.parseBody(r))
   }
 
-  getUserSets() {
+  /**
+   * Get all user sets from database
+   * @returns Observable of user sets in an object
+   */
+  getUserSets(): Observable<any> {
     return this.http.get(this.api, this.httpOptions)
       .map((res: any) => {
         return BodyParser.parseBody(res).map(rawUser => new User(rawUser));
       })
   }
 
-  updateUserSet(user: User) {
+  /**
+   * Update the user set
+   * @param {User} user that will be updated
+   * @returns Http Server Response
+   */
+  updateUserSet(user: User): Observable<any> {
     let body = this.generateBody(user);
     let url = `${this.api}('${user.key}')`;
     return this.http.put(url, body, this.httpOptions);
