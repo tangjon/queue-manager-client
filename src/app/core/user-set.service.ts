@@ -66,7 +66,14 @@ export class UserSetService {
     return this.http.put(url, body, this.httpOptions);
   }
 
-  createUserSet(name, iNumber, key) {
+  /**
+   * Create a user set
+   * @param {String} name of user
+   * @param iNumber
+   * @param key
+   * @returns {Observable<User>}
+   */
+  createUserSet(name: string, iNumber: string, key: string) {
     let user = new User({name: name, iNumber: iNumber, key: key});
     let body = this.generateBody(user);
     return this.http.post(this.api, body, this.httpOptions).map((r: any) => {
