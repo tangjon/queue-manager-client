@@ -69,7 +69,7 @@ export class UserService {
         return user;
       })
     }).pipe(
-      catchError((e) => this.handleError(e))
+      catchError((e) => this.handleError(e, "User not found"))
     )
   }
 
@@ -240,7 +240,7 @@ export class UserService {
     ).pipe(catchError(e => this.handleError(e, "Failed to set QM")))
   }
 
-  handleError(error: HttpErrorResponse, message?: string) {
+  handleError(error?: HttpErrorResponse, message?: string) {
     console.log(error);
     if (message.length == 0) {
       message = "Something went wrong"
@@ -254,11 +254,11 @@ export class UserService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
-      if (error.error == null) {
-        return new ErrorObservable(this.USER_NOT_FOUND);
-      }
+      // if (error.error == null) {
+      //   return new ErrorObservable(this.USER_NOT_FOUND);
+      // }
     }
-    return new ErrorObservable(`${message}: ${error.message}`);
+    return new ErrorObservable(`${message}: ${error.message || error}`);
   }
 
 }
