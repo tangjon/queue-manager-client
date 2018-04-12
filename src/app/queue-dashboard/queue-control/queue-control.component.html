@@ -52,9 +52,9 @@
       </td>
       <td>{{ user.getIncidentAmount(paramId) }}</td>
       <td>{{ user.getIncidentTotal() }}
-        <span *ngIf="getAssignmentCount(user) >= 0" class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
+        <span *ngIf="getAssignmentCount(user) > 0" class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
         <span *ngIf="getAssignmentCount(user) < 0" class="badge badge-danger assigned-twenty-four">{{getAssignmentCount(user)}}</span>
-
+        <span *ngIf="getAssignmentCount(user) == 0" class="badge badge-secondary assigned-twenty-four">{{getAssignmentCount(user)}}</span>
       </td>
       <td>{{ user.getAverageQDay() }}</td>
       <td>
