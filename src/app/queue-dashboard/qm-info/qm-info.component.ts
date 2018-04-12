@@ -22,7 +22,7 @@ export class QmInfoComponent implements OnInit {
 
   changeQM() {
     let uInput = prompt("Enter the iNumber of QM");
-    if (uInput.length) {
+    if (uInput && uInput.length) {
       this.userService.setQM(uInput.toLowerCase()).subscribe(() => {
           this.qmUser = this.userService.getQM();
           this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
