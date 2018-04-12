@@ -12,6 +12,7 @@ import {BsModalService} from "ngx-bootstrap/modal";
 import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
+import {ActivityLogComponent} from "../../shared/components/activity-log/activity-log.component";
 
 @Component({
   selector: 'app-queue-control',
@@ -47,15 +48,9 @@ export class QueueControlComponent implements OnInit {
     this.isFirstCallBack = true; // we want to ignore the first callback
     this.applicationChangeFlag = false;
     // listen to application changes
-    this.db.object(environment.firebaseRootUrl + '/log-last-change/user').valueChanges().subscribe((r: any) => {
-      // // See if application is initialized and see if logger is the one using the tool
-      // if (this.initializeFlag && atob(this.logService.getCachedINumber()) !== r) {
-      //   this.applicationChangeFlag = true;
-      // } else {
-      //   this.initializeFlag = true;
-      // }
-      // Ignore first call back and changes are not from own user
-      if (!this.isFirstCallBack && atob(this.userService.logService.getCachedINumber()) !== r) {
+    this.db.object(environment.firebaseRootUrl + '/log-last-change').valueChanges().subscribe((r: any) => {
+      // Ignore first call back and changes are not from local user
+      if (!this.isFirstCallBack && atob(this.userService.logService.getCachedINumber()) !== r.user) {
         this.applicationChangeFlag = true;
       } else {
         this.isFirstCallBack = false;
@@ -75,8 +70,6 @@ export class QueueControlComponent implements OnInit {
           this.errorHandler(error)
         });
     });
-
-
   }
 
   onAddIncident(user: User) {
@@ -87,7 +80,6 @@ export class QueueControlComponent implements OnInit {
     bsModalRef.content.onCancel.subscribe(() => {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
-      console.log("CONFIRM");
       const currAmount = user.incidentBook.data[this.paramId];
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           // this.showSpinner = false;
@@ -110,7 +102,6 @@ export class QueueControlComponent implements OnInit {
     bsModalRef.content.onCancel.subscribe(() => {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
-      console.log("CONFIRM");
       const currAmount = user.incidentBook.data[this.paramId];
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
@@ -218,6 +209,7 @@ export class QueueControlComponent implements OnInit {
 
   onRefresh() {
     this.ngOnInit();
+    this.userService.logService.refresh()
   }
 
   private errorHandler(error) {

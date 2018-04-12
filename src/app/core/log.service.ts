@@ -209,6 +209,12 @@ export class LogService {
     localStorage[environment.KEY_CACHE_INUMBER] = i
   }
 
+  refresh() {
+    this.getLogs().subscribe(logs => {
+      this.logSource.next(logs);
+    }, error => console.log(error))
+  }
+
   /**
    * Generates a request body to be to sent to the api url
    * @param {string | null} pushId
@@ -248,5 +254,6 @@ export class LogService {
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(`${message}: ${error.message}`);
   }
+
 
 }
