@@ -35,7 +35,6 @@ export class QueueControlComponent implements OnInit {
   // Refresh Button Variables
   isFirstCallBack;
   applicationChangeFlag;
-  initializeFlag;
 
   constructor(public db: AngularFireDatabase,
               private route: ActivatedRoute,
@@ -47,7 +46,6 @@ export class QueueControlComponent implements OnInit {
   ngOnInit(): void {
     this.isFirstCallBack = true; // we want to ignore the first callback
     this.applicationChangeFlag = false;
-    this.initializeFlag = false;
     // listen to application changes
     this.db.object(environment.firebaseRootUrl + '/log-last-change/user').valueChanges().subscribe((r: any) => {
       // // See if application is initialized and see if logger is the one using the tool
@@ -58,7 +56,9 @@ export class QueueControlComponent implements OnInit {
       // }
       // Ignore first call back and changes are not from own user
       if (!this.isFirstCallBack && atob(this.userService.logService.getCachedINumber()) !== r) {
-        console.log("SOMETHING CHANGED")
+        this.applicationChangeFlag = true;
+      } else {
+        this.isFirstCallBack = false;
       }
     });
 

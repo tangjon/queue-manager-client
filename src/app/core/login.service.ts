@@ -26,8 +26,8 @@ export class LoginService {
         this.user = user;
         localStorage[this.KEY_CACHE_INUMBER] = this.user.iNumber;
       },
-      (err) => {
-        if (err === this.userService.USER_NOT_FOUND && iNumber != "admin") {
+      (err: string) => {
+        if (err.indexOf("User not found") && iNumber != "admin") {
           // This is all dialog for secondary login
           let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent, {
             animated: true,

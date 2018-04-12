@@ -24,6 +24,8 @@ export class QmInfoComponent implements OnInit {
     let uInput = prompt("Enter the iNumber of QM");
     if (uInput && uInput.length) {
       this.userService.setQM(uInput.toLowerCase()).subscribe(() => {
+          // Change Cached I Number && Populate #qmUser for display
+          this.userService.logService.setCachedINumber(uInput.toLowerCase());
           this.qmUser = this.userService.getQM();
           this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
         },

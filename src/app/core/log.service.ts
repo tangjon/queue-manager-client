@@ -205,6 +205,10 @@ export class LogService {
     return localStorage[environment.KEY_CACHE_INUMBER];
   }
 
+  setCachedINumber(i: string) {
+    localStorage[environment.KEY_CACHE_INUMBER] = i
+  }
+
   /**
    * Generates a request body to be to sent to the api url
    * @param {string | null} pushId

@@ -58,6 +58,7 @@ export class UserService {
   getUserByNumber(iNumber: string): Observable<User> {
     if (!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
     return this.userSetService.getUserSet({iNumber: iNumber.toLowerCase()}).switchMap(userSet => {
+      if (!userSet.length) throw new Error("User not found");
       return forkJoin([
         this.supportBookService.get(userSet[0].key),
         this.incidentBookService.get(userSet[0].key)
@@ -69,7 +70,7 @@ export class UserService {
         return user;
       })
     }).pipe(
-      catchError((e) => this.handleError(e, "User not found"))
+      catchError((e) => this.handleError(e, "Failed to get user"))
     )
   }
 
@@ -260,6 +261,7 @@ export class UserService {
         // }
       }
     }
+    console.log(error);
     return new ErrorObservable(`${message}: ${error.message || error}`);
   }
 
