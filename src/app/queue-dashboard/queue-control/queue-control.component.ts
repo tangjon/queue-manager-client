@@ -33,6 +33,7 @@ export class QueueControlComponent implements OnInit {
   totalIncidents: number;
   totalIncidentsCtx: number;
   // Refresh Button Variables
+  isFirstCallBack;
   applicationChangeFlag;
   initializeFlag;
 
@@ -40,20 +41,24 @@ export class QueueControlComponent implements OnInit {
               private route: ActivatedRoute,
               public userService: UserService,
               public snackBar: MatSnackBar,
-              public logService: LogService,
               private modalService: BsModalService) {
   }
 
   ngOnInit(): void {
+    this.isFirstCallBack = true; // we want to ignore the first callback
     this.applicationChangeFlag = false;
     this.initializeFlag = false;
     // listen to application changes
     this.db.object(environment.firebaseRootUrl + '/log-last-change/user').valueChanges().subscribe((r: any) => {
-      // See if application is initialized and see if logger is the one using the tool
-      if (this.initializeFlag && atob(this.logService.getCachedINumber()) !== r) {
-        this.applicationChangeFlag = true;
-      } else {
-        this.initializeFlag = true;
+      // // See if application is initialized and see if logger is the one using the tool
+      // if (this.initializeFlag && atob(this.logService.getCachedINumber()) !== r) {
+      //   this.applicationChangeFlag = true;
+      // } else {
+      //   this.initializeFlag = true;
+      // }
+      // Ignore first call back and changes are not from own user
+      if (!this.isFirstCallBack && atob(this.userService.logService.getCachedINumber()) !== r) {
+        console.log("SOMETHING CHANGED")
       }
     });
 

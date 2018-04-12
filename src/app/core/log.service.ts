@@ -103,7 +103,7 @@ export class LogService {
     );
     // Prepare request body
     const body = this.generateBody(pushId, action, entry, description, user);
-    this.http.post(this.api, body + "s", this.httpOptions)
+    this.http.post(this.api, body, this.httpOptions)
       .pipe(
         catchError(e => this.handleError(e, "Failed to add log"))
       )
