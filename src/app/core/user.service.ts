@@ -245,18 +245,20 @@ export class UserService {
     if (message.length == 0) {
       message = "Something went wrong"
     }
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-      // if (error.error == null) {
-      //   return new ErrorObservable(this.USER_NOT_FOUND);
-      // }
+    if (!environment.production) {
+      if (error.error instanceof ErrorEvent) {
+        // A client-side or network error occurred. Handle it accordingly.
+        console.error('An error occurred:', error.error.message);
+      } else {
+        // The backend returned an unsuccessful response code.
+        // The response body may contain clues as to what went wrong,
+        console.error(
+          `Backend returned code ${error.status}, ` +
+          `body was: ${error.error}`);
+        // if (error.error == null) {
+        //   return new ErrorObservable(this.USER_NOT_FOUND);
+        // }
+      }
     }
     return new ErrorObservable(`${message}: ${error.message || error}`);
   }

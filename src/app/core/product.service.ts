@@ -4,9 +4,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {BodyParser} from "../shared/helper/bodyParser";
 
-/*
-* [REFACTORED] March 29th 2018
-* */
 
 @Injectable()
 export class ProductService {
@@ -46,11 +43,11 @@ export class ProductService {
     }
   }
 
-  addProduct(productId) {
+  addProduct(productId): Observable<any> {
     return this.http.post(this.api, {KEY: productId}, this.httpOptions)
   }
 
-  removeProduct(productId) {
+  removeProduct(productId): Observable<any> {
     return this.http.delete(`${this.api}('${productId}')`)
   }
 }
