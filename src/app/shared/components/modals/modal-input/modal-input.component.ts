@@ -1,6 +1,8 @@
+///<reference path="../modal-interface.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {Subject} from "rxjs/Subject";
 import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
+import {ModalInterface} from "../modal-interface";
 
 @Component({
   selector: 'app-modal-input',
@@ -26,7 +28,7 @@ export class ModalInputComponent implements OnInit {
   }
 
   public confirm(input: string): void {
-    if(input.trim()){
+    if (input.trim()) {
       this.onConfirm.next(input);
       this._bsModalRef.hide();
     }

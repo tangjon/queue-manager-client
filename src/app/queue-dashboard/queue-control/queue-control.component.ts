@@ -19,6 +19,12 @@ import {ActivityLogComponent} from "../../shared/components/activity-log/activit
   templateUrl: './queue-control.component.html',
   styleUrls: ['./queue-control.component.css']
 })
+
+// Extends Event for click events
+// export interface Event {
+//   target: { className: string }
+// }
+
 export class QueueControlComponent implements OnInit {
   // alert variable
 
@@ -94,7 +100,7 @@ export class QueueControlComponent implements OnInit {
     });
   }
 
-  onRemoveIncident(user: User){
+  onRemoveIncident(user: User) {
     let amount = -1;
     let bsModalRef: ModalInterface = this.modalService.show(ModalConfirmComponent);
     bsModalRef.content.title = "Incident Removal";
@@ -183,10 +189,13 @@ export class QueueControlComponent implements OnInit {
     return this.userService.logService.getAssignmentCount(user);
   }
 
-  toggleStatus(user: User) {
-    const bool = user.isAvailable;
-    this.userService.updateAvailability(user, !bool).subscribe(() => {
-      user.setStatus(!bool);
+  toggleStatus(user: User, event) {
+    // Prevent double click toggle
+    let target = <HTMLSelectElement> event.target;
+    target.disabled = true;
+    // Send toggle
+    this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
+      user.setStatus(!user.isAvailable);
     });
   }
 
