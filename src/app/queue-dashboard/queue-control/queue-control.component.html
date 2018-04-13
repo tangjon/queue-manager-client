@@ -3,7 +3,8 @@
   <button class="qm-refresh btn" (click)="onRefresh()">
     <i class="fa fa-check" *ngIf="!applicationChangeFlag" style="color: green"></i>
     <i class="fa fa-exclamation-circle" *ngIf="applicationChangeFlag" style="color: orange"></i>
-    Refresh</button>
+    Refresh
+  </button>
 </h1>
 
 <div class="table-responsive shadow">
@@ -52,9 +53,12 @@
       </td>
       <td>{{ user.getIncidentAmount(paramId) }}</td>
       <td>{{ user.getIncidentTotal() }}
-        <span *ngIf="getAssignmentCount(user) > 0" class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
-        <span *ngIf="getAssignmentCount(user) < 0" class="badge badge-danger assigned-twenty-four">{{getAssignmentCount(user)}}</span>
-        <span *ngIf="getAssignmentCount(user) == 0" class="badge badge-secondary assigned-twenty-four">{{getAssignmentCount(user)}}</span>
+        <!--Displays 24hr counter depending on assignment counter-->
+        <!--This is done to reduce calls of #getAssignmentCount-->
+        <span *ngIf="getAssignmentCount(user).toString() as variable" class="badge assigned-twenty-four" [ngClass]="{
+        'badge-success': variable > 0,'badge-secondary': variable == 0, 'badge-danger' : variable < 0}">
+          <span *ngIf="variable">+</span><span *ngIf="variable < 0">-</span>{{variable}}
+        </span>
       </td>
       <td>{{ user.getAverageQDay() }}</td>
       <td>
