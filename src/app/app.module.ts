@@ -16,6 +16,7 @@ import {RccDashboardModule} from "./rcc-dashboard/rcc-dashboard.module";
 import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ModalModule.forRoot(),
     QueueDashboardModule,
     RccDashboardModule,
     TeamDashboardModule,

@@ -149,7 +149,7 @@ export class ApplicationSettingsComponent implements OnInit {
     return this.userSerivce.getUsers().switchMap(users => {
       let batchCall = [];
       users.forEach((user: User) => {
-        batchCall.push(this.userSerivce.resetRCC(user).pipe(tap(() => user.currentQDays = 0)));
+        batchCall.push(this.userSerivce.restQueueDays(user).pipe(tap(() => user.currentQDays = 0)));
       });
       return forkJoin(batchCall);
     })

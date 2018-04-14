@@ -1,9 +1,10 @@
 <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-<h1 class="component-header">QM: {{id$ | async }}
+<h1 tooltipHtml="klklk" class="component-header">QM: {{id$ | async }}
   <button class="qm-refresh btn" (click)="onRefresh()">
     <i class="fa fa-check" *ngIf="!applicationChangeFlag" style="color: green"></i>
     <i class="fa fa-exclamation-circle" *ngIf="applicationChangeFlag" style="color: orange"></i>
-    Refresh</button>
+    Refresh
+  </button>
 </h1>
 
 <div class="table-responsive shadow">
@@ -36,9 +37,9 @@
       <th scope="row">
         {{i + 1}}
         <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
-             style="display: block">
+             style="display: block" tooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
       </th>
-      <td>{{user.name + "(" + user.iNumber + ")"}}</td>
+      <td tooltip="dasd">{{user.name + "(" + user.iNumber + ")"}}</td>
       <td>
 
         <button (click)="onAddIncident(user)" class="btn btn-success">
@@ -52,16 +53,24 @@
       </td>
       <td>{{ user.getIncidentAmount(paramId) }}</td>
       <td>{{ user.getIncidentTotal() }}
-        <span *ngIf="getAssignmentCount(user) >= 0" class="badge badge-success assigned-twenty-four">+{{getAssignmentCount(user)}}</span>
-        <span *ngIf="getAssignmentCount(user) < 0" class="badge badge-danger assigned-twenty-four">{{getAssignmentCount(user)}}</span>
-
+        <!--Displays 24hr counter depending on assignment counter-->
+        <!--This is done to reduce calls of #getAssignmentCount-->
+        <span *ngIf="getAssignmentCount(user).toString() as variable" class="badge assigned-twenty-four" [ngClass]="{
+        'badge-success': variable > 0,'badge-secondary': variable == 0, 'badge-danger' : variable < 0}">
+          <span *ngIf="variable > 0">+</span>{{variable}}
+        </span>
       </td>
-      <td>{{ user.getAverageQDay() }}</td>
+      <td tooltip="dasd">{{ user.getAverageQDay() }}</td>
       <td>
-        <i class="fa fa-check-circle fa-lg" style="color:green;"></i>
+        <i *ngIf="getAssignmentCount(user).toString() as variable"
+           class="fa fa-lg"
+           [ngClass]="{'fa-check-circle': variable < 3,'fa-minus-circle': variable >= 3}"
+           [ngStyle]="{'color' : variable < 3 ? 'green' : '#fb9121'  }"
+        >
+        </i>
       </td>
       <td>
-        <button (click)="toggleStatus(user)">Toggle</button>
+        <button (click)="toggleStatus(user, $event)">Toggle</button>
       </td>
     </tr>
     </tbody>
@@ -95,7 +104,7 @@
         <i class="fa fa-times fa-lg" style="color:red;"></i>
       </td>
       <td>
-        <button (click)="toggleStatus(bUser)">Toggle</button>
+        <button (click)="toggleStatus(bUser, $event)">Toggle</button>
       </td>
     </tr>
     </tbody>

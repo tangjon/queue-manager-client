@@ -24,7 +24,7 @@ export class UserService {
     })
   };
   /* ERROR MESSAGES */
-  USER_NOT_FOUND:string = "USER NOT FOUND";
+  USER_NOT_FOUND: string = "USER NOT FOUND";
   private qmapi: string = environment.apiUrl + "qm('current')";
   private userSource = new BehaviorSubject<User[]>([]);
 
@@ -58,6 +58,7 @@ export class UserService {
   getUserByNumber(iNumber: string): Observable<User> {
     if (!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
     return this.userSetService.getUserSet({iNumber: iNumber.toLowerCase()}).switchMap(userSet => {
+      if (!userSet.length) throw new Error("User not found");
       return forkJoin([
         this.supportBookService.get(userSet[0].key),
         this.incidentBookService.get(userSet[0].key)
@@ -69,7 +70,7 @@ export class UserService {
         return user;
       })
     }).pipe(
-      catchError((e)=>this.handleError(e))
+      catchError((e) => this.handleError(e, "Failed to get user"))
     )
   }
 
@@ -85,7 +86,7 @@ export class UserService {
       user.supportBook.set(supportBook);
       return user;
     }).pipe(
-      catchError((e)=>this.handleError(e))
+      catchError((e) => this.handleError(e))
     )
   }
 
@@ -129,16 +130,18 @@ export class UserService {
             action: "Availability Changed",
             value: bool
           });
-        }));
+        }),
+        catchError(e => this.handleError(e, "Update Availability Failed"))
+      );
   }
 
-  deleteUser(key: string): Observable<any> {
+  deleteUser(key: string): Observable<boolean> {
     return this.userSetService.deleteUserSet(key).map(() => {
       return true;
-    });
+    }).pipe(catchError(e => this.handleError(e, "Delete User Failed")));
   }
 
-  addComponent(productId) {
+  addComponent(productId): Observable<boolean> {
     return this.getUsers().switchMap((users) => {
         let batchAdd$ = [];
         users.forEach((user: User) => {
@@ -146,14 +149,14 @@ export class UserService {
           batchAdd$.push(this.incidentBookService.addComponent(user.key, productId));
         });
         batchAdd$.push(this.productService.addProduct(productId));
-        return forkJoin(batchAdd$).map(t => {
-          return "cats"
-        })
+      return forkJoin(batchAdd$).map(() => {
+        return true;
+      }).pipe(catchError(e => this.handleError(e, "Add Component Failed")))
       }
     )
   }
 
-  removeComponent(productId) {
+  removeComponent(productId): Observable<boolean> {
     return this.getUsers().switchMap((users) => {
         let batchAdd$ = [];
         users.forEach((user: User) => {
@@ -161,9 +164,9 @@ export class UserService {
           batchAdd$.push(this.incidentBookService.removeComponent(user.key, productId));
         });
         batchAdd$.push(this.productService.removeProduct(productId));
-        return forkJoin(batchAdd$).map(t => {
-          return "cats" //TODO what is this?
-        })
+      return forkJoin(batchAdd$).map(() => {
+        return true
+      }).pipe(catchError(e => this.handleError(e, "Remove Component Failed")))
       }
     )
   }
@@ -177,7 +180,8 @@ export class UserService {
     }
     return this.supportBookService.set(user.key, productId, bool)
       .pipe(
-        tap(() => this.logService.addLog(user, "Support Changed", action + " " + productId))
+        tap(() => this.logService.addLog(user, "Support Changed", action + " " + productId)),
+        catchError(e => this.handleError(e, "Update Support Failed"))
       );
   }
 
@@ -190,16 +194,17 @@ export class UserService {
           } else {
             this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
           }
-        })
+        }),
+        catchError(e => this.handleError(e, "Update Incident Failed"))
       );
   }
 
-  resetRCC(user: User) {
-    // console.log(user);
-    // console.log("DEEP", Helper.deepCopy(user));
+  // TODO Refactor out, redundant and sub-clone of #Update Queue Days
+  restQueueDays(user: User) {
     let tmp = new User(user);
     tmp.currentQDays = 0;
-    return this.userSetService.resetRCC(tmp);
+    return this.userSetService.resetRCC(tmp)
+      .pipe(catchError(e => this.handleError(e, "Reset Queue Days Failed")));
   }
 
   updateQueueDays(user, amount) {
@@ -211,7 +216,7 @@ export class UserService {
           this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays);
         }),
         catchError(
-          err => this.handleError(err))
+          e => this.handleError(e, "Update Queue Days Failed"))
       );
   }
 
@@ -221,7 +226,7 @@ export class UserService {
     })
       .switchMap(iNumber => {
         return this.getUserByNumber(iNumber);
-      });
+      }).pipe(catchError(e => this.handleError(e, "Failed to get QM")))
   }
 
   setQM(iNumber: string) {
@@ -233,29 +238,31 @@ export class UserService {
         };
         return this.http.put(this.qmapi, body, this.httpOptions);
       }
-    );
+    ).pipe(catchError(e => this.handleError(e, "Failed to set QM")))
   }
 
-  handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-      console.log(error);
-
-      if(error.error == null){
-        return new ErrorObservable(this.USER_NOT_FOUND);
+  handleError(error?: HttpErrorResponse, message?: string) {
+    console.log(error);
+    if (message.length == 0) {
+      message = "Something went wrong"
+    }
+    if (!environment.production) {
+      if (error.error instanceof ErrorEvent) {
+        // A client-side or network error occurred. Handle it accordingly.
+        console.error('An error occurred:', error.error.message);
+      } else {
+        // The backend returned an unsuccessful response code.
+        // The response body may contain clues as to what went wrong,
+        console.error(
+          `Backend returned code ${error.status}, ` +
+          `body was: ${error.error}`);
+        // if (error.error == null) {
+        //   return new ErrorObservable(this.USER_NOT_FOUND);
+        // }
       }
     }
-    // // return an ErrorObservable with a user-facing error message
-    // return new ErrorObservable(
-    //   "Are you using Chrome? OR Database requires to be restarted =(");
-    return new ErrorObservable("Something went wrong: " + error.message)
+    console.log(error);
+    return new ErrorObservable(`${message}: ${error.message || error}`);
   }
 
 }

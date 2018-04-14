@@ -10,6 +10,8 @@ import {ModalConfirmComponent} from './components/modals/modal-confirm/modal-con
 import {ModalInfoComponent} from './components/modals/modal-info/modal-info.component';
 import {ModalInputComponent} from './components/modals/modal-input/modal-input.component';
 import {ModalServerErrorComponent} from './components/modals/modal-server-error/modal-server-error.component';
+import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {ModalModule} from "ngx-bootstrap/modal";
 
 /*
 * entryComponents: Modal components need to be here or they won't work
@@ -19,7 +21,9 @@ import {ModalServerErrorComponent} from './components/modals/modal-server-error/
   imports: [
     CommonModule,
     MatSnackBarModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TooltipModule.forRoot(),
+    ModalModule.forRoot()
   ],
   declarations: [
     SidebarComponent,
@@ -35,7 +39,7 @@ import {ModalServerErrorComponent} from './components/modals/modal-server-error/
     SidebarComponent,
     LoadingSpinnerComponent,
     NotificationComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   entryComponents:[
     ModalConfirmComponent,

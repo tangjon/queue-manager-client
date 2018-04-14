@@ -12,12 +12,19 @@ import {BsModalService} from "ngx-bootstrap/modal";
 import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
+import {ActivityLogComponent} from "../../shared/components/activity-log/activity-log.component";
 
 @Component({
   selector: 'app-queue-control',
   templateUrl: './queue-control.component.html',
   styleUrls: ['./queue-control.component.css']
 })
+
+// Extends Event for click events
+// export interface Event {
+//   target: { className: string }
+// }
+
 export class QueueControlComponent implements OnInit {
   // alert variable
 
@@ -33,27 +40,26 @@ export class QueueControlComponent implements OnInit {
   totalIncidents: number;
   totalIncidentsCtx: number;
   // Refresh Button Variables
+  isFirstCallBack;
   applicationChangeFlag;
-  initializeFlag;
 
   constructor(public db: AngularFireDatabase,
               private route: ActivatedRoute,
               public userService: UserService,
               public snackBar: MatSnackBar,
-              public logService: LogService,
               private modalService: BsModalService) {
   }
 
   ngOnInit(): void {
+    this.isFirstCallBack = true; // we want to ignore the first callback
     this.applicationChangeFlag = false;
-    this.initializeFlag = false;
     // listen to application changes
-    this.db.object(environment.firebaseRootUrl + '/log-last-change/user').valueChanges().subscribe((r: any) => {
-      // See if application is initialized and see if logger is the one using the tool
-      if (this.initializeFlag && atob(this.logService.getCachedINumber()) !== r) {
+    this.db.object(environment.firebaseRootUrl + '/log-last-change').valueChanges().subscribe((r: any) => {
+      // Ignore first call back and changes are not from local user
+      if (!this.isFirstCallBack && atob(this.userService.logService.getCachedINumber()) !== r.user) {
         this.applicationChangeFlag = true;
       } else {
-        this.initializeFlag = true;
+        this.isFirstCallBack = false;
       }
     });
 
@@ -70,8 +76,6 @@ export class QueueControlComponent implements OnInit {
           this.errorHandler(error)
         });
     });
-
-
   }
 
   onAddIncident(user: User) {
@@ -82,7 +86,6 @@ export class QueueControlComponent implements OnInit {
     bsModalRef.content.onCancel.subscribe(() => {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
-      console.log("CONFIRM");
       const currAmount = user.incidentBook.data[this.paramId];
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           // this.showSpinner = false;
@@ -97,7 +100,7 @@ export class QueueControlComponent implements OnInit {
     });
   }
 
-  onRemoveIncident(user: User){
+  onRemoveIncident(user: User) {
     let amount = -1;
     let bsModalRef: ModalInterface = this.modalService.show(ModalConfirmComponent);
     bsModalRef.content.title = "Incident Removal";
@@ -105,7 +108,6 @@ export class QueueControlComponent implements OnInit {
     bsModalRef.content.onCancel.subscribe(() => {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
-      console.log("CONFIRM");
       const currAmount = user.incidentBook.data[this.paramId];
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
@@ -182,14 +184,18 @@ export class QueueControlComponent implements OnInit {
 
   }
 
+
   getAssignmentCount(user) {
     return this.userService.logService.getAssignmentCount(user);
   }
 
-  toggleStatus(user: User) {
-    const bool = user.isAvailable;
-    this.userService.updateAvailability(user, !bool).subscribe(() => {
-      user.setStatus(!bool);
+  toggleStatus(user: User, event) {
+    // Prevent double click toggle
+    let target = <HTMLSelectElement> event.target;
+    target.disabled = true;
+    // Send toggle
+    this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
+      user.setStatus(!user.isAvailable);
     });
   }
 
@@ -213,6 +219,7 @@ export class QueueControlComponent implements OnInit {
 
   onRefresh() {
     this.ngOnInit();
+    this.userService.logService.refresh()
   }
 
   private errorHandler(error) {
