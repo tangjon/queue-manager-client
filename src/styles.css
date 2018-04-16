@@ -106,7 +106,13 @@ a.nav-link.active {
 }
 
 /*Modals*/
-.modal-body{
+.modal-body {
   word-wrap: break-word;
 }
+
 /*                     */
+
+/* Tooltips */
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+}

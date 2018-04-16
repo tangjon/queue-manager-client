@@ -7,12 +7,9 @@ import {UserService} from '../../core/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from "../../shared/model/user";
 import {environment} from "../../../environments/environment";
-import {LogService} from "../../core/log.service";
 import {BsModalService} from "ngx-bootstrap/modal";
-import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
-import {ActivityLogComponent} from "../../shared/components/activity-log/activity-log.component";
 
 @Component({
   selector: 'app-queue-control',
@@ -43,6 +40,7 @@ export class QueueControlComponent implements OnInit {
   isFirstCallBack;
   applicationChangeFlag;
 
+  // Tool Tip Definitions
   constructor(public db: AngularFireDatabase,
               private route: ActivatedRoute,
               public userService: UserService,
