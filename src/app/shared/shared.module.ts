@@ -40,6 +40,7 @@ import {ModalModule} from "ngx-bootstrap/modal";
     LoadingSpinnerComponent,
     NotificationComponent,
     NavbarComponent,
+    TooltipModule
   ],
   entryComponents:[
     ModalConfirmComponent,
