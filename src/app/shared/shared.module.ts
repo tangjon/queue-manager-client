@@ -12,7 +12,7 @@ import {ModalInputComponent} from './components/modals/modal-input/modal-input.c
 import {ModalServerErrorComponent} from './components/modals/modal-server-error/modal-server-error.component';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {ModalModule} from "ngx-bootstrap/modal";
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 /*
 * entryComponents: Modal components need to be here or they won't work
 * */
@@ -22,8 +22,9 @@ import {ModalModule} from "ngx-bootstrap/modal";
     CommonModule,
     MatSnackBarModule,
     AppRoutingModule,
-    TooltipModule.forRoot(),
-    ModalModule.forRoot()
+    // TooltipModule.forRoot(),
+    ModalModule.forRoot(),
+    MatTooltipModule
   ],
   declarations: [
     SidebarComponent,
@@ -40,7 +41,8 @@ import {ModalModule} from "ngx-bootstrap/modal";
     LoadingSpinnerComponent,
     NotificationComponent,
     NavbarComponent,
-    TooltipModule
+    // TooltipModule,
+    MatTooltipModule
   ],
   entryComponents:[
     ModalConfirmComponent,
