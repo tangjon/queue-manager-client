@@ -1,9 +1,8 @@
 <div class="text-center" id="qClipboard">
-  <div class="text-center">click to copy</div>
   <div class="input-group">
     <input type="text" class="form-control" [value]="clipBoardText" #inputTarget>
     <span class="input-group-btn">
-            <button class="btn btn-default" [class.btn-success]="isCopied2" type="button" [ngxClipboard]="inputTarget"
+            <button matTooltip="Click to copy" class="btn btn-default" [class.btn-success]="isCopied2" type="button" [ngxClipboard]="inputTarget"
                     (cbOnSuccess)="isCopied2 = true">copy</button>
         </span>
   </div>

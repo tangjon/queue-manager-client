@@ -39,3 +39,8 @@ a.nav-link {
   border-bottom: #2c3e50 10px solid;
   border-top: #2c3e50 10px solid;
 }
+
+/* Tooltips */
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+}
