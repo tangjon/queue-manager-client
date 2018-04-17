@@ -40,7 +40,18 @@ export class QueueControlComponent implements OnInit {
   isFirstCallBack;
   applicationChangeFlag;
 
+  // Fireball
+  MAX_INCIDENTS = 3;
+
   // Tool Tip Definitions
+  TIP_TOTAL_INCIDENTS = "Displays number of incidents assigned today";
+  TIP_FIREBALL = `User is on fire and has taken more than ${this.MAX_INCIDENTS} incidents`;
+  TIP_BUSY = 'Should ask user before assigning more';
+  TIP_AVAILABLE = 'Ready for incident assignment';
+  TIP_ADD_INCIDENT = 'Assign user an incident';
+  TIP_REMOVE_INCIDENT = 'Remove an incident from user';
+  TIP_REFRESH = "Green check mark is up to date. Orange is out sync";
+
   constructor(public db: AngularFireDatabase,
               private route: ActivatedRoute,
               public userService: UserService,

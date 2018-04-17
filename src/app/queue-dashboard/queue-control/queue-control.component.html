@@ -1,6 +1,6 @@
-<h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
+<h3 class="alert alert-danger error-message"  *ngIf="errorMessage">{{ errorMessage }}</h3>
 <h1 class="component-header">QM: {{id$ | async }}
-  <button class="qm-refresh btn" (click)="onRefresh()">
+  <button [matTooltip]="TIP_REFRESH" class="qm-refresh btn" (click)="onRefresh()">
     <i class="fa fa-check" *ngIf="!applicationChangeFlag" style="color: green"></i>
     <i class="fa fa-exclamation-circle" *ngIf="applicationChangeFlag" style="color: orange"></i>
     Refresh
@@ -17,7 +17,7 @@
       <th scope="col">Assign</th>
       <th scope="col">Remove</th>
       <th scope="col">{{ paramId }} Incidents</th>
-      <th scope="col">Total Incidents<span matTooltip="Tooltip!" matTooltipPosition="left" class="badge badge-success">+24hrs</span>
+      <th scope="col">Total Incidents<span [matTooltip]="TIP_TOTAL_INCIDENTS" matTooltipPosition="above" class="badge badge-success">+24hrs</span>
       </th>
       <th scope="col">AVG Q-DAY</th>
       <th scope="col">Status</th>
@@ -34,21 +34,21 @@
     <tbody *ngIf="!showSpinner">
     <tr
       *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
-      [class.high-workload]="getAssignmentCount(user) >= 3">
+      [class.high-workload]="getAssignmentCount(user) >= MAX_INCIDENTS">
       <th scope="row">
         {{i + 1}}
-        <img *ngIf="getAssignmentCount(user) >= 3" class="on-fire text-center" src="../../../assets/fireball.gif"
+        <img [matTooltip]="TIP_FIREBALL" matTooltipPosition="left" *ngIf="getAssignmentCount(user) >= MAX_INCIDENTS" class="on-fire text-center" src="../../../assets/fireball.gif"
              style="display: block">
       </th>
       <td>{{user.name + "(" + user.iNumber + ")"}}</td>
       <td>
 
-        <button (click)="onAddIncident(user)" class="btn btn-success">
+        <button [matTooltip]="TIP_ADD_INCIDENT" (click)="onAddIncident(user)" class="btn btn-success">
           <i class="fa fa-plus-square fa-sm"></i>
         </button>
       </td>
       <td>
-        <button (click)="onRemoveIncident(user)" class="btn btn-danger">
+        <button [matTooltip]="TIP_REMOVE_INCIDENT" (click)="onRemoveIncident(user)" class="btn btn-danger">
           <i class="fa fa-minus-square fa-sm"> </i>
         </button>
       </td>
@@ -65,9 +65,9 @@
       <td>
         <i *ngIf="getAssignmentCount(user).toString() as variable"
            class="fa fa-lg"
-           [ngClass]="{'fa-check-circle': variable < 3,'fa-minus-circle': variable >= 3}"
-           [ngStyle]="{'color' : variable < 3 ? 'green' : '#fb9121'  }"
-        >
+           [matTooltip]="variable >= MAX_INCIDENTS ? TIP_BUSY : TIP_AVAILABLE"
+           [ngClass]="{'fa-check-circle': variable < MAX_INCIDENTS,'fa-minus-circle': variable >= MAX_INCIDENTS}"
+           [ngStyle]="{'color' : variable < MAX_INCIDENTS ? 'green' : '#fb9121'  }">
         </i>
       </td>
       <td>
