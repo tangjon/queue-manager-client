@@ -17,15 +17,15 @@ export class AppComponent {
 
     this.afAuth.authState.subscribe((auth) => {
       if (auth) {
-        db.object('system-refresh').valueChanges().subscribe(() => {
-          // if (this.INITIALIZED) {
-          //   if (window.confirm("QMCD is requesting to refresh the browser. Please click ok for full functionality")) {
-          //     location.reload();
-          //   }
-          // } else {
-          //   this.INITIALIZED = true;
-          // }
-        })
+      //   db.object('system-refresh').valueChanges().subscribe(() => {
+      //     // if (this.INITIALIZED) {
+      //     //   if (window.confirm("QMCD is requesting to refresh the browser. Please click ok for full functionality")) {
+      //     //     location.reload();
+      //     //   }
+      //     // } else {
+      //     //   this.INITIALIZED = true;
+      //     // }
+      //   })
       }
     });
 
