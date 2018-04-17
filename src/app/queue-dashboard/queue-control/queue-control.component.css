@@ -42,3 +42,8 @@ tr.high-workload{
   color: white;
 
 }
+
+/* Tooltips */
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+}

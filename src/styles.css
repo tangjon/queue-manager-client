@@ -112,7 +112,4 @@ a.nav-link.active {
 
 /*                     */
 
-/* Tooltips */
-::ng-deep .mat-tooltip {
-  font-size: 14px;
-}
+
