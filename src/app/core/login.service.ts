@@ -14,7 +14,7 @@ export class LoginService {
   KEY_CACHE_INUMBER = environment.KEY_CACHE_INUMBER;
   user: User;
 
-  regEx = "(\\bhttp[s]?\\b).*(\\berror\\b) | (\\d{3})";
+  regEx = "(\\bHttp\\b).*(\\bError\\b)|(\\b\\d{3}\\b)";
 
   constructor(private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
 
@@ -29,8 +29,9 @@ export class LoginService {
         localStorage[this.KEY_CACHE_INUMBER] = this.user.iNumber;
       },
       (err: any) => {
-        console.log(err);
-        if (!new RegExp(this.regEx,'i').exec(err || err.message) && iNumber !== 'admin') {
+        let isDataBaseDown = new RegExp(this.regEx,'i').exec(err || err.message)
+        console.log(isDataBaseDown);
+        if (!isDataBaseDown && iNumber !== 'admin') {
           // This is all dialog for secondary login
           let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent, {
             animated: true,
