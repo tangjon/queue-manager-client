@@ -9,8 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "ng build --output-path=prod-build --env=prod",
-    "build-dev": "ng build --output-path=dev-buld",
+    "build-prod": "ng build --output-path=build-prod --env=prod",
+    "build-dev": "ng build --output-path=build-dev",
     "deploy": "git subtree push --prefix dist origin hana"
   },
   "private": true,

@@ -1,6 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
-/prod-build
-/dev-build
+/build-prod
+/build-dev
 /last-build/*
 firebase-debug.log
 # compiled output
