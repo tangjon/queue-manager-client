@@ -10,7 +10,7 @@ export class User {
   usagePercent: number;
   currentQDays: number;
   supportBook: SupportBook;
-
+  i_threshold: number;
   // Needs to be able to read user-set object from db
   constructor(user) {
     this.iNumber = user.iNumber || user.INUMBER;
@@ -24,6 +24,7 @@ export class User {
     this.supportBook = user.supportBook || new SupportBook();
     this.currentQDays = user.currentQDays || parseFloat(user.CURRENTQDAYS) || 0; // this is passed as a string from the server .... idk why
     this.usagePercent = user.usagePercent || parseFloat(user.USAGEPERCENT) || 1.0;
+    this.i_threshold = user.i_threshold || parseInt(user.I_THRESHOLD) || 3
   }
 
   getStatus(): string {
