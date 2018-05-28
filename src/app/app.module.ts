@@ -14,6 +14,7 @@ import {SettingsModule} from "./settings/settings.module";
 import {AboutComponent} from './about/about.component';
 import {RccDashboardModule} from "./rcc-dashboard/rcc-dashboard.module";
 import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
+import {PatchNotesComponent} from './patch-notes/patch-notes.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
     LoginComponent,
     ActivityLogComponent,
     NoticeBoardComponent,
-    AboutComponent
+    AboutComponent,
+    PatchNotesComponent
   ],
   imports: [
     BrowserModule,
