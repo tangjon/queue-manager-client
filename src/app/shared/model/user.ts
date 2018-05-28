@@ -1,6 +1,9 @@
 import {IncidentBook} from "./incident_book";
 import {SupportBook} from "./support_book";
 
+/*
+* Modifying the model required changes to user related services as well
+* */
 export class User {
   iNumber: string;
   name: string;
