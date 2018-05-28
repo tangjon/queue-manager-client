@@ -79,10 +79,13 @@ export class TeamManagerComponent {
   }
 
   toggleRole(user: User, role: string) {
-    let currBool = user.hasRole(role);
-    this.userService.updateSupport(user, role, !currBool).subscribe(t => {
-      user.supportBook.areas[role] = !user.hasRole(role);
-    })
+    if (window.confirm(`Are you sure you want to toggle '${role}' for ${user.name}`)) {
+      let currBool = user.hasRole(role);
+      this.userService.updateSupport(user, role, !currBool).subscribe(t => {
+        user.supportBook.areas[role] = !user.hasRole(role);
+      })
+    }
+
   }
 
   onAddUser(f: NgForm) {
