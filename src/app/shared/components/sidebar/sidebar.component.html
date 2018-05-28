@@ -1,7 +1,7 @@
 <div id="sidebar-wrapper" class="py-3">
   <div id="sidebar-nav" class="shadow-bottom">
-    <div id="sidebar-quick-notes">
-      <ul class="navbar-nav text-white p-2 py-4">
+    <div id="sidebar-quick-notes" class="sidebar-card">
+      <ul class="navbar-nav text-white">
         <li>
           <h5>QM Procedure</h5>
         </li>
@@ -14,9 +14,12 @@
       </ul>
     </div>
     <!--Additional Side bar support!-->
-    <!--<div id="sidebar-next-reset-date">-->
-    <!--...-->
-    <!--</div>-->
+    <div class="sidebar-card">
+      <h5>Tool Updates</h5>
+      <div>Last Updated: {{ appLastUpdate}}</div>
+      <div>App Version: {{ appVersion }}</div>
+      <a routerLink="/patch">Patch Notes</a>
+    </div>
   </div>
 
 </div>

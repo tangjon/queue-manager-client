@@ -14,16 +14,16 @@ import {SettingsModule} from "./settings/settings.module";
 import {AboutComponent} from './about/about.component';
 import {RccDashboardModule} from "./rcc-dashboard/rcc-dashboard.module";
 import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
-import {DashboardModule} from "./dashboard/dashboard.module";
-import { ModalModule } from 'ngx-bootstrap/modal';
-import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {PatchNotesComponent} from './patch-notes/patch-notes.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ActivityLogComponent,
     NoticeBoardComponent,
-    AboutComponent
+    AboutComponent,
+    PatchNotesComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +35,7 @@ import {TooltipModule} from "ngx-bootstrap/tooltip";
     SharedModule,
     AppRoutingModule,
     SettingsModule,
-    CoreModule,
-    DashboardModule
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

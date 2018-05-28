@@ -5,7 +5,7 @@ import {SettingsComponent} from "./settings/settings.component";
 import {AboutComponent} from "./about/about.component";
 import {RccDashboardComponent} from "./rcc-dashboard/rcc-dashboard.component";
 import {TeamDashboardComponent} from "./team-dashboard/team-dashboard.component";
-import {DashboardComponent} from "./dashboard/dashboard.component";
+import {PatchNotesComponent} from "./patch-notes/patch-notes.component";
 
 const appRoutes: Routes = [
   {
@@ -19,7 +19,7 @@ const appRoutes: Routes = [
   // {path: 'qm/:id', component: QueueDashboardComponent},
   {path: 'settings', component: SettingsComponent},
   {path: 'about', component: AboutComponent},
-  {path: 'dashboard', component: DashboardComponent}
+  {path: 'patch', component: PatchNotesComponent}
 ];
 
 

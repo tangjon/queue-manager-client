@@ -91,18 +91,19 @@ export class UserSetService {
   }
 
   private generateBody(user: User) {
-    // noinspection SpellCheckingInspection
+    // noinspection
     return {
       INUMBER: user.iNumber,
       NAME: user.name,
       KEY: user.key,
       ISAVAILABLE: user.isAvailable.toString(),
       CURRENTQDAYS: user.currentQDays.toString(),
-      USAGEPERCENT: user.usagePercent.toString()
+      USAGEPERCENT: user.usagePercent.toString(),
+      I_THRESHOLD: user.i_threshold.toString(),
     };
   }
 
   private handleError(error: HttpErrorResponse) {
-    if(error.statusText==="Unknown Error") return new ErrorObservable(`Something went wrong: ${error.message}`);
+    if (error.statusText === "Unknown Error") return new ErrorObservable(`Something went wrong: ${error.message}`);
   }
 }
