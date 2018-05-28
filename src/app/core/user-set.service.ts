@@ -92,8 +92,6 @@ export class UserSetService {
 
   private generateBody(user: User) {
     // noinspection
-    user.i_threshold = 4;
-    console.log(user);
     return {
       INUMBER: user.iNumber,
       NAME: user.name,
