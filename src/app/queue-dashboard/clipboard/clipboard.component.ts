@@ -7,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ClipboardComponent implements OnInit {
   clipBoardText = '[EPM_QM_ASSIGNED]';
-
+  isCopied = false;
   constructor() {
   }
 

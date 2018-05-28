@@ -9,12 +9,12 @@
     </div>
     <div class="row">
       <div class="col-sm-3">Current Quarter</div>
-      <div class="col">{{getQuarter()}}</div>
+      <div class="col">{{getQuarter(null)}}</div>
     </div>
     <div class="row">
       <div class="col-sm-3">Next Reset in Days</div>
-      <div class="col" *ngIf="daysLeftInQuarter()">{{getResetDays()}}</div>
-      <div class="col" *ngIf="!daysLeftInQuarter()">
+      <div class="col" *ngIf="daysLeftInQuarter(null)">{{getResetDays(null)}}</div>
+      <div class="col" *ngIf="!daysLeftInQuarter(null)">
         <button class="btn btn-danger" style="width:100%" routerLink="/settings" routerLinkActive="active">TODAY (END OF QUARTER)</button>
       </div>
     </div>
