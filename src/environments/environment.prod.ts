@@ -1,6 +1,6 @@
 export const environment = {
   // Meta Data
-  appVersion: 'v2.22',
+  appVersion: 'v2.3.1',
   last_updated: 'May 28, 2018',
   appName: 'Queue Manager Cloud Dispatcher',
   appShort: 'QMCD',
