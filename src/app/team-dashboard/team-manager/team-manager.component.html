@@ -1,88 +1,97 @@
+<h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
+<div id="team-manger" class="qm-tbl mt-3">
+  <h1 class="component-header" id="team-manger-component-header">Team Management</h1>
+  <!-- Table heading -->
+  <div class="qm-tbl-header shadow">
+    <div class=" row">
+      <div class="text-center col-sm-1">#</div>
+      <div class="col">Name</div>
+      <div class="col">INumber</div>
+      <div class="col">Threshold</div>
+      <div class="col">% Usage</div>
+      <div class="col">Actions</div>
+    </div>
+  </div>
+  <!-- Table body -->
+  <!--TODO THIS HAS TERRIBLE UI-->
+  <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
+  <div class="qm-tbl-row shadow" *ngFor="let user of userList; let i = index">
+    <div class="row"></div>
+    <!--META-->
+    <div class="row">
+      <div class="text-center col-sm-1">{{i + 1}}</div>
+      <div class="col">
+        <input type="text" #updateName [value]="user.name"/>
+      </div>
+      <div class="col">
+        <input type="text" #updateiNumber [value]="user.iNumber"/>
+      </div>
+      <div class="col">
+        <input type="number" #updateThreshold [value]="user.i_threshold"/>
+      </div>
+      <div class="col">
+        <input type="number" #updateUsage [value]="user.usagePercent"/>
+      </div>
 
-
-  <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-  <div id="team-manger" class="qm-tbl mt-3">
-    <h1 class="component-header" id="team-manger-component-header">Team Management</h1>
-    <!-- Table heading -->
-    <div class="qm-tbl-header shadow">
-      <div class=" row">
-        <div class="text-center col-sm-1">#</div>
-        <div class="col">Name</div>
-        <div class="col">INumber</div>
-        <div class="col">% Usage</div>
-        <div class="col">Actions</div>
+      <div class="col">
+        <button
+          (click)="updateItem(user, updateName.value, updateiNumber.value,updateUsage.value, updateThreshold.value)">
+          Update
+        </button>
+        <button (click)="deleteItem(user)">Delete</button>
       </div>
     </div>
-    <!-- Table body -->
-    <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
-    <div class="qm-tbl-row shadow" *ngFor="let user of userList; let i = index">
-      <div class="row"></div>
-      <div class="row">
-        <div class="text-center col-sm-1">{{i + 1}}</div>
-        <div class="col">
-          <input type="text" #updateName [value]="user.name"/>
+    <!-- User roles -->
+    <div class="row qm-tbl-detail">
+      <div class="col-sm">
+        Roles:
+        <!-- <button type="button" class="btn btn-success" *ngFor="let supportBook of getRoles(user)"></button> -->
+        <span class="badge badge-success" *ngFor="let role of productList"><div
+          *ngIf="this.user.hasRole(role)">{{role}}</div></span>
+      </div>
+      <div class="col-sm-2 text-right">
+        Toggle Roles:
+      </div>
+      <div class="col-sm-4 text-left roll-change-panel">
+        <button *ngFor="let role of productList" (click)="toggleRole(user,role)" class="badge"
+                [class.badge-success]="this.user.hasRole(role)"
+                [class.badge-danger]="!this.user.hasRole(role)">{{ role }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form class="qm-form shadow mb-4" #addUserForm="ngForm" (ngSubmit)="onAddUser(addUserForm)">
+  <div class="form-row mb-2">
+    <div class="col">
+      <label>Name</label>
+      <input type="text" class="form-control" #name="ngModel" name="name" placeholder="ex. John" required
+             minlength="3" ngModel>
+      <div *ngIf="name.invalid && (name.dirty || name.touched)"
+           class="alert alert-danger">
+        <div *ngIf="name?.errors.required">
+          Name is required
         </div>
-        <div class="col">
-          <input type="text" #updateiNumber [value]="user.iNumber"/>
-        </div>
-        <div class="col">
-          <input type="number" #updateUsage [value]="user.usagePercent"/>
-        </div>
-        <div class="col">
-          <button (click)="updateItem(user, updateName.value, updateiNumber.value,updateUsage.value )">Update</button>
-          <button (click)="deleteItem(user)">Delete</button>
+        <div *ngIf="name?.errors.minlength">
+          Name must be at least 3 characters long.
         </div>
       </div>
-      <!-- User roles -->
-      <div class="row qm-tbl-detail">
-        <div class="col-sm">
-          Roles:
-          <!-- <button type="button" class="btn btn-success" *ngFor="let supportBook of getRoles(user)"></button> -->
-          <span class="badge badge-success" *ngFor="let role of productList"><div *ngIf="this.user.hasRole(role)">{{role}}</div></span>
+    </div>
+    <div class="col">
+      <label>iNumber</label>
+      <input type="text" class="form-control" #iNumber="ngModel" name="iNumber" placeholder="ex. i123456" required
+             minlength="7" ngModel>
+      <div *ngIf="iNumber.invalid && (iNumber.dirty || iNumber.touched)"
+           class="alert alert-danger">
+        <div *ngIf="iNumber?.errors.required">
+          iNumber is required.
         </div>
-        <div class="col-sm-2 text-right">
-          Toggle Roles:
-        </div>
-        <div class="col-sm-4 text-left roll-change-panel">
-          <button *ngFor="let role of productList" (click)="toggleRole(user,role)" class="badge"
-                  [class.badge-success]="this.user.hasRole(role)"
-                  [class.badge-danger]="!this.user.hasRole(role)">{{ role }}
-          </button>
+        <div *ngIf="iNumber?.errors.minlength">
+          iNumber must be at least 7 characters long.
         </div>
       </div>
     </div>
   </div>
-
-  <form class="qm-form shadow mb-4" #addUserForm="ngForm" (ngSubmit)="onAddUser(addUserForm)">
-    <div class="form-row mb-2">
-      <div class="col">
-        <label>Name</label>
-        <input type="text" class="form-control" #name="ngModel" name="name" placeholder="ex. John" required
-               minlength="3" ngModel>
-        <div *ngIf="name.invalid && (name.dirty || name.touched)"
-             class="alert alert-danger">
-          <div *ngIf="name?.errors.required">
-            Name is required
-          </div>
-          <div *ngIf="name?.errors.minlength">
-            Name must be at least 3 characters long.
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <label>iNumber</label>
-        <input type="text" class="form-control" #iNumber="ngModel" name="iNumber" placeholder="ex. i123456" required
-               minlength="7" ngModel>
-        <div *ngIf="iNumber.invalid && (iNumber.dirty || iNumber.touched)"
-             class="alert alert-danger">
-          <div *ngIf="iNumber?.errors.required">
-            iNumber is required.
-          </div>
-          <div *ngIf="iNumber?.errors.minlength">
-            iNumber must be at least 7 characters long.
-          </div>
-        </div>
-      </div>
-    </div>
-    <button type="submit" [disabled]="!addUserForm.valid" class="btn btn-primary mb-2">Add User</button>
-  </form>
+  <button type="submit" [disabled]="!addUserForm.valid" class="btn btn-primary mb-2">Add User</button>
+</form>

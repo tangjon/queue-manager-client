@@ -5,6 +5,7 @@ import {User} from '../../shared/model/user';
 import {UserService} from '../../core/user.service';
 import {NgForm} from '@angular/forms'
 import {ProductService} from "../../core/product.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-team-manager',
@@ -20,7 +21,7 @@ export class TeamManagerComponent {
 
   productList: string[];
 
-  constructor(public db: AngularFireDatabase, public userService: UserService, public productService: ProductService) {
+  constructor(public db: AngularFireDatabase, public userService: UserService, public productService: ProductService, public snackBar: MatSnackBar) {
     this.fetchProducts();
     // Get Users
     this.users = userService.getUsers();
@@ -53,13 +54,14 @@ export class TeamManagerComponent {
     }
   }
 
-  updateItem(user: User, fName: string, iNumber: string, usage: string) {
-    if (user && fName && iNumber && usage) {
-      let iUsage = parseFloat(usage);
+  updateItem(user: User, fName: string, iNumber: string, usage: string, i_threshold: string) {
+    if (user && fName && iNumber && usage && i_threshold) {
       user.name = fName;
       user.iNumber = iNumber;
-      user.usagePercent = iUsage;
+      user.usagePercent = parseFloat(usage);
+      user.i_threshold = parseInt(i_threshold);
       this.userService.updateUser(user).subscribe(r => {
+        this.snackBar.open("Update successful", "Close", {duration: 3000})
       });
     }
 
