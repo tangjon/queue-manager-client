@@ -3,11 +3,9 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../../shared/model/user';
 import {UserService} from '../../core/user.service';
-import {LogService} from '../../core/log.service';
 import {MatSnackBar} from "@angular/material";
 import * as $ from 'jquery';
 import {BsModalService} from "ngx-bootstrap";
-import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {ModalInputComponent} from "../../shared/components/modals/modal-input/modal-input.component";
 
@@ -60,6 +58,7 @@ export class RccManagementComponent implements OnInit {
           user.currentQDays = r;
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
+          this.matSnackBar.open("Update successful", "Close", {duration: 2000})
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         })
@@ -69,11 +68,11 @@ export class RccManagementComponent implements OnInit {
     })
   }
 
+  // TODO clean up add queue day functions
   // Increment by one
-  addQueueDay(user: User) {
-    let pVal = prompt(`Enter the amount you want to add for ${user.name}`);
+  addQueueDay(user: User, addAmount) {
     // parseBody value
-    let amount = parseFloat(pVal);
+    let amount = parseFloat(addAmount);
     if (!isNaN(amount)) {
       if (window.confirm(`${user.name} will have ${user.currentQDays} increased by ${amount} to ${user.currentQDays + amount}. \nClick okay to confirm`)) {
         let newAmount = user.currentQDays + amount;
@@ -81,6 +80,7 @@ export class RccManagementComponent implements OnInit {
           user.currentQDays = r;
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
+          this.matSnackBar.open("Update successful", "Close", {duration: 2000})
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         })
@@ -96,8 +96,9 @@ export class RccManagementComponent implements OnInit {
       if (window.confirm(`${user.name} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
         this.userService.updateQueueDays(user, amount).subscribe(r => {
           user.currentQDays = r;
+          this.matSnackBar.open("Update successful", "Close", {duration: 2000})
         }, err => {
-          this.matSnackBar.open("Error occured: " + err.message, "Close");
+          this.matSnackBar.open("Error occurred: " + err.message, "Close");
         })
       }
     }
