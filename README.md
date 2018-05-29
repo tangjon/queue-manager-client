@@ -1,6 +1,6 @@
 # Queue Manager Web App 2.0
 
-An unofficial tool to aid and assist in daily operations and reduce redundency. An improvement of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher
+An unofficial tool to aid and assist Support Engineers assign and distribute customer incidents. This is an overhaul of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher.
 
 ## Getting Started
 
@@ -17,22 +17,24 @@ What things you need to install the software and how to install them
 
 ### Installing
 
-1. Install Node.Js [I'm an inline-style link](https://www.google.com)
-
-In the command line with Node.Js installed
-
+1. Install [Node.js](https://nodejs.org/en/)
+2. Through the Node Js command line run:
 ```
 npm install // should install all dependencies
 ```
 
 ## Local Development
-Please note that local development is on a seperate API/Database. Changes will not be made to the production system
+Please note that local development is on a seperate API/Database. Changes will not be made to the production system.
+
+To start application run:
 ```
 ng serve
 ```
 
 ## Deployment to Production
-Build static folder 'last-build' with this:
+Compile the application into static folder with static files
+
+To compile the folder:
 ```
 npm run build-prod
 ```
@@ -46,13 +48,12 @@ git deploy
 ```
 
 ### WAY 2
-Copy folder 'last-build' somewhere outside of the working directory i.e Desktop. Then commit and push files to a different repo.
+Copy folder 'build-prod' somewhere outside of the working directory i.e Desktop. Then commit and push files to a different repo.
 ```
 git remote add origin https://gitlab.com/tangjon/Queue-Manager-FB-AJS.git
 git add . // add everything
 git commit -m "deploy" // message can be anything really
 git push -f // probably will ask to you to push upstream do that.
-
 ```
 ### Deploy to Cloud Platform
 Head over to Hana Cloud Cockpit & Navigate to Web IDE
