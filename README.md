@@ -14,6 +14,7 @@ What things you need to install the software and how to install them
 2. Angular Firebase
 3. Angular-Cli
 4. Angular Firebase Tools (Not needed)
+5. Git Bash
 
 ### Installing
 
@@ -38,26 +39,13 @@ To compile the folder:
 ```
 npm run build-prod
 ```
-
-### WAY 1 (SHORTER with git alias)
-In a separate folder:
+### Phase 1: Push to repositories
 ```
-clone https://gitlab.com/tangjon/Queue-Manager-Build.git
-Copy and replace all files in here with 'last-build' files. Don't overwrite .git folder
-git deploy
+Double click on deploy.sh through Windows - pushes application
+Double click on deploy-doc.sh through Windows - pushes docs
 ```
-
-### WAY 2
-Copy folder 'build-prod' somewhere outside of the working directory i.e Desktop. Then commit and push files to a different repo.
-```
-git remote add origin https://gitlab.com/tangjon/Queue-Manager-FB-AJS.git
-git add . // add everything
-git commit -m "deploy" // message can be anything really
-git push -f // probably will ask to you to push upstream do that.
-```
-### Deploy to Cloud Platform
+### Phase 2: Deploy to Cloud Platform
 Head over to Hana Cloud Cockpit & Navigate to Web IDE
-   * Hit Reset Button (HARD)
    * Hit Pull
    * Right Click Project Folder -> Hana Cloud -> Deploy Existing 'queuemanager'
    * DONE!
