@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -d ./build-prod  ]; then
-   cp -r ./build-prod ../QMBUILDPROD
+  cp -r ./build-prod ../QMBUILDPROD
 	cd ..
 	cd ./QMBUILDPROD
 	git init .
