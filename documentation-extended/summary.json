@@ -5,6 +5,18 @@
   },
   {
     "title": "Manual Queue Dispatcher",
-    "file": "queue_dispatcher.md"
+    "file": "./queue_dispatcher/queue_dispatcher.md"
+  },
+  {
+    "title": "Manage Team",
+    "file": "./manage_team/manage_team.md"
+  },
+  {
+    "title": "RCC",
+    "file": "./rcc/rcc.md"
+  },
+  {
+    "title": "Settings",
+    "file": "./settings/settings.md"
   }
 ]
