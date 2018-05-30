@@ -2,9 +2,9 @@
 if [ -d ./documentation  ]; then
   cp -r ./documentation ../QMDOCS
 	cd ..
-	cd ./QMBUILDPROD
+	cd ./QMDOCS
 	git init .
-	git remote add origin https://git.hanatrial.ondemand.com/p2000140239trial/queuemanagerdocumentation
+	git remote add origin https://gitlab.com/tangjon/Queue-Manager-Docs.git
 	git add .
 	git commit -m "Static Deploy"
 	git push origin master --force
