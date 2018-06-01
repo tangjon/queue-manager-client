@@ -1,8 +1,22 @@
 # Queue Manager Web App 2.0 Patch Notes
 
-# **Depricated see Changelogs folder**
+# QM v2.3.1
+Custom Thresholds, patches, improvements
+*  Support for custom incident thresholds (maximum incidents assigned per day)
+*  Confirmation before changing roles in Team Manager
+*  Quick add +1 when doing queue days
 
-## QM v2.1
+## QM v2.20
+- Support for adding new components
+- iNumbers are no longer case sensitive
+- New Settings sections to maintain the tool.
+- Time shift info
+
+
+# QM v2.11
+- Refactor services
+
+# QM v2.10
 - Improved UI
 - Cleaner code
 - Works only in Chrome
@@ -24,24 +38,5 @@
 ###  Quick Notes Sidebar
 - WIP but present
 
-## QM v2.2 (Current)
-- Support for adding new components
-- iNumbers are no longer case sensitive
-- New Settings sections to maintain the tool.
-- Time shift info
 
-# Features on the way...
-- Weather [LOW]
-- Archiving on reset [MED]
-- I.E Support....
-
-# Noted Bugs
-- Mastery Reset Button is buggy
-
-## QM v2.0
-Initial Release that contains all features of the original.
-- More user friendly
-- Improved Team Management, RCC, QM Dashboard
-- Login screen
-
-
+`

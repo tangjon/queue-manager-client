@@ -2,6 +2,8 @@
 
 An unofficial tool to aid and assist Support Engineers assign and distribute customer incidents. This is an overhaul of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher.
 
+Live link: https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -20,6 +22,7 @@ What things you need to install the software and how to install them
 
 1. Install [Node.js](https://nodejs.org/en/)
 2. Through the Node Js command line run:
+
 ```
 npm install // should install all dependencies
 ```
@@ -61,7 +64,7 @@ These links are all you need
 * [AngularFire2](https://www.npmjs.com/package/angularfire2)
 * [Angular](https://angular.io/) - Front-end web framework
 * [NodeJs](https://nodejs.org/en/) - Dependency Management
-* [Boostrap](https://getbootstrap.com/) - Styling
+* [Bootstrap](https://getbootstrap.com/) - Styling
 * [Font-Awesome](https://fontawesome.com/) - Styling
 
 

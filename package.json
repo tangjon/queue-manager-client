@@ -12,7 +12,8 @@
     "build-prod": "ng build --prod --output-path=build-prod --env=prod",
     "build-dev": "ng build --dev --output-path=build-dev --env=dev",
     "deploy": "git subtree push --prefix dist origin hana",
-    "compodoc": "compodoc -p src/tsconfig.app.json -w -s --includes ./documentation-extended"
+    "compodoc": "compodoc -p src/tsconfig.app.json -w -s --includes ./documentation-extended -a ./documentation-extended/assets --name QMDocs",
+    "compodoc-build": "compodoc -p src/tsconfig.app.json --includes ./documentation-extended -a ./documentation-extended/assets --name QMDocs"
   },
   "private": true,
   "dependencies": {
