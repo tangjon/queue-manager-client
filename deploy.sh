@@ -4,6 +4,7 @@ if [ -d ./build-prod  ]; then
 	cd ..
 	cd ./QMBUILDPROD
 	git init .
+	echo "" > .gitignore
 	git remote add origin https://gitlab.com/tangjon/Queue-Manager-Build.git
 	git add .
 	git commit -m "Static Deploy"

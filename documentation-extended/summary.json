@@ -18,5 +18,9 @@
   {
     "title": "Settings",
     "file": "./settings/settings.md"
+  },
+  {
+    "title": "Hana Cloud Cockpit",
+    "file": "./hcp/hcp.md"
   }
 ]

@@ -4,6 +4,7 @@ if [ -d ./documentation  ]; then
 	cd ..
 	cd ./QMDOCS
 	git init .
+	echo "" > .gitignore
 	git remote add origin https://gitlab.com/tangjon/Queue-Manager-Docs.git
 	git add .
 	git commit -m "Static Deploy"
