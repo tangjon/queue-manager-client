@@ -12,13 +12,20 @@ export class NavbarComponent implements OnInit {
   appShort = environment.appShort;
   isProd = environment.production;
   dEnvironmentMsg = 'DEVELOPMENT';
-  qmdoclink = "https://queuemanagerdocumentation-p2000140239trial.dispatcher.hanatrial.ondemand.com/additional-documentation/introduction.html"
+  qmdoclink = "https://queuemanagerdocumentation-p2000140239trial.dispatcher.hanatrial.ondemand.com/additional-documentation/introduction.html";
+
   constructor(public loginService: LoginService) {
   }
 
   ngOnInit(): void {
     const cachedINumber = localStorage[environment.KEY_CACHE_INUMBER];  // look at cache
+    console.log(this.loginService.user);
     this.loginService.signIn(cachedINumber);
+
+    setTimeout(()=>{
+      console.log(this.loginService.user)
+
+    }, 3000)
   }
 
   logout() {

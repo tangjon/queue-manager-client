@@ -11,10 +11,8 @@ import {environment} from "../../environments/environment";
 @Injectable()
 export class LoginService {
   // Component Variables
-  KEY_CACHE_INUMBER = environment.KEY_CACHE_INUMBER;
-  user: User;
-
-  regEx = "(\\bHttp\\b).*(\\bError\\b)|(\\b\\d{3}\\b)";
+  public KEY_CACHE_INUMBER = environment.KEY_CACHE_INUMBER;
+  public user: User;
 
   constructor(private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
 
@@ -32,8 +30,7 @@ export class LoginService {
         if (err.status === 0) {
           this.showDataBaseDown(err)
         } else {
-          // This is all dialog for secondary login
-          this.promptINumber()
+          this.promptINumber();
         }
       }
     )
@@ -51,7 +48,6 @@ export class LoginService {
     bsModalRef.content.onConfirm.subscribe((input: string) => this.signIn(input.toLowerCase()));
     bsModalRef.content.onCancel.subscribe(() => this.signIn(null));
     bsModalRef.content.onHide.subscribe(() => this.signOut());
-
   }
 
   showDataBaseDown(err) {
@@ -71,6 +67,7 @@ export class LoginService {
 
   signOut() {
     localStorage.clear();
+    this.user = null;
     this.afAuth.auth.signOut();
   }
 }
