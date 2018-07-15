@@ -46,16 +46,17 @@ export class LoginService {
           bsModalRef.content.onHide.subscribe(() => this.signOut());
         } else {
           // This is all dialog for server error
-          let bsModalRef: ModalInterface = this.modalService.show(ModalServerErrorComponent, {
-            animated: true,
-            keyboard: false,
-            focus: true,
-            ignoreBackdropClick: true
-          });
-          bsModalRef.content.title = "Well this is embarrassing...";
-          bsModalRef.content.message = err;
-          bsModalRef.content.onConfirm.subscribe(() => location.reload());
-          bsModalRef.content.onHide.subscribe(() => this.signOut());
+          // TODO RE-ENABLE AFTER SQL INTEGRATION
+          // let bsModalRef: ModalInterface = this.modalService.show(ModalServerErrorComponent, {
+          //   animated: true,
+          //   keyboard: false,
+          //   focus: true,
+          //   ignoreBackdropClick: true
+          // });
+          // bsModalRef.content.title = "Well this is embarrassing...";
+          // bsModalRef.content.message = err;
+          // bsModalRef.content.onConfirm.subscribe(() => location.reload());
+          // bsModalRef.content.onHide.subscribe(() => this.signOut());
         }
       }
     )

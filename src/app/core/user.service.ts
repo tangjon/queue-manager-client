@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {User} from '../shared/model/user';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
@@ -13,7 +12,7 @@ import {IncidentBookService} from "./incident-book.service";
 import {SupportBookService} from "./support-book.service";
 import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-
+import {User} from "../shared/model-1/user";
 import 'rxjs/add/observable/throw';
 
 @Injectable()
@@ -40,14 +39,19 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    this.http.get(this.api).subscribe(res => {
-      console.log(res)
-    });
-    forkJoin([
-      this.http.get(this.api)
-    ]).subscribe(res => {
-      console.log(res)
-    });
+    return this.http.get(this.api)
+      .map((resp: any) => {
+          // verify response
+          if (resp.code === 200) {
+            return resp.data.map(el =>
+              // populate the User Model
+              new User1(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.incident_counts, el.supported_products)
+            )
+          } else {
+            return Observable.throw(new ErrorObservable("Error"));
+          }
+        }
+      );
 
     return this.userSetService.getUserSets().switchMap((users: User[]) => {
       const userbatch$ = [];
