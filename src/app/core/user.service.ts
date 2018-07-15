@@ -52,22 +52,6 @@ export class UserService {
           }
         }
       );
-
-    // return this.userSetService.getUserSets().switchMap((users: User[]) => {
-    //   const userbatch$ = [];
-    //   users.forEach(user => {
-    //     userbatch$.push(
-    //       forkJoin([this.incidentBookService.get(user.key), this.supportBookService.get(user.key)])
-    //         .map(data => {
-    //           const [incidentBook, supportBook] = data;
-    //           user.incidentBook.set(incidentBook);
-    //           user.supportBook.set(supportBook);
-    //           return user;
-    //         })
-    //     );
-    //   });
-    //   return forkJoin(userbatch$);
-    // });
   }
 
   getUserByNumber(iNumber: string): Observable<User> {
@@ -252,7 +236,6 @@ export class UserService {
   }
 
   handleError(error?: HttpErrorResponse, message?: string) {
-    console.log(error);
     if (message.length == 0) {
       message = "Something went wrong"
     }
@@ -271,8 +254,14 @@ export class UserService {
         // }
       }
     }
+    if(error.status === 0){
+      message = "DATABASE IS DOWN :: " + message;
+    }
     console.log(error);
-    return new ErrorObservable(`${message}: ${error.message || error}`);
+    return new ErrorObservable({
+      "status" : error.status,
+      "message" : `${message} : ${error.message}`
+    })
   }
 
 }

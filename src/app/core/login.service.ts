@@ -27,39 +27,46 @@ export class LoginService {
     this.userService.getUserByNumber(iNumber.toLowerCase()).subscribe((user: User) => {
         this.user = user;
         localStorage[this.KEY_CACHE_INUMBER] = this.user.iNumber;
-      },
-      (err: any) => {
-        let isDataBaseDown = new RegExp(this.regEx,'i').exec(err || err.message);
-        console.log(isDataBaseDown);
-        if (!isDataBaseDown && iNumber !== 'admin') {
-          // This is all dialog for secondary login
-          let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent, {
-            animated: true,
-            keyboard: false,
-            focus: true,
-            ignoreBackdropClick: true
-          });
-          bsModalRef.content.title = "Please enter your INUMBER";
-          bsModalRef.content.message = "This will help the tool identify who you are. ie i123456";
-          bsModalRef.content.onConfirm.subscribe((input: string) => this.signIn(input.toLowerCase()));
-          bsModalRef.content.onCancel.subscribe(() => this.signIn(null));
-          bsModalRef.content.onHide.subscribe(() => this.signOut());
+      }, (err: any) => {
+        // SERVER IS DOWN
+        if (err.status === 0) {
+          this.showDataBaseDown(err)
         } else {
-          // This is all dialog for server error
-          // TODO RE-ENABLE AFTER SQL INTEGRATION
-          // let bsModalRef: ModalInterface = this.modalService.show(ModalServerErrorComponent, {
-          //   animated: true,
-          //   keyboard: false,
-          //   focus: true,
-          //   ignoreBackdropClick: true
-          // });
-          // bsModalRef.content.title = "Well this is embarrassing...";
-          // bsModalRef.content.message = err;
-          // bsModalRef.content.onConfirm.subscribe(() => location.reload());
-          // bsModalRef.content.onHide.subscribe(() => this.signOut());
+          // This is all dialog for secondary login
+          this.promptINumber()
         }
       }
     )
+  }
+
+  promptINumber() {
+    let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent, {
+      animated: true,
+      keyboard: false,
+      focus: true,
+      ignoreBackdropClick: true
+    });
+    bsModalRef.content.title = "Please enter your INUMBER";
+    bsModalRef.content.message = "This will help the tool identify who you are. ie i123456";
+    bsModalRef.content.onConfirm.subscribe((input: string) => this.signIn(input.toLowerCase()));
+    bsModalRef.content.onCancel.subscribe(() => this.signIn(null));
+    bsModalRef.content.onHide.subscribe(() => this.signOut());
+
+  }
+
+  showDataBaseDown(err) {
+    // This is all dialog for server error
+    // TODO RE-ENABLE AFTER SQL INTEGRATION
+    let bsModalRef: ModalInterface = this.modalService.show(ModalServerErrorComponent, {
+      animated: true,
+      keyboard: false,
+      focus: true,
+      ignoreBackdropClick: true
+    });
+    bsModalRef.content.title = "Well this is embarrassing...";
+    bsModalRef.content.message = err.message;
+    bsModalRef.content.onConfirm.subscribe(() => location.reload());
+    bsModalRef.content.onHide.subscribe(() => this.signOut());
   }
 
   signOut() {

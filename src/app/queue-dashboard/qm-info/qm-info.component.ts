@@ -29,7 +29,7 @@ export class QmInfoComponent implements OnInit {
           this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
         },
         err => {
-          alert(err);
+          alert(err.message);
         })
     }
 
