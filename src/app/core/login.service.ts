@@ -29,7 +29,7 @@ export class LoginService {
         localStorage[this.KEY_CACHE_INUMBER] = this.user.iNumber;
       },
       (err: any) => {
-        let isDataBaseDown = new RegExp(this.regEx,'i').exec(err || err.message)
+        let isDataBaseDown = new RegExp(this.regEx,'i').exec(err || err.message);
         console.log(isDataBaseDown);
         if (!isDataBaseDown && iNumber !== 'admin') {
           // This is all dialog for secondary login

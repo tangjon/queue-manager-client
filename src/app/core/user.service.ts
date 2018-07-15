@@ -12,7 +12,7 @@ import {IncidentBookService} from "./incident-book.service";
 import {SupportBookService} from "./support-book.service";
 import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {User} from "../shared/model-1/user";
+import {User} from "../shared/model/user";
 import 'rxjs/add/observable/throw';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class UserService {
   /* ERROR MESSAGES */
   USER_NOT_FOUND: string = "USER NOT FOUND";
   private api: string = environment.api + 'users/';
-  private qmapi: string = environment.apiUrl + "qm('current')";
+  private qmapi: string = environment.api + 'users/qm/';
   private userSource = new BehaviorSubject<User[]>([]);
 
   constructor(public db: AngularFireDatabase,
@@ -45,7 +45,7 @@ export class UserService {
           if (resp.code === 200) {
             return resp.data.map(el =>
               // populate the User Model
-              new User1(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.incident_counts, el.supported_products)
+              new User(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.incident_counts, el.supported_products)
             )
           } else {
             return Observable.throw(new ErrorObservable("Error"));
@@ -53,40 +53,36 @@ export class UserService {
         }
       );
 
-    return this.userSetService.getUserSets().switchMap((users: User[]) => {
-      const userbatch$ = [];
-      users.forEach(user => {
-        userbatch$.push(
-          forkJoin([this.incidentBookService.get(user.key), this.supportBookService.get(user.key)])
-            .map(data => {
-              const [incidentBook, supportBook] = data;
-              user.incidentBook.set(incidentBook);
-              user.supportBook.set(supportBook);
-              return user;
-            })
-        );
-      });
-      return forkJoin(userbatch$);
-    });
+    // return this.userSetService.getUserSets().switchMap((users: User[]) => {
+    //   const userbatch$ = [];
+    //   users.forEach(user => {
+    //     userbatch$.push(
+    //       forkJoin([this.incidentBookService.get(user.key), this.supportBookService.get(user.key)])
+    //         .map(data => {
+    //           const [incidentBook, supportBook] = data;
+    //           user.incidentBook.set(incidentBook);
+    //           user.supportBook.set(supportBook);
+    //           return user;
+    //         })
+    //     );
+    //   });
+    //   return forkJoin(userbatch$);
+    // });
   }
 
   getUserByNumber(iNumber: string): Observable<User> {
     if (!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
-    return this.userSetService.getUserSet({iNumber: iNumber.toLowerCase()}).switchMap(userSet => {
-      if (!userSet.length) throw new Error("User not found");
-      return forkJoin([
-        this.supportBookService.get(userSet[0].key),
-        this.incidentBookService.get(userSet[0].key)
-      ]).map(data => {
-        const [incidentBook, supportBook] = data;
-        let user = new User(userSet[0]);
-        user.incidentBook.set(incidentBook);
-        user.supportBook.set(supportBook);
-        return user;
-      })
-    }).pipe(
-      catchError((e) => this.handleError(e, "Failed to get user"))
-    )
+    const url = this.api + iNumber;
+    return this.http.get(url).map((resp: any) => {
+      if (resp.code === 200) {
+        return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.data.incident_counts, resp.data.supported_products)
+      } else {
+        throw new Error("User not found")
+      }
+    })
+      .pipe(
+        catchError((e) => this.handleError(e, "Failed to get user"))
+      )
   }
 
   getUserByKey(key): Observable<User> {
@@ -236,20 +232,19 @@ export class UserService {
   }
 
   getQM(): Observable<User> {
-    return this.http.get(this.qmapi, this.httpOptions).map((r: any) => {
-      return r.d.INUMBER;
-    })
-      .switchMap(iNumber => {
-        return this.getUserByNumber(iNumber);
-      }).pipe(catchError(e => this.handleError(e, "Failed to get QM")))
+    return this.http.get(this.qmapi).map((resp: any) => {
+      if (resp.code !== 200) throw new Error("error");
+      return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.data.incident_counts, resp.data.supported_products)
+    }).pipe(catchError(e => this.handleError(e, "Failed to get QM")))
   }
 
   setQM(iNumber: string) {
     return this.getUserByNumber(iNumber).switchMap(
       (user: User) => {
         // noinspection SpellCheckingInspection
+        console.log(user);
         const body = {
-          "INUMBER": user.iNumber
+          "user_id": user.iNumber
         };
         return this.http.put(this.qmapi, body, this.httpOptions);
       }

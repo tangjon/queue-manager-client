@@ -4,7 +4,6 @@ import {User} from '../../shared/model/user';
 import {Observable} from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireDatabase} from "angularfire2/database";
-import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-qm-info',
@@ -26,9 +25,6 @@ export class QmInfoComponent implements OnInit {
     let uInput = prompt("Enter the iNumber of QM");
     if (uInput && uInput.length) {
       this.userService.setQM(uInput.toLowerCase()).subscribe(() => {
-          // Change Cached I Number && Populate #qmUser for display
-          // this.db.object(environment.firebaseRootUrl + '/')
-          // this.userService.logService.setCachedINumber(uInput.toLowerCase());
           this.qmUser = this.userService.getQM();
           this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
         },
