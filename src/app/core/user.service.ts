@@ -25,6 +25,7 @@ export class UserService {
   };
   /* ERROR MESSAGES */
   USER_NOT_FOUND: string = "USER NOT FOUND";
+  private api: string = environment.api + 'users/';
   private qmapi: string = environment.apiUrl + "qm('current')";
   private userSource = new BehaviorSubject<User[]>([]);
 
@@ -34,10 +35,20 @@ export class UserService {
               public logService: LogService,
               public incidentBookService: IncidentBookService,
               public supportBookService: SupportBookService,
-              public productService: ProductService) {
+              public productService: ProductService,
+  ) {
   }
 
   getUsers(): Observable<User[]> {
+    this.http.get(this.api).subscribe(res => {
+      console.log(res)
+    });
+    forkJoin([
+      this.http.get(this.api)
+    ]).subscribe(res => {
+      console.log(res)
+    });
+
     return this.userSetService.getUserSets().switchMap((users: User[]) => {
       const userbatch$ = [];
       users.forEach(user => {
@@ -149,9 +160,9 @@ export class UserService {
           batchAdd$.push(this.incidentBookService.addComponent(user.key, productId));
         });
         batchAdd$.push(this.productService.addProduct(productId));
-      return forkJoin(batchAdd$).map(() => {
-        return true;
-      }).pipe(catchError(e => this.handleError(e, "Add Component Failed")))
+        return forkJoin(batchAdd$).map(() => {
+          return true;
+        }).pipe(catchError(e => this.handleError(e, "Add Component Failed")))
       }
     )
   }
@@ -164,9 +175,9 @@ export class UserService {
           batchAdd$.push(this.incidentBookService.removeComponent(user.key, productId));
         });
         batchAdd$.push(this.productService.removeProduct(productId));
-      return forkJoin(batchAdd$).map(() => {
-        return true
-      }).pipe(catchError(e => this.handleError(e, "Remove Component Failed")))
+        return forkJoin(batchAdd$).map(() => {
+          return true
+        }).pipe(catchError(e => this.handleError(e, "Remove Component Failed")))
       }
     )
   }
