@@ -48,6 +48,11 @@ export class User {
     return count;
   }
 
+
+  getIncidentAmount(productShortName: string): number {
+    return this.incidentCounts[productShortName];
+  }
+
   getSupportedProducts(): object {
     return this.supportedProducts;
   }
@@ -60,9 +65,6 @@ export class User {
     return [];
   }
 
-  getIncidentAmount(type: string): number {
-    return 0;
-  }
 
   getAverageQDay(): any {
     let avg;

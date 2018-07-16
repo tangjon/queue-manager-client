@@ -91,12 +91,12 @@ export class QueueControlComponent implements OnInit {
     let amount = 1;
     let bsModalRef: ModalInterface = this.modalService.show(ModalConfirmComponent);
     bsModalRef.content.title = "Incident Assignment";
-    bsModalRef.content.message = `You are assigning +${amount} incident(s) to ${user.name}(${user.iNumber})`;
+    bsModalRef.content.message = `You are assigning +${amount} incident(s) to ${user.name()}(${user.iNumber})`;
     bsModalRef.content.onCancel.subscribe(() => {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
       const currAmount = user.incidentCounts[this.paramId];
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+      this.userService.addIncident(user, this.paramId).subscribe(() => {
           // this.showSpinner = false;
           this.snackBar.open('Incident Added', 'Close', {duration: 1000});
           user.incidentCounts[this.paramId]++;
@@ -118,7 +118,7 @@ export class QueueControlComponent implements OnInit {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
       const currAmount = user.incidentCounts[this.paramId];
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
+      this.userService.removeIncident(user, this.paramId).subscribe(() => {
           this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
           user.incidentCounts[this.paramId]--;
           this.updateSummary();
@@ -127,42 +127,6 @@ export class QueueControlComponent implements OnInit {
         }
       );
     });
-  }
-
-  decIncidentAmount(user) {
-    const amount = -1;
-    const currAmount = user.incidentBook.data[this.paramId];
-    const prompt = window.prompt(`Removing ${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
-    if (prompt) {
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-          this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
-          user.incidentBook.data[this.paramId]--;
-          this.updateSummary();
-        }, error => {
-          this.errorHandler(error)
-        }
-      );
-    }
-
-  }
-
-  incIncidentAmount(user: User) {
-    const amount = 1;
-    const currAmount = user.incidentCounts[this.paramId];
-    const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
-    if (prompt) {
-      // this.showSpinner = true;
-      this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-          // this.showSpinner = false;
-          this.snackBar.open('Incident Added', 'Close', {duration: 1000});
-          user.incidentCounts[this.paramId]++;
-          this.updateSummary();
-        },
-        error => {
-          this.errorHandler(error)
-        }
-      );
-    }
   }
 
   simulate() {

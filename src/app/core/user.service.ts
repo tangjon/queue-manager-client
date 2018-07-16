@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {catchError, tap} from 'rxjs/operators';
-import {forkJoin} from 'rxjs/observable/forkJoin';
+import {catchError} from 'rxjs/operators';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
@@ -23,6 +22,8 @@ export class UserService {
   USER_NOT_FOUND: string = "USER NOT FOUND";
   private api: string = environment.api + 'users/';
   private qmapi: string = environment.api + 'users/qm/';
+  private incidentapi: string = environment.api + 'incidents/';
+  private productapi: string = environment.api + 'products/';
   private userSource = new BehaviorSubject<User[]>([]);
 
   constructor(public db: AngularFireDatabase,
@@ -39,7 +40,7 @@ export class UserService {
           if (resp.code === 200) {
             return resp.data.map(el =>
               // populate the User Model
-              new User(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.usage_percent ,el.incident_counts, el.supported_products)
+              new User(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.usage_percent, el.incident_counts, el.supported_products)
             )
           } else {
             return Observable.throw(new ErrorObservable("Error"));
@@ -53,7 +54,7 @@ export class UserService {
     const url = this.api + iNumber;
     return this.http.get(url).map((resp: any) => {
       if (resp.code === 200) {
-        return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_perecent ,resp.data.incident_counts, resp.data.supported_products)
+        return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_perecent, resp.data.incident_counts, resp.data.supported_products)
       } else {
         throw new Error("User not found")
       }
@@ -139,8 +140,13 @@ export class UserService {
     //   );
   }
 
-  updateIncident(user: User, productId: string, amount: number) {
-    return Observable.of()
+  addIncident(user: User, productId: string): Observable<any> {
+    let body = {
+      "product_short_name": productId,
+      "user_id": user.iNumber
+    };
+    return this.http.post(this.incidentapi, body, this.httpOptions)
+      .pipe(catchError(e => this.handleError(e, "Add Incident Failed")))
     // return this.incidentBookService.set(user.key, productId, amount)
     //   .pipe(
     //     tap(() => {
@@ -150,8 +156,17 @@ export class UserService {
     //         this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
     //       }
     //     }),
-    //     catchError(e => this.handleError(e, "Update Incident Failed"))
+    //
     //   );
+  }
+
+  removeIncident(user: User, productShortName: string): Observable<any> {
+      const body = {
+        "user_id" : user.iNumber,
+        "product_short_name": productShortName
+      };
+      return this.http.delete(this.incidentapi + `${user.iNumber}/${productShortName}`, this.httpOptions)
+        .pipe(catchError(e => this.handleError(e, "Remove Incident Failed")))
   }
 
   // TODO Refactor out, redundant and sub-clone of #Update Queue Days
@@ -178,7 +193,7 @@ export class UserService {
   getQM(): Observable<User> {
     return this.http.get(this.qmapi).map((resp: any) => {
       if (resp.code !== 200) throw new Error("error");
-      return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent ,resp.data.incident_counts, resp.data.supported_products)
+      return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent, resp.data.incident_counts, resp.data.supported_products)
     }).pipe(catchError(e => this.handleError(e, "Failed to get QM")))
   }
 
