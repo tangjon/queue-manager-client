@@ -39,7 +39,7 @@ export class UserService {
           if (resp.code === 200) {
             return resp.data.map(el =>
               // populate the User Model
-              new User(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.incident_counts, el.supported_products)
+              new User(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.usage_percent ,el.incident_counts, el.supported_products)
             )
           } else {
             return Observable.throw(new ErrorObservable("Error"));
@@ -53,7 +53,7 @@ export class UserService {
     const url = this.api + iNumber;
     return this.http.get(url).map((resp: any) => {
       if (resp.code === 200) {
-        return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.data.incident_counts, resp.data.supported_products)
+        return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_perecent ,resp.data.incident_counts, resp.data.supported_products)
       } else {
         throw new Error("User not found")
       }
@@ -82,26 +82,10 @@ export class UserService {
   updateAvailability(user: User, bool: boolean): Observable<any> {
     let body = this.buildBodyFromUserObject(user);
     body.is_available = bool;
-    return this.http.put(this.api, body, this.httpOptions)
+    return this.http.put(this.api + user.iNumber, body, this.httpOptions)
       .pipe(
-        tap(() => user.isAvailable = bool),
         catchError(e => this.handleError(e, "Update Availability Failed"))
       )
-    // let tmp = new User(user);
-    // tmp.setStatus(bool);
-    // return this.updateUser(tmp)
-    //   .pipe(
-    //     tap(() => this.logService.addLog(tmp, "Availability Changed", `Switched to ${tmp.getStatus()}`)
-    //     ),
-    //     tap(() => {
-    //       this.db.object(environment.firebaseRootUrl + '/queue-last-change').set({
-    //         key: tmp.key,
-    //         action: "Availability Changed",
-    //         value: bool
-    //       });
-    //     }),
-    //     catchError(e => this.handleError(e, "Update Availability Failed"))
-    //   );
   }
 
   deleteUser(key: string) {
@@ -194,7 +178,7 @@ export class UserService {
   getQM(): Observable<User> {
     return this.http.get(this.qmapi).map((resp: any) => {
       if (resp.code !== 200) throw new Error("error");
-      return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.data.incident_counts, resp.data.supported_products)
+      return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent ,resp.data.incident_counts, resp.data.supported_products)
     }).pipe(catchError(e => this.handleError(e, "Failed to get QM")))
   }
 

@@ -13,8 +13,9 @@ export class User {
   incidentCounts: object;
   name: () => string;
 
-  constructor(iNumber, firstName, lastName, isAvailable, currentQDays, iThreshold, objIncentCount, objSupportProducts) {
+  constructor(iNumber, firstName, lastName, isAvailable, currentQDays, iThreshold, usagePercent, objIncentCount, objSupportProducts) {
     this.iNumber = iNumber;
+    this.usagePercent = usagePercent;
     this.firstName = firstName;
     this.lastName = lastName;
     this.isAvailable = isAvailable;
@@ -64,7 +65,7 @@ export class User {
   }
 
   getAverageQDay(): any {
-    var avg;
+    let avg;
     if (this.usagePercent && this.currentQDays) {
       avg = this.getIncidentTotal() / (this.usagePercent * this.currentQDays);
     } else {

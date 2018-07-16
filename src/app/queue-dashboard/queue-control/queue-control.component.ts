@@ -77,7 +77,6 @@ export class QueueControlComponent implements OnInit {
       this.paramId = value;
       this.showSpinner = true;
       this.userService.getUsers().subscribe((users: Array<User>) => {
-          console.log(users);
           this.showSpinner = false;
           this._userList = users;
           this.updateSummary();
@@ -206,7 +205,7 @@ export class QueueControlComponent implements OnInit {
     // Send toggle
     this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
       user.setStatus(!user.isAvailable);
-    });
+    }, (error)=> alert(error.message));
   }
 
   logIt(msg) {
@@ -214,15 +213,19 @@ export class QueueControlComponent implements OnInit {
   }
 
   updateSummary() {
+    // total of all products
     let totalA = 0;
     this._userList.forEach(user => {
       totalA += user.getIncidentTotal();
     });
     this.totalIncidents = totalA;
 
+    // total of product
     let totalB = 0;
     this._userList.forEach(element => {
-      totalB += element.incidentCounts[this.paramId];
+      if(element.incidentCounts[this.paramId]){
+        totalB += element.incidentCounts[this.paramId]
+      }
     });
     this.totalIncidentsCtx = totalB;
   }

@@ -73,7 +73,7 @@ export class IsAvailable implements PipeTransform {
   transform(value: any, component: string, availability: boolean): any {
     if (!value) return [];
     return value.filter((t: User) => {
-      return t.supportedProducts[component] > 0 && t.isAvailable == availability;
+      return t.supportedProducts[component] && t.isAvailable == availability;
     });
   }
 }
