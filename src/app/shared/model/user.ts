@@ -22,7 +22,7 @@ export class User {
     this.currentQDays = currentQDays;
     this.iThreshold = iThreshold;
     this.incidentCounts = objIncentCount;
-    this.supportedProducts= objSupportProducts;
+    this.supportedProducts = objSupportProducts;
     this.name = function () {
       return `${firstName} ${lastName}`
     }
@@ -42,7 +42,7 @@ export class User {
 
   getIncidentTotal(): number {
     let count = 0;
-    Object.keys(this.incidentCounts).forEach(key=>{
+    Object.keys(this.incidentCounts).forEach(key => {
       count += this.incidentCounts[key];
     });
     return count;
@@ -53,12 +53,18 @@ export class User {
     return this.incidentCounts[productShortName];
   }
 
-  getSupportedProducts(): object {
-    return this.supportedProducts;
+  getSupportedProducts(): Array<string> {
+    let arr = [];
+    Object.keys(this.supportedProducts).forEach(key => {
+      if (this.supportedProducts[key] !== null) {
+        arr.push(key)
+      }
+    });
+    return arr;
   }
 
-  hasRole(role: string): boolean {
-    return true
+  hasRole(shortProductName: string): boolean {
+    return this.supportedProducts[shortProductName];
   }
 
   getRoleList(): Array<string> {
