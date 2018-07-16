@@ -55,38 +55,38 @@ export class TeamManagerComponent {
   }
 
   updateItem(user: User, fName: string, iNumber: string, usage: string, i_threshold: string) {
-    if (user && fName && iNumber && usage && i_threshold) {
-      user.name = fName;
-      user.iNumber = iNumber;
-      user.usagePercent = parseFloat(usage);
-      user.i_threshold = parseInt(i_threshold);
-      this.userService.updateUser(user).subscribe(r => {
-        this.snackBar.open("Update successful", "Close", {duration: 3000})
-      });
-    }
+    // if (user && fName && iNumber && usage && i_threshold) {
+    //   user.name = fName;
+    //   user.iNumber = iNumber;
+    //   user.usagePercent = parseFloat(usage);
+    //   user.i_threshold = parseInt(i_threshold);
+    //   this.userService.updateUser(user).subscribe(r => {
+    //     this.snackBar.open("Update successful", "Close", {duration: 3000})
+    //   });
+    // }
 
   }
 
   deleteItem(user: User) {
-    let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?");
-    if (prompt) {
-      this.userService.deleteUser(user.key).subscribe(res => {
-        if (res) {
-          this.userList = this.userList.filter(function (el) {
-            return el.key !== user.key;
-          })
-        }
-      })
-    }
+    // let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?");
+    // if (prompt) {
+    //   this.userService.deleteUser(user.key).subscribe(res => {
+    //     if (res) {
+    //       this.userList = this.userList.filter(function (el) {
+    //         return el.key !== user.key;
+    //       })
+    //     }
+    //   })
+    // }
   }
 
   toggleRole(user: User, role: string) {
-    if (window.confirm(`Are you sure you want to toggle '${role}' for ${user.name}`)) {
-      let currBool = user.hasRole(role);
-      this.userService.updateSupport(user, role, !currBool).subscribe(t => {
-        user.supportBook.areas[role] = !user.hasRole(role);
-      })
-    }
+    // if (window.confirm(`Are you sure you want to toggle '${role}' for ${user.name}`)) {
+    //   let currBool = user.hasRole(role);
+    //   this.userService.updateSupport(user, role, !currBool).subscribe(t => {
+    //     user.supportBook.areas[role] = !user.hasRole(role);
+    //   })
+    // }
 
   }
 

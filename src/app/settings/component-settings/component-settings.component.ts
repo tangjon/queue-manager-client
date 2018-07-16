@@ -42,24 +42,25 @@ export class ComponentSettingsComponent implements OnInit {
       f.resetForm();
     }
   }
-
+  // todo re-implement this
   removeProduct(productId) {
-    if (window.confirm(`Are you sure you want to remove component '${productId}'`)) {
-      this.showSpinner = true;
-      this.userService.removeComponent(productId).subscribe(() => {
-        this.showSpinner = false;
-        this.snackBar.open(`Removed Support Product '${productId}'`, 'Close', {duration: 1000});
-        this.productList.splice(this.productList.indexOf(productId), 1);
-      })
-    }
+    // if (window.confirm(`Are you sure you want to remove component '${productId}'`)) {
+    //   this.showSpinner = true;
+    //   this.userService.removeComponent(productId).subscribe(() => {
+    //     this.showSpinner = false;
+    //     this.snackBar.open(`Removed Support Product '${productId}'`, 'Close', {duration: 1000});
+    //     this.productList.splice(this.productList.indexOf(productId), 1);
+    //   })
+    // }
   }
 
+  // todo re-implement this
   addProduct(productId) {
-    this.showSpinner = true;
-    this.userService.addComponent(productId).subscribe(() => {
-      this.showSpinner = false;
-      this.snackBar.open(`Added New Support Product '${productId}'`, 'Close', {duration: 1000});
-      this.productList.push(productId);
-    })
+    // this.showSpinner = true;
+    // this.userService.addComponent(productId).subscribe(() => {
+    //   this.showSpinner = false;
+    //   this.snackBar.open(`Added New Support Product '${productId}'`, 'Close', {duration: 1000});
+    //   this.productList.push(productId);
+    // })
   }
 }

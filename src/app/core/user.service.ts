@@ -69,65 +69,45 @@ export class UserService {
       )
   }
 
-  getUserByKey(key): Observable<User> {
-    return forkJoin([
-      this.userSetService.getUserSet({key: key}),
-      this.supportBookService.get(key),
-      this.incidentBookService.get(key)
-    ]).map(data => {
-      const [userSet, incidentBook, supportBook] = data;
-      let user = new User(userSet);
-      user.incidentBook.set(incidentBook);
-      user.supportBook.set(supportBook);
-      return user;
-    }).pipe(
-      catchError((e) => this.handleError(e))
-    )
+  addUser(firstName: string, iNumber: string): Observable<User> {
+    let body = {
+      "user_id": iNumber,
+      "first_name": firstName,
+      "last_name": ""
+    };
+    return this.http.post(this.api, body, this.httpOptions).switchMap(() => {
+      return this.getUserByNumber(iNumber);
+    })
   }
 
-  getUserBHO() {
-    return this.getUsers().switchMap((users: User[]) => {
-      this.userSource.next(users);
-      return this.userSource.asObservable();
-    });
-  }
-
-  addUser(name: string, iNumber: string): Observable<User> {
-    const UID = this.db.createPushId();
-    return forkJoin([
-      this.userSetService.createUserSet(name, iNumber, UID),
-      this.supportBookService.createSupportSet(UID),
-      this.incidentBookService.createIncidentSet(UID)
-    ]).map(data => {
-        const [userFrag, supportFrag, incidentFrag] = data;
-        const newUser = new User(userFrag);
-        newUser.incidentBook.set(incidentFrag);
-        newUser.supportBook.set(supportFrag);
-        return newUser;
-      }
-    );
-  }
-
+  // todo fix
   updateUser(user: User) {
     return this.userSetService.updateUserSet(user);
   }
 
-  updateAvailability(user: User, bool: boolean) {
-    let tmp = new User(user);
-    tmp.setStatus(bool);
-    return this.updateUser(tmp)
+  updateAvailability(user: User, bool: boolean): Observable<any> {
+    let body = this.buildBodyFromUserObject(user);
+    body.is_available = bool;
+    return this.http.put(this.api, body, this.httpOptions)
       .pipe(
-        tap(() => this.logService.addLog(tmp, "Availability Changed", `Switched to ${tmp.getStatus()}`)
-        ),
-        tap(() => {
-          this.db.object(environment.firebaseRootUrl + '/queue-last-change').set({
-            key: tmp.key,
-            action: "Availability Changed",
-            value: bool
-          });
-        }),
+        tap(() => user.isAvailable = bool),
         catchError(e => this.handleError(e, "Update Availability Failed"))
-      );
+      )
+    // let tmp = new User(user);
+    // tmp.setStatus(bool);
+    // return this.updateUser(tmp)
+    //   .pipe(
+    //     tap(() => this.logService.addLog(tmp, "Availability Changed", `Switched to ${tmp.getStatus()}`)
+    //     ),
+    //     tap(() => {
+    //       this.db.object(environment.firebaseRootUrl + '/queue-last-change').set({
+    //         key: tmp.key,
+    //         action: "Availability Changed",
+    //         value: bool
+    //       });
+    //     }),
+    //     catchError(e => this.handleError(e, "Update Availability Failed"))
+    //   );
   }
 
   deleteUser(key: string): Observable<boolean> {
@@ -136,83 +116,83 @@ export class UserService {
     }).pipe(catchError(e => this.handleError(e, "Delete User Failed")));
   }
 
-  addComponent(productId): Observable<boolean> {
-    return this.getUsers().switchMap((users) => {
-        let batchAdd$ = [];
-        users.forEach((user: User) => {
-          batchAdd$.push(this.supportBookService.addComponent(user.key, productId));
-          batchAdd$.push(this.incidentBookService.addComponent(user.key, productId));
-        });
-        batchAdd$.push(this.productService.addProduct(productId));
-        return forkJoin(batchAdd$).map(() => {
-          return true;
-        }).pipe(catchError(e => this.handleError(e, "Add Component Failed")))
-      }
-    )
-  }
+  // addComponent(productId): Observable<boolean> {
+  //   return this.getUsers().switchMap((users) => {
+  //       let batchAdd$ = [];
+  //       users.forEach((user: User) => {
+  //         batchAdd$.push(this.supportBookService.addComponent(user.key, productId));
+  //         batchAdd$.push(this.incidentBookService.addComponent(user.key, productId));
+  //       });
+  //       batchAdd$.push(this.productService.addProduct(productId));
+  //       return forkJoin(batchAdd$).map(() => {
+  //         return true;
+  //       }).pipe(catchError(e => this.handleError(e, "Add Component Failed")))
+  //     }
+  //   )
+  // }
 
-  removeComponent(productId): Observable<boolean> {
-    return this.getUsers().switchMap((users) => {
-        let batchAdd$ = [];
-        users.forEach((user: User) => {
-          batchAdd$.push(this.supportBookService.removeComponent(user.key, productId));
-          batchAdd$.push(this.incidentBookService.removeComponent(user.key, productId));
-        });
-        batchAdd$.push(this.productService.removeProduct(productId));
-        return forkJoin(batchAdd$).map(() => {
-          return true
-        }).pipe(catchError(e => this.handleError(e, "Remove Component Failed")))
-      }
-    )
-  }
+  // removeComponent(productId): Observable<boolean> {
+  //   return this.getUsers().switchMap((users) => {
+  //       let batchAdd$ = [];
+  //       users.forEach((user: User) => {
+  //         batchAdd$.push(this.supportBookService.removeComponent(user.key, productId));
+  //         batchAdd$.push(this.incidentBookService.removeComponent(user.key, productId));
+  //       });
+  //       batchAdd$.push(this.productService.removeProduct(productId));
+  //       return forkJoin(batchAdd$).map(() => {
+  //         return true
+  //       }).pipe(catchError(e => this.handleError(e, "Remove Component Failed")))
+  //     }
+  //   )
+  // }
 
   updateSupport(user: User, productId: string, bool: boolean) {
-    let action = "";
-    if (user.hasRole(productId)) {
-      action = "Unassigned";
-    } else {
-      action = "Assigned";
-    }
-    return this.supportBookService.set(user.key, productId, bool)
-      .pipe(
-        tap(() => this.logService.addLog(user, "Support Changed", action + " " + productId)),
-        catchError(e => this.handleError(e, "Update Support Failed"))
-      );
+    // let action = "";
+    // if (user.hasRole(productId)) {
+    //   action = "Unassigned";
+    // } else {
+    //   action = "Assigned";
+    // }
+    // return this.supportBookService.set(user.key, productId, bool)
+    //   .pipe(
+    //     tap(() => this.logService.addLog(user, "Support Changed", action + " " + productId)),
+    //     catchError(e => this.handleError(e, "Update Support Failed"))
+    //   );
   }
 
   updateIncident(user: User, productId: string, amount: number) {
-    return this.incidentBookService.set(user.key, productId, amount)
-      .pipe(
-        tap(() => {
-          if (amount > user.getIncidentAmount(productId)) {
-            this.logService.addLog(user, 'Incident Assigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
-          } else {
-            this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
-          }
-        }),
-        catchError(e => this.handleError(e, "Update Incident Failed"))
-      );
+    // return this.incidentBookService.set(user.key, productId, amount)
+    //   .pipe(
+    //     tap(() => {
+    //       if (amount > user.getIncidentAmount(productId)) {
+    //         this.logService.addLog(user, 'Incident Assigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
+    //       } else {
+    //         this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
+    //       }
+    //     }),
+    //     catchError(e => this.handleError(e, "Update Incident Failed"))
+    //   );
   }
 
   // TODO Refactor out, redundant and sub-clone of #Update Queue Days
   restQueueDays(user: User) {
-    let tmp = new User(user);
-    tmp.currentQDays = 0;
-    return this.userSetService.resetRCC(tmp)
-      .pipe(catchError(e => this.handleError(e, "Reset Queue Days Failed")));
+    // let tmp = new User(user);
+    // tmp.currentQDays = 0;
+    // return this.userSetService.resetRCC(tmp)
+    //   .pipe(catchError(e => this.handleError(e, "Reset Queue Days Failed")));
   }
 
   updateQueueDays(user, amount) {
-    let tmp = new User(user);
-    tmp.currentQDays = amount;
-    return this.updateUser(tmp).map(() => amount)
-      .pipe(
-        tap(() => {
-          this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays);
-        }),
-        catchError(
-          e => this.handleError(e, "Update Queue Days Failed"))
-      );
+    // let tmp = new User(user);
+    // tmp.currentQDays = amount;
+    // return this.updateUser(tmp).map(() => amount)
+    //   .pipe(
+    //     tap(() => {
+    //       this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays);
+    //     }),
+    //     catchError(
+    //       e => this.handleError(e, "Update Queue Days Failed"))
+    //   );
   }
 
   getQM(): Observable<User> {
@@ -254,14 +234,26 @@ export class UserService {
         // }
       }
     }
-    if(error.status === 0){
+    if (error.status === 0) {
       message = "DATABASE IS DOWN :: " + message;
     }
     console.log(error);
     return new ErrorObservable({
-      "status" : error.status,
-      "message" : `${message} : ${error.message}`
+      "status": error.status,
+      "message": `${message} : ${error.message}`
     })
+  }
+
+  private buildBodyFromUserObject(user: User) {
+    return {
+      "user_id": user.iNumber,
+      "first_name": user.firstName,
+      "last_name": user.lastName,
+      "is_available": user.isAvailable,
+      "usage_percent": user.usagePercent,
+      "current_q_days": user.currentQDays,
+      "incident_threshold": user.iThreshold
+    }
   }
 
 }
