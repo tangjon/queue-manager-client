@@ -25,7 +25,7 @@ export class ApplicationSettingsComponent implements OnInit {
   showAdvanceSettings: boolean = false;
   progressMessage;
 
-  constructor(public userSerivce: UserService, public incidentBook: IncidentBookService,
+  constructor(public userSerivce: UserService,
               public productService: ProductService, public snackbar: MatSnackBar, public logService: LogService,
               public archiveService: ArchiveService,
               private sanitizer: DomSanitizer,) {
@@ -156,16 +156,16 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   private initiateClearIncidents() {
-    return forkJoin([this.userSerivce.getUsers(), this.productService.getProducts()]).switchMap(data => {
-      let users = data[0];
-      let products = data[1];
-      let batchCall = [];
-      users.forEach((user: User) => {
-        products.forEach(product => {
-          batchCall.push(this.incidentBook.set(user.key, product, 0));
-        })
-      });
-      return forkJoin(batchCall);
-    })
+    // return forkJoin([this.userSerivce.getUsers(), this.productService.getProducts()]).switchMap(data => {
+    //   let users = data[0];
+    //   let products = data[1];
+    //   let batchCall = [];
+    //   users.forEach((user: User) => {
+    //     products.forEach(product => {
+    //       batchCall.push(this.incidentBook.set(user.iNumber, product, 0));
+    //     })
+    //   });
+    //   return forkJoin(batchCall);
+    // })
   }
 }

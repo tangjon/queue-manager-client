@@ -14,7 +14,7 @@ import {IncidentBookService} from "../core/incident-book.service";
 export class SettingsComponent implements OnInit {
 
 
-  constructor(public incidentBookService: IncidentBookService,
+  constructor(
               public  userService: UserService,
               public  matSnackBar: MatSnackBar,
               public db: AngularFireDatabase) {
@@ -26,15 +26,15 @@ export class SettingsComponent implements OnInit {
 
   overwriteIncidentCount(t: NgForm) {
     if (t.valid) {
-      this.userService.getUserByNumber(t.value.iNumber).switchMap((user: User) => {
-        return this.incidentBookService.set(user.key, t.value.type, t.value.amount);
-      }).subscribe(() => {
-          this.matSnackBar.open('Success', 'Close', {duration: 1000});
-        },
-        error => {
-          this.matSnackBar.open('Error Occured', 'Close', {duration: 1000});
-        }
-      );
+      // this.userService.getUserByNumber(t.value.iNumber).switchMap((user: User) => {
+      //   return this.incidentBookService.set(user.iNumber, t.value.type, t.value.amount);
+      // }).subscribe(() => {
+      //     this.matSnackBar.open('Success', 'Close', {duration: 1000});
+      //   },
+      //   error => {
+      //     this.matSnackBar.open('Error Occured', 'Close', {duration: 1000});
+      //   }
+      // );
     }
   }
 }

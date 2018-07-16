@@ -95,11 +95,11 @@ export class QueueControlComponent implements OnInit {
     bsModalRef.content.onCancel.subscribe(() => {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
-      const currAmount = user.incidentBook.data[this.paramId];
+      const currAmount = user.incidentCounts[this.paramId];
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           // this.showSpinner = false;
           this.snackBar.open('Incident Added', 'Close', {duration: 1000});
-          user.incidentBook.data[this.paramId]++;
+          user.incidentCounts[this.paramId]++;
           this.updateSummary();
         },
         error => {
@@ -117,10 +117,10 @@ export class QueueControlComponent implements OnInit {
     bsModalRef.content.onCancel.subscribe(() => {
     });
     bsModalRef.content.onConfirm.subscribe(() => {
-      const currAmount = user.incidentBook.data[this.paramId];
+      const currAmount = user.incidentCounts[this.paramId];
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
-          user.incidentBook.data[this.paramId]--;
+          user.incidentCounts[this.paramId]--;
           this.updateSummary();
         }, error => {
           this.errorHandler(error)
@@ -148,14 +148,14 @@ export class QueueControlComponent implements OnInit {
 
   incIncidentAmount(user: User) {
     const amount = 1;
-    const currAmount = user.incidentBook.data[this.paramId];
+    const currAmount = user.incidentCounts[this.paramId];
     const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
     if (prompt) {
       // this.showSpinner = true;
       this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
           // this.showSpinner = false;
           this.snackBar.open('Incident Added', 'Close', {duration: 1000});
-          user.incidentBook.data[this.paramId]++;
+          user.incidentCounts[this.paramId]++;
           this.updateSummary();
         },
         error => {
@@ -221,7 +221,7 @@ export class QueueControlComponent implements OnInit {
 
     let totalB = 0;
     this._userList.forEach(element => {
-      totalB += element.incidentBook.data[this.paramId];
+      totalB += element.incidentCounts[this.paramId];
     });
     this.totalIncidentsCtx = totalB;
   }

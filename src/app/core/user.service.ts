@@ -4,12 +4,9 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {forkJoin} from 'rxjs/observable/forkJoin';
-import {UserSetService} from './user-set.service';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {IncidentBookService} from "./incident-book.service";
-import {SupportBookService} from "./support-book.service";
 import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {User} from "../shared/model/user";
@@ -30,10 +27,7 @@ export class UserService {
 
   constructor(public db: AngularFireDatabase,
               public http: HttpClient,
-              public userSetService: UserSetService,
               public logService: LogService,
-              public incidentBookService: IncidentBookService,
-              public supportBookService: SupportBookService,
               public productService: ProductService,
   ) {
   }
@@ -82,7 +76,7 @@ export class UserService {
 
   // todo fix
   updateUser(user: User) {
-    return this.userSetService.updateUserSet(user);
+    // return this.userSetService.updateUserSet(user);
   }
 
   updateAvailability(user: User, bool: boolean): Observable<any> {
@@ -110,10 +104,11 @@ export class UserService {
     //   );
   }
 
-  deleteUser(key: string): Observable<boolean> {
-    return this.userSetService.deleteUserSet(key).map(() => {
-      return true;
-    }).pipe(catchError(e => this.handleError(e, "Delete User Failed")));
+  deleteUser(key: string) {
+    Observable.of()
+    // return this.userSetService.deleteUserSet(key).map(() => {
+    //   return true;
+    // }).pipe(catchError(e => this.handleError(e, "Delete User Failed")));
   }
 
   // addComponent(productId): Observable<boolean> {
@@ -161,6 +156,7 @@ export class UserService {
   }
 
   updateIncident(user: User, productId: string, amount: number) {
+    return Observable.of()
     // return this.incidentBookService.set(user.key, productId, amount)
     //   .pipe(
     //     tap(() => {

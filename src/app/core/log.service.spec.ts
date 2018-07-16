@@ -3,14 +3,6 @@ import {LogService} from "./log.service";
 import {CoreModule} from "./core.module";
 import {User} from "../shared/model/user";
 
-let user = new User({
-  "INUMBER": "i123456",
-  "NAME": "Ahaan",
-  "KEY": "-L6NWB0vTHL_YJzPVshf",
-  "ISAVAILABLE": "true",
-  "USAGEPERCENT": "1",
-  "CURRENTQDAYS": "7"
-});
 
 describe('LogService', () => {
   beforeEach(() => {
