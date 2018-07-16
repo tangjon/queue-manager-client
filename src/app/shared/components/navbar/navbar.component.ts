@@ -20,11 +20,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     const cachedINumber = localStorage[environment.KEY_CACHE_INUMBER];  // look at cache
     this.loginService.signIn(cachedINumber);
-
-    setTimeout(()=>{
-      console.log(this.loginService.user)
-
-    }, 3000)
   }
 
   logout() {

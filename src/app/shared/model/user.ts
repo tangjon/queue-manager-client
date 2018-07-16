@@ -40,7 +40,11 @@ export class User {
   }
 
   getIncidentTotal(): number {
-    return 0;
+    let count = 0;
+    Object.keys(this.incidentCounts).forEach(key=>{
+      count += this.incidentCounts[key];
+    });
+    return count;
   }
 
   getSupportedProducts(): object {
