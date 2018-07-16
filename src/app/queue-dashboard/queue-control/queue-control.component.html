@@ -6,7 +6,7 @@
     Refresh
   </button>
 </h1>
-
+<!--AVAILABLE TABLE-->
 <div class="table-responsive shadow">
   <h6 id="available-title" class="qTable-title">{{ ( _userList | isAvailable:paramId: true)?.length }} Available</h6>
   <table class="table qTable text-center">
@@ -34,14 +34,14 @@
     <tbody *ngIf="!showSpinner">
     <tr
       *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
-      [class.high-workload]="getAssignmentCount(user) >= user.i_threshold">
+      [class.high-workload]="getAssignmentCount(user) >= user.iThreshold">
       <th scope="row">
         {{i + 1}}
-        <img [matTooltip]="TIP_FIREBALL" matTooltipPosition="left" *ngIf="getAssignmentCount(user) >= user.i_threshold"
+        <img [matTooltip]="TIP_FIREBALL" matTooltipPosition="left" *ngIf="getAssignmentCount(user) >= user.iThreshold"
              class="on-fire text-center" src="../../../assets/fireball.gif"
              style="display: block">
       </th>
-      <td>{{user.name + "(" + user.iNumber + ")"}}</td>
+      <td>{{user.name() + "(" + user.iNumber + ")"}}</td>
       <td>
 
         <button [matTooltip]="TIP_ADD_INCIDENT" (click)="onAddIncident(user)" class="btn btn-success">
@@ -79,7 +79,7 @@
   </table>
 </div>
 
-
+<!--UNAVAILABLE TABLE-->
 <div class="table-responsive shadow">
   <h6 id="unavailable-title" class="qTable-title">{{ ( _userList | isAvailable:paramId: false)?.length }}
     Unavailable</h6>
@@ -98,7 +98,7 @@
     <tbody>
     <tr *ngFor="let bUser of _userList | isAvailable:paramId :false | sortByAlpha; let i = index">
       <th scope="row">{{i + 1}}</th>
-      <td>{{bUser.name + "(" + bUser.iNumber + ")"}}</td>
+      <td>{{bUser.name() + "(" + bUser.iNumber + ")"}}</td>
       <td>{{ bUser.getIncidentAmount(paramId) }}</td>
       <td>{{ bUser.getIncidentTotal() }}</td>
       <td>{{ bUser.getAverageQDay() }}</td>
