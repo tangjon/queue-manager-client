@@ -22,7 +22,7 @@ export class User {
     this.currentQDays = currentQDays;
     this.iThreshold = iThreshold;
     this.incidentCounts = objIncentCount;
-    this.supportedProducts = objSupportProducts;
+    this.supportedProducts = this.setSupportProudct(objSupportProducts);
     this.name = function () {
       return `${firstName} ${lastName}`
     }
@@ -71,7 +71,6 @@ export class User {
     return [];
   }
 
-
   getAverageQDay(): any {
     let avg;
     if (this.usagePercent && this.currentQDays) {
@@ -81,5 +80,21 @@ export class User {
     }
     return parseFloat(avg).toFixed(3);
   }
+
+  setSupportProudct(objSupportProducts) {
+    if (objSupportProducts) {
+      Object.keys(objSupportProducts).forEach(key => {
+        if (objSupportProducts[key] == null) {
+          objSupportProducts[key] = false;
+        }
+        else {
+          objSupportProducts[key] = true;
+        }
+      });
+      console.log(objSupportProducts)
+    }
+    return objSupportProducts;
+  }
+
 }
 

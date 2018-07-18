@@ -20,7 +20,7 @@ export class UserService {
   };
   /* ERROR MESSAGES */
   USER_NOT_FOUND: string = "USER NOT FOUND";
-  private api: string = environment.api + 'users/';
+  private userapi: string = environment.api + 'users/';
   private qmapi: string = environment.api + 'users/qm/';
   private incidentapi: string = environment.api + 'incidents/';
   private productapi: string = environment.api + 'products/';
@@ -34,7 +34,7 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get(this.api)
+    return this.http.get(this.userapi)
       .map((resp: any) => {
           // verify response
           if (resp.code === 200) {
@@ -51,7 +51,7 @@ export class UserService {
 
   getUserByNumber(iNumber: string): Observable<User> {
     if (!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
-    const url = this.api + iNumber;
+    const url = this.userapi + iNumber;
     return this.http.get(url).map((resp: any) => {
       if (resp.code === 200) {
         return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_perecent, resp.data.incident_counts, resp.data.supported_products)
@@ -70,7 +70,7 @@ export class UserService {
       "first_name": firstName,
       "last_name": ""
     };
-    return this.http.post(this.api, body, this.httpOptions).switchMap(() => {
+    return this.http.post(this.userapi, body, this.httpOptions).switchMap(() => {
       return this.getUserByNumber(iNumber);
     })
   }
@@ -83,7 +83,7 @@ export class UserService {
   updateAvailability(user: User, bool: boolean): Observable<any> {
     let body = this.buildBodyFromUserObject(user);
     body.is_available = bool;
-    return this.http.put(this.api + user.iNumber, body, this.httpOptions)
+    return this.http.put(this.userapi + user.iNumber, body, this.httpOptions)
       .pipe(
         catchError(e => this.handleError(e, "Update Availability Failed"))
       )
@@ -126,18 +126,17 @@ export class UserService {
   //   )
   // }
 
-  updateSupport(user: User, productId: string, bool: boolean) {
-    // let action = "";
-    // if (user.hasRole(productId)) {
-    //   action = "Unassigned";
-    // } else {
-    //   action = "Assigned";
-    // }
-    // return this.supportBookService.set(user.key, productId, bool)
-    //   .pipe(
-    //     tap(() => this.logService.addLog(user, "Support Changed", action + " " + productId)),
-    //     catchError(e => this.handleError(e, "Update Support Failed"))
-    //   );
+  updateSupport(user: User, productShortName: string, bool: boolean) {
+    const body = {
+      "supported" : bool
+    };
+    return this.http.put(`${this.userapi}${user.iNumber}/${productShortName}`,body, this.httpOptions).map((res:any) => {
+      if(res.code === 200){
+        return res;
+      } else {
+        throw new Error();
+      }
+    }).pipe(catchError(e => this.handleError(e, "Failed to update support")))
   }
 
   addIncident(user: User, productId: string): Observable<any> {
@@ -161,12 +160,12 @@ export class UserService {
   }
 
   removeIncident(user: User, productShortName: string): Observable<any> {
-      const body = {
-        "user_id" : user.iNumber,
-        "product_short_name": productShortName
-      };
-      return this.http.delete(this.incidentapi + `${user.iNumber}/${productShortName}`, this.httpOptions)
-        .pipe(catchError(e => this.handleError(e, "Remove Incident Failed")))
+    const body = {
+      "user_id": user.iNumber,
+      "product_short_name": productShortName
+    };
+    return this.http.delete(this.incidentapi + `${user.iNumber}/${productShortName}`, this.httpOptions)
+      .pipe(catchError(e => this.handleError(e, "Remove Incident Failed")))
   }
 
   // TODO Refactor out, redundant and sub-clone of #Update Queue Days
