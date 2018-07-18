@@ -171,6 +171,7 @@ export class UserService {
 
   // TODO Refactor out, redundant and sub-clone of #Update Queue Days
   restQueueDays(user: User) {
+    return Observable.of(5)
     // let tmp = new User(user);
     // tmp.currentQDays = 0;
     // return this.userSetService.resetRCC(tmp)
@@ -178,6 +179,7 @@ export class UserService {
   }
 
   updateQueueDays(user, amount) {
+    return Observable.of(5)
     // let tmp = new User(user);
     // tmp.currentQDays = amount;
     // return this.updateUser(tmp).map(() => amount)

@@ -9,16 +9,14 @@ import {ProductService} from "../../core/product.service";
 })
 export class ComponentBarComponent implements OnInit {
 
-  productList$;
   productListGrouped: string[];
 
   constructor(public afAuth: AngularFireAuth, public productService: ProductService) {
   }
 
   ngOnInit() {
-    this.productList$ = this.productService.getProducts();
-    this.productList$.subscribe(arr => {
-      this.productListGrouped = this.formatComponentRows(arr);
+    this.productService.getProducts().subscribe(arrProductList => {
+      this.productListGrouped = this.formatComponentRows(arrProductList);
     })
   }
 

@@ -4,7 +4,6 @@ import {UserService} from '../core/user.service';
 import {User} from '../shared/model/user';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {IncidentBookService} from "../core/incident-book.service";
 
 @Component({
   selector: 'app-settings',

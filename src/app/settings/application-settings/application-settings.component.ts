@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../core/user.service";
 import {forkJoin} from 'rxjs/observable/forkJoin';
-import {IncidentBookService} from "../../core/incident-book.service";
 import {User} from "../../shared/model/user";
 import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material";
@@ -9,6 +8,7 @@ import {LogService} from "../../core/log.service";
 import {ArchiveService} from "../../core/archive.service";
 import {tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Observable} from "rxjs/Observable";
 
 // import * as $ from 'jquery'
 @Component({
@@ -156,6 +156,7 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   private initiateClearIncidents() {
+    return Observable.of(5)
     // return forkJoin([this.userSerivce.getUsers(), this.productService.getProducts()]).switchMap(data => {
     //   let users = data[0];
     //   let products = data[1];

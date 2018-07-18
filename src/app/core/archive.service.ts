@@ -86,13 +86,13 @@ export class ArchiveService {
   private generateUserBody(user: User, ARCHIVE_KEY) {
     // noinspection SpellCheckingInspection
     return {
-      ARCHIVE_KEY: ARCHIVE_KEY,
-      INUMBER: user.iNumber,
-      NAME: user.name,
-      KEY: user.key,
-      ISAVAILABLE: user.isAvailable.toString(),
-      CURRENTQDAYS: user.currentQDays.toString(),
-      USAGEPERCENT: user.usagePercent.toString()
+      // ARCHIVE_KEY: ARCHIVE_KEY,
+      // INUMBER: user.iNumber,
+      // NAME: user.name,
+      // KEY: user.key,
+      // ISAVAILABLE: user.isAvailable.toString(),
+      // CURRENTQDAYS: user.currentQDays.toString(),
+      // USAGEPERCENT: user.usagePercent.toString()
     };
   }
 

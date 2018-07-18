@@ -2,12 +2,10 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
-import {BodyParser} from "../shared/helper/bodyParser";
-
 
 @Injectable()
 export class ProductService {
-  private api: string = environment.apiUrl + "product";
+  private api: string = environment.api + "products";
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -22,14 +20,16 @@ export class ProductService {
     return this.http.get(this.api, this.httpOptions)
       .map((res: any) => {
         let productList = [];
-        BodyParser.parseBody(res).forEach(el => {
-          productList.push(el.KEY);
-        });
-        sortAlpha(productList); // sorts array alphabetically
+        if (res.code === 200) {
+          res.data.forEach(el => {
+            productList.push(el.short_name)
+          });
+          sortAlpha(productList); // sorts array alphabetically
+        }
         return productList;
       });
 
-    function sortAlpha(arr){
+    function sortAlpha(arr) {
       arr.sort(function (b, a) {
         if (a > b) {
           return -1;
