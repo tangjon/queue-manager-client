@@ -91,7 +91,6 @@ export class User {
           objSupportProducts[key] = true;
         }
       });
-      console.log(objSupportProducts)
     }
     return objSupportProducts;
   }

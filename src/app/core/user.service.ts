@@ -202,7 +202,6 @@ export class UserService {
     return this.getUserByNumber(iNumber).switchMap(
       (user: User) => {
         // noinspection SpellCheckingInspection
-        console.log(user);
         const body = {
           "user_id": user.iNumber
         };
@@ -233,7 +232,6 @@ export class UserService {
     if (error.status === 0) {
       message = "DATABASE IS DOWN :: " + message;
     }
-    console.log(error);
     return new ErrorObservable({
       "status": error.status,
       "message": `${message} : ${error.message}`

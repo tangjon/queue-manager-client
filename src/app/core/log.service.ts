@@ -42,9 +42,9 @@ export class LogService {
    */
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     // Populate Log Behavior Subject
-    this.getLogs().subscribe(logs => {
-      this.logSource.next(logs);
-    }, error => console.log(error))
+    // this.getLogs().subscribe(logs => {
+    //   this.logSource.next(logs);
+    // }, error => console.log(error))
   }
 
   /**
