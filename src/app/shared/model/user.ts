@@ -53,13 +53,14 @@ export class User {
     return this.incidentCounts[productShortName];
   }
 
-  getSupportedProducts(): Array<string> {
+  getSupportedProductList(): Array<string> {
     let arr = [];
     Object.keys(this.supportedProducts).forEach(key => {
-      if (this.supportedProducts[key] !== null) {
+      if (this.supportedProducts[key] != false) {
         arr.push(key)
       }
     });
+    console.log(this.supportedProducts)
     return arr;
   }
 

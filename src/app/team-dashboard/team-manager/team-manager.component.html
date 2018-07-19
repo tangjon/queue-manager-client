@@ -46,15 +46,15 @@
       <div class="col-sm">
         Support:
         <!-- <button type="button" class="btn btn-success" *ngFor="let supportBook of getRoles(user)"></button> -->
-        <span class="badge badge-success" *ngFor="let tmp of user.getSupportedProducts()">{{tmp}}</span>
+        <span class="badge badge-success" *ngFor="let tmp of user.getSupportedProductList()">{{tmp}}</span>
       </div>
       <div class="col-sm-2 text-right">
         Toggle Roles:
       </div>
       <div class="col-sm-4 text-left roll-change-panel">
-        <button *ngFor="let role of productList" (click)="toggleRole(user,role)" class="badge"
-                [class.badge-success]="this.user.hasRole(role)"
-                [class.badge-danger]="!this.user.hasRole(role)">{{ role }}
+        <button *ngFor="let product of productList" (click)="toggleRole(user,product)" class="badge"
+                [class.badge-success]="this.user.hasRole(product)"
+                [class.badge-danger]="!this.user.hasRole(product)">{{ product }}
         </button>
       </div>
     </div>
