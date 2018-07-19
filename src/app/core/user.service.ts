@@ -20,10 +20,10 @@ export class UserService {
   };
   /* ERROR MESSAGES */
   USER_NOT_FOUND: string = "USER NOT FOUND";
-  private userapi: string = environment.api + 'users/';
-  private qmapi: string = environment.api + 'users/qm/';
-  private incidentapi: string = environment.api + 'incidents/';
-  private productapi: string = environment.api + 'products/';
+  private userapi: string = environment.api + '/users';
+  private qmapi: string = environment.api + '/users/qm';
+  private incidentapi: string = environment.api + '/incidents';
+  private productapi: string = environment.api + '/products';
   private userSource = new BehaviorSubject<User[]>([]);
 
   constructor(public db: AngularFireDatabase,
@@ -51,7 +51,7 @@ export class UserService {
 
   getUserByNumber(iNumber: string): Observable<User> {
     if (!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
-    const url = this.userapi + iNumber;
+    const url = `${this.userapi}/${iNumber}`;
     return this.http.get(url).map((resp: any) => {
       if (resp.code === 200) {
         return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_perecent, resp.data.incident_counts, resp.data.supported_products)
@@ -70,30 +70,36 @@ export class UserService {
       "first_name": firstName,
       "last_name": ""
     };
-    return this.http.post(this.userapi, body, this.httpOptions).switchMap(() => {
-      return this.getUserByNumber(iNumber);
-    })
+    return this.http.post(this.userapi, body, this.httpOptions).switchMap((resp:any) => {
+      if (resp.code == 201) return this.getUserByNumber(iNumber);
+      throw Error();
+    }).pipe(
+      catchError(e => this.handleError(e, "Failed to Add User"))
+    )
   }
 
-  // todo fix
-  updateUser(user: User) {
-    // return this.userSetService.updateUserSet(user);
+  updateUserMeta(user: User) {
+    const body = user.generateMetaBody();
+    return this.http.put(`${this.userapi}/${user.iNumber}`, body, this.httpOptions)
+      .pipe(
+        catchError(e => this.handleError(e, "Update User Meta Failed"))
+      )
   }
 
   updateAvailability(user: User, bool: boolean): Observable<any> {
     let body = this.buildBodyFromUserObject(user);
     body.is_available = bool;
-    return this.http.put(this.userapi + user.iNumber, body, this.httpOptions)
+    return this.http.put(this.userapi + '/' + user.iNumber, body, this.httpOptions)
       .pipe(
         catchError(e => this.handleError(e, "Update Availability Failed"))
       )
   }
 
-  deleteUser(key: string) {
-    Observable.of()
-    // return this.userSetService.deleteUserSet(key).map(() => {
-    //   return true;
-    // }).pipe(catchError(e => this.handleError(e, "Delete User Failed")));
+  deleteUser(iNumber: string) {
+    return this.http.delete(`${this.userapi}/${iNumber}`)
+      .pipe(
+        catchError(e => this.handleError(e, "Failed to delete user"))
+      )
   }
 
   // addComponent(productId): Observable<boolean> {
@@ -128,10 +134,10 @@ export class UserService {
 
   updateSupport(user: User, productShortName: string, bool: boolean) {
     const body = {
-      "supported" : bool
+      "supported": bool
     };
-    return this.http.put(`${this.userapi}${user.iNumber}/${productShortName}`,body, this.httpOptions).map((res:any) => {
-      if(res.code === 200){
+    return this.http.put(`${this.userapi}/${user.iNumber}/${productShortName}`, body, this.httpOptions).map((res: any) => {
+      if (res.code === 200) {
         return res;
       } else {
         throw new Error();
@@ -164,7 +170,7 @@ export class UserService {
       "user_id": user.iNumber,
       "product_short_name": productShortName
     };
-    return this.http.delete(this.incidentapi + `${user.iNumber}/${productShortName}`, this.httpOptions)
+    return this.http.delete(this.incidentapi + `/${user.iNumber}/${productShortName}`, this.httpOptions)
       .pipe(catchError(e => this.handleError(e, "Remove Incident Failed")))
   }
 

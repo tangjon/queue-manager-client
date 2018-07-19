@@ -6,6 +6,7 @@ import {UserService} from '../../core/user.service';
 import {NgForm} from '@angular/forms'
 import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Helper} from "../../shared/helper/helper";
 
 @Component({
   selector: 'app-team-manager',
@@ -46,44 +47,35 @@ export class TeamManagerComponent {
     })
   }
 
-  addUser(fName: string, iNumber: string) {
-    if (fName && iNumber) {
-      this.userService.addUser(fName, iNumber).subscribe((user: User) => {
-        this.userList.push(user);
-      })
+  updateUser(user: User, fName: string, iNumber: string, usage: string, i_threshold: string) {
+    if (user && fName && iNumber && usage && i_threshold) {
+      user.firstName = fName;
+      user.iNumber = iNumber;
+      user.usagePercent = parseFloat(usage);
+      user.iThreshold = parseInt(i_threshold);
+      this.userService.updateUserMeta(user).subscribe(r => {
+        this.snackBar.open("Update successful", "Close", {duration: 3000})
+      });
     }
-  }
-
-  updateItem(user: User, fName: string, iNumber: string, usage: string, i_threshold: string) {
-    // if (user && fName && iNumber && usage && i_threshold) {
-    //   user.name = fName;
-    //   user.iNumber = iNumber;
-    //   user.usagePercent = parseFloat(usage);
-    //   user.i_threshold = parseInt(i_threshold);
-    //   this.userService.updateUser(user).subscribe(r => {
-    //     this.snackBar.open("Update successful", "Close", {duration: 3000})
-    //   });
-    // }
 
   }
 
   deleteItem(user: User) {
-    // let prompt = window.confirm("Are you sure you want to delete: " + user.name + "(" + user.iNumber + ")" + "?");
-    // if (prompt) {
-    //   this.userService.deleteUser(user.key).subscribe(res => {
-    //     if (res) {
-    //       this.userList = this.userList.filter(function (el) {
-    //         return el.key !== user.key;
-    //       })
-    //     }
-    //   })
-    // }
+    let prompt = window.confirm("Are you sure you want to delete: " + user.name() + "(" + user.iNumber + ")" + "?");
+    if (prompt) {
+      this.userService.deleteUser(user.iNumber).subscribe(res => {
+        if (res.code == 200) {
+          this.userService.getUsers().subscribe(user=>{
+            this.userList =user;
+          })
+        }
+      })
+    }
   }
 
   toggleRole(user: User, role: string) {
     if (window.confirm(`Are you sure you want to toggle '${role}' for ${user.name()}`)) {
       let currBool = user.hasRole(role);
-      console.log(user);
       this.userService.updateSupport(user, role, !currBool).subscribe(t => {
           user.supportedProducts[role] = !currBool;
       });

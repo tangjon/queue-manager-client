@@ -60,7 +60,6 @@ export class User {
         arr.push(key)
       }
     });
-    console.log(this.supportedProducts)
     return arr;
   }
 
@@ -94,6 +93,19 @@ export class User {
       });
     }
     return objSupportProducts;
+  }
+
+  // Call this for saving the meta body to database. The database expects this body
+  generateMetaBody() {
+    return {
+      user_id : this.iNumber,
+      first_name : this.firstName,
+      last_name : this.lastName,
+      is_available : this.isAvailable,
+      usage_percent : this.usagePercent,
+      current_q_days : this.currentQDays,
+      incident_threshold : this.iThreshold
+    }
   }
 
 }

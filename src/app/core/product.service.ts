@@ -5,7 +5,7 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class ProductService {
-  private api: string = environment.api + "products";
+  private api: string = environment.api + "/products";
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

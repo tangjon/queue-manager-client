@@ -24,7 +24,7 @@
         <input type="text" #updateName [value]="user.name()"/>
       </div>
       <div class="col">
-        <input type="text" #updateiNumber [value]="user.iNumber"/>
+        <input type="text" #updateiNumber [value]="user.iNumber" disabled/>
       </div>
       <div class="col">
         <input type="number" #updateThreshold [value]="user.iThreshold"/>
@@ -35,7 +35,7 @@
 
       <div class="col">
         <button
-          (click)="updateItem(user, updateName.value, updateiNumber.value,updateUsage.value, updateThreshold.value)">
+          (click)="updateUser(user, updateName.value, updateiNumber.value,updateUsage.value, updateThreshold.value)">
           Update
         </button>
         <button (click)="deleteItem(user)">Delete</button>
