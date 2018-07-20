@@ -17,7 +17,7 @@
     <tbody>
     <ng-template ngFor let-user [ngForOf]="userList" let-index="index">
       <tr>
-        <td rowspan="2">{{index}}</td>
+        <td style="border-bottom: solid gray;" rowspan="2">{{index}}</td>
         <td><input type="text" #updateName [value]="user.name()"/></td>
         <td><input type="text" #updateiNumber [value]="user.iNumber" disabled/></td>
         <td><input type="number" #updateThreshold [value]="user.iThreshold"/></td>
@@ -30,7 +30,7 @@
           <button (click)="deleteItem(user)">Delete</button>
         </td>
       </tr>
-      <tr>
+      <tr style="border-bottom: solid gray;">
         <td colspan="2">Supported Products: <span class="badge badge-success mr-1"
                                                   *ngFor="let tmp of user.getSupportedProductList()">{{tmp}}</span></td>
         <td colspan="1" class="text-right">Toggle Products</td>
