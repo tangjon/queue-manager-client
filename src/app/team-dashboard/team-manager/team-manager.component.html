@@ -1,64 +1,49 @@
 <h3 class="alert alert-danger error-message" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
 <div id="team-manger" class="qm-tbl mt-3">
   <h1 class="component-header" id="team-manger-component-header">Team Management</h1>
-  <!-- Table heading -->
-  <div class="qm-tbl-header shadow">
-    <div class=" row">
-      <div class="text-center col-sm-1">#</div>
-      <div class="col">Name</div>
-      <div class="col">INumber</div>
-      <div class="col">Threshold</div>
-      <div class="col">% Usage</div>
-      <div class="col">Actions</div>
-    </div>
-  </div>
-  <!-- Table body -->
   <!--TODO THIS HAS TERRIBLE UI-->
   <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
-  <div class="qm-tbl-row shadow" *ngFor="let user of userList; let i = index">
-    <div class="row"></div>
-    <!--META-->
-    <div class="row">
-      <div class="text-center col-sm-1">{{i + 1}}</div>
-      <div class="col">
-        <input type="text" #updateName [value]="user.name()"/>
-      </div>
-      <div class="col">
-        <input type="text" #updateiNumber [value]="user.iNumber" disabled/>
-      </div>
-      <div class="col">
-        <input type="number" #updateThreshold [value]="user.iThreshold"/>
-      </div>
-      <div class="col">
-        <input type="number" #updateUsage [value]="user.usagePercent"/>
-      </div>
-
-      <div class="col">
-        <button
-          (click)="updateUser(user, updateName.value, updateiNumber.value,updateUsage.value, updateThreshold.value)">
-          Update
-        </button>
-        <button (click)="deleteItem(user)">Delete</button>
-      </div>
-    </div>
-    <!-- User roles -->
-    <div class="row qm-tbl-detail">
-      <div class="col-sm">
-        Support:
-        <!-- <button type="button" class="btn btn-success" *ngFor="let supportBook of getRoles(user)"></button> -->
-        <span class="badge badge-success" *ngFor="let tmp of user.getSupportedProductList()">{{tmp}}</span>
-      </div>
-      <div class="col-sm-2 text-right">
-        Toggle Roles:
-      </div>
-      <div class="col-sm-4 text-left roll-change-panel">
-        <button *ngFor="let product of productList" (click)="toggleRole(user,product)" class="badge"
-                [class.badge-success]="this.user.hasRole(product)"
-                [class.badge-danger]="!this.user.hasRole(product)">{{ product }}
-        </button>
-      </div>
-    </div>
-  </div>
+  <table class="table qm-tbl-row shadow">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">INumber</th>
+      <th scope="col">Threshold</th>
+      <th scope="col">% Usage</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-user [ngForOf]="userList" let-index="index">
+      <tr>
+        <td rowspan="2">{{index}}</td>
+        <td><input type="text" #updateName [value]="user.name()"/></td>
+        <td><input type="text" #updateiNumber [value]="user.iNumber" disabled/></td>
+        <td><input type="number" #updateThreshold [value]="user.iThreshold"/></td>
+        <td><input type="number" #updateUsage [value]="user.usagePercent"/></td>
+        <td>
+          <button
+            (click)="updateUser(user, updateName.value, updateiNumber.value,updateUsage.value, updateThreshold.value)">
+            Update
+          </button>
+          <button (click)="deleteItem(user)">Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">Supported Products: <span class="badge badge-success mr-1"
+                                                  *ngFor="let tmp of user.getSupportedProductList()">{{tmp}}</span></td>
+        <td colspan="1" class="text-right">Toggle Products</td>
+        <td colspan="2">
+          <button *ngFor="let product of productList" (click)="toggleRole(user,product)" class="badge mr-1"
+                  [class.badge-success]="this.user.hasRole(product)"
+                  [class.badge-danger]="!this.user.hasRole(product)">{{ product }}
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </table>
 </div>
 
 <form class="qm-form shadow mb-4" #addUserForm="ngForm" (ngSubmit)="onAddUser(addUserForm)">

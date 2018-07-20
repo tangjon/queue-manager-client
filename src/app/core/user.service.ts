@@ -184,17 +184,10 @@ export class UserService {
   }
 
   updateQueueDays(user, amount) {
-    return Observable.of(5)
-    // let tmp = new User(user);
-    // tmp.currentQDays = amount;
-    // return this.updateUser(tmp).map(() => amount)
-    //   .pipe(
-    //     tap(() => {
-    //       this.logService.addLog(user, "Queue Days Changed", user.currentQDays + " to " + tmp.currentQDays);
-    //     }),
-    //     catchError(
-    //       e => this.handleError(e, "Update Queue Days Failed"))
-    //   );
+    let requestUser = User.copy(user);
+    requestUser.currentQDays = amount;
+    return this.updateUserMeta(requestUser).map(() => amount)
+      .pipe(catchError(e => this.handleError(e, "Update Queue Days Failed")));
   }
 
   getQM(): Observable<User> {

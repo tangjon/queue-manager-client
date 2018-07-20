@@ -6,7 +6,6 @@ import {UserService} from '../../core/user.service';
 import {NgForm} from '@angular/forms'
 import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Helper} from "../../shared/helper/helper";
 
 @Component({
   selector: 'app-team-manager',
@@ -80,7 +79,6 @@ export class TeamManagerComponent {
           user.supportedProducts[role] = !currBool;
       });
     }
-
   }
 
   onAddUser(f: NgForm) {
@@ -91,4 +89,5 @@ export class TeamManagerComponent {
       })
     }
   }
+
 }

@@ -34,9 +34,9 @@ export class RccManagementComponent implements OnInit {
     this.userService.getUsers().subscribe(r => {
       this.showSpinner = false;
       this._userList = r.sort(function (a, b) {
-        if (a.name < b.name)
+        if (a.firstName < b.firstName)
           return -1;
-        if (a.name > b.name)
+        if (a.firstName > b.firstName)
           return 1;
         return 0;
       });
@@ -49,13 +49,13 @@ export class RccManagementComponent implements OnInit {
   onAddQDay(user: User) {
     let bsModalRef: ModalInterface = this.modalService.show(ModalInputComponent);
     bsModalRef.content.title = "Add Queue Days";
-    bsModalRef.content.message = `Enter the amount you want to add for ${user.name}`;
+    bsModalRef.content.message = `Enter the amount you want to add for ${user.name()}`;
     bsModalRef.content.onConfirm.subscribe(val => {
       let amount = parseFloat(val);
       if (!isNaN(amount)) {
         let newAmount = user.currentQDays + amount;
         this.userService.updateQueueDays(user, newAmount).subscribe(r => {
-          user.currentQDays = r;
+          user.currentQDays = newAmount;
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
           this.matSnackBar.open("Update successful", "Close", {duration: 2000})
@@ -74,10 +74,10 @@ export class RccManagementComponent implements OnInit {
     // parseBody value
     let amount = parseFloat(addAmount);
     if (!isNaN(amount)) {
-      if (window.confirm(`${user.name} will have ${user.currentQDays} increased by ${amount} to ${user.currentQDays + amount}. \nClick okay to confirm`)) {
+      if (window.confirm(`${user.name()} will have ${user.currentQDays} increased by ${amount} to ${user.currentQDays + amount}. \nClick okay to confirm`)) {
         let newAmount = user.currentQDays + amount;
         this.userService.updateQueueDays(user, newAmount).subscribe(r => {
-          user.currentQDays = r;
+          user.currentQDays = newAmount;
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
           this.matSnackBar.open("Update successful", "Close", {duration: 2000})
@@ -89,19 +89,22 @@ export class RccManagementComponent implements OnInit {
   }
 
   updateQueueDays(user) {
-    let pVal = prompt(`Enter the amount you want to overwrite for ${user.name}`);
+    let pVal = prompt(`Enter the amount you want to overwrite for ${user.name()}. Again you are assign this user this amount of queue days not adding to them`);
     // parseBody value
-    let amount = parseFloat(pVal);
-    if (!isNaN(amount)) {
-      if (window.confirm(`${user.name} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
-        this.userService.updateQueueDays(user, amount).subscribe(r => {
-          user.currentQDays = r;
-          this.matSnackBar.open("Update successful", "Close", {duration: 2000})
-        }, err => {
-          this.matSnackBar.open("Error occurred: " + err.message, "Close");
-        })
+    if(pVal && confirm("ARE YOU SURE? YOU ARE ABOUT THE OVERWRITE THE QUEUE DAY VALUE FOR " + user.name() + " to " + pVal)) {
+      let amount = parseFloat(pVal);
+      if (!isNaN(amount)) {
+        if (window.confirm(`${user.name()} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
+          this.userService.updateQueueDays(user, amount).subscribe(r => {
+            user.currentQDays = r;
+            this.matSnackBar.open("Update successful", "Close", {duration: 2000})
+          }, err => {
+            this.matSnackBar.open("Error occurred: " + err.message, "Close");
+          })
+        }
       }
     }
+
   }
 
   // Oct-Dec = 1

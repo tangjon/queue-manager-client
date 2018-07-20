@@ -108,5 +108,9 @@ export class User {
     }
   }
 
+  static copy(user:User){
+    return new User(user.iNumber, user.firstName, user.lastName, user.isAvailable, user.currentQDays, user.iThreshold, user.usagePercent, user.incidentCounts, user.supportedProducts)
+  }
+
 }
 
