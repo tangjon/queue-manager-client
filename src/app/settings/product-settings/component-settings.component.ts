@@ -43,15 +43,15 @@ export class ComponentSettingsComponent implements OnInit {
     }
   }
   // todo re-implement this
-  removeProduct(productId) {
-    // if (window.confirm(`Are you sure you want to remove component '${productId}'`)) {
-    //   this.showSpinner = true;
-    //   this.userService.removeComponent(productId).subscribe(() => {
-    //     this.showSpinner = false;
-    //     this.snackBar.open(`Removed Support Product '${productId}'`, 'Close', {duration: 1000});
-    //     this.productList.splice(this.productList.indexOf(productId), 1);
-    //   })
-    // }
+  removeProduct(productShortName) {
+    if (window.confirm(`Are you sure you want to remove component '${productShortName}'`)) {
+      this.showSpinner = true;
+      this.productService.removeProduct(productShortName).subscribe(() => {
+        this.showSpinner = false;
+        this.snackBar.open(`Removed Support Product '${productShortName}'`, 'Close', {duration: 1000});
+        this.productList.splice(this.productList.indexOf(productShortName), 1);
+      })
+    }
   }
 
   addProduct(productShortName) {

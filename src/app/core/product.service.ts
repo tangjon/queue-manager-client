@@ -47,7 +47,7 @@ export class ProductService {
     return this.http.post(this.api, {short_name: productShortName}, this.httpOptions)
   }
 
-  removeProduct(productId): Observable<any> {
-    return this.http.delete(`${this.api}('${productId}')`)
+  removeProduct(productShortName): Observable<any> {
+    return this.http.delete(`${this.api}/${productShortName}`)
   }
 }
