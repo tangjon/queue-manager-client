@@ -14,23 +14,6 @@
     </div>
   </div>
   <hr class="row">
-  <div class="row">
-    <div class="col">
-      <h4>Incident Overwrite</h4>
-      <form class="form-inline" #incidentOverwrite="ngForm" (ngSubmit)="overwriteIncidentCount(incidentOverwrite)">
-        <label class="sr-only">Type</label>
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Incident Type" name="type" required
-               ngModel>
-        <label class="sr-only">iNumber</label>
-        <input type="text" class="form-control  mb-2 mr-sm-2 mb-sm-0" placeholder="iNumber" name="iNumber" required
-               ngModel>
-        <label class="sr-only">Amount</label>
-        <input type="text" class="form-control  mb-2 mr-sm-2 mb-sm-0" placeholder="Amount" name="amount" required
-               ngModel>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
-  </div>
   <hr class="row">
   <app-component-settings></app-component-settings>
 </div>

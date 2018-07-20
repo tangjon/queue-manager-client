@@ -21,19 +21,4 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
-  overwriteIncidentCount(t: NgForm) {
-    if (t.valid) {
-      // this.userService.getUserByNumber(t.value.iNumber).switchMap((user: User) => {
-      //   return this.incidentBookService.set(user.iNumber, t.value.type, t.value.amount);
-      // }).subscribe(() => {
-      //     this.matSnackBar.open('Success', 'Close', {duration: 1000});
-      //   },
-      //   error => {
-      //     this.matSnackBar.open('Error Occured', 'Close', {duration: 1000});
-      //   }
-      // );
-    }
-  }
 }
