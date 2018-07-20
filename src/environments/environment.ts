@@ -5,17 +5,19 @@
 
 export const environment = {
   // Meta Data
-  production: false,
-  appVersion: 'v2.3.1',
-  last_updated: 'May 28, 2018',
+  appVersion: 'v3.0',
+  last_updated: 'July 2018',
   appName: 'Queue Manager Cloud Dispatcher',
   appShort: 'QMCD',
+  production: false,
 
   // Hana Cloud API
   apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
   // LOCAL QM API
   api : 'http://localhost:8081/api',
+
   // Firebase config and api
+  firebaseRootUrl: 'dev',
   firebase: {
     apiKey: "AIzaSyCoesP_YkwMmpJaGWO3PO7A9VgjnrrmlxQ",
     authDomain: "queue-manager-fb-ajs.firebaseapp.com",
@@ -24,7 +26,6 @@ export const environment = {
     storageBucket: "queue-manager-fb-ajs.appspot.com",
     messagingSenderId: "1044152156042"
   },
-  firebaseRootUrl: 'dev',
 
   // Local Storage Variable
   KEY_CACHE_INUMBER: 'USER_INUMBER'
