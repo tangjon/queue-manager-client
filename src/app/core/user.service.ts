@@ -29,7 +29,6 @@ export class UserService {
   constructor(public db: AngularFireDatabase,
               public http: HttpClient,
               public logService: LogService,
-              public productService: ProductService,
   ) {
   }
 

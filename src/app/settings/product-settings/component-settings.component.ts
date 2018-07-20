@@ -54,13 +54,12 @@ export class ComponentSettingsComponent implements OnInit {
     // }
   }
 
-  // todo re-implement this
-  addProduct(productId) {
-    // this.showSpinner = true;
-    // this.userService.addComponent(productId).subscribe(() => {
-    //   this.showSpinner = false;
-    //   this.snackBar.open(`Added New Support Product '${productId}'`, 'Close', {duration: 1000});
-    //   this.productList.push(productId);
-    // })
+  addProduct(productShortName) {
+    this.showSpinner = true;
+    this.productService.addProduct(productShortName).subscribe(() => {
+      this.showSpinner = false;
+      this.snackBar.open(`Added New Support Product '${productShortName}'`, 'Close', {duration: 1000});
+      this.productList.push(productShortName);
+    })
   }
 }

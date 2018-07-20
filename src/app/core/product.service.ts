@@ -43,8 +43,8 @@ export class ProductService {
     }
   }
 
-  addProduct(productId): Observable<any> {
-    return this.http.post(this.api, {KEY: productId}, this.httpOptions)
+  addProduct(productShortName): Observable<any> {
+    return this.http.post(this.api, {short_name: productShortName}, this.httpOptions)
   }
 
   removeProduct(productId): Observable<any> {
