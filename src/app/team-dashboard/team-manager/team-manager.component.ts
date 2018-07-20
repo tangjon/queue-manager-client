@@ -29,9 +29,9 @@ export class TeamManagerComponent {
       this.showSpinner = false;
       this.userList = r.sort(
         function (a, b) {
-          if (a.name < b.name)
+          if (a.firstName < b.firstName)
             return -1;
-          if (a.name > b.name)
+          if (a.firstName > b.firstName)
             return 1;
           return 0;
         });
