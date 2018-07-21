@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
+import {catchError} from "rxjs/operators";
+import {Helper} from "../shared/helper/helper";
 
 @Injectable()
 export class ProductService {
@@ -45,9 +47,11 @@ export class ProductService {
 
   addProduct(productShortName): Observable<any> {
     return this.http.post(this.api, {short_name: productShortName}, this.httpOptions)
+      .pipe(catchError(e => Helper.handleError(e, "Add Product Failed")))
   }
 
   removeProduct(productShortName): Observable<any> {
     return this.http.delete(`${this.api}/${productShortName}`)
+      .pipe(catchError(e => Helper.handleError(e, "Remove Product Failed")))
   }
 }

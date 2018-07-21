@@ -42,7 +42,7 @@ export class ComponentSettingsComponent implements OnInit {
       f.resetForm();
     }
   }
-  // todo re-implement this
+
   removeProduct(productShortName) {
     if (window.confirm(`Are you sure you want to remove component '${productShortName}'`)) {
       this.showSpinner = true;
@@ -60,6 +60,9 @@ export class ComponentSettingsComponent implements OnInit {
       this.showSpinner = false;
       this.snackBar.open(`Added New Support Product '${productShortName}'`, 'Close', {duration: 1000});
       this.productList.push(productShortName);
+    }, error => {
+      this.showSpinner = false;
+      this.snackBar.open(error.message, 'Close');
     })
   }
 }
