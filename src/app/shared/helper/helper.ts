@@ -23,8 +23,13 @@ export class Helper {
   }
 
   static handleError(error?: HttpErrorResponse, message?: string) {
+    // DEFAULT ERROR MESSAGE
     if (message.length == 0) {
       message = "Something went wrong"
+    }
+    // DATA BASE IS DOWN
+    if (error.status === 0) {
+      message = "DATABASE IS DOWN :: " + message;
     }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -36,9 +41,7 @@ export class Helper {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
-    if (error.status === 0) {
-      message = "DATABASE IS DOWN :: " + message;
-    }
+
     return new ErrorObservable({
       "status": error.status,
       "message": `${message} : ${error.message}`
