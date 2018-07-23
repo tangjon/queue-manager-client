@@ -10,6 +10,7 @@ import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {User} from "../shared/model/user";
 import 'rxjs/add/observable/throw';
+import {Helper} from "../shared/helper/helper";
 
 @Injectable()
 export class UserService {
@@ -59,7 +60,7 @@ export class UserService {
       }
     })
       .pipe(
-        catchError((e) => this.handleError(e, "Failed to get user"))
+        catchError((e) => Helper.handleError(e, "Failed to get user"))
       )
   }
 
@@ -73,7 +74,7 @@ export class UserService {
       if (resp.code == 201) return this.getUserByNumber(iNumber);
       throw Error();
     }).pipe(
-      catchError(e => this.handleError(e, "Failed to Add User"))
+      catchError(e => Helper.handleError(e, "Failed to Add User"))
     )
   }
 
@@ -81,7 +82,7 @@ export class UserService {
     const body = user.generateMetaBody();
     return this.http.put(`${this.userapi}/${user.iNumber}`, body, this.httpOptions)
       .pipe(
-        catchError(e => this.handleError(e, "Update User Meta Failed"))
+        catchError(e => Helper.handleError(e, "Update User Meta Failed"))
       )
   }
 
@@ -90,14 +91,14 @@ export class UserService {
     body.is_available = bool;
     return this.http.put(this.userapi + '/' + user.iNumber, body, this.httpOptions)
       .pipe(
-        catchError(e => this.handleError(e, "Update Availability Failed"))
+        catchError(e => Helper.handleError(e, "Update Availability Failed"))
       )
   }
 
   deleteUser(iNumber: string) {
     return this.http.delete(`${this.userapi}/${iNumber}`)
       .pipe(
-        catchError(e => this.handleError(e, "Failed to delete user"))
+        catchError(e => Helper.handleError(e, "Failed to delete user"))
       )
   }
 
@@ -111,7 +112,7 @@ export class UserService {
   //       batchAdd$.push(this.productService.addProduct(productId));
   //       return forkJoin(batchAdd$).map(() => {
   //         return true;
-  //       }).pipe(catchError(e => this.handleError(e, "Add Component Failed")))
+  //       }).pipe(catchError(e => Helper.handleError(e, "Add Component Failed")))
   //     }
   //   )
   // }
@@ -126,7 +127,7 @@ export class UserService {
   //       batchAdd$.push(this.productService.removeProduct(productId));
   //       return forkJoin(batchAdd$).map(() => {
   //         return true
-  //       }).pipe(catchError(e => this.handleError(e, "Remove Component Failed")))
+  //       }).pipe(catchError(e => Helper.handleError(e, "Remove Component Failed")))
   //     }
   //   )
   // }
@@ -141,7 +142,7 @@ export class UserService {
       } else {
         throw new Error();
       }
-    }).pipe(catchError(e => this.handleError(e, "Failed to update support")))
+    }).pipe(catchError(e => Helper.handleError(e, "Failed to update support")))
   }
 
   addIncident(user: User, productId: string): Observable<any> {
@@ -150,7 +151,7 @@ export class UserService {
       "user_id": user.iNumber
     };
     return this.http.post(this.incidentapi, body, this.httpOptions)
-      .pipe(catchError(e => this.handleError(e, "Add Incident Failed")))
+      .pipe(catchError(e => Helper.handleError(e, "Add Incident Failed")))
     // return this.incidentBookService.set(user.key, productId, amount)
     //   .pipe(
     //     tap(() => {
@@ -170,7 +171,7 @@ export class UserService {
       "product_short_name": productShortName
     };
     return this.http.delete(this.incidentapi + `/${user.iNumber}/${productShortName}`, this.httpOptions)
-      .pipe(catchError(e => this.handleError(e, "Remove Incident Failed")))
+      .pipe(catchError(e => Helper.handleError(e, "Remove Incident Failed")))
   }
 
   // TODO Refactor out, redundant and sub-clone of #Update Queue Days
@@ -179,21 +180,21 @@ export class UserService {
     // let tmp = new User(user);
     // tmp.currentQDays = 0;
     // return this.userSetService.resetRCC(tmp)
-    //   .pipe(catchError(e => this.handleError(e, "Reset Queue Days Failed")));
+    //   .pipe(catchError(e => Helper.handleError(e, "Reset Queue Days Failed")));
   }
 
   updateQueueDays(user, amount) {
     let requestUser = User.copy(user);
     requestUser.currentQDays = amount;
     return this.updateUserMeta(requestUser).map(() => amount)
-      .pipe(catchError(e => this.handleError(e, "Update Queue Days Failed")));
+      .pipe(catchError(e => Helper.handleError(e, "Update Queue Days Failed")));
   }
 
   getQM(): Observable<User> {
     return this.http.get(this.qmapi).map((resp: any) => {
       if (resp.code !== 200) throw new Error("error");
       return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent, resp.data.incident_counts, resp.data.supported_products)
-    }).pipe(catchError(e => this.handleError(e, "Failed to get QM")))
+    }).pipe(catchError(e => Helper.handleError(e, "Failed to get QM")))
   }
 
   setQM(iNumber: string) {
@@ -205,35 +206,7 @@ export class UserService {
         };
         return this.http.put(this.qmapi, body, this.httpOptions);
       }
-    ).pipe(catchError(e => this.handleError(e, "Failed to set QM")))
-  }
-
-  handleError(error?: HttpErrorResponse, message?: string) {
-    if (message.length == 0) {
-      message = "Something went wrong"
-    }
-    if (!environment.production) {
-      if (error.error instanceof ErrorEvent) {
-        // A client-side or network error occurred. Handle it accordingly.
-        console.error('An error occurred:', error.error.message);
-      } else {
-        // The backend returned an unsuccessful response code.
-        // The response body may contain clues as to what went wrong,
-        console.error(
-          `Backend returned code ${error.status}, ` +
-          `body was: ${error.error}`);
-        // if (error.error == null) {
-        //   return new ErrorObservable(this.USER_NOT_FOUND);
-        // }
-      }
-    }
-    if (error.status === 0) {
-      message = "DATABASE IS DOWN :: " + message;
-    }
-    return new ErrorObservable({
-      "status": error.status,
-      "message": `${message} : ${error.message}`
-    })
+    ).pipe(catchError(e => Helper.handleError(e, "Failed to set QM")))
   }
 
   private buildBodyFromUserObject(user: User) {
