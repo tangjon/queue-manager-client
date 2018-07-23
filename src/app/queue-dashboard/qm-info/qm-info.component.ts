@@ -22,7 +22,7 @@ export class QmInfoComponent implements OnInit {
   }
 
   changeQM() {
-    let uInput = prompt("Enter the iNumber of QM");
+    let uInput = prompt("Enter the iNumber of QM").replace(/\s/g, '');
     if (uInput && uInput.length) {
       this.userService.setQM(uInput.toLowerCase()).subscribe(() => {
           this.qmUser = this.userService.getQM();

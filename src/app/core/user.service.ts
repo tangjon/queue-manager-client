@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
-import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {ProductService} from "./product.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {User} from "../shared/model/user";
 import 'rxjs/add/observable/throw';
@@ -43,14 +41,15 @@ export class UserService {
               new User(el.user_id, el.first_name, el.last_name, el.is_available, el.current_q_days, el.incident_threshold, el.usage_percent, el.incident_counts, el.supported_products)
             )
           } else {
-            return Observable.throw(new ErrorObservable("Error"));
+            throw new Error(resp.code)
           }
-        }
-      );
+      }).pipe(
+        catchError((e) => Helper.handleError(e, "Failed to get users"))
+      )
   }
 
   getUserByNumber(iNumber: string): Observable<User> {
-    if (!iNumber) return Observable.throw(new ErrorObservable("Empty Argument"));
+    if (!iNumber) throw new Error("Empty Argument");
     const url = `${this.userapi}/${iNumber}`;
     return this.http.get(url).map((resp: any) => {
       if (resp.code === 200) {
