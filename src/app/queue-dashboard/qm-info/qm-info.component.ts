@@ -23,18 +23,14 @@ export class QmInfoComponent implements OnInit {
 
   changeQM() {
     let uInput = prompt("Enter the iNumber of QM");
-    console.log("hello")
-
     if (uInput && uInput.length) {
       this.userService.setQM(uInput.toLowerCase()).subscribe(() => {
-          console.log("hello")
 
 
           this.qmUser = this.userService.getQM();
           this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
         },
         err => {
-          console.log("hello")
 
           alert(err.message);
         })
