@@ -28,8 +28,8 @@ export class QmInfoComponent implements OnInit {
           this.qmUser = this.userService.getQM();
           this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
         },
-        err => {
-          alert(err.message);
+        e => {
+          alert(e.message);
         })
     }
 
