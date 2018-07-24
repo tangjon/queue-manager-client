@@ -47,9 +47,8 @@ export class TeamManagerComponent {
   }
 
   updateUser(user: User, name: string, iNumber: string, usage: string, i_threshold: string) {
-    console.log(user, name, iNumber, usage, i_threshold);
     if (user && name && iNumber && usage && i_threshold) {
-      user.firstName = name.split(" ")[0];
+      user.firstName = name;
       user.iNumber = iNumber;
       user.usagePercent = parseFloat(usage);
       user.iThreshold = parseInt(i_threshold);
@@ -65,8 +64,8 @@ export class TeamManagerComponent {
     if (prompt) {
       this.userService.deleteUser(user.iNumber).subscribe(res => {
         if (res.code == 200) {
-          this.userService.getUsers().subscribe(user=>{
-            this.userList =user;
+          this.userService.getUsers().subscribe(user => {
+            this.userList = user;
           })
         }
       })
@@ -77,17 +76,21 @@ export class TeamManagerComponent {
     if (window.confirm(`Are you sure you want to toggle '${role}' for ${user.name()}`)) {
       let currBool = user.hasRole(role);
       this.userService.updateSupport(user, role, !currBool).subscribe(t => {
-          user.supportedProducts[role] = !currBool;
+        user.supportedProducts[role] = !currBool;
       });
     }
   }
 
   onAddUser(f: NgForm) {
-    if (f.valid && f.value.name && f.value.iNumber) {
+    if (f.valid && f.value.name.trim() && f.value.iNumber.trim()) {
       this.userService.addUser(f.value.name, f.value.iNumber).subscribe((user: User) => {
         this.userList.push(user);
         f.resetForm();
+      }, error => {
+        this.snackBar.open(error.message, "Close", {duration: 3000})
       })
+    } else {
+      this.snackBar.open("Please enter valid inputs", "Close", {duration: 3000})
     }
   }
 
