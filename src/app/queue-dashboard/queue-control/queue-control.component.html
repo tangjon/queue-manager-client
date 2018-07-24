@@ -57,14 +57,15 @@
       <td>{{ user.getIncidentTotal() }}
         <!--Displays 24hr counter depending on assignment counter-->
         <!--This is done to reduce calls of #getAssignmentCount-->
-        <span *ngIf="this.todayUserIncidentDict[user.iNumber].length as variable" class="badge assigned-twenty-four" [ngClass]="{
+        <span *ngIf="this.todayUserIncidentDict[user.iNumber]?.length as variable" class="badge assigned-twenty-four"
+              [ngClass]="{
         'badge-success': variable > 0,'badge-secondary': variable == 0, 'badge-danger' : variable < 0}">
           <span *ngIf="variable > 0">+</span>{{variable}}
         </span>
       </td>
       <td>{{ user.getAverageQDay() }}</td>
       <td>
-        <i *ngIf="this.todayUserIncidentDict[user.iNumber].length.toString() as variable"
+        <i *ngIf="this.todayUserIncidentDict[user.iNumber]?.length as variable"
            class="fa fa-lg"
            [matTooltip]="variable >= user.iThreshold ? TIP_BUSY : TIP_AVAILABLE"
            [ngClass]="{'fa-check-circle': variable < user.iThreshold,'fa-minus-circle': variable >= user.iThreshold}"
