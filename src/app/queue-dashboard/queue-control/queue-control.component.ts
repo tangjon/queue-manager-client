@@ -96,11 +96,7 @@ export class QueueControlComponent implements OnInit {
       return t.data.filter(i => {
         return Helper.dateWithin(new Date(i.timestamp), 'day');
       });
-      // return t.data;
-    }).subscribe(res => {
-      console.log(res);
-      this.todayUserIncidentDict[user.iNumber] = res
-    })
+    }).subscribe(res => this.todayUserIncidentDict[user.iNumber] = res)
   }
 
   onAddIncident(user: User) {
