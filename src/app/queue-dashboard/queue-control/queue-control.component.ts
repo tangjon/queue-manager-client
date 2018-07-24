@@ -10,18 +10,14 @@ import {environment} from "../../../environments/environment";
 import {BsModalService} from "ngx-bootstrap/modal";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
+import {Helper} from "../../shared/helper/helper";
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-queue-control',
   templateUrl: './queue-control.component.html',
   styleUrls: ['./queue-control.component.css']
 })
-
-// Extends Event for click events
-// export interface Event {
-//   target: { className: string }
-// }
-
 export class QueueControlComponent implements OnInit {
   // alert variable
 
@@ -36,6 +32,8 @@ export class QueueControlComponent implements OnInit {
   paramId: string;
   totalIncidents: number;
   totalIncidentsCtx: number;
+
+  todayUserIncidentDict: object = {};
   // Refresh Button Variables
   isFirstCallBack;
   applicationChangeFlag;
@@ -76,7 +74,13 @@ export class QueueControlComponent implements OnInit {
     this.id$.subscribe(value => {
       this.paramId = value;
       this.showSpinner = true;
-      this.userService.getUsers().subscribe((users: Array<User>) => {
+      this.userService.getUsers().pipe(
+        tap((users: Array<User>) => {
+          users.forEach(user => {
+            this.populateTodayIncident(user)
+          })
+        })
+      ).subscribe((users: Array<User>) => {
           this.showSpinner = false;
           this._userList = users;
           this.updateSummary();
@@ -85,6 +89,15 @@ export class QueueControlComponent implements OnInit {
           this.errorHandler(error)
         });
     });
+  }
+
+  populateTodayIncident(user: User) {
+    return this.userService.getUserIncidents(user.iNumber).map((t: any) => {
+      t.data.filter(i => {
+        return Helper.dateWithin(new Date(i.timestamp), 'day');
+      });
+      return t.data;
+    }).subscribe(res=>this.todayUserIncidentDict[user.iNumber] = res)
   }
 
   onAddIncident(user: User) {
@@ -99,6 +112,7 @@ export class QueueControlComponent implements OnInit {
           this.snackBar.open('Incident Added', 'Close', {duration: 1000});
           user.incidentCounts[this.paramId]++;
           this.updateSummary();
+          this.populateTodayIncident(user);
         },
         error => {
           this.errorHandler(error)
@@ -119,6 +133,7 @@ export class QueueControlComponent implements OnInit {
           this.snackBar.open('Incident Removed', 'Close', {duration: 1000});
           user.incidentCounts[this.paramId]--;
           this.updateSummary();
+          this.populateTodayIncident(user);
         }, error => {
           this.errorHandler(error)
         }
@@ -154,23 +169,15 @@ export class QueueControlComponent implements OnInit {
 
   }
 
-
-  getAssignmentCount(user) {
-    return this.userService.logService.getAssignmentCount(user);
-  }
-
-  toggleStatus(user: User, event) {
+  toggleAvailability(user: User, event) {
     // Prevent double click toggle
     let target = <HTMLSelectElement> event.target;
     target.disabled = true;
     // Send toggle
     this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
       user.setStatus(!user.isAvailable);
-    }, (error)=> alert(error.message));
-  }
-
-  logIt(msg) {
-    console.log(msg);
+      this.snackBar.open("Toggle Succesful", "Close", {duration: 1000})
+    }, (error) => alert(error.message));
   }
 
   updateSummary() {
@@ -184,14 +191,14 @@ export class QueueControlComponent implements OnInit {
     // total of product
     let totalB = 0;
     this._userList.forEach(element => {
-      if(element.incidentCounts[this.paramId]){
+      if (element.incidentCounts[this.paramId]) {
         totalB += element.incidentCounts[this.paramId]
       }
     });
     this.totalIncidentsCtx = totalB;
   }
 
-  onRefresh() {
+  hardRefresh() {
     this.ngOnInit();
     this.userService.logService.refresh()
   }

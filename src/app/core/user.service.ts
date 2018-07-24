@@ -101,36 +101,6 @@ export class UserService {
       )
   }
 
-  // addComponent(productId): Observable<boolean> {
-  //   return this.getUsers().switchMap((users) => {
-  //       let batchAdd$ = [];
-  //       users.forEach((user: User) => {
-  //         batchAdd$.push(this.supportBookService.addComponent(user.key, productId));
-  //         batchAdd$.push(this.incidentBookService.addComponent(user.key, productId));
-  //       });
-  //       batchAdd$.push(this.productService.addProduct(productId));
-  //       return forkJoin(batchAdd$).map(() => {
-  //         return true;
-  //       }).pipe(catchError(e => Helper.handleError(e, "Add Component Failed")))
-  //     }
-  //   )
-  // }
-
-  // removeComponent(productId): Observable<boolean> {
-  //   return this.getUsers().switchMap((users) => {
-  //       let batchAdd$ = [];
-  //       users.forEach((user: User) => {
-  //         batchAdd$.push(this.supportBookService.removeComponent(user.key, productId));
-  //         batchAdd$.push(this.incidentBookService.removeComponent(user.key, productId));
-  //       });
-  //       batchAdd$.push(this.productService.removeProduct(productId));
-  //       return forkJoin(batchAdd$).map(() => {
-  //         return true
-  //       }).pipe(catchError(e => Helper.handleError(e, "Remove Component Failed")))
-  //     }
-  //   )
-  // }
-
   updateSupport(user: User, productShortName: string, bool: boolean) {
     const body = {
       "supported": bool
@@ -206,6 +176,10 @@ export class UserService {
         return this.http.put(this.qmapi, body, this.httpOptions);
       }
     ).pipe(catchError(e => Helper.handleError(e, "Failed to set QM")))
+  }
+
+  getUserIncidents(iNumber:string){
+    return this.http.get(this.userapi + `/${iNumber}/incidents`).pipe(catchError(e => Helper.handleError(e, "Failed to get Incidents")))
   }
 
   private buildBodyFromUserObject(user: User) {
