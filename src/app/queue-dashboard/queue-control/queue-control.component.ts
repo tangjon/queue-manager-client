@@ -141,34 +141,6 @@ export class QueueControlComponent implements OnInit {
     });
   }
 
-  simulate() {
-    // setInterval(()=>{
-    //   // console.log(this._userList);
-    //   let user = this._userList[Math.floor(Math.random() * this._userList.length)];
-    //
-    //   const amount = 1;
-    //   const currAmount = user.incidentBook.data[this.paramId];
-    //   // const prompt = window.prompt(`Adding +${amount} Incident to ${user.name}(${user.iNumber})`, user.iNumber);
-    //
-    //     // this.showSpinner = true;
-    //     this.userService.updateIncident(user, this.paramId, currAmount + amount).subscribe(() => {
-    //         // this.showSpinner = false;
-    //         this.snackBar.open('Incident Added', 'Close', {duration: 1000});
-    //         user.incidentBook.data[this.paramId]++;
-    //         this.updateSummary();
-    //       },
-    //       error => {
-    //         this.errorHandler(error)
-    //       }
-    //     );
-    //
-    //   user = this._userList[Math.floor(Math.random() * this._userList.length)];
-    //   this.toggleStatus(user);
-    //
-    // }, 5000)
-
-  }
-
   toggleAvailability(user: User, event) {
     // Prevent double click toggle
     let target = <HTMLSelectElement> event.target;
