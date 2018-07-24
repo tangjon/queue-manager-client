@@ -93,11 +93,14 @@ export class QueueControlComponent implements OnInit {
 
   populateTodayIncident(user: User) {
     return this.userService.getUserIncidents(user.iNumber).map((t: any) => {
-      t.data.filter(i => {
+      return t.data.filter(i => {
         return Helper.dateWithin(new Date(i.timestamp), 'day');
       });
-      return t.data;
-    }).subscribe(res=>this.todayUserIncidentDict[user.iNumber] = res)
+      // return t.data;
+    }).subscribe(res => {
+      console.log(res);
+      this.todayUserIncidentDict[user.iNumber] = res
+    })
   }
 
   onAddIncident(user: User) {
@@ -148,7 +151,7 @@ export class QueueControlComponent implements OnInit {
     // Send toggle
     this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
       user.setStatus(!user.isAvailable);
-      this.snackBar.open("Toggle Succesful", "Close", {duration: 1000})
+      this.snackBar.open("Toggle Successful", "Close", {duration: 1000})
     }, (error) => alert(error.message));
   }
 
@@ -172,7 +175,8 @@ export class QueueControlComponent implements OnInit {
 
   hardRefresh() {
     this.ngOnInit();
-    this.userService.logService.refresh()
+    this.userService.logService.refresh();
+    this.snackBar.open("Refreshing...", "Close", {duration: 3000})
   }
 
   private errorHandler(error) {
