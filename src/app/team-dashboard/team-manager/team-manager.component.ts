@@ -46,9 +46,10 @@ export class TeamManagerComponent {
     })
   }
 
-  updateUser(user: User, fName: string, iNumber: string, usage: string, i_threshold: string) {
-    if (user && fName && iNumber && usage && i_threshold) {
-      user.firstName = fName;
+  updateUser(user: User, name: string, iNumber: string, usage: string, i_threshold: string) {
+    console.log(user, name, iNumber, usage, i_threshold);
+    if (user && name && iNumber && usage && i_threshold) {
+      user.firstName = name.split(" ")[0];
       user.iNumber = iNumber;
       user.usagePercent = parseFloat(usage);
       user.iThreshold = parseInt(i_threshold);
