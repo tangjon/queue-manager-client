@@ -34,10 +34,11 @@
     <tbody *ngIf="!showSpinner">
     <tr
       *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
-      [class.high-workload]="this.todayUserIncidentDict[user.iNumber] >= user.iThreshold">
+      [class.high-workload]="todayUserIncidentDict[user.iNumber]?.length >= user.iThreshold">
       <th scope="row">
         {{i + 1}}
-        <img [matTooltip]="TIP_FIREBALL" matTooltipPosition="left" *ngIf="this.todayUserIncidentDict[user.iNumber] >= user.iThreshold"
+        <img [matTooltip]="TIP_FIREBALL" matTooltipPosition="left"
+             *ngIf="todayUserIncidentDict[user.iNumber]?.length >= user.iThreshold"
              class="on-fire text-center" src="../../../assets/fireball.gif"
              style="display: block">
       </th>

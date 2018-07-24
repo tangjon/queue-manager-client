@@ -180,5 +180,7 @@ export class QueueControlComponent implements OnInit {
     this.snackBar.open(error.message, 'Close');
   }
 
-
+  logIt(t, a) {
+    console.log(t, a)
+  }
 }

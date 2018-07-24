@@ -129,7 +129,7 @@ export class RccManagementComponent implements OnInit {
     return this.daysLeftInQuarter(new Date())
   }
 
-  logIt(msg) {
-    console.log(msg);
+  logIt(msg, t) {
+    console.log(msg, t);
   }
 }
