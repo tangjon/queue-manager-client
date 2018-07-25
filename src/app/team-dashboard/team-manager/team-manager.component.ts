@@ -82,8 +82,8 @@ export class TeamManagerComponent {
   }
 
   onAddUser(f: NgForm) {
-    if (f.valid && f.value.name.trim() && f.value.affectedInumber.trim()) {
-      this.userService.addUser(f.value.name, f.value.affectedInumber).subscribe((user: User) => {
+    if (f.valid && f.value.name.trim() && f.value.iNumber.trim()) {
+      this.userService.addUser(f.value.name, f.value.iNumber).subscribe((user: User) => {
         this.userList.push(user);
         f.resetForm();
       }, error => {

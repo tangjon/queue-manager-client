@@ -34,15 +34,15 @@
     <tbody *ngIf="!showSpinner">
     <tr
       *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"
-      [class.high-workload]="todayUserIncidentDict[user.affectedInumber]?.length >= user.iThreshold">
+      [class.high-workload]="todayUserIncidentDict[user.iNumber]?.length >= user.iThreshold">
       <th scope="row">
         {{i + 1}}
         <img [matTooltip]="TIP_FIREBALL" matTooltipPosition="left"
-             *ngIf="todayUserIncidentDict[user.affectedInumber]?.length >= user.iThreshold"
+             *ngIf="todayUserIncidentDict[user.iNumber]?.length >= user.iThreshold"
              class="on-fire text-center" src="../../../assets/fireball.gif"
              style="display: block">
       </th>
-      <td>{{user.name() + "(" + user.affectedInumber + ")"}}</td>
+      <td>{{user.name() + "(" + user.iNumber + ")"}}</td>
       <td>
 
         <button [matTooltip]="TIP_ADD_INCIDENT" (click)="onAddIncident(user)" class="btn btn-success">
@@ -58,7 +58,7 @@
       <td>{{ user.getIncidentTotal() }}
         <!--Displays 24hr counter depending on assignment counter-->
         <!--This is done to reduce calls of #getAssignmentCount-->
-        <span *ngIf="this.todayUserIncidentDict[user.affectedInumber]?.length as variable" class="badge assigned-twenty-four"
+        <span *ngIf="this.todayUserIncidentDict[user.iNumber]?.length as variable" class="badge assigned-twenty-four"
               [ngClass]="{
         'badge-success': variable > 0,'badge-secondary': variable == 0, 'badge-danger' : variable < 0}">
           <span *ngIf="variable > 0">+</span>{{variable}}
@@ -66,7 +66,7 @@
       </td>
       <td>{{ user.getAverageQDay() }}</td>
       <td>
-        <i *ngIf="this.todayUserIncidentDict[user.affectedInumber]?.length as variable"
+        <i *ngIf="this.todayUserIncidentDict[user.iNumber]?.length as variable"
            class="fa fa-lg"
            [matTooltip]="variable >= user.iThreshold ? TIP_BUSY : TIP_AVAILABLE"
            [ngClass]="{'fa-check-circle': variable < user.iThreshold,'fa-minus-circle': variable >= user.iThreshold}"
@@ -100,7 +100,7 @@
     <tbody>
     <tr *ngFor="let bUser of _userList | isAvailable:paramId :false | sortByAlpha; let i = index">
       <th scope="row">{{i + 1}}</th>
-      <td>{{bUser.name() + "(" + bUser.affectedInumber + ")"}}</td>
+      <td>{{bUser.name() + "(" + bUser.iNumber + ")"}}</td>
       <td>{{ bUser.getIncidentAmount(paramId) }}</td>
       <td>{{ bUser.getIncidentTotal() }}</td>
       <td>{{ bUser.getAverageQDay() }}</td>
