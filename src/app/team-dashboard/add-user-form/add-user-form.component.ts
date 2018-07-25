@@ -19,8 +19,8 @@ export class AddUserFormComponent implements OnInit {
   onAddUser(f: NgForm) {
     console.log("hello")
     // Check valid and inputs exist
-    if (f.valid && f.value.name && f.value.iNumber) {
-      this.userService.addUser(f.value.name, f.value.iNumber).subscribe((user: User) => {
+    if (f.valid && f.value.name && f.value.affectedInumber) {
+      this.userService.addUser(f.value.name, f.value.affectedInumber).subscribe((user: User) => {
         // this.userList.push(user);
       })
     }

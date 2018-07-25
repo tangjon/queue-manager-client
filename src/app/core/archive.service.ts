@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {EntryLog} from "../shared/model/entrylog";
+import {ActionEntryLog} from "../shared/model/actionentrylog";
 import {User} from "../shared/model/user";
 import {AngularFireDatabase} from "angularfire2/database";
 import {forkJoin} from "rxjs/observable/forkJoin";
@@ -27,7 +27,7 @@ export class ArchiveService {
   constructor(public http: HttpClient, public firebase: AngularFireDatabase) {
   }
 
-  add(logs: EntryLog[], users: User[]) {
+  add(logs: ActionEntryLog[], users: User[]) {
     // Generate a KEY
     const ARCHIVE_KEY = this.firebase.createPushId();
 
@@ -46,7 +46,7 @@ export class ArchiveService {
 
     // Prepare Requests for Logs
     let batch_log_add = [];
-    logs.forEach((log: EntryLog) => {
+    logs.forEach((log: ActionEntryLog) => {
       const body = this.generateLogBody(ARCHIVE_KEY, log);
       batch_log_add.push(this.http.post(this.archiveLogAPI, body, this.httpOptions))
     });
@@ -62,16 +62,8 @@ export class ArchiveService {
 
   }
 
-  private generateLogBody(ARCHIVE_KEY: string | null, log: EntryLog) {
+  private generateLogBody(ARCHIVE_KEY: string | null, log: ActionEntryLog) {
     return {
-      ARCHIVE_KEY: ARCHIVE_KEY,
-      KEY: log.KEY,
-      ACTION: log.action,
-      MANAGER: log.getLogger(),
-      DATE: JSON.stringify(log.getFullDate()),
-      DESCRIPTION: log.description,
-      NAME: log.userName,
-      INUMBER: log.iNumber
     };
   }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {EntryLog} from '../shared/model/entrylog';
+import {ActionEntryLog} from '../shared/model/actionentrylog';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -30,48 +30,39 @@ export class LogService {
     })
   };
   // Service URL API Call
-  private api = environment.api + '/activity_log';
+  private api = environment.api + '/actionentrylog';
   // Subject to be subscribed to by other components and services
-  private logSource = new BehaviorSubject<EntryLog[]>([]);
-
-  /**
-   * Initializes log behavior subject. New updates will be listened to from modules that subscribe to it.
-   */
-  constructor(public http: HttpClient, public db: AngularFireDatabase) {
-  }
+  private logSource = new BehaviorSubject<ActionEntryLog[]>([]);
 
   /**
    * Get Logs as an observable from a behavior subject. New updates will be listened to.
    * @returns             Array of entry logs.
    * @param numOfResults  Number of results to return.
    */
-  getLogAsSubject(numOfResults?: number): Observable<EntryLog[]> {
-    if (numOfResults) {
-      return this.logSource.asObservable().map(log => log.slice(0, numOfResults))
-    } else {
-      return this.logSource.asObservable();
-    }
+  private entryLogSubject = new BehaviorSubject<ActionEntryLog[]>([]);
+
+
+  constructor(public http: HttpClient, public db: AngularFireDatabase) {
+
   }
+
 
   /**
    * Get all logs from database.
    * @returns Array of logs
    */
   getLogs(): Observable<any[]> {
-    return this.http.get(this.api, this.httpOptions).map((r: any) => {
-      let arr = [];
-      const t = r.d.results.map((t: any) => {
-        const tmp = new EntryLog(t.NAME, t.INUMBER, t.ACTION, t.DESCRIPTION, t.MANAGER, t.PUSH_ID);
-        tmp.setDateFromString(t.DATE);
-        return tmp;
-      });
-      t.forEach((el: EntryLog) => {
-        arr.push(el);
-      });
-      arr.sort(function (a: any, b: any) {
-        return b.date - a.date;
-      });
-      return arr;
+    return this.http.get(this.api, this.httpOptions).switchMap((result: any) => {
+      let data = result.data.map(el => new ActionEntryLog({
+        loggerInumber: el.logger_id,
+        affectedInumber: el.affected_user_id,
+        actionId: el.action_id,
+        description: el.description,
+        customDescription: el.custom_description,
+        timestamp: el.timestamp
+      }));
+      this.entryLogSubject.next(data);
+      return this.entryLogSubject
     }).pipe(
       catchError(err => Helper.handleError(err, "Failed to get log"))
     )
@@ -89,11 +80,7 @@ export class LogService {
     let cINumber = this.getCachedINumber() || "UNKNOWN";
     // Create Entry Log from model
     const pushId = this.db.createPushId();
-    const entry: EntryLog = new EntryLog(
-      user.name, user.iNumber,
-      action, description, cINumber,
-      pushId
-    );
+    const entry = new ActionEntryLog({});
     // Prepare request body
     const body = this.generateBody(pushId, action, entry, description, user);
     this.http.post(this.api, body, this.httpOptions)
@@ -116,8 +103,8 @@ export class LogService {
    */
   purgeLogs(): Observable<any> {
     const $batch = [];
-    this.logSource.getValue().forEach((el: EntryLog) => {
-      const url = `${this.api}('${el.KEY}')`;
+    this.logSource.getValue().forEach((el: ActionEntryLog) => {
+      const url = ""
       $batch.push(this.http.delete(url));
     });
     if ($batch.length == 0) {
@@ -130,6 +117,7 @@ export class LogService {
       )
     }
   }
+
   // HELPER FUNCTIONS
   /**
    * @returns cached Inumber stored in localstorage
@@ -152,12 +140,12 @@ export class LogService {
    * Generates a request body to be to sent to the api url
    * @param {string | null} pushId
    * @param {Action} action
-   * @param {EntryLog} entry
+   * @param {ActionEntryLog} entry
    * @param description
    * @param user
    * @returns {{PUSH_ID: string | null; ACTION: Action; MANAGER: any; DATE: string; DESCRIPTION: any; NAME; INUMBER: string | any}}
    */
-  private generateBody(pushId: string | null, action: Action, entry: EntryLog, description, user) {
+  private generateBody(pushId: string | null, action: Action, entry: ActionEntryLog, description, user) {
     return {
       'PUSH_ID': pushId,
       'ACTION': action,
@@ -165,7 +153,7 @@ export class LogService {
       'DATE': JSON.stringify(entry.getFullDate()),
       'DESCRIPTION': description,
       'NAME': user.name,
-      'INUMBER': user.iNumber
+      'INUMBER': user.affectedInumber
     };
   }
 
