@@ -93,7 +93,7 @@ export class QueueControlComponent implements OnInit {
 
   populateTodayIncident(user: User) {
     return this.userService.getUserIncidents(user.iNumber).map((t: any) => {
-      console.log(t)
+
       return t.data.filter(i => {
         return Helper.dateWithin(new Date(i.timestamp), 'day');
       });

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ActionEntryLog} from '../shared/model/actionentrylog';
+
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -9,6 +9,9 @@ import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
 import {catchError, tap} from "rxjs/operators";
 import {Helper} from "../shared/helper/helper";
+import {ActiondId, ActionEntryLog} from "../shared/model/actionEntryLog";
+import {Detail} from "../shared/model/detail";
+
 
 type Action =
   'Incident Assigned'
@@ -41,9 +44,12 @@ export class LogService {
    */
   private entryLogSubject = new BehaviorSubject<ActionEntryLog[]>([]);
 
+  private actionList = [];
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-
+    this.http.get(this.api + '/actions', this.httpOptions).map((r: any) => r.data).subscribe((res: Array<object>) => {
+      this.actionList = res;
+    })
   }
 
 
@@ -57,8 +63,8 @@ export class LogService {
         loggerInumber: el.logger_id,
         affectedInumber: el.affected_user_id,
         actionId: el.action_id,
-        description: el.description,
-        customDescription: el.custom_description,
+        defaultDescription: el.description,
+        detail: el.detail,
         timestamp: el.timestamp
       }));
       this.entryLogSubject.next(data);
@@ -71,31 +77,35 @@ export class LogService {
   /**
    * Add a log to database
    * @returns
-   * @param user The user performing an action
-   * @param action The action done.
-   * @param description i.e  April(i1232) : 0 to 1 in NW.
    */
   // TODO Should return an observable so front end and know whether a log was successful
-  addLog(user: User, action: Action, description) {
-    let cINumber = this.getCachedINumber() || "UNKNOWN";
+  addLog(affectedUser: User, actionId: ActiondId, detail: Detail) {
+    let cINumber = this.getCachedINumber();
     // Create Entry Log from model
-    const pushId = this.db.createPushId();
-    const entry = new ActionEntryLog({});
+    let newEntryLog = new ActionEntryLog({
+      "actionId": actionId,
+      "loggerInumber": cINumber,
+      "affectedInumber": affectedUser.iNumber,
+      "detail": detail
+    });
+    console.log(newEntryLog)
+    if (this.actionList.length) {
+      let t = this.actionList.filter(i => i.action_id == actionId);
+      if (t.length) {
+        newEntryLog.defaultDescription = t[0].description;
+      }
+    }
     // Prepare request body
-    const body = this.generateBody(pushId, action, entry, description, user);
+    const body = newEntryLog.generatePostBody();
     this.http.post(this.api, body, this.httpOptions)
       .pipe(
+        tap(r => {
+          this.entryLogSubject.getValue().unshift(newEntryLog);
+        }),
         catchError(err => Helper.handleError(err, "Failed to add log"))
-      )
-      .subscribe(() => {
-        let tmp = this.logSource.getValue();
-        tmp.unshift(entry);
-        this.logSource.next(tmp);
-        this.db.object(environment.firebaseRootUrl + '/log-last-change').set({
-          user: atob(cINumber),
-          date: new Date().getTime()
-        });
-      }, err => this.db.object(environment.firebaseRootUrl + '/error').set({date: new Date(), msg: err}));
+      ).subscribe(() => {
+
+    })
   }
 
   /**

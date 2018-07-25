@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {User} from "../shared/model/user";
 import 'rxjs/add/observable/throw';
 import {Helper} from "../shared/helper/helper";
+import {ActiondId} from "../shared/model/actionEntryLog";
+import {Detail} from "../shared/model/detail";
 
 @Injectable()
 export class UserService {
@@ -114,24 +116,16 @@ export class UserService {
     }).pipe(catchError(e => Helper.handleError(e, "Failed to update support")))
   }
 
-  addIncident(user: User, productId: string): Observable<any> {
+  addIncident(user: User, product_short_name: string): Observable<any> {
     let body = {
-      "product_short_name": productId,
+      "product_short_name": product_short_name,
       "user_id": user.iNumber
     };
     return this.http.post(this.incidentapi, body, this.httpOptions)
-      .pipe(catchError(e => Helper.handleError(e, "Add Incident Failed")))
-    // return this.incidentBookService.set(user.key, productId, amount)
-    //   .pipe(
-    //     tap(() => {
-    //       if (amount > user.getIncidentAmount(productId)) {
-    //         this.logService.addLog(user, 'Incident Assigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
-    //       } else {
-    //         this.logService.addLog(user, 'Incident Unassigned', `${user.getIncidentAmount(productId)} to ${amount} in ${productId}`)
-    //       }
-    //     }),
-    //
-    //   );
+      .pipe(
+        tap(()=> this.logService.addLog(user,ActiondId.INCIDENT_ASSIGNED,
+          new Detail(user.incidentCounts[product_short_name] - 1,user.incidentCounts[product_short_name], product_short_name))),
+        catchError(e => Helper.handleError(e, "Add Incident Failed")))
   }
 
   removeIncident(user: User, productShortName: string): Observable<any> {
