@@ -17,7 +17,7 @@ export class Helper {
     return moment(date).isBetween(start, end);
   }
 
-  static dateWithin(date: Date, range: unitOfTime.StartOf) {
+  static dateWithin(date: Date, range: unitOfTime.StartOf) : boolean {
     return moment(date).isBetween(moment().startOf(range), moment().endOf(range));
   }
 
