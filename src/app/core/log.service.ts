@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {EntryLog} from '../shared/model/entrylog';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
@@ -7,8 +7,8 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
-import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError, tap} from "rxjs/operators";
+import {Helper} from "../shared/helper/helper";
 
 type Action =
   'Incident Assigned'
@@ -20,7 +20,6 @@ type Action =
 
 /**
  * Service that handles call to Logs on database
- * [April 10th, 2018]
  */
 @Injectable()
 export class LogService {
@@ -31,20 +30,14 @@ export class LogService {
     })
   };
   // Service URL API Call
-  private api = environment.apiUrl + 'activity_log';
+  private api = environment.api + '/activity_log';
   // Subject to be subscribed to by other components and services
   private logSource = new BehaviorSubject<EntryLog[]>([]);
 
   /**
    * Initializes log behavior subject. New updates will be listened to from modules that subscribe to it.
-   * @param http
-   * @param db for real-time functionality. Tell the tool what was was last changed
    */
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-    // Populate Log Behavior Subject
-    // this.getLogs().subscribe(logs => {
-    //   this.logSource.next(logs);
-    // }, error => console.log(error))
   }
 
   /**
@@ -80,7 +73,7 @@ export class LogService {
       });
       return arr;
     }).pipe(
-      catchError(e => this.handleError(e, "Failed to get logs"))
+      catchError(err => Helper.handleError(err, "Failed to get log"))
     )
   }
 
@@ -105,7 +98,7 @@ export class LogService {
     const body = this.generateBody(pushId, action, entry, description, user);
     this.http.post(this.api, body, this.httpOptions)
       .pipe(
-        catchError(e => this.handleError(e, "Failed to add log"))
+        catchError(err => Helper.handleError(err, "Failed to add log"))
       )
       .subscribe(() => {
         let tmp = this.logSource.getValue();
@@ -133,70 +126,10 @@ export class LogService {
       return Observable.forkJoin($batch).pipe(tap(() => {
         this.logSource.next([]);
       })).pipe(
-        catchError(err => Observable.throw(this.handleError(err, "Purge Log Failure"))
-        ))
+        catchError(err => Helper.handleError(err, "Failed to purge logs"))
+      )
     }
   }
-
-  // TODO EFFICIENCY - Use better assignment counter
-  /**
-   * Retrieve the amount of incidents assigned to {user} in the past 24 hours
-   * @param user
-   * @return {number}
-   */
-  getAssignmentCount(user: User) {
-    const logs = this.logSource.getValue();
-    const filterlog = logs.filter((el: EntryLog) => {
-      return el.iNumber === user.iNumber &&
-        el.action.indexOf('Incident') !== -1 &&
-        dateInRangeToday(el.getFullDate());
-    });
-    if (filterlog.length) {
-      let numAssigned = 0;
-      let numRemoved = 0;
-      filterlog.forEach((el: EntryLog) => {
-        if (el.action.indexOf('Assigned') !== -1) {
-          numAssigned++;
-        } else if (el.action.indexOf('Removed')) {
-          numRemoved++;
-        }
-      });
-      return numAssigned - numRemoved;
-    }
-    return 0;
-
-    function dateInRangeToday(arg: Date): boolean {
-      const today = new Date();
-      const tmp = new Date(arg);
-      return tmp.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
-    }
-  }
-
-  getAssignmentCountByDate(user: User, date_begin, date_end) {
-    const logs = this.logSource.getValue();
-    const filterlog = logs.filter((el: EntryLog) => {
-      return el.iNumber === user.iNumber &&
-        el.action.indexOf('Incident') !== -1 && dateInRange(el.getFullDate(), date_begin, date_end);
-    });
-    if (filterlog.length) {
-      let numAssigned = 0;
-      let numRemoved = 0;
-      filterlog.forEach((el: EntryLog) => {
-        if (el.action.indexOf('Assigned') !== -1) {
-          numAssigned++;
-        } else if (el.action.indexOf('Removed')) {
-          numRemoved++;
-        }
-      });
-      return numAssigned - numRemoved;
-    }
-    return 0;
-
-    function dateInRange(arg: Date, start: Date, end: Date): boolean {
-      return arg.getTime() >= start.getTime() && arg.getTime() <= end.getTime();
-    }
-  }
-
   // HELPER FUNCTIONS
   /**
    * @returns cached Inumber stored in localstorage
@@ -234,25 +167,6 @@ export class LogService {
       'NAME': user.name,
       'INUMBER': user.iNumber
     };
-  }
-
-  private handleError(error: HttpErrorResponse, message?: string) {
-    if (message.length == 0) {
-      message = "Something went wrong"
-    }
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${JSON.stringify(error.error)}`);
-      console.log(error);
-    }
-    // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable(`${message}: ${error.message}`);
   }
 
 
