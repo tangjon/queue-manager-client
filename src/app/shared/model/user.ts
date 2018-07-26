@@ -30,7 +30,7 @@ export class User {
 
   getStatus(): string {
     if (this.isAvailable) {
-      return "OK"
+      return "AVAILABLE"
     } else {
       return "BUSY"
     }

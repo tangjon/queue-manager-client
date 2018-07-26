@@ -8,4 +8,10 @@ export class Detail {
       return (`${previousValue} to ${postValue} ${unitOfMeasurement}`).trim()
     }
   }
+
+  addCustomDetail(message: string) {
+    this.toString = function () {
+      return message.trim();
+    }
+  }
 }

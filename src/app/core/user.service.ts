@@ -90,8 +90,11 @@ export class UserService {
   updateAvailability(user: User, bool: boolean): Observable<any> {
     let body = this.buildBodyFromUserObject(user);
     body.is_available = bool;
+
     return this.http.put(this.userapi + '/' + user.iNumber, body, this.httpOptions)
       .pipe(
+        tap(() => this.logService.addLog(user, ActiondId.AVAILABILITY_CHANGED,
+          new Detail(user.getStatus(), user.isAvailable ? "BUSY" : "AVAILABLE", ""))),
         catchError(e => Helper.handleError(e, "Update Availability Failed"))
       )
   }
