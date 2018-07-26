@@ -21,6 +21,8 @@ export class LoginService {
 
   public authToken;
 
+  public hasAuth = false;
+
   constructor(public http: HttpClient, private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
 
   }
@@ -35,9 +37,11 @@ export class LoginService {
       })
     };
     return this.http.get(this.api, httpOptions).pipe(
+      tap(() => {
+        this.authToken = btoa(`${username}:${password}`);
+        this.hasAuth = true;
+      }),
       catchError(e => Helper.handleError(e, "Failed to Authenticate"))
-    ).pipe(
-      tap(() => this.authToken = btoa(`${username}:${password}`))
     )
   }
 
@@ -49,6 +53,7 @@ export class LoginService {
       })
     };
     return this.http.get(this.api, httpOptions).pipe(
+      tap(() => this.hasAuth = true),
       catchError(e => Helper.handleError(e, "Failed to Authenticate"))
     )
   }

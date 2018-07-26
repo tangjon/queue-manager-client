@@ -13,7 +13,7 @@ export class AppComponent {
   errorMessage: string;
   INITIALIZED = false;
 
-  constructor(public afAuth: AngularFireAuth, loginService: LoginService) {
-    loginService.authenticateWithUserNamePassword("", "")
+
+  constructor(public afAuth: AngularFireAuth, public loginService: LoginService) {
   }
 }

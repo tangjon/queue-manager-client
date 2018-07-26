@@ -1,8 +1,8 @@
-<div *ngIf="!(afAuth.authState | async)">
+<div *ngIf="!loginService.hasAuth">
   <app-login></app-login>
 </div>
 
-<div *ngIf="afAuth.authState | async" class="h-100">
+<div *ngIf="loginService.hasAuth" class="h-100">
   <app-navbar></app-navbar>
 
   <div class="container-fluid h-100">

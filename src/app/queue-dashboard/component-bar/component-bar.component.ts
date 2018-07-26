@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {ProductService} from "../../core/product.service";
+
 
 @Component({
   selector: 'app-component-bar',
@@ -11,7 +11,7 @@ export class ComponentBarComponent implements OnInit {
 
   productListGrouped: string[];
 
-  constructor(public afAuth: AngularFireAuth, public productService: ProductService) {
+  constructor(public productService: ProductService) {
   }
 
   ngOnInit() {
