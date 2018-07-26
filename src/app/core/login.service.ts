@@ -8,6 +8,8 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {ModalServerErrorComponent} from "../shared/components/modals/modal-server-error/modal-server-error.component";
 import {environment} from "../../environments/environment";
 import {Helper} from "../shared/helper/helper";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {catchError, tap} from "rxjs/operators";
 
 @Injectable()
 export class LoginService {
@@ -15,15 +17,53 @@ export class LoginService {
   public KEY_CACHE_INUMBER = environment.KEY_CACHE_INUMBER;
   public user: User;
 
-  constructor(private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
+  public api = environment.api + "/auth";
+
+  public authToken;
+
+  constructor(public http: HttpClient, private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
 
   }
+
+  authenticateWithUserNamePassword(username, password) {
+    username = username.trim();
+    password = password.trim();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        "Authorization": "Basic " + btoa(`${username}:${password}`)
+      })
+    };
+    return this.http.get(this.api, httpOptions).pipe(
+      catchError(e => Helper.handleError(e, "Failed to Authenticate"))
+    ).pipe(
+      tap(() => this.authToken = btoa(`${username}:${password}`))
+    )
+  }
+
+  authenticatedWithBasicToken(token) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        "Authorization": "Basic " + this.authToken
+      })
+    };
+    return this.http.get(this.api, httpOptions).pipe(
+      catchError(e => Helper.handleError(e, "Failed to Authenticate"))
+    )
+  }
+
+  isAuthenticated() {
+    return this.authenticatedWithBasicToken(this.authToken).map(() => true);
+  }
+
+
+
 
   authenticateWithFirebase(username, password) {
     // Todo this is work around
     username += "@scout33.org";
     return this.afAuth.auth.signInWithEmailAndPassword(username, password)
-      .catch(err => Helper.handleError(err, "Logon Failed"));
   }
 
   logonWithINumber(iNumber) {

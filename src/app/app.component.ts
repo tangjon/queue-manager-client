@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Observable} from 'rxjs/Observable';
+import {LoginService} from "./core/login.service";
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent {
   errorMessage: string;
   INITIALIZED = false;
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public afAuth: AngularFireAuth, loginService: LoginService) {
+    loginService.authenticateWithUserNamePassword("", "")
   }
 }

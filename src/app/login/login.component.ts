@@ -17,8 +17,14 @@ export class LoginComponent {
   login(username: string, password: string) {
     this.loginService.authenticateWithFirebase(username, password).catch(
       e => this.handleError(e)
-    )
+    );
+    this.loginService.authenticateWithUserNamePassword(username, password).subscribe(() => console.log("Login Successful"));
 
+    setTimeout(() => {
+      this.loginService.isAuthenticated().subscribe(t => {
+        console.log(t);
+      })
+    }, 2000)
   }
   logout() {
     this.loginService.signOut()
@@ -26,15 +32,15 @@ export class LoginComponent {
 
   handleError(err) {
     this.authFlag = false;
-    this.authMessage = err.code;
+    this.authMessage = err.message;
   }
 
   onSubmit(f: NgForm) {
     if (f.valid) {
       let data = f.value;
-      let userName = data.inputUsername;
+      let username = data.inputUsername;
       let password = data.inputPassword;
-      this.login(userName, password)
+      this.login(username, password)
     }
   }
 }
