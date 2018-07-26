@@ -3,7 +3,7 @@ export class Detail {
 
   toString: () => string;
 
-  constructor(previousValue, postValue, unitOfMeasurement) {
+  constructor(previousValue?, postValue?, unitOfMeasurement?) {
     this.toString = function () {
       return (`${previousValue} to ${postValue} ${unitOfMeasurement}`).trim()
     }
@@ -12,6 +12,7 @@ export class Detail {
   addCustomDetail(message: string) {
     this.toString = function () {
       return message.trim();
-    }
+    };
+    return this;
   }
 }

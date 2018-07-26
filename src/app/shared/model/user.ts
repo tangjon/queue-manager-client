@@ -13,7 +13,7 @@ export class User {
   incidentCounts: object;
   name: () => string;
 
-  constructor(iNumber, firstName, lastName, isAvailable, currentQDays, iThreshold, usagePercent, objIncentCount, objSupportProducts) {
+  constructor(iNumber, firstName, lastName, isAvailable, currentQDays, iThreshold, usagePercent, objIncidentCount, objSupportProducts) {
     this.iNumber = iNumber;
     this.usagePercent = usagePercent;
     this.firstName = firstName;
@@ -21,10 +21,10 @@ export class User {
     this.isAvailable = isAvailable;
     this.currentQDays = currentQDays;
     this.iThreshold = iThreshold;
-    this.incidentCounts = objIncentCount;
+    this.incidentCounts = objIncidentCount;
     this.supportedProducts = this.setSupportProudct(objSupportProducts);
     this.name = function () {
-      return `${firstName} ${lastName}`
+      return `${firstName} ${lastName}`.trim()
     }
   }
 

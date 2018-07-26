@@ -83,6 +83,8 @@ export class UserService {
     const body = user.generateMetaBody();
     return this.http.put(`${this.userapi}/${user.iNumber}`, body, this.httpOptions)
       .pipe(
+        tap(() => this.logService.addLog(user, ActiondId.CUSTOM_MESSAGE,
+          new Detail().addCustomDetail("User Meta Updated"))),
         catchError(e => Helper.handleError(e, "Update User Meta Failed"))
       )
   }
@@ -156,7 +158,10 @@ export class UserService {
     let requestUser = User.copy(user);
     requestUser.currentQDays = amount;
     return this.updateUserMeta(requestUser).map(() => amount)
-      .pipe(catchError(e => Helper.handleError(e, "Update Queue Days Failed")));
+      .pipe(
+        tap(() => this.logService.addLog(user, ActiondId.QUEUE_DAYS_CHANGED,
+          new Detail(user.currentQDays, amount, "Queue Days"))),
+        catchError(e => Helper.handleError(e, "Update Queue Days Failed")));
   }
 
   getQM(): Observable<User> {
@@ -167,15 +172,20 @@ export class UserService {
   }
 
   setQM(iNumber: string) {
+    let user;
     return this.getUserByNumber(iNumber).switchMap(
-      (user: User) => {
+      (u: User) => {
+        user = u;
         // noinspection SpellCheckingInspection
         const body = {
-          "user_id": user.iNumber
+          "user_id": u.iNumber
         };
         return this.http.put(this.qmapi, body, this.httpOptions);
       }
-    ).pipe(catchError(e => Helper.handleError(e, "Failed to set QM")))
+    ).pipe(
+      tap(() => this.logService.addLog(user, ActiondId.QUEUE_DAYS_CHANGED,
+        new Detail().addCustomDetail("QM Changed to " + user.name()))),
+      catchError(e => Helper.handleError(e, "Failed to set QM")))
   }
 
   getUserIncidents(iNumber:string){
