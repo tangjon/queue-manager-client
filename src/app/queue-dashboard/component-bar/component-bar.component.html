@@ -3,7 +3,6 @@
   <div id="component-menu-two" class="text-center shadow">
     <div class="row " *ngFor="let group of productListGrouped">
       <div class="col-3" *ngFor="let p of group">
-        <!--TODO Modify DB to allow for descriptions of components-->
         <a class="nav-link" matTooltipPosition="above" [routerLink]="getRouterLink(p)" routerLinkActive="active">{{p}} </a>
       </div>
     </div>

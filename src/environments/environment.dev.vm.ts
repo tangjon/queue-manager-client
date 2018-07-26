@@ -5,7 +5,7 @@ export const environment = {
   appVersion: '3.0',
   last_updated: 'July 2018',
   appName: 'Queue Manager Cloud Dispatcher',
-  appShort: 'QMCD',
+  appShort: 'QM 3',
   production: false,   // Compile for production: npm run build-prod
 
   // Hana Cloud API

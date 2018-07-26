@@ -68,7 +68,6 @@ export class RccManagementComponent implements OnInit {
     })
   }
 
-  // TODO clean up add queue day functions
   // Increment by one
   addQueueDay(user: User, addAmount) {
     // parseBody value

@@ -27,7 +27,6 @@ export class LoginComponent {
   handleError(err) {
     this.authFlag = false;
     this.authMessage = err.code;
-    console.log("error!")
   }
 
   onSubmit(f: NgForm) {
