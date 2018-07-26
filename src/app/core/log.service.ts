@@ -62,6 +62,7 @@ export class LogService {
       let data = result.data.map(el => new ActionEntryLog({
         loggerInumber: el.logger_id,
         affectedInumber: el.affected_user_id,
+        affectedUserName : el.affected_user_name,
         actionId: el.action_id,
         defaultDescription: el.description,
         detail: el.detail,
@@ -88,7 +89,6 @@ export class LogService {
       "affectedInumber": affectedUser.iNumber,
       "detail": detail
     });
-    console.log(newEntryLog)
     if (this.actionList.length) {
       let t = this.actionList.filter(i => i.action_id == actionId);
       if (t.length) {

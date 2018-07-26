@@ -13,6 +13,7 @@ export enum ActiondId {
 export class ActionEntryLog {
   loggerInumber: string;
   affectedInumber: string;
+  affectedUserName: string;
   actionId: ActiondId;
   defaultDescription: string;
   detail: Detail;
@@ -23,6 +24,7 @@ export class ActionEntryLog {
     this.loggerInumber = options.loggerInumber;
     this.defaultDescription = options.defaultDescription;
     this.affectedInumber = options.affectedInumber;
+    this.affectedUserName = options.affectedUserName;
     this.timestamp = options.timestamp ? new Date(options.timestamp) : new Date();
     this.detail = options.detail || new Detail("","","");
   }
@@ -44,7 +46,7 @@ export class ActionEntryLog {
   }
 
   getSummary(): string {
-    return '[' + this.getDescription() + ']' + ' : ' + this.affectedInumber + '(' + this.affectedInumber + ')' + ' : ' + this.detail.toString()
+    return '[' + this.getDescription() + ']' + ' : ' + this.affectedUserName + '(' + this.affectedInumber + ')' + ' : ' + this.detail.toString()
   }
 
   getFullDate(): Date {

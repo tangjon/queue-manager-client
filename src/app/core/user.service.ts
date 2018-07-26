@@ -124,7 +124,7 @@ export class UserService {
     return this.http.post(this.incidentapi, body, this.httpOptions)
       .pipe(
         tap(()=> this.logService.addLog(user,ActiondId.INCIDENT_ASSIGNED,
-          new Detail(user.incidentCounts[product_short_name] - 1,user.incidentCounts[product_short_name], product_short_name))),
+          new Detail(user.incidentCounts[product_short_name],user.incidentCounts[product_short_name]+1, product_short_name))),
         catchError(e => Helper.handleError(e, "Add Incident Failed")))
   }
 
