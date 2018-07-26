@@ -13,7 +13,10 @@ import {catchError, tap} from "rxjs/operators";
 
 @Injectable()
 export class LoginService {
+
+
   // Component Variables
+  public KEY_CACHE_AUTH_TOKEN = "AUTH_TOKEN";
   public KEY_CACHE_INUMBER = environment.KEY_CACHE_INUMBER;
   public user: User;
 
@@ -22,6 +25,7 @@ export class LoginService {
   public authToken;
 
   public hasAuth = false;
+
 
   constructor(public http: HttpClient, private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
 
@@ -38,28 +42,40 @@ export class LoginService {
     };
     return this.http.get(this.api, httpOptions).pipe(
       tap(() => {
-        this.authToken = btoa(`${username}:${password}`);
+        this.setCachedToken(btoa(`${username}:${password}`));
+        // this.authToken = btoa(`${username}:${password}`);
         this.hasAuth = true;
       }),
       catchError(e => Helper.handleError(e, "Failed to Authenticate"))
     )
   }
 
-  authenticatedWithBasicToken(token) {
+  authenticatedWithBasicToken(token?: string) {
+    if (!token) {
+      token = this.getCachedToken();
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        "Authorization": "Basic " + this.authToken
+        "Authorization": "Basic " + token
       })
     };
     return this.http.get(this.api, httpOptions).pipe(
       tap(() => this.hasAuth = true),
-      catchError(e => Helper.handleError(e, "Failed to Authenticate"))
+      catchError(e => Helper.handleError(e, "Failed to Authenticate with token"))
     )
   }
 
   isAuthenticated() {
-    return this.authenticatedWithBasicToken(this.authToken).map(() => true);
+    return this.authenticatedWithBasicToken(this.getCachedToken()).map(() => true);
+  }
+
+  getCachedToken() {
+    return localStorage.getItem(this.KEY_CACHE_AUTH_TOKEN)
+  }
+
+  setCachedToken(token) {
+    localStorage.setItem(this.KEY_CACHE_AUTH_TOKEN, token)
   }
 
 
@@ -119,6 +135,7 @@ export class LoginService {
   }
 
   signOut() {
+    this.hasAuth = false;
     localStorage.clear();
     this.user = null;
     this.afAuth.auth.signOut();

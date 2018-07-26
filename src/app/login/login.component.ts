@@ -13,6 +13,8 @@ export class LoginComponent {
   authMessage = "";
 
   constructor(public afAuth: AngularFireAuth, public loginService: LoginService) {
+    this.loginService.authenticatedWithBasicToken().subscribe(() => {
+    })
   }
   login(username: string, password: string) {
     this.loginService.authenticateWithFirebase(username, password).catch(
