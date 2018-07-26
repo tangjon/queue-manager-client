@@ -23,10 +23,10 @@ export class LogService {
       'Content-Type': 'application/json',
     })
   };
+
+
   // Service URL API Call
   private api = environment.api + '/actionentrylog';
-  // Subject to be subscribed to by other components and services
-  private logSource = new BehaviorSubject<ActionEntryLog[]>([]);
 
   /**
    * Get Logs as an observable from a behavior subject. New updates will be listened to.
@@ -91,7 +91,7 @@ export class LogService {
     const body = newEntryLog.generatePostBody();
     this.http.post(this.api, body, this.httpOptions)
       .pipe(
-        tap(r => {
+        tap(() => {
           this.entryLogSubject.getValue().unshift(newEntryLog);
         }),
         catchError(err => Helper.handleError(err, "Failed to add log"))
@@ -104,20 +104,7 @@ export class LogService {
    * Delete all logs on database
    */
   purgeLogs(): Observable<any> {
-    const $batch = [];
-    this.logSource.getValue().forEach((el: ActionEntryLog) => {
-      const url = ""
-      $batch.push(this.http.delete(url));
-    });
-    if ($batch.length == 0) {
-      return Observable.of([]);
-    } else {
-      return Observable.forkJoin($batch).pipe(tap(() => {
-        this.logSource.next([]);
-      })).pipe(
-        catchError(err => Helper.handleError(err, "Failed to purge logs"))
-      )
-    }
+      return Observable.of(5)
   }
 
   // HELPER FUNCTIONS
@@ -133,9 +120,6 @@ export class LogService {
   }
 
   refresh() {
-    this.getLogs().subscribe(logs => {
-      this.logSource.next(logs);
-    }, error => console.log(error))
   }
 
 }
