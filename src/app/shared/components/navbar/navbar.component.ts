@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {LoginService} from '../../../core/login.service';
 import {environment} from '../../../../environments/environment';
 
@@ -19,7 +18,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     const cachedINumber = localStorage[environment.KEY_CACHE_INUMBER];  // look at cache
-    this.loginService.signIn(cachedINumber);
+    this.loginService.logonWithINumber(cachedINumber);
   }
 
   logout() {

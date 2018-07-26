@@ -7,6 +7,7 @@ import {ModalInputComponent} from "../shared/components/modals/modal-input/modal
 import {AngularFireAuth} from "angularfire2/auth";
 import {ModalServerErrorComponent} from "../shared/components/modals/modal-server-error/modal-server-error.component";
 import {environment} from "../../environments/environment";
+import {Helper} from "../shared/helper/helper";
 
 @Injectable()
 export class LoginService {
@@ -18,7 +19,14 @@ export class LoginService {
 
   }
 
-  signIn(iNumber) {
+  authenticateWithFirebase(username, password) {
+    // Todo this is work around
+    username += "@scout33.org";
+    return this.afAuth.auth.signInWithEmailAndPassword(username, password)
+      .catch(err => Helper.handleError(err, "Logon Failed"));
+  }
+
+  logonWithINumber(iNumber) {
     if (!iNumber) {
       iNumber = "empty"
     }
@@ -45,8 +53,8 @@ export class LoginService {
     });
     bsModalRef.content.title = "Please enter your INUMBER";
     bsModalRef.content.message = "This will help the tool identify who you are. ie i123456";
-    bsModalRef.content.onConfirm.subscribe((input: string) => this.signIn(input.toLowerCase()));
-    bsModalRef.content.onCancel.subscribe(() => this.signIn(null));
+    bsModalRef.content.onConfirm.subscribe((input: string) => this.logonWithINumber(input.toLowerCase()));
+    bsModalRef.content.onCancel.subscribe(() => this.logonWithINumber(null));
     bsModalRef.content.onHide.subscribe(() => this.signOut());
   }
 
