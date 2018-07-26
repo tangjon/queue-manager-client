@@ -12,15 +12,6 @@ import {Helper} from "../shared/helper/helper";
 import {ActiondId, ActionEntryLog} from "../shared/model/actionEntryLog";
 import {Detail} from "../shared/model/detail";
 
-
-type Action =
-  'Incident Assigned'
-  | 'Incident Unassigned'
-  | 'Availability Changed'
-  | 'Queue Days Changed'
-  | 'Support Changed'
-
-
 /**
  * Service that handles call to Logs on database
  */
@@ -86,6 +77,7 @@ export class LogService {
     let newEntryLog = new ActionEntryLog({
       "actionId": actionId,
       "loggerInumber": cINumber,
+      "affectedUserName": affectedUser.name(),
       "affectedInumber": affectedUser.iNumber,
       "detail": detail
     });
@@ -145,27 +137,5 @@ export class LogService {
       this.logSource.next(logs);
     }, error => console.log(error))
   }
-
-  /**
-   * Generates a request body to be to sent to the api url
-   * @param {string | null} pushId
-   * @param {Action} action
-   * @param {ActionEntryLog} entry
-   * @param description
-   * @param user
-   * @returns {{PUSH_ID: string | null; ACTION: Action; MANAGER: any; DATE: string; DESCRIPTION: any; NAME; INUMBER: string | any}}
-   */
-  private generateBody(pushId: string | null, action: Action, entry: ActionEntryLog, description, user) {
-    return {
-      'PUSH_ID': pushId,
-      'ACTION': action,
-      'MANAGER': this.getCachedINumber(),
-      'DATE': JSON.stringify(entry.getFullDate()),
-      'DESCRIPTION': description,
-      'NAME': user.name,
-      'INUMBER': user.affectedInumber
-    };
-  }
-
 
 }
