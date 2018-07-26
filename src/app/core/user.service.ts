@@ -118,7 +118,11 @@ export class UserService {
       } else {
         throw new Error();
       }
-    }).pipe(catchError(e => Helper.handleError(e, "Failed to update support")))
+    })
+      .pipe(
+        tap(() => this.logService.addLog(user, ActiondId.PRDOUCT_SUPPORT_CHANGED,
+          new Detail().addCustomDetail(user.hasRole(productShortName) ? "Removed " + productShortName : "Added " + productShortName))),
+        catchError(e => Helper.handleError(e, "Failed to update support")))
   }
 
   addIncident(user: User, productShortName: string): Observable<any> {
@@ -183,7 +187,7 @@ export class UserService {
         return this.http.put(this.qmapi, body, this.httpOptions);
       }
     ).pipe(
-      tap(() => this.logService.addLog(user, ActiondId.QUEUE_DAYS_CHANGED,
+      tap(() => this.logService.addLog(user, ActiondId.QM_CHANGED,
         new Detail().addCustomDetail("QM Changed to " + user.name()))),
       catchError(e => Helper.handleError(e, "Failed to set QM")))
   }

@@ -7,7 +7,9 @@ export enum ActiondId {
   INCIDENT_ASSIGNED = 2,
   INCIDENT_UNASSIGNED = 3,
   AVAILABILITY_CHANGED = 4,
-  QUEUE_DAYS_CHANGED = 5
+  QUEUE_DAYS_CHANGED = 5,
+  PRDOUCT_SUPPORT_CHANGED = 6,
+  QM_CHANGED = 7
 }
 
 export class ActionEntryLog {
