@@ -21,12 +21,6 @@ export class LoginComponent {
       e => this.handleError(e)
     );
     this.loginService.authenticateWithUserNamePassword(username, password).subscribe(() => console.log("Login Successful"));
-
-    setTimeout(() => {
-      this.loginService.isAuthenticated().subscribe(t => {
-        console.log(t);
-      })
-    }, 2000)
   }
   logout() {
     this.loginService.signOut()
