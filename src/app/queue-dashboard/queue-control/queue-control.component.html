@@ -50,7 +50,8 @@
         </button>
       </td>
       <td>
-        <button [matTooltip]="TIP_REMOVE_INCIDENT" (click)="onRemoveIncident(user)" class="btn btn-danger">
+        <button [matTooltip]="TIP_REMOVE_INCIDENT" (click)="onRemoveIncident(user)" class="btn btn-danger"
+                [disabled]="user.incidentCounts[paramId] == 0">
           <i class="fa fa-minus-square fa-sm"> </i>
         </button>
       </td>
