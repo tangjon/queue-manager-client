@@ -83,8 +83,6 @@ export class UserService {
     const body = user.generateMetaBody();
     return this.http.put(`${this.userapi}/${user.iNumber}`, body, this.httpOptions)
       .pipe(
-        tap(() => this.logService.addLog(user, ActiondId.CUSTOM_MESSAGE,
-          new Detail().addCustomDetail("User Meta Updated"))),
         catchError(e => Helper.handleError(e, "Update User Meta Failed"))
       )
   }
