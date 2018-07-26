@@ -44,8 +44,8 @@
         <td>{{user.usagePercent}}</td>
         <td>
           <button class="btn btn-success" type="button" (click)="onAddQDay(user)">Add</button>
-          <button class="btn btn-default" type="button" (click)="updateQueueDays(user)">Update</button>
           <button class="btn btn-warning" type="button" (click)="addQueueDay(user, 1)">+1</button>
+          <button class="btn btn-default" type="button" (click)="updateQueueDays(user)">Edit</button>
         </td>
         <td>
           <input type="checkbox" [id]="user.iNumber" class="css-checkbox"><label [for]="user.iNumber"

@@ -89,7 +89,7 @@ export class RccManagementComponent implements OnInit {
   }
 
   updateQueueDays(user) {
-    let pVal = prompt(`Enter the amount you want to overwrite for ${user.name()}. Again you are assign this user this amount of queue days not adding to them`);
+    let pVal = prompt(`Enter the amount you want to overwrite for ${user.name()}. Again you are assigning this user the amount of queue days and not adding to them`);
     // parseBody value
     if(pVal && confirm("ARE YOU SURE? YOU ARE ABOUT THE OVERWRITE THE QUEUE DAY VALUE FOR " + user.name() + " to " + pVal)) {
       let amount = parseFloat(pVal);
