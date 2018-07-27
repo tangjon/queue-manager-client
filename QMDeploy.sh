@@ -7,6 +7,5 @@ echo "============================================"
 echo "RUNNING UPDATE TOOL"
 echo "============================================"
 
-git reset --hard origin/master
-git pull
+npm run build-prod
 read
