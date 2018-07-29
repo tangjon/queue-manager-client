@@ -14,7 +14,7 @@ export const environment = {
   // Hana Cloud API
   apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
   // LOCAL QM API
-  api : 'http://localhost:8081/api',
+  api : 'http://localhost:8082/api',
 
   // Firebase config and api
   firebaseRootUrl: 'dev',
