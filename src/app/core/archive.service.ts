@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {environment} from "../../environments/environment";
 import {ActionEntryLog} from "../shared/model/actionentrylog";
 import {User} from "../shared/model/user";
 import {AngularFireDatabase} from "angularfire2/database";
@@ -13,9 +12,9 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class ArchiveService {
-  archivEntryAPI = environment.apiUrl + 'archive_entry';
-  archiveUserAPI = environment.apiUrl + 'archive_user';
-  archiveLogAPI = environment.apiUrl + 'archive_log';
+  archivEntryAPI = 'archive_entry';
+  archiveUserAPI = 'archive_user';
+  archiveLogAPI = 'archive_log';
 
 
   private httpOptions = {

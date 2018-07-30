@@ -1,6 +1,6 @@
-# Queue Manager Web App 2.0
+# Queue Manager Web App 3.0
 
-An unofficial tool to aid and assist Support Engineers assign and distribute customer incidents. This is an overhaul of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher.
+An unofficial tool to aid and assist EPM Support Engineers assign and distribute customer incidents. This is an overhaul of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher.
 
 Live link: https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/
 
@@ -13,10 +13,8 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 1. NodeJs
-2. Angular Firebase
-3. Angular-Cli
-4. Angular Firebase Tools (Not needed)
-5. Git Bash
+2. Git Bash
+3. MySQL Community Server
 
 ### Installing
 
@@ -24,39 +22,55 @@ What things you need to install the software and how to install them
 2. Through the Node Js command line run:
 
 ```
-npm install // should install all dependencies
+npm install // This will install all dependencies
 ```
 
-## Local Development
-Please note that local development is on a seperate API/Database. Changes will not be made to the production system.
+### Environments
+These are following environments set up to be used for this project. Treat these environment as separate entities. No data is shared between them.
+1. Development Environment with local Database - For testing and development use.
+2. Production Environment with VM Database - For production use.
+
+Extra Environments
+1. Development Environment with VM Database - For testing and development use. This connects the front-end application to the development server on VM.
+
+## Start Local Development Environment
+This environment connects front-end to a local mysql database on port 8082.
+
+i.e http://localhost:8082/api
 
 To start application run:
 ```
-ng serve
+ng serve OR npm run start
 ```
 
-## Deployment to Production
-Compile the application into static folder with static files
+## Start VM Development Environment
+This environment connects front-end to a mysql database located on the VM on port 8082.
 
-To compile the folder:
+i.e http://<server-ip>:8082/api
+
+To start application run:
 ```
+npm run start-vm
+```
+
+## Compile Production Application for deployment 
+Compile the application into static folder with static files to server by an HTTP server. i.e IIS Manager
+
+The following command will output a folder "build-prod", containing a static version of application to be put on an HTTP Server to server and read
+```
+**For prod
 npm run build-prod
-```
-### Phase 1: Push to repositories
-```
-Double click on deploy.sh through Windows - pushes application
-Double click on deploy-doc.sh through Windows - pushes docs
-```
-### Phase 2: Deploy to Cloud Platform
-Head over to Hana Cloud Cockpit & Navigate to Web IDE
-   * Hit Pull
-   * Right Click Project Folder -> Hana Cloud -> Deploy Existing 'queuemanager'
-   * DONE!
 
-These links are all you need
-- [Application Link](https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/#/qm/NW) - Application Home
-- [Web IDE](https://webide-p2000140239trial.dispatcher.hanatrial.ondemand.com/index.html) - Deployment & Make project live
-- [WorkBench](https://qmdatabasep2000140239trial.hanatrial.ondemand.com/sap/hana/ide/) - Database and API Exposure
+**For dev
+npm run build-dev
+```
+
+## Included Bash Commands that can be ran:
+
+Update.sh - Resets the project state and pulls the updates project files
+
+Deploy.sh - Compiles the production version of the app. Outputs "build-prod folder"
+
 
 ## Built With
 

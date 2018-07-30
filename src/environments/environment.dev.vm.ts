@@ -8,9 +8,7 @@ export const environment = {
   appShort: 'QM 3',
   production: false,   // Compile for production: npm run build-prod
 
-  // Hana Cloud API
-  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_prod/data.xsodata/',
-  // LOCAL QM API
+  // VM QM API
   api: 'http://10.160.199.221:8082/api',
 
   /* Firebase, realtime functionality */

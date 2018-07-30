@@ -3,14 +3,12 @@ export const environment = {
 
   // Meta Data
   appVersion: '3.0',
-  last_updated: 'July 2018',
+  last_updated: 'August 2018',
   appName: 'Queue Manager Cloud Dispatcher',
   appShort: 'QMCD',
   production: true,   // Compile for production: npm run build-prod
 
-  // Hana Cloud API
-  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_prod/data.xsodata/',
-  // LOCAL QM API
+  // VM QM API
   api : 'http://10.160.199.221:8081/api',
 
   /* Firebase, realtime functionality */

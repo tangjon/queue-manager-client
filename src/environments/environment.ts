@@ -11,8 +11,6 @@ export const environment = {
   appShort: 'QMCD',
   production: false,
 
-  // Hana Cloud API
-  apiUrl: 'https://qmdatabasep2000140239trial.hanatrial.ondemand.com/qmapi_dev/data.xsodata/',
   // LOCAL QM API
   api : 'http://localhost:8082/api',
 
