@@ -93,6 +93,7 @@ export class LogService {
       .pipe(
         tap(() => {
           this.entryLogSubject.getValue().unshift(newEntryLog);
+          this.entryLogSubject.next(this.entryLogSubject.getValue());
         }),
         catchError(err => Helper.handleError(err, "Failed to add log"))
       ).subscribe(() => {

@@ -22,7 +22,7 @@ export class ActivityLogComponent implements OnInit {
   ngOnInit() {
     this.activityLog$ = Observable.of([]);
 
-    this.logService.getLogs().map(arr => arr.splice(0, this.NUM_OF_RESULTS)).subscribe((res: any) => {
+    this.logService.getLogs().map(arr => arr.slice(0, this.NUM_OF_RESULTS)).subscribe((res: any) => {
       this.actionActiveLogList = res;
     })
   }
