@@ -1,5 +1,7 @@
 # Queue Manager Web App 3.0
 
+# Front end
+
 An unofficial tool to aid and assist EPM Support Engineers assign and distribute customer incidents. This is an overhaul of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher.
 
 Live link: https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/
@@ -14,7 +16,6 @@ What things you need to install the software and how to install them
 
 1. NodeJs
 2. Git Bash
-3. MySQL Community Server
 
 ### Installing
 
@@ -71,6 +72,53 @@ Update.sh - Resets the project state and pulls the updates project files
 
 Deploy.sh - Compiles the production version of the app. Outputs "build-prod folder"
 
+
+# Backend End
+The front end needs a backend to talk to. Here it is. The backend with process the requests and query the database as needed.
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+What things you need to install the software and how to install them
+
+1. NodeJs
+2. Git Bash
+3. MySQL Community Server
+
+### Installing
+
+## Install MySQL Community Server & Workbench
+All files needed are present in generate folder.
+- model.mwb: The containing the database structure for prod,dev,sandbox
+- initialize db tables.sql: Pure sql that creates the tables needed for application
+- generate.sql: Run this to initialize application with standard data. User: i100000
+- generate_test.sql: Run this to populate application with dummy data
+
+
+## Install dependencies
+1. Install [Node.js](https://nodejs.org/en/)
+2. Through the Node Js command line run:
+
+```
+npm install // This will install all dependencies
+```
+
+3. Create a file in backend directory on the same level of app.js named "SECRET.js" (no quotes)
+
+paste the following 
+
+### Starting Production Server
+```
+npm run start-prod
+```
+
+### Starting Development Server
+```
+npm run start-dev
+```
 
 ## Built With
 
