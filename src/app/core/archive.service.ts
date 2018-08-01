@@ -1,10 +1,10 @@
+
+import {of as observableOf, forkJoin, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ActionEntryLog} from "../shared/model/actionentrylog";
 import {User} from "../shared/model/user";
 import {AngularFireDatabase} from "angularfire2/database";
-import {forkJoin} from "rxjs/observable/forkJoin";
-import {Observable} from "rxjs/Observable";
 
 /*
 * [REFACTORED] March 29th 2018
@@ -40,7 +40,7 @@ export class ArchiveService {
       batch_user_add.push(this.http.post(this.archiveUserAPI, body, this.httpOptions))
     });
     if (batch_user_add.length == 0) {
-      batch_user_add.push(Observable.of({}));
+      batch_user_add.push(observableOf({}));
     }
 
     // Prepare Requests for Logs
@@ -50,7 +50,7 @@ export class ArchiveService {
       batch_log_add.push(this.http.post(this.archiveLogAPI, body, this.httpOptions))
     });
     if (batch_log_add.length == 0) {
-      batch_log_add.push(Observable.of({}));
+      batch_log_add.push(observableOf({}));
     }
 
     // Return as on observable

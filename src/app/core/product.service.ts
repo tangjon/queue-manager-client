@@ -1,8 +1,9 @@
+
+import {map, catchError} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
-import {catchError} from "rxjs/operators";
+import {Observable} from "rxjs";
 import {Helper} from "../shared/helper/helper";
 
 @Injectable()
@@ -19,8 +20,8 @@ export class ProductService {
   }
 
   getProducts(): Observable<string[]> {
-    return this.http.get(this.api, this.httpOptions)
-      .map((res: any) => {
+    return this.http.get(this.api, this.httpOptions).pipe(
+      map((res: any) => {
         let productList = [];
         if (res.code === 200) {
           res.data.forEach(el => {
@@ -29,7 +30,7 @@ export class ProductService {
           sortAlpha(productList); // sorts array alphabetically
         }
         return productList;
-      });
+      }));
 
     function sortAlpha(arr) {
       arr.sort(function (b, a) {

@@ -1,15 +1,16 @@
+
+import {map, switchMap, catchError, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of, BehaviorSubject} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, tap} from 'rxjs/operators';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {User} from "../shared/model/user";
 import {Helper} from "../shared/helper/helper";
 import {ActiondId} from "../shared/model/actionEntryLog";
 import {Detail} from "../shared/model/detail";
+import { map } from '../../../node_modules/rxjs-compat/operator/map';
 
 @Injectable()
 export class UserService {
@@ -32,8 +33,8 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get(this.userapi)
-      .map((resp: any) => {
+    return this.http.get(this.userapi).pipe(
+      map((resp: any) => {
         // verify response
         if (resp.code === 200) {
           return resp.data.map(el =>
@@ -45,7 +46,7 @@ export class UserService {
         } else {
           throw new Error(resp.code);
         }
-      }).pipe(
+      })).pipe(
         catchError((e) => Helper.handleError(e, "Failed to get users"))
       );
   }
@@ -56,6 +57,7 @@ export class UserService {
     }
     const url = `${this.userapi}/${iNumber}`;
     return of("cat");
+
     // return this.http.get(url).map((resp: any) => {
     //   if (resp.code === 200) {
     //     return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_perecent, resp.data.incident_counts, resp.data.supported_products);
@@ -74,12 +76,12 @@ export class UserService {
       "first_name": firstName,
       "last_name": ""
     };
-    return this.http.post(this.userapi, body, this.httpOptions).switchMap((resp: any) => {
+    return this.http.post(this.userapi, body, this.httpOptions).pipe(switchMap((resp: any) => {
       if (resp.code == 201) {
         return this.getUserByNumber(iNumber);
       }
       throw Error();
-    }).pipe(
+    })).pipe(
       catchError(e => Helper.handleError(e, "Failed to Add User"))
     );
   }
@@ -115,13 +117,13 @@ export class UserService {
     const body = {
       "supported": bool
     };
-    return this.http.put(`${this.userapi}/${user.iNumber}/${productShortName}`, body, this.httpOptions).map((res: any) => {
+    return this.http.put(`${this.userapi}/${user.iNumber}/${productShortName}`, body, this.httpOptions).pipe(map((res: any) => {
       if (res.code === 200) {
         return res;
       } else {
         throw new Error();
       }
-    })
+    }))
       .pipe(
         tap(() => this.logService.addLog(user, ActiondId.PRDOUCT_SUPPORT_CHANGED,
           new Detail().addCustomDetail(user.hasRole(productShortName) ? "Removed " + productShortName : "Added " + productShortName))),
@@ -154,7 +156,7 @@ export class UserService {
 
   // TODO Refactor out, redundant and sub-clone of #Update Queue Days
   restQueueDays(user: User) {
-    return Observable.of(5);
+    return observableOf(5);
     // let tmp = new User(user);
     // tmp.currentQDays = 0;
     // return this.userSetService.resetRCC(tmp)
@@ -164,25 +166,42 @@ export class UserService {
   updateQueueDays(user, amount) {
     const requestUser = User.copy(user);
     requestUser.currentQDays = amount;
-    return this.updateUserMeta(requestUser).map(() => amount)
+    return this.updateUserMeta(requestUser).pipe(map(() => amount))
       .pipe(
         tap(() => this.logService.addLog(user, ActiondId.QUEUE_DAYS_CHANGED,
           new Detail(user.currentQDays, amount, "Queue Days"))),
         catchError(e => Helper.handleError(e, "Update Queue Days Failed")));
   }
 
-  getQM(): Observable<User> {
-    return this.http.get(this.qmapi).map((resp: any) => {
-      if (resp.code !== 200) {
-        throw new Error("error");
-      }
-      return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent, resp.data.incident_counts, resp.data.supported_products);
-    }).pipe(catchError(e => Helper.handleError(e, "Failed to get QM")));
+  getQM(): Observable<any> {
+    return this.http.get(this.qmapi).pipe(
+      map((r) => new User(r.data.user_id, r.data.first_name, r.data.last_name,
+        r.data.is_available, r.data.current_q_days, r.data.incident_threshold,
+        r.usage_percent,r.data.incident_counts, r.data.supported_products),
+      catchError(e => Helper.handleError(e, "Failed to get QM")
+      )
+    )
   }
+    // return this.http.get(this.qmapi)
+    // .map((resp:any)=>{
+    //   if (resp.code !== 200) {
+    //     throw new Error("error");
+    //   }
+    //   return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name,
+    //     resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold,
+    //     resp.usage_percent,resp.data.incident_counts, resp.data.supported_products)
+    // })
+    // return of(new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent, resp.data.incident_counts, resp.data.supported_products))
+    // return this.http.get(this.qmapi).map((resp: any) => {
+    //   if (resp.code !== 200) {
+    //     throw new Error("error");
+    //   }
+    //   return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent, resp.data.incident_counts, resp.data.supported_products);
+    // }).pipe(catchError(e => Helper.handleError(e, "Failed to get QM")));
 
   setQM(iNumber: string) {
     let user;
-    return this.getUserByNumber(iNumber).switchMap(
+    return this.getUserByNumber(iNumber).pipe(switchMap(
       (u: User) => {
         user = u;
         // noinspection SpellCheckingInspection
@@ -191,7 +210,7 @@ export class UserService {
         };
         return this.http.put(this.qmapi, body, this.httpOptions);
       }
-    ).pipe(
+    )).pipe(
       tap(() => this.logService.addLog(user, ActiondId.QM_CHANGED,
         new Detail().addCustomDetail("QM Changed to " + user.name()))),
       catchError(e => Helper.handleError(e, "Failed to set QM")));

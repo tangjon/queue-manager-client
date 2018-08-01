@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {LoginService} from "./core/login.service";
 
 @Component({

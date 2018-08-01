@@ -1,13 +1,14 @@
+
+import {of as observableOf, Observable, BehaviorSubject} from 'rxjs';
+
+import {switchMap, map, catchError, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import 'rxjs/add/observable/forkJoin';
+
 import {environment} from '../../environments/environment';
 import {User} from "../shared/model/user";
-import {catchError, tap} from "rxjs/operators";
 import {Helper} from "../shared/helper/helper";
 import {ActiondId, ActionEntryLog} from "../shared/model/actionEntryLog";
 import {Detail} from "../shared/model/detail";
@@ -38,7 +39,7 @@ export class LogService {
   private actionList = [];
 
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
-    this.http.get(this.api + '/actions', this.httpOptions).map((r: any) => r.data).subscribe((res: Array<object>) => {
+    this.http.get(this.api + '/actions', this.httpOptions).pipe(map((r: any) => r.data)).subscribe((res: Array<object>) => {
       this.actionList = res;
     })
   }
@@ -49,7 +50,7 @@ export class LogService {
    * @returns Array of logs
    */
   getLogs(): Observable<any[]> {
-    return this.http.get(this.api, this.httpOptions).switchMap((result: any) => {
+    return this.http.get(this.api, this.httpOptions).pipe(switchMap((result: any) => {
       let data = result.data.map(el => new ActionEntryLog({
         loggerInumber: el.logger_id,
         affectedInumber: el.affected_user_id,
@@ -61,7 +62,7 @@ export class LogService {
       }));
       this.entryLogSubject.next(data);
       return this.entryLogSubject
-    }).pipe(
+    })).pipe(
       catchError(err => Helper.handleError(err, "Failed to get log"))
     )
   }
@@ -105,7 +106,7 @@ export class LogService {
    * Delete all logs on database
    */
   purgeLogs(): Observable<any> {
-      return Observable.of(5)
+      return observableOf(5)
   }
 
   // HELPER FUNCTIONS

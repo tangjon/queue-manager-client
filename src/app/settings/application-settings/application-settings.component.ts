@@ -1,14 +1,15 @@
+
+import {of as observableOf, forkJoin, Observable} from 'rxjs';
+
+import {switchMap, tap} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../core/user.service";
-import {forkJoin} from 'rxjs/observable/forkJoin';
 import {User} from "../../shared/model/user";
 import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material";
 import {LogService} from "../../core/log.service";
 import {ArchiveService} from "../../core/archive.service";
-import {tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Observable} from "rxjs/Observable";
 
 // import * as $ from 'jquery'
 @Component({
@@ -43,7 +44,7 @@ export class ApplicationSettingsComponent implements OnInit {
     if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")){
       this.showSpinner = true;
       this.progressMessage = "Archiving...";
-      this.initiateArchive().switchMap(() => {
+      this.initiateArchive().pipe(switchMap(() => {
         return forkJoin(
           this.initiateClearIncidents().pipe(tap(() => {
             this.progressMessage = "Clearing Incidents..."
@@ -55,7 +56,7 @@ export class ApplicationSettingsComponent implements OnInit {
             this.progressMessage = "Purging Logs...";
           }))
         )
-      }).subscribe(() => {
+      })).subscribe(() => {
         this.showSpinner = false;
         this.snackbar.open('One Click Reset Complete!', 'Close');
       }, err => {
@@ -132,7 +133,7 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   private initiateArchive() {
-    return forkJoin([this.userSerivce.getUsers(), this.logService.getLogs()]).switchMap(data => {
+    return forkJoin([this.userSerivce.getUsers(), this.logService.getLogs()]).pipe(switchMap(data => {
       return this.archiveService.add(data[1], data[0]).pipe(tap(() => {
         let d = new Date();
         this.download(`${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}_QMTOOL_BACKUP`, JSON.stringify({
@@ -140,21 +141,21 @@ export class ApplicationSettingsComponent implements OnInit {
           logs: data[1]
         }));
       }));
-    });
+    }));
   }
 
   private initiateClearQueueDays() {
-    return this.userSerivce.getUsers().switchMap(users => {
+    return this.userSerivce.getUsers().pipe(switchMap(users => {
       let batchCall = [];
       users.forEach((user: User) => {
         batchCall.push(this.userSerivce.restQueueDays(user).pipe(tap(() => user.currentQDays = 0)));
       });
       return forkJoin(batchCall);
-    })
+    }))
   }
 
   private initiateClearIncidents() {
-    return Observable.of(5)
+    return observableOf(5)
     // return forkJoin([this.userSerivce.getUsers(), this.productService.getProducts()]).switchMap(data => {
     //   let users = data[0];
     //   let products = data[1];

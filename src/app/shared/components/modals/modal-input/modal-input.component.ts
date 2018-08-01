@@ -1,6 +1,6 @@
 ///<reference path="../modal-interface.ts"/>
 import {Component, OnInit} from '@angular/core';
-import {Subject} from "rxjs/Subject";
+import {Subject} from "rxjs";
 import {BsModalRef} from "ngx-bootstrap/modal/bs-modal-ref.service";
 import {ModalInterface} from "../modal-interface";
 

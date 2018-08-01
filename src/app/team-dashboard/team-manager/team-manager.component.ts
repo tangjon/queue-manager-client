@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {User} from '../../shared/model/user';
 import {UserService} from '../../core/user.service';
 import {NgForm} from '@angular/forms'
