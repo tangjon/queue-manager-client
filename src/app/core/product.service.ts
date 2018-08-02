@@ -1,4 +1,3 @@
-
 import {map, catchError} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
@@ -25,34 +24,21 @@ export class ProductService {
         let productList = [];
         if (res.code === 200) {
           res.data.forEach(el => {
-            productList.push(el.short_name)
+            productList.push(el.short_name);
           });
-          sortAlpha(productList); // sorts array alphabetically
+          Helper.sortAlpha(productList); // sorts array alphabetically
         }
         return productList;
       }));
-
-    function sortAlpha(arr) {
-      arr.sort(function (b, a) {
-        if (a > b) {
-          return -1;
-        }
-        if (a < b) {
-          return 1;
-        }
-        return 0;
-      });
-      return arr;
-    }
   }
 
   addProduct(productShortName): Observable<any> {
     return this.http.post(this.api, {short_name: productShortName}, this.httpOptions)
-      .pipe(catchError(e => Helper.handleError(e, "Add Product Failed")))
+      .pipe(catchError(e => Helper.handleError(e, "Add Product Failed")));
   }
 
   removeProduct(productShortName): Observable<any> {
     return this.http.delete(`${this.api}/${productShortName}`)
-      .pipe(catchError(e => Helper.handleError(e, "Remove Product Failed")))
+      .pipe(catchError(e => Helper.handleError(e, "Remove Product Failed")));
   }
 }
