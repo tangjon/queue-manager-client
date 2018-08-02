@@ -122,6 +122,7 @@ export class LogService {
   }
 
   refresh() {
+    this.getLogs().subscribe();
   }
 
 }
