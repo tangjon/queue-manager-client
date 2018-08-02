@@ -41,17 +41,16 @@ export class UserService {
               el.current_q_days, el.incident_threshold, el.usage_percent,
               el.incident_counts, el.supported_products)
           );
-        } else {
-          throw new Error(resp.code);
         }
-      })).pipe(
+        throw new Error(resp.code);
+      }),
       catchError((e) => Helper.handleError(e, "Failed to get users"))
     );
   }
 
   getUserByNumber(iNumber: string): Observable<any> {
     if (!iNumber) {
-      throwError("Empty Argument");
+      throw new Error("Empty Argument");
     }
     const url = `${this.userapi}/${iNumber}`;
     return this.http.get(url).pipe(
@@ -60,12 +59,11 @@ export class UserService {
           return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name,
             resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold,
             resp.usage_perecent, resp.data.incident_counts, resp.data.supported_products);
-        } else {
-          throwError("User not found");
         }
+        throw new Error("User not found");
       }),
       catchError((e) => Helper.handleError(e, "Failed to get user"))
-    )
+    );
   }
 
   addUser(firstName: string, iNumber: string): Observable<User> {
@@ -74,14 +72,16 @@ export class UserService {
       "first_name": firstName,
       "last_name": ""
     };
-    return this.http.post(this.userapi, body, this.httpOptions).pipe(switchMap((resp: any) => {
-      if (resp.code == 201) {
-        return this.getUserByNumber(iNumber);
-      }
-      throw Error();
-    })).pipe(
-      catchError(e => Helper.handleError(e, "Failed to Add User"))
-    );
+    return this.http.post(this.userapi, body, this.httpOptions)
+      .pipe(
+        switchMap((resp: any) => {
+          if (resp.code == 201) {
+            return this.getUserByNumber(iNumber);
+          }
+          return throwError(new Error("User does not exist"));
+        }),
+        catchError(e => Helper.handleError(e, "Failed to Add User"))
+      );
   }
 
   updateUserMeta(user: User) {
@@ -115,17 +115,19 @@ export class UserService {
     const body = {
       "supported": bool
     };
-    return this.http.put(`${this.userapi}/${user.iNumber}/${productShortName}`, body, this.httpOptions).pipe(map((res: any) => {
-      if (res.code === 200) {
-        return res;
-      } else {
-        throw new Error();
-      }
-    }))
+    return this.http.put(`${this.userapi}/${user.iNumber}/${productShortName}`, body, this.httpOptions)
       .pipe(
+        map((res: any) => {
+          if (res.code === 200) {
+            return res;
+          }
+          throw new Error("User not found");
+        }),
         tap(() => this.logService.addLog(user, ActiondId.PRDOUCT_SUPPORT_CHANGED,
           new Detail().addCustomDetail(user.hasRole(productShortName) ? "Removed " + productShortName : "Added " + productShortName))),
-        catchError(e => Helper.handleError(e, "Failed to update support")));
+        catchError(e => Helper.handleError(e, "Failed to update support"))
+      );
+
   }
 
   addIncident(user: User, productShortName: string): Observable<any> {
@@ -164,11 +166,13 @@ export class UserService {
   updateQueueDays(user, amount) {
     const requestUser = User.copy(user);
     requestUser.currentQDays = amount;
-    return this.updateUserMeta(requestUser).pipe(map(() => amount))
+    return this.updateUserMeta(requestUser)
       .pipe(
+        map(() => amount),
         tap(() => this.logService.addLog(user, ActiondId.QUEUE_DAYS_CHANGED,
           new Detail(user.currentQDays, amount, "Queue Days"))),
-        catchError(e => Helper.handleError(e, "Update Queue Days Failed")));
+        catchError(e => Helper.handleError(e, "Update Queue Days Failed"))
+      )
   }
 
 
@@ -176,14 +180,14 @@ export class UserService {
     return this.http.get<User>(this.qmapi).pipe(
       map((r: any) => {
         if (r.code !== 200) {
-          throwError("error")
+          throw new Error("error");
         }
         return new User(r.data.user_id, r.data.first_name, r.data.last_name,
           r.data.is_available, r.data.current_q_days, r.data.incident_threshold,
-          r.usage_percent, r.data.incident_counts, r.data.supported_products)
+          r.usage_percent, r.data.incident_counts, r.data.supported_products);
       }),
       catchError((e: any) => Helper.handleError(e, "Failed to get QM"))
-    )
+    );
   }
 
   setQM(iNumber: string) {
