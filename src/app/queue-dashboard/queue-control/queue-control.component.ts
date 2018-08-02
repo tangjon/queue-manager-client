@@ -1,8 +1,10 @@
+
+import {map, pluck, tap} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import 'rxjs/add/operator/pluck';
+
 import {UserService} from '../../core/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from "../../shared/model/user";
@@ -11,7 +13,6 @@ import {BsModalService} from "ngx-bootstrap/modal";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {Helper} from "../../shared/helper/helper";
-import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-queue-control',
@@ -70,7 +71,7 @@ export class QueueControlComponent implements OnInit {
       }
     });
 
-    this.id$ = this.route.params.pluck('id');
+    this.id$ = this.route.params.pipe(pluck('id'));
     this.id$.subscribe(value => {
       this.paramId = value;
       this.showSpinner = true;
@@ -92,12 +93,12 @@ export class QueueControlComponent implements OnInit {
   }
 
   populateTodayIncident(user: User) {
-    return this.userService.getUserIncidents(user.iNumber).map((t: any) => {
+    return this.userService.getUserIncidents(user.iNumber).pipe(map((t: any) => {
 
       return t.data.filter(i => {
         return Helper.dateWithin(new Date(i.timestamp), 'day');
       });
-    }).subscribe(res => this.todayUserIncidentDict[user.iNumber] = res)
+    })).subscribe(res => this.todayUserIncidentDict[user.iNumber] = res)
   }
 
   onAddIncident(user: User) {

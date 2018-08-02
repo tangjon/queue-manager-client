@@ -1,3 +1,5 @@
+
+import {map, catchError, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {UserService} from './user.service';
 import {User} from '../shared/model/user';
@@ -9,7 +11,6 @@ import {ModalServerErrorComponent} from "../shared/components/modals/modal-serve
 import {environment} from "../../environments/environment";
 import {Helper} from "../shared/helper/helper";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, tap} from "rxjs/operators";
 
 @Injectable()
 export class LoginService {
@@ -67,7 +68,7 @@ export class LoginService {
   }
 
   isAuthenticated() {
-    return this.authenticatedWithBasicToken(this.getCachedToken()).map(() => true);
+    return this.authenticatedWithBasicToken(this.getCachedToken()).pipe(map(() => true));
   }
 
   getCachedToken() {

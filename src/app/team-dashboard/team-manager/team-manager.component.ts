@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {User} from '../../shared/model/user';
 import {UserService} from '../../core/user.service';
 import {NgForm} from '@angular/forms'
@@ -62,7 +62,7 @@ export class TeamManagerComponent {
   deleteItem(user: User) {
     let prompt = window.confirm("Are you sure you want to delete: " + user.name() + "(" + user.iNumber + ")" + "?");
     if (prompt) {
-      this.userService.deleteUser(user.iNumber).subscribe(res => {
+      this.userService.deleteUser(user.iNumber).subscribe((res:any) => {
         if (res.code == 200) {
           this.userService.getUsers().subscribe(user => {
             this.userList = user;

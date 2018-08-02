@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../../core/product.service";
 import {NgForm} from "@angular/forms";
@@ -18,7 +20,7 @@ export class ComponentSettingsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.productService.getProducts().map((data: string[]) => {
+    this.productService.getProducts().pipe(map((data: string[]) => {
       return data.sort(function (b, a) {
         if (a > b) {
           return -1;
@@ -29,7 +31,7 @@ export class ComponentSettingsComponent implements OnInit {
         // a must be equal to b
         return 0;
       })
-    }).subscribe(products => {
+    })).subscribe(products => {
       this.productList = products;
       this.showSpinner = false;
     });
