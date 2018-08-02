@@ -1,4 +1,3 @@
-
 import {of as observableOf, Observable, BehaviorSubject} from 'rxjs';
 
 import {switchMap, map, catchError, tap} from 'rxjs/operators';
@@ -41,7 +40,7 @@ export class LogService {
   constructor(public http: HttpClient, public db: AngularFireDatabase) {
     this.http.get(this.api + '/actions', this.httpOptions).pipe(map((r: any) => r.data)).subscribe((res: Array<object>) => {
       this.actionList = res;
-    })
+    });
   }
 
 
@@ -50,19 +49,20 @@ export class LogService {
    * @returns Array of logs
    */
   getLogs(): Observable<any[]> {
-    return this.http.get(this.api, this.httpOptions).pipe(switchMap((result: any) => {
-      let data = result.data.map(el => new ActionEntryLog({
-        loggerInumber: el.logger_id,
-        affectedInumber: el.affected_user_id,
-        affectedUserName : el.affected_user_name,
-        actionId: el.action_id,
-        defaultDescription: el.description,
-        detail: el.detail,
-        timestamp: el.timestamp
-      }));
-      this.entryLogSubject.next(data);
-      return this.entryLogSubject
-    })).pipe(
+    return this.http.get(this.api, this.httpOptions).pipe(
+      switchMap((result: any) => {
+        let data = result.data.map(el => new ActionEntryLog({
+          loggerInumber: el.logger_id,
+          affectedInumber: el.affected_user_id,
+          affectedUserName: el.affected_user_name,
+          actionId: el.action_id,
+          defaultDescription: el.description,
+          detail: el.detail,
+          timestamp: el.timestamp
+        }));
+        this.entryLogSubject.next(data);
+        return this.entryLogSubject;
+      }),
       catchError(err => Helper.handleError(err, "Failed to get log"))
     )
   }
@@ -99,14 +99,14 @@ export class LogService {
         catchError(err => Helper.handleError(err, "Failed to add log"))
       ).subscribe(() => {
 
-    })
+    });
   }
 
   /**
    * Delete all logs on database
    */
   purgeLogs(): Observable<any> {
-      return observableOf(5)
+    return observableOf(5);
   }
 
   // HELPER FUNCTIONS
@@ -118,7 +118,7 @@ export class LogService {
   }
 
   setCachedINumber(i: string) {
-    localStorage[environment.KEY_CACHE_INUMBER] = i
+    localStorage[environment.KEY_CACHE_INUMBER] = i;
   }
 
   refresh() {
