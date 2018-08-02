@@ -13,6 +13,7 @@ import {BsModalService} from "ngx-bootstrap/modal";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {Helper} from "../../shared/helper/helper";
+import {WebSocketService} from "../../core/websocket.service";
 
 @Component({
   selector: 'app-queue-control',
@@ -36,8 +37,7 @@ export class QueueControlComponent implements OnInit {
 
   todayUserIncidentDict: object = {};
   // Refresh Button Variables
-  isFirstCallBack;
-  applicationChangeFlag;
+  applicationChangeFlag = false;
 
   // Fireball
   MAX_INCIDENTS = 3;
@@ -51,23 +51,20 @@ export class QueueControlComponent implements OnInit {
   TIP_REMOVE_INCIDENT = 'Remove an incident from user';
   TIP_REFRESH = "Green check mark is up to date. Orange is out sync";
 
-  constructor(public db: AngularFireDatabase,
+  constructor(
               private route: ActivatedRoute,
               public userService: UserService,
               public snackBar: MatSnackBar,
-              private modalService: BsModalService) {
+              private modalService: BsModalService,
+              private webSocketService: WebSocketService) {
   }
 
   ngOnInit(): void {
-    this.isFirstCallBack = true; // we want to ignore the first callback
-    this.applicationChangeFlag = false;
-    // listen to application changes
-    this.db.object(environment.firebaseRootUrl + '/log-last-change').valueChanges().subscribe((r: any) => {
-      // Ignore first call back and changes are not from local user
-      if (!this.isFirstCallBack && atob(this.userService.logService.getCachedINumber()) !== r.user) {
+
+    // Listen to changes from other clients
+    this.webSocketService.connect().subscribe((data)=>{
+      if(data.socket_id !== this.webSocketService.socketId) {
         this.applicationChangeFlag = true;
-      } else {
-        this.isFirstCallBack = false;
       }
     });
 
@@ -114,6 +111,8 @@ export class QueueControlComponent implements OnInit {
           user.incidentCounts[this.paramId]++;
           this.updateSummary();
           this.populateTodayIncident(user);
+          this.webSocketService.modifyQueue();
+
         },
         error => {
           this.errorHandler(error)
@@ -135,6 +134,8 @@ export class QueueControlComponent implements OnInit {
           user.incidentCounts[this.paramId]--;
           this.updateSummary();
           this.populateTodayIncident(user);
+          this.webSocketService.modifyQueue();
+
         }, error => {
           this.errorHandler(error)
         }
@@ -148,12 +149,14 @@ export class QueueControlComponent implements OnInit {
     target.disabled = true;
     // Send toggle
     this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
+      this.webSocketService.modifyQueue();
       user.setStatus(!user.isAvailable);
       this.snackBar.open("Toggle Successful", "Close", {duration: 1000})
     }, (error) => alert(error.message));
   }
 
   updateSummary() {
+
     // total of all products
     let totalA = 0;
     this._userList.forEach(user => {
@@ -172,6 +175,7 @@ export class QueueControlComponent implements OnInit {
   }
 
   hardRefresh() {
+    this.applicationChangeFlag = false;
     this.ngOnInit();
     this.userService.logService.refresh();
     this.snackBar.open("Refreshing...", "Close", {duration: 3000})
@@ -180,9 +184,5 @@ export class QueueControlComponent implements OnInit {
   private errorHandler(error) {
     this.errorMessage = `Received an error: ${error.message}\nConsider the following:\n1.Are you using Chrome?\n2.Please Restart the Database`;
     this.snackBar.open(error.message, 'Close');
-  }
-
-  logIt(t, a) {
-    console.log(t, a)
   }
 }
