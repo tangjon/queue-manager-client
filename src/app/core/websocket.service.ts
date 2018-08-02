@@ -3,6 +3,9 @@ import io from 'socket.io-client';
 import {Observable, Subject} from 'rxjs';
 import {environment} from "../../environments/environment";
 
+
+// TERRIBLE NEEDS REFACTORING
+// OPERATING AS PROOF OF CONCEPT
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +17,8 @@ export class WebSocketService {
   public socketId;
 
   constructor() {
+    this.socket = io.connect(environment.ws_url);
+    console.log(this.socket)
   }
 
   connect() : Subject<any>{
@@ -21,7 +26,6 @@ export class WebSocketService {
     // you can hard code `environment.ws_url` as `http://localhost:5000`
     // this.socket = io.connect(environment.ws_url);
 
-    this.socket = io.connect(environment.ws_url);
     this.socket.on("connect", ()=>{
       this.socketId = this.socket.id;
     });

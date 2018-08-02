@@ -60,6 +60,7 @@ export class QueueControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.applicationChangeFlag = false;
 
     // Listen to changes from other clients
     this.webSocketService.connect().subscribe((data)=>{
@@ -175,7 +176,6 @@ export class QueueControlComponent implements OnInit {
   }
 
   hardRefresh() {
-    this.applicationChangeFlag = false;
     this.ngOnInit();
     this.userService.logService.refresh();
     this.snackBar.open("Refreshing...", "Close", {duration: 3000})
