@@ -10,7 +10,7 @@ export const environment = {
 
   // VM QM API
   api: 'http://10.160.199.221:8082/api',
-
+  ws_url : 'http://10.160.199.221:8082',
   /* Firebase, realtime functionality */
   firebaseRootUrl: 'dev',
   firebase: {

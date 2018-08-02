@@ -13,7 +13,7 @@ export const environment = {
 
   // LOCAL QM API
   api : 'http://localhost:8082/api',
-
+  ws_url : 'http://localhost:8082',
   // Firebase config and api
   firebaseRootUrl: 'dev',
   firebase: {
