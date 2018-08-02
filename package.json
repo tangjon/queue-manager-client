@@ -10,8 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod": "ng build --prod --output-path=build-prod --env=prod",
-    "build-dev": "ng build --dev --output-path=build-dev --env=dev",
+    "build-prod": "ng build --prod --output-path=build-prod --configuration=production",
+    "build-dev": "ng build --dev --output-path=build-dev --configuration=dev",
     "compodoc": "compodoc -p src/tsconfig.app.json -w -s --includes ./documentation-extended -a ./documentation-extended/assets --name QMDocs",
     "compodoc-build": "compodoc -p src/tsconfig.app.json --includes ./documentation-extended -a ./documentation-extended/assets --name QMDocs"
   },
