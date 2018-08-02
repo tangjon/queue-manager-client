@@ -13,6 +13,7 @@ import {ModalServerErrorComponent} from './components/modals/modal-server-error/
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {ModalModule} from "ngx-bootstrap/modal";
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MaterialModule} from "./material";
 /*
 * entryComponents: Modal components need to be here or they won't work
 * */
@@ -20,11 +21,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   imports: [
     CommonModule,
-    MatSnackBarModule,
+    MaterialModule,
     AppRoutingModule,
     // TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    MatTooltipModule
   ],
   declarations: [
     SidebarComponent,

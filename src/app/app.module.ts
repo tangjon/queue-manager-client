@@ -15,6 +15,7 @@ import {AboutComponent} from './about/about.component';
 import {RccDashboardModule} from "./rcc-dashboard/rcc-dashboard.module";
 import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
 import {PatchNotesComponent} from './patch-notes/patch-notes.component';
+import {MaterialModule} from "./shared/material";
 
 @NgModule({
   declarations: [
@@ -27,15 +28,15 @@ import {PatchNotesComponent} from './patch-notes/patch-notes.component';
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     BrowserAnimationsModule,
     QueueDashboardModule,
     RccDashboardModule,
     TeamDashboardModule,
     FormsModule,
-    SharedModule,
     AppRoutingModule,
     SettingsModule,
-    CoreModule
+    CoreModule,
   ],
   bootstrap: [AppComponent]
 })
