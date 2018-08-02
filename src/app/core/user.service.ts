@@ -1,8 +1,7 @@
-
-import {map, switchMap, catchError, tap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable, of, BehaviorSubject} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
@@ -10,7 +9,6 @@ import {User} from "../shared/model/user";
 import {Helper} from "../shared/helper/helper";
 import {ActiondId} from "../shared/model/actionEntryLog";
 import {Detail} from "../shared/model/detail";
-import { map } from '../../../node_modules/rxjs-compat/operator/map';
 
 @Injectable()
 export class UserService {
@@ -47,27 +45,27 @@ export class UserService {
           throw new Error(resp.code);
         }
       })).pipe(
-        catchError((e) => Helper.handleError(e, "Failed to get users"))
-      );
+      catchError((e) => Helper.handleError(e, "Failed to get users"))
+    );
   }
 
   getUserByNumber(iNumber: string): Observable<any> {
     if (!iNumber) {
-      throw new Error("Empty Argument");
+      throwError("Empty Argument");
     }
     const url = `${this.userapi}/${iNumber}`;
-    return of("cat");
-
-    // return this.http.get(url).map((resp: any) => {
-    //   if (resp.code === 200) {
-    //     return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_perecent, resp.data.incident_counts, resp.data.supported_products);
-    //   } else {
-    //     throw new Error("User not found");
-    //   }
-    // })
-    //   .pipe(
-    //     catchError((e) => Helper.handleError(e, "Failed to get user"))
-    //   );
+    return this.http.get(url).pipe(
+      map((resp: any) => {
+        if (resp.code === 200) {
+          return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name,
+            resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold,
+            resp.usage_perecent, resp.data.incident_counts, resp.data.supported_products);
+        } else {
+          throwError("User not found");
+        }
+      }),
+      catchError((e) => Helper.handleError(e, "Failed to get user"))
+    )
   }
 
   addUser(firstName: string, iNumber: string): Observable<User> {
@@ -156,7 +154,7 @@ export class UserService {
 
   // TODO Refactor out, redundant and sub-clone of #Update Queue Days
   restQueueDays(user: User) {
-    return observableOf(5);
+    return of(5);
     // let tmp = new User(user);
     // tmp.currentQDays = 0;
     // return this.userSetService.resetRCC(tmp)
@@ -173,31 +171,20 @@ export class UserService {
         catchError(e => Helper.handleError(e, "Update Queue Days Failed")));
   }
 
-  getQM(): Observable<any> {
-    return this.http.get(this.qmapi).pipe(
-      map((r) => new User(r.data.user_id, r.data.first_name, r.data.last_name,
-        r.data.is_available, r.data.current_q_days, r.data.incident_threshold,
-        r.usage_percent,r.data.incident_counts, r.data.supported_products),
-      catchError(e => Helper.handleError(e, "Failed to get QM")
-      )
+
+  getQM(): Observable<User> {
+    return this.http.get<User>(this.qmapi).pipe(
+      map((r: any) => {
+        if (r.code !== 200) {
+          throwError("error")
+        }
+        return new User(r.data.user_id, r.data.first_name, r.data.last_name,
+          r.data.is_available, r.data.current_q_days, r.data.incident_threshold,
+          r.usage_percent, r.data.incident_counts, r.data.supported_products)
+      }),
+      catchError((e: any) => Helper.handleError(e, "Failed to get QM"))
     )
   }
-    // return this.http.get(this.qmapi)
-    // .map((resp:any)=>{
-    //   if (resp.code !== 200) {
-    //     throw new Error("error");
-    //   }
-    //   return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name,
-    //     resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold,
-    //     resp.usage_percent,resp.data.incident_counts, resp.data.supported_products)
-    // })
-    // return of(new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent, resp.data.incident_counts, resp.data.supported_products))
-    // return this.http.get(this.qmapi).map((resp: any) => {
-    //   if (resp.code !== 200) {
-    //     throw new Error("error");
-    //   }
-    //   return new User(resp.data.user_id, resp.data.first_name, resp.data.last_name, resp.data.is_available, resp.data.current_q_days, resp.data.incident_threshold, resp.usage_percent, resp.data.incident_counts, resp.data.supported_products);
-    // }).pipe(catchError(e => Helper.handleError(e, "Failed to get QM")));
 
   setQM(iNumber: string) {
     let user;

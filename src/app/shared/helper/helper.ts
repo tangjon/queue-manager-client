@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {unitOfTime} from 'moment';
 import {HttpErrorResponse} from "@angular/common/http";
-import {ErrorObservable} from "rxjs/observable/ErrorObservable";
+import {throwError} from "rxjs";
 
 export class Helper {
 
@@ -37,14 +37,14 @@ export class Helper {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${JSON.stringify(error.error)}`);
-      return new ErrorObservable({
+      return throwError({
         "status": error.status,
         "message": `${message} : ${error.error.message}`
       })
     } else {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.message);
-      return new ErrorObservable({
+      return throwError({
         "status": error.status,
         "message": `${message} : ${error.message}`
       })
