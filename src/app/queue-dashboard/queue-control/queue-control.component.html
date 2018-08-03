@@ -1,6 +1,6 @@
 <h3 class="alert alert-danger error-message" *ngIf="errorMessage">{{ errorMessage }}</h3>
 <h1 class="component-header">QM: {{id$ | async }}
-  <button mat-raised-button color="primary" [matTooltip]="TIP_REFRESH" class="aqm-refresh btn" (click)="hardRefresh()">
+  <button mat-raised-button color="primary" [matTooltip]="TIP_REFRESH" class="qm-refresh btn" (click)="hardRefresh()">
     <i class="fa fa-check" *ngIf="!applicationChangeFlag" style="color: #1dca00;"></i>
     <i class="fa fa-exclamation-circle" *ngIf="applicationChangeFlag" style="color: orange"></i>
     Refresh
