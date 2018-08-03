@@ -12,7 +12,7 @@ import {ModalInputComponent} from './components/modals/modal-input/modal-input.c
 import {ModalServerErrorComponent} from './components/modals/modal-server-error/modal-server-error.component';
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {ModalModule} from "ngx-bootstrap/modal";
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTooltipModule} from '@angular/material';
 import {MaterialModule} from "./material";
 /*
 * entryComponents: Modal components need to be here or they won't work
