@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   appShort = environment.appShort;
   isProd = environment.production;
   dEnvironmentMsg = 'DEVELOPMENT';
-  qmdoclink = "https://queuemanagerdocumentation-p2000140239trial.dispatcher.hanatrial.ondemand.com/additional-documentation/introduction.html";
+  qmdoclink = environment.doc_url;
 
   constructor(public loginService: LoginService) {
   }

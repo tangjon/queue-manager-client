@@ -14,6 +14,8 @@ export const environment = {
   // LOCAL QM API
   api : 'http://localhost:8082/api',
   ws_url : 'http://localhost:8082',
+  doc_url : 'https://queuemanagerdocumentation-p2000140239trial.dispatcher.hanatrial.ondemand.com/additional-documentation/introduction.html',
+
   // Firebase config and api
   firebaseRootUrl: 'dev',
   firebase: {
