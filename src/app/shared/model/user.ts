@@ -5,7 +5,7 @@ export class User {
   iNumber: string;
   firstName: string;
   lastName: string;
-  isAvailable: boolean;
+  isAvailable: any;
   usagePercent: number;
   currentQDays: number;
   iThreshold: number;
@@ -28,6 +28,10 @@ export class User {
     }
   }
 
+  checkAvailability(){
+    return this.isAvailable != 0;
+  }
+
   getStatus(): string {
     if (this.isAvailable) {
       return "AVAILABLE"
@@ -47,7 +51,6 @@ export class User {
     });
     return count;
   }
-
 
   getIncidentAmount(productShortName: string): number {
     return this.incidentCounts[productShortName];

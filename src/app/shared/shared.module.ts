@@ -42,7 +42,7 @@ import {MaterialModule} from "./material";
     NotificationComponent,
     NavbarComponent,
     // TooltipModule,
-    MatTooltipModule
+    MaterialModule
   ],
   entryComponents:[
     ModalConfirmComponent,

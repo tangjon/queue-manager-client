@@ -14,6 +14,7 @@ import {ModalConfirmComponent} from "../../shared/components/modals/modal-confir
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {Helper} from "../../shared/helper/helper";
 import {WebSocketService} from "../../core/websocket.service";
+import {MatSlider, MatSlideToggleChange} from "@angular/material";
 
 @Component({
   selector: 'app-queue-control',
@@ -145,9 +146,6 @@ export class QueueControlComponent implements OnInit {
   }
 
   toggleAvailability(user: User, event) {
-    // Prevent double click toggle
-    let target = <HTMLSelectElement> event.target;
-    target.disabled = true;
     // Send toggle
     this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
       this.webSocketService.modifyQueue();

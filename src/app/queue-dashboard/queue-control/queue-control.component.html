@@ -75,7 +75,12 @@
         </i>
       </td>
       <td>
-        <button (click)="toggleAvailability(user, $event)">Toggle</button>
+        <!--<button mat-raised-button color="primary" (click)="toggleAvailability(user, $event)">Toggle</button>-->
+        <mat-slide-toggle
+          [checked]="user.checkAvailability()"
+          (change)="toggleAvailability(user, $event)">
+          Toggle
+        </mat-slide-toggle>
       </td>
     </tr>
     </tbody>
@@ -109,12 +114,18 @@
         <i class="fa fa-times fa-lg" style="color:red;"></i>
       </td>
       <td>
-        <button (click)="toggleAvailability(bUser, $event)">Toggle</button>
+        <!--<button (click)="toggleAvailability(bUser, $event)">Toggle</button>-->
+        <mat-slide-toggle
+          [checked]="bUser.checkAvailability()"
+          (change)="toggleAvailability(bUser, $event)">
+          Toggle
+        </mat-slide-toggle>
       </td>
     </tr>
     </tbody>
   </table>
 </div>
+
 
 
 <div class="incident-detail text-center shadow">{{id$ | async }} has
