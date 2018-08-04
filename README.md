@@ -1,71 +1,70 @@
 # Queue Manager Web App 3.0
 
-The goal of the tool is help the EPM Queue Manager distribute incident workload more efficiently to individual engineers. It highlights the next available engineer that should receive another incident for processing
-
-# Front end
-
-An unofficial tool to aid and assist EPM Support Engineers assign and distribute customer incidents. This is an overhaul of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher.
+This documentation is for setting up the EPM QM Tool. Refer to UserDocumentation for information on how to use this tool.
 
 Live link: https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/
 
-## Getting Started
+# Setup Front end (Angular 6)
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development. For deployment, refer to the deployment section below.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Things you need to install on your machine
 
-1. NodeJs
-2. Git Bash
+1. Node.js (https://nodejs.org/en/)
+2. Git (https://git-scm.com/)
 
 ### Installing
 
-1. Install [Node.js](https://nodejs.org/en/)
-2. Through the Node Js command line run:
+Through the Node.js command line run:
 
 ```
 npm install // This will install all dependencies
 ```
 
-### Environments
+# Start the application : Development and Productions Environments
+
+## Environments
 These are following environments set up to be used for this project. Treat these environment as separate entities. No data is shared between them.
-1. Development Environment with local Database - For testing and development use.
-2. Production Environment with VM Database - For production use.
 
-Extra Environments
-1. Development Environment with VM Database - For testing and development use. This connects the front-end application to the development server on VM.
+DEVELOPMENT:
 
-## Start Local Development Environment
-This environment connects front-end to a local mysql database on port 8082.
-
-i.e http://localhost:8082/api
-
-To start application run:
-```
+Development Environment with local Database
+- requires MySQL database on local machine
+```$xslt
 ng serve OR npm run start
 ```
 
-## Start VM Development Environment
-This environment connects front-end to a mysql database located on the VM on port 8082.
-
-i.e http://<server-ip>:8082/api
-
-To start application run:
-```
+Development Environment with VM Database
+- connects local front-end application to MySQL development database located on VM
+- Backend server located on VM PORT 8082 i.e http://< vmip >:8082
+```$xslt
 npm run start-vm
 ```
 
-## Compile Production Application for deployment 
-Compile the application into static folder with static files to server by an HTTP server. i.e IIS Manager
+PRODUCTION:
 
-The following command will output a folder "build-prod", containing a static version of application to be put on an HTTP Server to server and read
+Production Environment with VM Database - For production use.
+- do not develop on this
+```$xslt
+npm run build-prod // compiles the project for production. Outputs folder 'build-prod'
+```
+
+## Compile Production or Development Application for Deployment
+Compile the application into static folder with static files to server by an HTTP server. 
+
+Currently an IIS server should be pointed to 'build-prod'
+- this folder contains the production application users will see
+
+The following commands will compile the project files to served to the clients.
 ```
 **For prod
-npm run build-prod
+npm run build-prod // outputs 'build-prod'
 
 **For dev
-npm run build-dev
+npm run build-dev //ouputs 'build-dev'
 ```
 
 ## Included Bash Commands that can be ran:
