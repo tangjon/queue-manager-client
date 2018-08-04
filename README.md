@@ -1,5 +1,7 @@
 # Queue Manager Web App 3.0
 
+The goal of the tool is help the EPM Queue Manager distribute incident workload more efficiently to individual engineers. It highlights the next available engineer that should receive another incident for processing
+
 # Front end
 
 An unofficial tool to aid and assist EPM Support Engineers assign and distribute customer incidents. This is an overhaul of the original: https://github.com/qianyilun/Queue-Manager-Cloud-Dispatcher.

@@ -1,7 +1,8 @@
 # Introduction
 Welcome to the EPM Queue Manager Tool Documentation!
 
-The goal of the tool is help the Queue Manager operate more efficiently and focus on dispatching the incident where it needs to go. 
+The goal of the tool is help the EPM Queue Manager distribute the incident workload more efficiently to individual engineers. It highlights the next available engineer that should receive another incident for processing
+
 The tool also attempts to balance work distribution in fair and transparent way.
 
 ## Hana Cloud Cockpit Management [[Docs](/additional-documentation/hana-cloud-cockpit.html)]
