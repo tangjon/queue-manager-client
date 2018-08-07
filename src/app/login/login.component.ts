@@ -14,19 +14,26 @@ export class LoginComponent {
 
   constructor(public afAuth: AngularFireAuth, public loginService: LoginService) {
     this.loginService.authenticatedWithBasicToken().subscribe(() => {
-    })
+    }, err => this.handleError(err));
   }
+
   login(username: string, password: string) {
     this.loginService.authenticateWithFirebase(username, password).catch(
       e => this.handleError(e)
     );
-    this.loginService.authenticateWithUserNamePassword(username, password).subscribe(() => console.log("Login Successful"));
+    this.loginService.authenticateWithUserNamePassword(username, password)
+      .subscribe(
+        () => console.log("Login Successful"),
+        err => this.handleError(err)
+      );
   }
+
   logout() {
-    this.loginService.signOut()
+    this.loginService.signOut();
   }
 
   handleError(err) {
+    console.log("hello");
     this.authFlag = false;
     this.authMessage = err.message;
   }
@@ -36,7 +43,7 @@ export class LoginComponent {
       let data = f.value;
       let username = data.inputUsername;
       let password = data.inputPassword;
-      this.login(username, password)
+      this.login(username, password);
     }
   }
 }
