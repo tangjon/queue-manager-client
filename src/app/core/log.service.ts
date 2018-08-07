@@ -106,7 +106,7 @@ export class LogService {
    * Delete all logs on database
    */
   purgeLogs(): Observable<any> {
-    return observableOf(5);
+    return this.http.post(this.api + "/reset",{ "reset_boolean" : true } ,this.httpOptions).pipe(tap(()=> this.refresh()))
   }
 
   // HELPER FUNCTIONS

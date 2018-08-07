@@ -1,5 +1,5 @@
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import {BehaviorSubject, forkJoin, Observable, of, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
@@ -154,13 +154,20 @@ export class UserService {
         catchError(e => Helper.handleError(e, "Remove Incident Failed")));
   }
 
-  // TODO Refactor out, redundant and sub-clone of #Update Queue Days
+  /** @deprecated do not use this */
   restQueueDays(user: User) {
     return of(5);
-    // let tmp = new User(user);
-    // tmp.currentQDays = 0;
-    // return this.userSetService.resetRCC(tmp)
-    //   .pipe(catchError(e => Helper.handleError(e, "Reset Queue Days Failed")));
+  }
+
+  resetAllUser(){
+    return forkJoin(
+      [
+        this.http.post(this.incidentapi + '/reset', {'reset_boolean': true}, this.httpOptions),
+        this.http.post(this.userapi + '/reset', {'reset_boolean' : true}, this.httpOptions)
+      ]
+    ).pipe(
+      catchError(e => Helper.handleError(e, "Reset User Failed"))
+    )
   }
 
   updateQueueDays(user, amount) {
