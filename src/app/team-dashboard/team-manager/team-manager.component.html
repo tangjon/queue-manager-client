@@ -20,7 +20,7 @@
         <td><input type="text" #updateName [value]="user.name()"/></td>
         <td><input type="text" #updateiNumber [value]="user.iNumber" disabled/></td>
         <td><input type="number" #updateThreshold [value]="user.iThreshold"/></td>
-        <td><input type="number" #updateUsage [value]="user.usagePercent"/></td>
+        <td><input type="number" step="0.01" #updateUsage [value]="user.usagePercent"/></td>
         <td>
           <button
             (click)="updateUser(user, updateName.value, updateiNumber.value,updateUsage.value, updateThreshold.value)">
