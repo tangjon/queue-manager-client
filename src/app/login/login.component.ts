@@ -13,8 +13,11 @@ export class LoginComponent {
   authMessage = "";
 
   constructor(public afAuth: AngularFireAuth, public loginService: LoginService) {
-    this.loginService.authenticatedWithBasicToken().subscribe(() => {
-    }, err => this.handleError(err));
+    // attempt to authenticate user
+    if (this.loginService.getCachedToken()){
+      this.loginService.authenticatedWithBasicToken().subscribe(() => {
+      }, err => this.handleError(err));
+    }
   }
 
   login(username: string, password: string) {
