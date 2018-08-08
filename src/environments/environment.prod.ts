@@ -3,7 +3,7 @@ export const environment = {
 
   // Meta Data
   appVersion: '3.0',
-  last_updated: 'August 2018',
+  last_updated: 'July 2018',
   appName: 'Queue Manager Cloud Dispatcher',
   appShort: 'QMCD',
   production: true,   // Compile for production: npm run build-prod

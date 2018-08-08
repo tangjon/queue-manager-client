@@ -33,6 +33,8 @@ npm install // This will install all dependencies
 ## Environments
 These are following environments set up to be used for this project. Treat these environment as separate entities. No data is shared between them.
 
+All connections are managed in the src/environments folder separated by prod, dev, and sandbox
+
 DEVELOPMENT:
 
 Development Environment with local Database

@@ -5,7 +5,7 @@ export const environment = {
   appVersion: '3.0',
   last_updated: 'July 2018',
   appName: 'Queue Manager Cloud Dispatcher',
-  appShort: 'QM 3',
+  appShort: 'QMCD',
   production: false,   // Compile for production: npm run build-prod
 
   // VM QM API
