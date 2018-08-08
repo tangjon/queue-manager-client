@@ -4,6 +4,10 @@ This documentation is for setting up the EPM QM Tool. Refer to UserDocumentation
 
 Live link: https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/
 
+Outlines the following
+- Setup Front End
+- Setup Back End
+
 # Setup Front end (Angular 6)
 
 ## Getting Started
@@ -73,6 +77,7 @@ Update.sh - Resets the project state and pulls the updates project files
 
 Deploy.sh - Compiles the production version of the app. Outputs "build-prod folder"
 
+=======================================
 
 # Backend End
 The front end needs a backend to talk to. Here it is. The backend with process the requests and query the database as needed.
@@ -89,15 +94,44 @@ What things you need to install the software and how to install them
 2. Git Bash
 3. MySQL Community Server
 
+
 ### Installing
 
 ## Install MySQL Community Server & Workbench
-All files needed are present in generate folder.
+
+The files are present in the generate folder.
 - model.mwb: The containing the database structure for prod,dev,sandbox
 - initialize db tables.sql: Pure sql that creates the tables needed for application
 - generate.sql: Run this to initialize application with standard data. User: i100000
 - generate_test.sql: Run this to populate application with dummy data
 
+1. Install (https://dev.mysql.com/downloads/installer/)
+
+2. Create a fie named "SECRET.JS" with the following
+```angular2html
+// 3 databases must exist on mysql dev,prod,sandbox
+const config = {
+    "dev": {
+      host     : 'localhost',
+      user     : 'root',
+      password : 'password',
+      database : 'qmtooldb_dev'
+    },
+    "prod" : {
+      host     : 'localhost',
+      user     : 'root',
+      password : 'password',
+      database : 'qmtooldb_prod'
+    },
+    'sandbox' : {
+      host     : 'localhost',
+      user     : 'root',
+      password : 'password',
+      database : 'qmtooldb'
+    }
+}
+module.exports = config
+```
 
 ## Install dependencies
 1. Install [Node.js](https://nodejs.org/en/)
@@ -123,13 +157,13 @@ npm run start-dev
 
 ## Built With
 
-* [Firebase](https://firebase.google.com/) - Database
+* [Google Firebase](https://firebase.google.com/) - Realtime Actions
 * [AngularFire2](https://www.npmjs.com/package/angularfire2)
 * [Angular](https://angular.io/) - Front-end web framework
 * [NodeJs](https://nodejs.org/en/) - Dependency Management
 * [Bootstrap](https://getbootstrap.com/) - Styling
 * [Font-Awesome](https://fontawesome.com/) - Styling
-
+* [MySQL](https://dev.mysql.com/) - Relational Database
 
 ## License
 
