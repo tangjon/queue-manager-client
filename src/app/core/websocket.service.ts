@@ -18,7 +18,6 @@ export class WebSocketService {
 
   constructor() {
     this.socket = io.connect(environment.ws_url);
-    console.log(this.socket)
   }
 
   connect() : Subject<any>{
@@ -33,7 +32,7 @@ export class WebSocketService {
     // from our socket.io server.
     let observable = new Observable(observer => {
       this.socket.on('new changes', (data) => {
-        console.log("Received message from Websocket Server");
+        // console.log("Received message from Websocket Server");
         observer.next(data);
       });
       return () => {

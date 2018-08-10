@@ -125,4 +125,22 @@ export class LogService {
     this.getLogs().subscribe();
   }
 
+  search(user:User): Observable<ActionEntryLog[]>{
+    return this.http.get(this.api, this.httpOptions).pipe(
+      map((result: any) => {
+        let data = result.data.map(el => new ActionEntryLog({
+          loggerInumber: el.logger_id,
+          affectedInumber: el.affected_user_id,
+          affectedUserName: el.affected_user_name,
+          actionId: el.action_id,
+          defaultDescription: el.description,
+          detail: el.detail,
+          timestamp: el.timestamp
+        }));
+        return data.filter((action:ActionEntryLog)=> action.affectedInumber.toUpperCase() == user.iNumber.toUpperCase())
+      }),
+      catchError(err => Helper.handleError(err, "Failed to get log"))
+    )
+  }
+
 }

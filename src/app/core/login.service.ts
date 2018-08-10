@@ -80,8 +80,6 @@ export class LoginService {
   }
 
 
-
-
   authenticateWithFirebase(username, password) {
     // Todo this is work around
     username += "@scout33.org";

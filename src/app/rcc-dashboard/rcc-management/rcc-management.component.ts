@@ -8,6 +8,7 @@ import * as $ from 'jquery';
 import {BsModalService} from "ngx-bootstrap";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {ModalInputComponent} from "../../shared/components/modals/modal-input/modal-input.component";
+import {ActionEntryLog} from "../../shared/model/actionEntryLog";
 
 @Component({
   selector: 'app-rcc-management',
@@ -20,8 +21,10 @@ export class RccManagementComponent implements OnInit {
   showSpinner: boolean = true;
   _userList: Array<User>;
   errorMessage: string;
-
   currentDate: Date;
+
+  actionEntryLogs: ActionEntryLog[];
+  lastQueueDayUpdateDict = {};
 
   constructor(public db: AngularFireDatabase,
               public userService: UserService,
@@ -44,6 +47,11 @@ export class RccManagementComponent implements OnInit {
       this.errorMessage = error.message;
     });
     this.currentDate = new Date();
+
+    this.userService.logService.getLogs().subscribe((logs) => {
+      this.actionEntryLogs = logs;
+      console.log(this.getLastQueueDayChange("i865689"));
+    });
   }
 
   onAddQDay(user: User) {
@@ -58,14 +66,14 @@ export class RccManagementComponent implements OnInit {
           user.currentQDays = newAmount;
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
-          this.matSnackBar.open("Update successful", "Close", {duration: 2000})
+          this.matSnackBar.open("Update successful", "Close", {duration: 2000});
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
-        })
+        });
       } else {
         this.matSnackBar.open(`Invalid input: '${val}'`, "Close", {duration: 5000});
       }
-    })
+    });
   }
 
   // Increment by one
@@ -79,10 +87,10 @@ export class RccManagementComponent implements OnInit {
           user.currentQDays = newAmount;
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
-          this.matSnackBar.open("Update successful", "Close", {duration: 2000})
+          this.matSnackBar.open("Update successful", "Close", {duration: 2000});
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
-        })
+        });
       }
     }
   }
@@ -90,16 +98,16 @@ export class RccManagementComponent implements OnInit {
   updateQueueDays(user) {
     let pVal = prompt(`Enter the amount you want to overwrite for ${user.name()}. Again you are assigning this user the amount of queue days and not adding to them`);
     // parseBody value
-    if(pVal && confirm("ARE YOU SURE? YOU ARE ABOUT THE OVERWRITE THE QUEUE DAY VALUE FOR " + user.name() + " to " + pVal)) {
+    if (pVal && confirm("ARE YOU SURE? YOU ARE ABOUT THE OVERWRITE THE QUEUE DAY VALUE FOR " + user.name() + " to " + pVal)) {
       let amount = parseFloat(pVal);
       if (!isNaN(amount)) {
         if (window.confirm(`${user.name()} will have ${user.currentQDays} CHANGED TO ${amount}. \nClick okay to confirm`)) {
           this.userService.updateQueueDays(user, amount).subscribe(r => {
             user.currentQDays = r;
-            this.matSnackBar.open("Update successful", "Close", {duration: 2000})
+            this.matSnackBar.open("Update successful", "Close", {duration: 2000});
           }, err => {
             this.matSnackBar.open("Error occurred: " + err.message, "Close");
-          })
+          });
         }
       }
     }
@@ -125,10 +133,14 @@ export class RccManagementComponent implements OnInit {
   }
 
   getResetDays() {
-    return this.daysLeftInQuarter(new Date())
+    return this.daysLeftInQuarter(new Date());
   }
 
   logIt(msg, t) {
     console.log(msg, t);
+  }
+
+  getLastQueueDayChange(iNumber) {
+    return this.actionEntryLogs.filter((log:ActionEntryLog) => log.affectedInumber.toUpperCase() === iNumber.toUpperCase());
   }
 }
