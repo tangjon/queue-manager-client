@@ -27,8 +27,8 @@
       <tr>
         <th scope="col">Name</th>
         <th scope="col">Current Queue Days</th>
-        <th scope="col">% Usage</th>
         <th scope="col">Action</th>
+        <th scope="col">Last Updated</th>
         <th scope="col">Checklist</th>
       </tr>
       </thead>
@@ -41,12 +41,12 @@
       <tr *ngFor="let user of _userList; let i = index">
         <td>{{user.name() + "(" + user.iNumber + ")"}}</td>
         <td>{{user.currentQDays}}</td>
-        <td>{{user.usagePercent}}</td>
         <td>
-          <button class="btn btn-success" type="button" (click)="onAddQDay(user)">Add</button>
-          <button class="btn btn-warning" type="button" (click)="addQueueDay(user, 1)">+1</button>
-          <button class="btn btn-default" type="button" (click)="updateQueueDays(user)">Edit</button>
+          <button class="btn btn-success m-1" type="button" (click)="onAddQDay(user)">Add</button>
+          <button class="btn btn-warning m-1" type="button" (click)="addQueueDay(user, 1)">+1</button>
+          <button class="btn btn-default m-1" type="button" (click)="updateQueueDays(user)">Edit</button>
         </td>
+        <td>Last updated</td>
         <td>
           <input type="checkbox" [id]="user.iNumber" class="css-checkbox"><label [for]="user.iNumber"
                                                                                  class="css-label cb0"></label>
