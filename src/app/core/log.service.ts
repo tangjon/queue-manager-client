@@ -48,7 +48,7 @@ export class LogService {
    * Get all logs from database.
    * @returns Array of logs
    */
-  getLogs(): Observable<any[]> {
+  getLogs(): Observable<ActionEntryLog[]> {
     return this.http.get(this.api, this.httpOptions).pipe(
       switchMap((result: any) => {
         let data = result.data.map(el => new ActionEntryLog({
@@ -64,7 +64,25 @@ export class LogService {
         return this.entryLogSubject;
       }),
       catchError(err => Helper.handleError(err, "Failed to get log"))
-    )
+    );
+  }
+
+  getLogsAsObservable(): Observable<ActionEntryLog[]> {
+    return this.http.get(this.api, this.httpOptions).pipe(
+      map((result: any) => {
+        let data = result.data.map(el => new ActionEntryLog({
+          loggerInumber: el.logger_id,
+          affectedInumber: el.affected_user_id,
+          affectedUserName: el.affected_user_name,
+          actionId: el.action_id,
+          defaultDescription: el.description,
+          detail: el.detail,
+          timestamp: el.timestamp
+        }));
+        return data;
+      }),
+      catchError(err => Helper.handleError(err, "Failed to get log"))
+    );
   }
 
   /**
@@ -106,7 +124,7 @@ export class LogService {
    * Delete all logs on database
    */
   purgeLogs(): Observable<any> {
-    return this.http.post(this.api + "/reset",{ "reset_boolean" : true } ,this.httpOptions).pipe(tap(()=> this.refresh()))
+    return this.http.post(this.api + "/reset", {"reset_boolean": true}, this.httpOptions).pipe(tap(() => this.refresh()));
   }
 
   // HELPER FUNCTIONS
@@ -125,7 +143,7 @@ export class LogService {
     this.getLogs().subscribe();
   }
 
-  search(user:User): Observable<ActionEntryLog[]>{
+  search(user: User): Observable<ActionEntryLog[]> {
     return this.http.get(this.api, this.httpOptions).pipe(
       map((result: any) => {
         let data = result.data.map(el => new ActionEntryLog({
@@ -137,10 +155,10 @@ export class LogService {
           detail: el.detail,
           timestamp: el.timestamp
         }));
-        return data.filter((action:ActionEntryLog)=> action.affectedInumber.toUpperCase() == user.iNumber.toUpperCase())
+        return data.filter((action: ActionEntryLog) => action.affectedInumber.toUpperCase() == user.iNumber.toUpperCase());
       }),
       catchError(err => Helper.handleError(err, "Failed to get log"))
-    )
+    );
   }
 
 }

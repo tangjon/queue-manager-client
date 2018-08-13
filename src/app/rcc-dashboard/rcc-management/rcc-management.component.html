@@ -46,7 +46,7 @@
           <button class="btn btn-warning m-1" type="button" (click)="addQueueDay(user, 1)">+1</button>
           <button class="btn btn-default m-1" type="button" (click)="updateQueueDays(user)">Edit</button>
         </td>
-        <td>Last updated</td>
+        <td>{{lastQueueDayUpdateDict[user.iNumber] }}</td>
         <td>
           <input type="checkbox" [id]="user.iNumber" class="css-checkbox"><label [for]="user.iNumber"
                                                                                  class="css-label cb0"></label>

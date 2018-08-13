@@ -48,10 +48,7 @@ export class RccManagementComponent implements OnInit {
     });
     this.currentDate = new Date();
 
-    this.userService.logService.getLogs().subscribe((logs) => {
-      this.actionEntryLogs = logs;
-      console.log(this.getLastQueueDayChange("i865689"));
-    });
+    this.updateQueueDayDict()
   }
 
   onAddQDay(user: User) {
@@ -67,6 +64,7 @@ export class RccManagementComponent implements OnInit {
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
           this.matSnackBar.open("Update successful", "Close", {duration: 2000});
+          this.updateQueueDayDict()
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         });
@@ -88,6 +86,7 @@ export class RccManagementComponent implements OnInit {
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
           this.matSnackBar.open("Update successful", "Close", {duration: 2000});
+          this.updateQueueDayDict()
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         });
@@ -105,6 +104,7 @@ export class RccManagementComponent implements OnInit {
           this.userService.updateQueueDays(user, amount).subscribe(r => {
             user.currentQDays = r;
             this.matSnackBar.open("Update successful", "Close", {duration: 2000});
+            this.updateQueueDayDict()
           }, err => {
             this.matSnackBar.open("Error occurred: " + err.message, "Close");
           });
@@ -140,7 +140,9 @@ export class RccManagementComponent implements OnInit {
     console.log(msg, t);
   }
 
-  getLastQueueDayChange(iNumber) {
-    return this.actionEntryLogs.filter((log:ActionEntryLog) => log.affectedInumber.toUpperCase() === iNumber.toUpperCase());
+  updateQueueDayDict(){
+    this.userService.getLastQueueDayChange().subscribe(res=>{
+      this.lastQueueDayUpdateDict = res;
+    })
   }
 }

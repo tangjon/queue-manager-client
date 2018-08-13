@@ -7,7 +7,7 @@ import {LogService} from './log.service';
 import {environment} from "../../environments/environment";
 import {User} from "../shared/model/user";
 import {Helper} from "../shared/helper/helper";
-import {ActiondId} from "../shared/model/actionEntryLog";
+import {ActiondId, ActionEntryLog} from "../shared/model/actionEntryLog";
 import {Detail} from "../shared/model/detail";
 
 @Injectable()
@@ -159,15 +159,15 @@ export class UserService {
     return of(5);
   }
 
-  resetAllUser(){
+  resetAllUser() {
     return forkJoin(
       [
         this.http.post(this.incidentapi + '/reset', {'reset_boolean': true}, this.httpOptions),
-        this.http.post(this.userapi + '/reset', {'reset_boolean' : true}, this.httpOptions)
+        this.http.post(this.userapi + '/reset', {'reset_boolean': true}, this.httpOptions)
       ]
     ).pipe(
       catchError(e => Helper.handleError(e, "Reset User Failed"))
-    )
+    );
   }
 
   updateQueueDays(user, amount) {
@@ -179,7 +179,7 @@ export class UserService {
         tap(() => this.logService.addLog(user, ActiondId.QUEUE_DAYS_CHANGED,
           new Detail(user.currentQDays, amount, "Queue Days"))),
         catchError(e => Helper.handleError(e, "Update Queue Days Failed"))
-      )
+      );
   }
 
 
@@ -230,4 +230,17 @@ export class UserService {
     };
   }
 
+
+  getLastQueueDayChange() {
+    return forkJoin([this.logService.getLogsAsObservable(), this.getUsers()]).pipe(map((res) => {
+        let users = res[1], logs = res[0];
+        let obj = {}; // stores date of last queue day change
+        users.forEach((u: User) => {
+          let userLog = logs.find((log: ActionEntryLog) => log.actionId === ActiondId.QUEUE_DAYS_CHANGED && u.iNumber === log.affectedInumber);
+          obj[u.iNumber] = userLog ? `${userLog.getDateFormatted()} ${userLog.getTimeFormatted()}` : "";
+        });
+        return obj;
+      })
+    );
+  }
 }
