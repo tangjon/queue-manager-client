@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Observable} from 'rxjs';
 import {LoginService} from "./core/login.service";
+import {WebSocketService} from "./core/websocket.service";
 
 @Component({
   selector: 'app-root',

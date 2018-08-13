@@ -15,6 +15,7 @@ import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {Helper} from "../../shared/helper/helper";
 import {WebSocketService} from "../../core/websocket.service";
 import {MatSlider, MatSlideToggleChange} from "@angular/material";
+import {QueueStateService} from "../../core/queuestate.service";
 
 @Component({
   selector: 'app-queue-control',
@@ -57,15 +58,21 @@ export class QueueControlComponent implements OnInit {
               public userService: UserService,
               public snackBar: MatSnackBar,
               private modalService: BsModalService,
-              private webSocketService: WebSocketService) {
+              private queueStateService: QueueStateService) {
   }
 
   ngOnInit(): void {
     this.applicationChangeFlag = false;
 
     // Listen to changes from other clients
-    this.webSocketService.connect().subscribe((data)=>{
-      if(data.socket_id !== this.webSocketService.socketId) {
+    // this.webSocketService.connect().subscribe((data)=>{
+    //   if(data.socket_id !== this.webSocketService.socketId) {
+    //     this.applicationChangeFlag = true;
+    //   }
+    // });
+
+    this.queueStateService.state.subscribe(data=>{
+      if(data.socket_id !== this.queueStateService.webSocketAbstractService.socket.id) {
         this.applicationChangeFlag = true;
       }
     });
@@ -113,7 +120,7 @@ export class QueueControlComponent implements OnInit {
           user.incidentCounts[this.paramId]++;
           this.updateSummary();
           this.populateTodayIncident(user);
-          this.webSocketService.modifyQueue();
+          this.queueStateService.modifyQueue();
 
         },
         error => {
@@ -136,7 +143,7 @@ export class QueueControlComponent implements OnInit {
           user.incidentCounts[this.paramId]--;
           this.updateSummary();
           this.populateTodayIncident(user);
-          this.webSocketService.modifyQueue();
+          this.queueStateService.modifyQueue();
 
         }, error => {
           this.errorHandler(error)
@@ -148,7 +155,7 @@ export class QueueControlComponent implements OnInit {
   toggleAvailability(user: User, event) {
     // Send toggle
     this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
-      this.webSocketService.modifyQueue();
+      this.queueStateService.modifyQueue();
       user.setStatus(!user.isAvailable);
       this.snackBar.open("Toggle Successful", "Close", {duration: 1000})
     }, (error) => alert(error.message));

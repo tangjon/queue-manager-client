@@ -9,29 +9,27 @@ import {environment} from "../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
-export class WebSocketService {
+export class WebSocketAbstractService {
 
   // Our socket connection
-  private socket;
+  socket;
 
-  public socketId;
 
   constructor() {
     this.socket = io.connect(environment.ws_url);
   }
 
-  connect() : Subject<any>{
+  connect(key:string) : Subject<any>{
     // If you aren't familiar with environment variables then
     // you can hard code `environment.ws_url` as `http://localhost:5000`
     // this.socket = io.connect(environment.ws_url);
 
     this.socket.on("connect", ()=>{
-      this.socketId = this.socket.id;
     });
     // We define our observable which will observe any incoming messages
     // from our socket.io server.
     let observable = new Observable(observer => {
-      this.socket.on('new changes', (data) => {
+      this.socket.on(key, (data) => {
         // console.log("Received message from Websocket Server");
         observer.next(data);
       });
@@ -44,17 +42,11 @@ export class WebSocketService {
     // socket server whenever the `next()` method is called.
     let observer = {
       next: (data: Object) => {
-        this.socket.emit('message', JSON.stringify(data));
+        this.socket.emit(key, JSON.stringify(data));
       },
     };
     // we return our Subject which is a combination
     // of both an observer and observable.
     return Subject.create(observer, observable);
-  }
-
-  modifyQueue() {
-    this.socket.emit('queue modified', {
-      "socket_id": this.socket.id
-    });
   }
 }
