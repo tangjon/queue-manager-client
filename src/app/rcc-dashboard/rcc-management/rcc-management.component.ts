@@ -9,6 +9,7 @@ import {BsModalService} from "ngx-bootstrap";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {ModalInputComponent} from "../../shared/components/modals/modal-input/modal-input.component";
 import {ActionEntryLog} from "../../shared/model/actionEntryLog";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-rcc-management',
@@ -34,15 +35,9 @@ export class RccManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(r => {
+    this.userService.getUsers().subscribe((r:User[]) => {
       this.showSpinner = false;
-      this._userList = r.sort(function (a, b) {
-        if (a.firstName < b.firstName)
-          return -1;
-        if (a.firstName > b.firstName)
-          return 1;
-        return 0;
-      });
+      this._userList = r.filter((user:User)=> user.iNumber.toUpperCase() !== "I100000")
     }, error => {
       this.errorMessage = error.message;
     });

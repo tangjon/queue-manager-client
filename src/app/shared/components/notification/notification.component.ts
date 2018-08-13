@@ -11,34 +11,13 @@ export class NotificationComponent implements OnInit {
 
   notification_array: Notification[] = [];
 
-  constructor(notificationService: NotificationService) {
-    console.log("notification");
-    notificationService.notifications.subscribe(res=>{
-      console.log(res);
-    });
+  constructor(public notificationService: NotificationService) {
   }
 
   ngOnInit() {
-    this.notification_array.push(this.getResetNotification());
-  }
-
-  getResetNotification(): Notification {
-    let display = false;
-    if (this.daysLeftInQuarter(new Date) <= 7) {
-      display = true;
-    }
-    return new Notification(
-      "System Info",
-      `There are ${this.daysLeftInQuarter(new Date())} days left in the quarter. Manual reset required soon.`,
-      display
-    );
-  }
-
-  daysLeftInQuarter(d) {
-    d = d || new Date();
-    // d.setDate(d.getDate() + 43)
-    const qEnd: any = new Date(d);
-    qEnd.setMonth(qEnd.getMonth() + 3 - qEnd.getMonth() % 3, 0);
-    return Math.floor((qEnd - d) / 8.64e7);
+    this.notificationService.notifications.subscribe(res=>{
+      console.log(res);
+      this.notification_array.push(new Notification("System Info",res.message,true))
+    });
   }
 }

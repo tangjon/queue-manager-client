@@ -33,17 +33,24 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get(this.userapi).pipe(
       map((resp: any) => {
-        // verify response
-        if (resp.code === 200) {
-          return resp.data.map(el =>
-            // populate the User Model
-            new User(el.user_id, el.first_name, el.last_name, el.is_available,
-              el.current_q_days, el.incident_threshold, el.usage_percent,
-              el.incident_counts, el.supported_products)
-          );
+          // verify response
+          if (resp.code === 200) {
+            return resp.data.map(el =>
+              // populate the User Model
+              new User(el.user_id, el.first_name, el.last_name, el.is_available,
+                el.current_q_days, el.incident_threshold, el.usage_percent,
+                el.incident_counts, el.supported_products)
+            ).sort(function (a, b) {
+              if (a.firstName < b.firstName)
+                return -1;
+              if (a.firstName > b.firstName)
+                return 1;
+              return 0;
+            });
+          }
+          throw new Error(resp.code);
         }
-        throw new Error(resp.code);
-      }),
+      ),
       catchError((e) => Helper.handleError(e, "Failed to get users"))
     );
   }
