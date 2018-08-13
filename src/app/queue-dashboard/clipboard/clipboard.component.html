@@ -2,6 +2,7 @@
   <div class="input-group">
     <input type="text" class="form-control" [value]="clipBoardText" #inputTarget>
     <span class="input-group-btn">
+
             <button matTooltip="Click to copy" class="btn btn-default" [class.btn-success]="isCopied" type="button"
                     [ngxClipboard]="inputTarget"
                     (cbOnSuccess)="isCopied = true">copy</button>

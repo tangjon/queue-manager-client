@@ -13,7 +13,6 @@ import {BsModalService} from "ngx-bootstrap/modal";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {Helper} from "../../shared/helper/helper";
-import {WebSocketService} from "../../core/websocket.service";
 import {MatSlider, MatSlideToggleChange} from "@angular/material";
 import {QueueStateService} from "../../core/queuestate.service";
 
