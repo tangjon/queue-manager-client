@@ -11,6 +11,6 @@ git fetch --all
 git reset --hard origin/master
 git pull
 echo "============================================"
-echo "Script Running Complete
+echo "Script Running Complete"
 echo "============================================"
 read
