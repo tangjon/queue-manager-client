@@ -28,6 +28,27 @@ Through the Node.js command line run:
 npm install // This will install all dependencies
 ```
 
+Create a file "qmtoolconfig.ts" on the same level of 'angular.json'. Paste the following 
+
+```angular2html
+let VMIP = "<IP ADDRESS>" // VIRTUAL MACHINE IP ADDRESS
+export const qmtoolconfig = {
+  'prod' : {
+    api: VMIP + ':8081/api',
+    ws_url : VMIP + ':8081',
+  },
+  'dev' : {
+    api: VMIP + ':8082/api',
+    ws_url : VMIP + ':8082',
+  },
+  'sandbox':{
+    api: VMIP + ':8083/api',
+    ws_url : VMIP + ':8083',
+  }
+};
+
+```
+
 # Start the application : Development and Productions Environments
 
 ## Environments
