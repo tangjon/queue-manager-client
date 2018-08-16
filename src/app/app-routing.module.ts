@@ -27,7 +27,7 @@ const appRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forRoot(
-      appRoutes, {useHash: true})
+      appRoutes, {useHash: true, scrollPositionRestoration: "disabled"})
   ],
   exports: [
     RouterModule
