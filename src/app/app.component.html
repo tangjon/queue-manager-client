@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="loginService.hasAuth" class="h-100">
-  <app-navbar></app-navbar>
+  <app-navbar class="fixed-nav"></app-navbar>
 
   <div class="container-fluid h-100">
     <div class="row h-100">
@@ -11,8 +11,8 @@
           <app-sidebar></app-sidebar>
         </div>
         <div class="col-lg-8 col">
-          <app-notification></app-notification>
           <app-notice-board></app-notice-board>
+          <app-notification></app-notification>
           <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
           <router-outlet></router-outlet>
           <app-activity-log></app-activity-log>
