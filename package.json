@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-prod": "ng build --prod --output-path=build-prod --configuration=production",
-    "build-dev": "ng build --dev --output-path=build-dev --configuration=dev",
+    "build-dev": "ng build --output-path=build-dev --configuration=dev.vm",
     "compodoc": "compodoc -p src/tsconfig.app.json -s  --extTheme ./docs/  --includes ./docs --assetsFolder ./docs/assets --name EPMQMDocs --theme postmark --includesName UserDocumentation",
     "compodoc-build": "compodoc -p src/tsconfig.app.json --extTheme ./docs/  --includes ./docs --assetsFolder ./docs/assets --name EPMQMDocs --theme postmark --includesName UserDocumentation"
   },
