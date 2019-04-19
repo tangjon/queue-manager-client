@@ -8,9 +8,9 @@ describe('ShiftInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShiftInfoComponent ]
+      declarations: [ShiftInfoComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

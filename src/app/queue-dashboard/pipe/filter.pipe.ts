@@ -1,8 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {User} from "../../shared/model/user";
-import {QueueControlComponent} from "../queue-control/queue-control.component";
-import {forEach} from "@angular/router/src/utils/collection";
-import {LogService} from "../../core/log.service";
 
 @Pipe({
   name: 'filter',
@@ -24,7 +21,9 @@ export class FilterPipe implements PipeTransform {
 export class SortByAlpha implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    if (!value) return [];
+    if (!value) {
+      return [];
+    }
     return value.sort(
       function (a, b) {
         if (a.name < b.name) {
@@ -34,7 +33,7 @@ export class SortByAlpha implements PipeTransform {
           return 1;
         }
         return 0;
-      })
+      });
   }
 
 }
@@ -48,7 +47,9 @@ export class SortByAlpha implements PipeTransform {
 export class SortByAVGQDay implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    if (!value) return [];
+    if (!value) {
+      return [];
+    }
     return value
       .sort(
         function (a, b) {
@@ -71,7 +72,9 @@ export class SortByAVGQDay implements PipeTransform {
 })
 export class IsAvailable implements PipeTransform {
   transform(value: any, component: string, availability: boolean): any {
-    if (!value) return [];
+    if (!value) {
+      return [];
+    }
     return value.filter((t: User) => {
       return t.supportedProducts[component] && t.isAvailable == availability;
     });
@@ -119,7 +122,7 @@ export class SortByPriority implements PipeTransform {
 
   private rankGroup(group: any[], totalIncidents: number, membersAvailable: number) {
     let usagePercent = group[0].usagePercent;
-    return (1/(totalIncidents*usagePercent/membersAvailable)).toFixed(4);
+    return (1 / (totalIncidents * usagePercent / membersAvailable)).toFixed(4);
   }
 
   private merge(arr) {
@@ -130,9 +133,9 @@ export class SortByPriority implements PipeTransform {
     return tmp;
   }
 
-  private sortByIncidents(group){
+  private sortByIncidents(group) {
     return group.sort(
-      function (a:User, b:User) {
+      function (a: User, b: User) {
         if (a.getIncidentTotal() < b.getIncidentTotal()) {
           return -1;
         }
@@ -145,9 +148,11 @@ export class SortByPriority implements PipeTransform {
 
 
   transform(value: any, totalIncidents: number): any {
-    if (!value) return [];
+    if (!value) {
+      return [];
+    }
 
-    let  t= this.groupByAQD(value).map(el=>{
+    let t = this.groupByAQD(value).map(el => {
       return this.sortByIncidents(el);
     });
 

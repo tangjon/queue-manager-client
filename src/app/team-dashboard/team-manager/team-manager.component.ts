@@ -3,7 +3,7 @@ import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {User} from '../../shared/model/user';
 import {UserService} from '../../core/user.service';
-import {NgForm} from '@angular/forms'
+import {NgForm} from '@angular/forms';
 import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
@@ -29,21 +29,23 @@ export class TeamManagerComponent {
       this.showSpinner = false;
       this.userList = r.sort(
         function (a, b) {
-          if (a.firstName < b.firstName)
+          if (a.firstName < b.firstName) {
             return -1;
-          if (a.firstName > b.firstName)
+          }
+          if (a.firstName > b.firstName) {
             return 1;
+          }
           return 0;
         });
     }, error => {
       this.errorMessage = error.message;
-    })
+    });
   }
 
   fetchProducts() {
     this.productService.getProducts().subscribe(r => {
       this.productList = r;
-    })
+    });
   }
 
   updateUser(user: User, name: string, iNumber: string, usage: string, i_threshold: string) {
@@ -53,7 +55,7 @@ export class TeamManagerComponent {
       user.usagePercent = parseFloat(usage);
       user.iThreshold = parseInt(i_threshold);
       this.userService.updateUserMeta(user).subscribe(r => {
-        this.snackBar.open("Update successful", "Close", {duration: 3000})
+        this.snackBar.open("Update successful", "Close", {duration: 3000});
       });
     }
 
@@ -62,13 +64,13 @@ export class TeamManagerComponent {
   deleteItem(user: User) {
     let prompt = window.confirm("Are you sure you want to delete: " + user.name() + "(" + user.iNumber + ")" + "?");
     if (prompt) {
-      this.userService.deleteUser(user.iNumber).subscribe((res:any) => {
+      this.userService.deleteUser(user.iNumber).subscribe((res: any) => {
         if (res.code == 200) {
           this.userService.getUsers().subscribe(user => {
             this.userList = user;
-          })
+          });
         }
-      })
+      });
     }
   }
 
@@ -87,8 +89,8 @@ export class TeamManagerComponent {
         this.userList.push(user);
         f.resetForm();
       }, error => {
-        this.snackBar.open(error.message, "Close", {duration: 3000})
-      })
+        this.snackBar.open(error.message, "Close", {duration: 3000});
+      });
     } else {
       this.snackBar.open("Please enter valid inputs", "Close", {duration: 3000})
     }

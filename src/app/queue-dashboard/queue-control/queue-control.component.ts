@@ -1,19 +1,15 @@
-
 import {map, pluck, tap} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 
 import {UserService} from '../../core/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from "../../shared/model/user";
-import {environment} from "../../../environments/environment";
 import {BsModalService} from "ngx-bootstrap/modal";
 import {ModalConfirmComponent} from "../../shared/components/modals/modal-confirm/modal-confirm.component";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {Helper} from "../../shared/helper/helper";
-import {MatSlider, MatSlideToggleChange} from "@angular/material";
 import {QueueStateService} from "../../core/queuestate.service";
 
 @Component({
@@ -53,11 +49,11 @@ export class QueueControlComponent implements OnInit {
   TIP_REFRESH = "Green check mark is up to date. Orange is out sync";
 
   constructor(
-              private route: ActivatedRoute,
-              public userService: UserService,
-              public snackBar: MatSnackBar,
-              private modalService: BsModalService,
-              private queueStateService: QueueStateService) {
+    private route: ActivatedRoute,
+    public userService: UserService,
+    public snackBar: MatSnackBar,
+    private modalService: BsModalService,
+    private queueStateService: QueueStateService) {
   }
 
   ngOnInit(): void {
@@ -70,8 +66,8 @@ export class QueueControlComponent implements OnInit {
     //   }
     // });
 
-    this.queueStateService.state.subscribe(data=>{
-      if(data.socket_id !== this.queueStateService.webSocketAbstractService.socket.id) {
+    this.queueStateService.state.subscribe(data => {
+      if (data.socket_id !== this.queueStateService.webSocketAbstractService.socket.id) {
         this.applicationChangeFlag = true;
       }
     });
@@ -83,8 +79,8 @@ export class QueueControlComponent implements OnInit {
       this.userService.getUsers().pipe(
         tap((users: Array<User>) => {
           users.forEach(user => {
-            this.populateTodayIncident(user)
-          })
+            this.populateTodayIncident(user);
+          });
         })
       ).subscribe((users: Array<User>) => {
           this.showSpinner = false;
@@ -92,7 +88,7 @@ export class QueueControlComponent implements OnInit {
           this.updateSummary();
         },
         (error) => {
-          this.errorHandler(error)
+          this.errorHandler(error);
         });
     });
   }
@@ -103,7 +99,7 @@ export class QueueControlComponent implements OnInit {
       return t.data.filter(i => {
         return Helper.dateWithin(new Date(i.timestamp), 'day');
       });
-    })).subscribe(res => this.todayUserIncidentDict[user.iNumber] = res)
+    })).subscribe(res => this.todayUserIncidentDict[user.iNumber] = res);
   }
 
   onAddIncident(user: User) {
@@ -123,7 +119,7 @@ export class QueueControlComponent implements OnInit {
 
         },
         error => {
-          this.errorHandler(error)
+          this.errorHandler(error);
         }
       );
     });
@@ -145,7 +141,7 @@ export class QueueControlComponent implements OnInit {
           this.queueStateService.modifyQueue();
 
         }, error => {
-          this.errorHandler(error)
+          this.errorHandler(error);
         }
       );
     });
@@ -156,7 +152,7 @@ export class QueueControlComponent implements OnInit {
     this.userService.updateAvailability(user, !user.isAvailable).subscribe(() => {
       this.queueStateService.modifyQueue();
       user.setStatus(!user.isAvailable);
-      this.snackBar.open("Toggle Successful", "Close", {duration: 1000})
+      this.snackBar.open("Toggle Successful", "Close", {duration: 1000});
     }, (error) => alert(error.message));
   }
 
@@ -173,7 +169,7 @@ export class QueueControlComponent implements OnInit {
     let totalB = 0;
     this._userList.forEach(element => {
       if (element.incidentCounts[this.paramId]) {
-        totalB += element.incidentCounts[this.paramId]
+        totalB += element.incidentCounts[this.paramId];
       }
     });
     this.totalIncidentsCtx = totalB;
@@ -182,7 +178,7 @@ export class QueueControlComponent implements OnInit {
   hardRefresh() {
     this.ngOnInit();
     this.userService.logService.refresh();
-    this.snackBar.open("Refreshing...", "Close", {duration: 3000})
+    this.snackBar.open("Refreshing...", "Close", {duration: 3000});
   }
 
   private errorHandler(error) {

@@ -1,5 +1,4 @@
-
-import {map, catchError, tap} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {UserService} from './user.service';
 import {User} from '../shared/model/user';
@@ -48,7 +47,7 @@ export class LoginService {
         this.hasAuth = true;
       }),
       catchError(e => Helper.handleError(e, "Failed to Authenticate"))
-    )
+    );
   }
 
   authenticatedWithBasicToken(token?: string) {
@@ -64,7 +63,7 @@ export class LoginService {
     return this.http.get(this.api, httpOptions).pipe(
       tap(() => this.hasAuth = true),
       catchError(e => Helper.handleError(e, "Failed to Authenticate with token"))
-    )
+    );
   }
 
   isAuthenticated() {
@@ -72,23 +71,23 @@ export class LoginService {
   }
 
   getCachedToken() {
-    return localStorage.getItem(this.KEY_CACHE_AUTH_TOKEN)
+    return localStorage.getItem(this.KEY_CACHE_AUTH_TOKEN);
   }
 
   setCachedToken(token) {
-    localStorage.setItem(this.KEY_CACHE_AUTH_TOKEN, token)
+    localStorage.setItem(this.KEY_CACHE_AUTH_TOKEN, token);
   }
 
 
   authenticateWithFirebase(username, password) {
     // Todo this is work around
     username += "@scout33.org";
-    return this.afAuth.auth.signInWithEmailAndPassword(username, password)
+    return this.afAuth.auth.signInWithEmailAndPassword(username, password);
   }
 
   logonWithINumber(iNumber) {
     if (!iNumber) {
-      iNumber = "empty"
+      iNumber = "empty";
     }
     this.userService.getUserByNumber(iNumber.toLowerCase()).subscribe((user: User) => {
         this.user = user;
@@ -96,12 +95,12 @@ export class LoginService {
       }, (err: any) => {
         // SERVER IS DOWN
         if (err.status === 0) {
-          this.showDataBaseDown(err)
+          this.showDataBaseDown(err);
         } else {
           this.promptINumber();
         }
       }
-    )
+    );
   }
 
   promptINumber() {

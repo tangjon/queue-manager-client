@@ -1,10 +1,8 @@
+import {forkJoin} from 'rxjs';
 
-import {of as observableOf, forkJoin, Observable} from 'rxjs';
-
-import {switchMap, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../core/user.service";
-import {User} from "../../shared/model/user";
 import {ProductService} from "../../core/product.service";
 import {MatSnackBar} from "@angular/material";
 import {LogService} from "../../core/log.service";
@@ -41,7 +39,7 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   oneClickReset() {
-    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")){
+    if (window.confirm("Are you sure you want to Archive and Reset Queue Days and Reset Incident Counts?\nThis will take a while!!!!")) {
       this.showSpinner = true;
       forkJoin(
         this.userSerivce.resetAllUser().pipe(tap(() => {
@@ -54,8 +52,8 @@ export class ApplicationSettingsComponent implements OnInit {
         this.showSpinner = false;
         this.snackbar.open('One Click Reset Complete!', 'Close');
       }, err => {
-        this.snackbar.open(`An error has occurred ${err.message}`, 'Close')
-      })
+        this.snackbar.open(`An error has occurred ${err.message}`, 'Close');
+      });
     }
   }
 
@@ -75,7 +73,7 @@ export class ApplicationSettingsComponent implements OnInit {
         this.showSpinner = false;
         this.resetProgressArr[1] = true;
         this.snackbar.open('Queue Days and incidents reset', 'Close', {duration: 1000});
-      })
+      });
     }
 
   }
@@ -88,9 +86,10 @@ export class ApplicationSettingsComponent implements OnInit {
         this.snackbar.open('Logs were purged successfully', 'Close', {duration: 1000});
         this.showSpinner = false;
         this.resetProgressArr[3] = true;
-      })
+      });
     }
   }
+
   /** @deprecated  */
   download(filename, text) {
     // let btnRef = document.getElementById('btn-download');

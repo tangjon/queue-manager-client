@@ -1,5 +1,4 @@
-
-import {of as observableOf, forkJoin, Observable} from 'rxjs';
+import {forkJoin, of as observableOf} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ActionEntryLog} from "../shared/model/actionentrylog";
@@ -37,7 +36,7 @@ export class ArchiveService {
     let batch_user_add = [];
     users.forEach(user => {
       let body = this.generateUserBody(user, ARCHIVE_KEY);
-      batch_user_add.push(this.http.post(this.archiveUserAPI, body, this.httpOptions))
+      batch_user_add.push(this.http.post(this.archiveUserAPI, body, this.httpOptions));
     });
     if (batch_user_add.length == 0) {
       batch_user_add.push(observableOf({}));
@@ -47,7 +46,7 @@ export class ArchiveService {
     let batch_log_add = [];
     logs.forEach((log: ActionEntryLog) => {
       const body = this.generateLogBody(ARCHIVE_KEY, log);
-      batch_log_add.push(this.http.post(this.archiveLogAPI, body, this.httpOptions))
+      batch_log_add.push(this.http.post(this.archiveLogAPI, body, this.httpOptions));
     });
     if (batch_log_add.length == 0) {
       batch_log_add.push(observableOf({}));
@@ -62,15 +61,14 @@ export class ArchiveService {
   }
 
   private generateLogBody(ARCHIVE_KEY: string | null, log: ActionEntryLog) {
-    return {
-    };
+    return {};
   }
 
   private generateArchiveEntryBody(ARCHIVE_KEY) {
     return {
       KEY: ARCHIVE_KEY,
       DATE: new Date()
-    }
+    };
   }
 
 

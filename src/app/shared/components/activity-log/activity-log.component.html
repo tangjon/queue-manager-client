@@ -1,24 +1,24 @@
-  <h2>Activity Log</h2>
-  <span class="badge badge-info font-weight-light">Displaying last {{(actionActiveLogList).length}} Logs</span>
-  <table id="activity-log-table" class="table">
-    <thead>
-    <tr>
-      <th style="width:20%" scope="col">Time</th>
-      <th style="width:65%" scope="col">Description</th>
-      <th style="width:15%" scope="col">Logger</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngIf="showSpinner">
-      <td colspan="3">
-        <app-loading-spinner></app-loading-spinner>
-      </td>
-    </tr>
-    <tr *ngFor="let item of actionActiveLogList; let i = index">
-      <td scope="row">{{item.getDateFormatted()}} {{item.getTimeFormatted()}}</td>
-      <td>{{item.getSummary() }}</td>
-      <td>{{ item.loggerInumber }}</td>
-    </tr>
-    </tbody>
-  </table>
+<h2>Activity Log</h2>
+<span class="badge badge-info font-weight-light">Displaying last {{(actionActiveLogList).length}} Logs</span>
+<table id="activity-log-table" class="table">
+  <thead>
+  <tr>
+    <th style="width:20%" scope="col">Time</th>
+    <th style="width:65%" scope="col">Description</th>
+    <th style="width:15%" scope="col">Logger</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngIf="showSpinner">
+    <td colspan="3">
+      <app-loading-spinner></app-loading-spinner>
+    </td>
+  </tr>
+  <tr *ngFor="let item of actionActiveLogList; let i = index">
+    <td scope="row">{{item.getDateFormatted()}} {{item.getTimeFormatted()}}</td>
+    <td>{{item.getSummary() }}</td>
+    <td>{{ item.loggerInumber }}</td>
+  </tr>
+  </tbody>
+</table>
 

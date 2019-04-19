@@ -15,7 +15,8 @@ export class ModalInfoComponent implements OnInit {
   public onConfirm: Subject<any>;
   public onHide: Subject<any>;
 
-  constructor(public _bsModalRef: BsModalRef) {}
+  constructor(public _bsModalRef: BsModalRef) {
+  }
 
   public ngOnInit(): void {
     this.onCancel = new Subject();
@@ -24,7 +25,7 @@ export class ModalInfoComponent implements OnInit {
   }
 
   public confirm(input: string): void {
-    if(input.trim()){
+    if (input.trim()) {
       this.onConfirm.next(input);
       this._bsModalRef.hide();
     }

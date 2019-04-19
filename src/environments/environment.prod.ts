@@ -1,4 +1,4 @@
-import {qmtoolconfig} from '../../qmtoolconfig'
+import {qmtoolconfig} from '../../qmtoolconfig';
 
 export const environment = {
 
@@ -11,9 +11,9 @@ export const environment = {
   production: true,   // Compile for production: npm run build-prod
 
   // VM QM API
-  api :  qmtoolconfig.prod.api,
-  ws_url :  qmtoolconfig.prod.ws_url,
-  doc_url : 'https://queuemanagerdocumentation-p2000140239trial.dispatcher.hanatrial.ondemand.com/additional-documentation/introduction.html',
+  api: qmtoolconfig.prod.api,
+  ws_url: qmtoolconfig.prod.ws_url,
+  doc_url: 'https://queuemanagerdocumentation-p2000140239trial.dispatcher.hanatrial.ondemand.com/additional-documentation/introduction.html',
 
   /* Firebase, realtime functionality */
   firebaseRootUrl: 'prod',

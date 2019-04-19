@@ -20,9 +20,9 @@ export class WorkShift {
 
   getStatus() {
     if (this.isOnline()) {
-      return "Online"
+      return "Online";
     } else {
-      return "Offline"
+      return "Offline";
     }
   }
 

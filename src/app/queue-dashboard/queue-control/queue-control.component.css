@@ -1,25 +1,25 @@
 #unavailable-title {
-    background-color: rgb(218, 38, 38);
+  background-color: rgb(218, 38, 38);
 }
 
 #available-title {
-    background-color: #1d75bc;;
+  background-color: #1d75bc;;
 }
 
-#available-title, #unavailable-title  {
-    padding: 5px 14px;
+#available-title, #unavailable-title {
+  padding: 5px 14px;
 }
 
-.incident-detail{
-    background-color: white;
-    padding: 11px;
-    margin: auto;
-    width: 50%;
-    margin-bottom: 19px;
+.incident-detail {
+  background-color: white;
+  padding: 11px;
+  margin: auto;
+  width: 50%;
+  margin-bottom: 19px;
 }
 
-.assigned-twenty-four{
-    margin-left: 2px;
+.assigned-twenty-four {
+  margin-left: 2px;
 }
 
 .on-fire {
@@ -28,12 +28,12 @@
 }
 
 
-tr.high-workload{
+tr.high-workload {
   border-width: 5px;
   border-left: solid red;
 }
 
-.qm-refresh{
+.qm-refresh {
   float: right;
   margin: 3px;
 }

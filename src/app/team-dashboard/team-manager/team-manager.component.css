@@ -1,69 +1,69 @@
 div#add-user-form {
-    background-color: white;
-    padding: 16px;
+  background-color: white;
+  padding: 16px;
 }
 
 .qm-tbl {
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .qm-tbl-header, .qm-tbl-row {
-    background-color: white;
-    border-bottom: 0.5px solid #c8cacc;
+  background-color: white;
+  border-bottom: 0.5px solid #c8cacc;
 }
 
 .qm-tbl-header {
-    padding: 16px 0px;
-    font-weight: bold;
+  padding: 16px 0px;
+  font-weight: bold;
 }
 
 .qm-tbl-row {
-    padding: 6px 0px
+  padding: 6px 0px
 }
 
 .row.qm-tbl-detail {
-    padding: 10px 0px 4px 21px;
+  padding: 10px 0px 4px 21px;
 }
 
 .row.qm-tbl-detail .btn {
-    margin: 0px 2px;
-    padding: 0px 15px;
+  margin: 0px 2px;
+  padding: 0px 15px;
 }
 
 
 .row.qm-tbl-detail button.badge {
-    padding: 4px 10px;
-    margin: 0px 2px;
+  padding: 4px 10px;
+  margin: 0px 2px;
 }
 
 .row.qm-tbl-detail span.badge {
-    padding: 6px 15px;
-    margin: 3px;
+  padding: 6px 15px;
+  margin: 3px;
 }
 
 .btn-circle {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.428571429;
-    border-radius: 15px;
-  }
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
 
-  .roll-change-panel{
-    float: right;
-  }
+.roll-change-panel {
+  float: right;
+}
 
 #team-manger-component-header {
-    background-color: #1d75bc;
-    /*margin-bottom: 15px;*/
-    /*-webkit-box-shadow: 10px 10px grey;*/
-    /*box-shadow: 6px 6px #0d62a7;*/
-  }
+  background-color: #1d75bc;
+  /*margin-bottom: 15px;*/
+  /*-webkit-box-shadow: 10px 10px grey;*/
+  /*box-shadow: 6px 6px #0d62a7;*/
+}
 
 
-  #add-user-form{
-    margin-bottom: 20px
-  }
+#add-user-form {
+  margin-bottom: 20px
+}

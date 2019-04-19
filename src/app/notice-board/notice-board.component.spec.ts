@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NoticeBoardComponent } from './notice-board.component';
+import {NoticeBoardComponent} from './notice-board.component';
 
 describe('NoticeBoardComponent', () => {
   let component: NoticeBoardComponent;
@@ -8,9 +8,9 @@ describe('NoticeBoardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NoticeBoardComponent ]
+      declarations: [NoticeBoardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

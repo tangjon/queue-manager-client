@@ -1,6 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ModalInputComponent } from './modal-input.component';
+import {ModalInputComponent} from './modal-input.component';
 
 describe('ModalInputComponent', () => {
   // let component: ModalInputComponent;

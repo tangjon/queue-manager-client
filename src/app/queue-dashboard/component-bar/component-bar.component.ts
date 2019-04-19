@@ -17,7 +17,7 @@ export class ComponentBarComponent implements OnInit {
   ngOnInit() {
     this.productService.getProducts().subscribe(arrProductList => {
       this.productListGrouped = this.formatComponentRows(arrProductList);
-    })
+    });
   }
 
   formatComponentRows(arr) {
@@ -37,7 +37,7 @@ export class ComponentBarComponent implements OnInit {
   }
 
   getRouterLink(componentId) {
-    return `/qm/${componentId}`
+    return `/qm/${componentId}`;
   }
 
 }

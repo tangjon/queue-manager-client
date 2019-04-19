@@ -5,8 +5,8 @@ export class Detail {
 
   constructor(previousValue?, postValue?, unitOfMeasurement?) {
     this.toString = function () {
-      return (`${previousValue} to ${postValue} ${unitOfMeasurement}`).trim()
-    }
+      return (`${previousValue} to ${postValue} ${unitOfMeasurement}`).trim();
+    };
   }
 
   addCustomDetail(message: string) {

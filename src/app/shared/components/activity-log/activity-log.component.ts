@@ -1,5 +1,4 @@
-
-import {of as observableOf, Observable} from 'rxjs';
+import {Observable, of as observableOf} from 'rxjs';
 
 import {map} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
@@ -27,6 +26,6 @@ export class ActivityLogComponent implements OnInit {
 
     this.logService.getLogs().pipe(map(arr => arr.slice(0, this.NUM_OF_RESULTS))).subscribe((res: any) => {
       this.actionActiveLogList = res;
-    })
+    });
   }
 }

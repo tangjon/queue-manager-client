@@ -7,19 +7,19 @@
 
   <div class="container-fluid h-100">
     <div class="row h-100">
-        <div class="col-lg-2 d-lg-block d-none p-0">
-          <app-sidebar></app-sidebar>
-        </div>
-        <div class="col-lg-8 col">
-          <app-notice-board></app-notice-board>
-          <app-notification></app-notification>
-          <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
-          <router-outlet></router-outlet>
-          <app-activity-log></app-activity-log>
-        </div>
-        <!--<div class="col-lg-2 d-lg-block d-none p-0"></div>-->
+      <div class="col-lg-2 d-lg-block d-none p-0">
+        <app-sidebar></app-sidebar>
       </div>
+      <div class="col-lg-8 col">
+        <app-notice-board></app-notice-board>
+        <app-notification></app-notification>
+        <h3 class="alert alert-danger" role="alert" *ngIf="errorMessage">{{ errorMessage }}</h3>
+        <router-outlet></router-outlet>
+        <app-activity-log></app-activity-log>
+      </div>
+      <!--<div class="col-lg-2 d-lg-block d-none p-0"></div>-->
     </div>
+  </div>
 </div>
 
 

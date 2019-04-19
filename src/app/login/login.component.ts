@@ -14,7 +14,7 @@ export class LoginComponent {
 
   constructor(public afAuth: AngularFireAuth, public loginService: LoginService) {
     // attempt to authenticate user
-    if (this.loginService.getCachedToken()){
+    if (this.loginService.getCachedToken()) {
       this.loginService.authenticatedWithBasicToken().subscribe(() => {
       }, err => this.handleError(err));
     }

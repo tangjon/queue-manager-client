@@ -9,7 +9,6 @@ import {BsModalService} from "ngx-bootstrap";
 import {ModalInterface} from "../../shared/components/modals/modal-interface";
 import {ModalInputComponent} from "../../shared/components/modals/modal-input/modal-input.component";
 import {ActionEntryLog} from "../../shared/model/actionEntryLog";
-import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-rcc-management',
@@ -35,15 +34,15 @@ export class RccManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe((r:User[]) => {
+    this.userService.getUsers().subscribe((r: User[]) => {
       this.showSpinner = false;
-      this._userList = r.filter((user:User)=> user.iNumber.toUpperCase() !== "I100000")
+      this._userList = r.filter((user: User) => user.iNumber.toUpperCase() !== "I100000");
     }, error => {
       this.errorMessage = error.message;
     });
     this.currentDate = new Date();
 
-    this.updateQueueDayDict()
+    this.updateQueueDayDict();
   }
 
   onAddQDay(user: User) {
@@ -59,7 +58,7 @@ export class RccManagementComponent implements OnInit {
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
           this.matSnackBar.open("Update successful", "Close", {duration: 2000});
-          this.updateQueueDayDict()
+          this.updateQueueDayDict();
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         });
@@ -81,7 +80,7 @@ export class RccManagementComponent implements OnInit {
           let selector = `#${user.iNumber}.css-checkbox`;
           $(selector).attr("checked", "checked"); //jquery to check the box
           this.matSnackBar.open("Update successful", "Close", {duration: 2000});
-          this.updateQueueDayDict()
+          this.updateQueueDayDict();
         }, err => {
           this.matSnackBar.open("Error occured: " + err.message, "Close");
         });
@@ -99,7 +98,7 @@ export class RccManagementComponent implements OnInit {
           this.userService.updateQueueDays(user, amount).subscribe(r => {
             user.currentQDays = r;
             this.matSnackBar.open("Update successful", "Close", {duration: 2000});
-            this.updateQueueDayDict()
+            this.updateQueueDayDict();
           }, err => {
             this.matSnackBar.open("Error occurred: " + err.message, "Close");
           });
@@ -135,9 +134,9 @@ export class RccManagementComponent implements OnInit {
     console.log(msg, t);
   }
 
-  updateQueueDayDict(){
-    this.userService.getLastQueueDayChange().subscribe(res=>{
+  updateQueueDayDict() {
+    this.userService.getLastQueueDayChange().subscribe(res => {
       this.lastQueueDayUpdateDict = res;
-    })
+    });
   }
 }

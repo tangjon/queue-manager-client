@@ -1,60 +1,63 @@
-  <div id="rcc-info-panel" class="shadow mt-3">
-    <div class="row">
-      <div class="col-sm-3">KEY</div>
-      <div class="col">Oct-Dec = 1 | Jan-Mar = 2 | Apr-Jun = 3 | Jul-Sep = 4</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-3">Current Date</div>
-      <div class="col">{{ currentDate }}</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-3">Current Quarter</div>
-      <div class="col">{{getQuarter(null)}}</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-3">Next Reset in Days</div>
-      <div class="col" *ngIf="daysLeftInQuarter(null)">{{getResetDays(null)}}</div>
-      <div class="col" *ngIf="!daysLeftInQuarter(null)">
-        <button class="btn btn-danger" style="width:100%" routerLink="/settings" routerLinkActive="active">TODAY (END OF QUARTER)</button>
-      </div>
+<div id="rcc-info-panel" class="shadow mt-3">
+  <div class="row">
+    <div class="col-sm-3">KEY</div>
+    <div class="col">Oct-Dec = 1 | Jan-Mar = 2 | Apr-Jun = 3 | Jul-Sep = 4</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">Current Date</div>
+    <div class="col">{{ currentDate }}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">Current Quarter</div>
+    <div class="col">{{getQuarter(null)}}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">Next Reset in Days</div>
+    <div class="col" *ngIf="daysLeftInQuarter(null)">{{getResetDays(null)}}</div>
+    <div class="col" *ngIf="!daysLeftInQuarter(null)">
+      <button class="btn btn-danger" style="width:100%" routerLink="/settings" routerLinkActive="active">TODAY (END OF
+        QUARTER)
+      </button>
     </div>
   </div>
-  <h3 class="alert alert-danger error-message" *ngIf="errorMessage">{{ errorMessage }}</h3>
-  <h1 class="component-header" id="rcc-component-header">RCC Data</h1>
-  <div id="rcc-management" class="table-responsive shadow">
-    <table class="table qTable">
-      <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Current Queue Days</th>
-        <th scope="col">Action</th>
-        <th scope="col">Last Updated</th>
-        <th scope="col">Checklist</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngIf="showSpinner">
-        <td colspan="3">
-          <app-loading-spinner></app-loading-spinner>
-        </td>
-      </tr>
-      <tr *ngFor="let user of _userList; let i = index">
-        <td>{{user.name() + "(" + user.iNumber + ")"}}</td>
-        <td>{{user.currentQDays}}</td>
-        <td>
+</div>
+<h3 class="alert alert-danger error-message" *ngIf="errorMessage">{{ errorMessage }}</h3>
+<h1 class="component-header" id="rcc-component-header">RCC Data</h1>
+<div id="rcc-management" class="table-responsive shadow">
+  <table class="table qTable">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Current Queue Days</th>
+      <th scope="col">Action</th>
+      <th scope="col">Last Updated</th>
+      <th scope="col">Checklist</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="showSpinner">
+      <td colspan="3">
+        <app-loading-spinner></app-loading-spinner>
+      </td>
+    </tr>
+    <tr *ngFor="let user of _userList; let i = index">
+      <td>{{user.name() + "(" + user.iNumber + ")"}}</td>
+      <td>{{user.currentQDays}}</td>
+      <td>
 
-          <button mat-mini-fab matTooltip="Use when no queue days need to be added" (click)="addQueueDay(user, 0)">
-            <mat-icon color="secondary">check_circle</mat-icon></button>
-          <button class="btn btn-success m-1" type="button" (click)="onAddQDay(user)">Add</button>
-          <button class="btn btn-warning m-1" type="button" (click)="addQueueDay(user, 1)">+1</button>
-          <button class="btn btn-default m-1" type="button" (click)="updateQueueDays(user)">Edit</button>
-        </td>
-        <td>{{lastQueueDayUpdateDict[user.iNumber] }}</td>
-        <td>
-          <input type="checkbox" [id]="user.iNumber" class="css-checkbox"><label [for]="user.iNumber"
-                                                                                 class="css-label cb0"></label>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+        <button mat-mini-fab matTooltip="Use when no queue days need to be added" (click)="addQueueDay(user, 0)">
+          <mat-icon color="secondary">check_circle</mat-icon>
+        </button>
+        <button class="btn btn-success m-1" type="button" (click)="onAddQDay(user)">Add</button>
+        <button class="btn btn-warning m-1" type="button" (click)="addQueueDay(user, 1)">+1</button>
+        <button class="btn btn-default m-1" type="button" (click)="updateQueueDays(user)">Edit</button>
+      </td>
+      <td>{{lastQueueDayUpdateDict[user.iNumber] }}</td>
+      <td>
+        <input type="checkbox" [id]="user.iNumber" class="css-checkbox"><label [for]="user.iNumber"
+                                                                               class="css-label cb0"></label>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

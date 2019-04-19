@@ -3,13 +3,14 @@ export class Notification {
   type: string;
   message: string;
 
-  constructor(type, message,display) {
+  constructor(type, message, display) {
     this.active = display || false;
     this.message = message || "";
-    this.type = `[${type.toUpperCase()}]` || "[SYSTEM INFO]"
+    this.type = `[${type.toUpperCase()}]` || "[SYSTEM INFO]";
   }
-  isActive(){
-    return this.active
+
+  isActive() {
+    return this.active;
   }
 
   // toString() {

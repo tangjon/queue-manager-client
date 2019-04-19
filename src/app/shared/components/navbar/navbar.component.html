@@ -27,7 +27,9 @@
     </ul>
     <div>
       <span style="color:white">Welcome {{ loginService.user?.name() }}!</span>
-      <button mat-stroked-button color="accent" class="ml-1 my-1 my-md-0" routerLink="/settings" routerLinkActive="active">Settings</button>
+      <button mat-stroked-button color="accent" class="ml-1 my-1 my-md-0" routerLink="/settings"
+              routerLinkActive="active">Settings
+      </button>
       <button mat-raised-button color="primary" class="ml-1 my-1 my-md-0" (click)="logout()">Logout</button>
     </div>
     <div class="mx-1 text-white" routerLink="/about">

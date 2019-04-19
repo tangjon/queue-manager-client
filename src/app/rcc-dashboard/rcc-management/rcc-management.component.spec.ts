@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RccManagementComponent } from './rcc-management.component';
+import {RccManagementComponent} from './rcc-management.component';
 
 describe('RccManagementComponent', () => {
   let component: RccManagementComponent;
@@ -8,9 +8,9 @@ describe('RccManagementComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RccManagementComponent ]
+      declarations: [RccManagementComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

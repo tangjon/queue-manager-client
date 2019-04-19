@@ -41,10 +41,12 @@ export class UserService {
                 el.current_q_days, el.incident_threshold, el.usage_percent,
                 el.incident_counts, el.supported_products)
             ).sort(function (a, b) {
-              if (a.firstName < b.firstName)
+              if (a.firstName < b.firstName) {
                 return -1;
-              if (a.firstName > b.firstName)
+              }
+              if (a.firstName > b.firstName) {
                 return 1;
+              }
               return 0;
             });
           }

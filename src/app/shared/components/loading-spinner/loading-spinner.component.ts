@@ -9,7 +9,8 @@ export class LoadingSpinnerComponent implements OnInit {
 
   @Input() message: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

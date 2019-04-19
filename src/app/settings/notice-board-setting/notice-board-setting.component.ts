@@ -19,12 +19,12 @@ export class NoticeBoardSettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.afAuth.authState.subscribe((auth)=>{
-      if(auth){
-        this.db.object(environment.firebaseRootUrl + '/notice-board').valueChanges().subscribe((r:any) => {
+    this.afAuth.authState.subscribe((auth) => {
+      if (auth) {
+        this.db.object(environment.firebaseRootUrl + '/notice-board').valueChanges().subscribe((r: any) => {
           this.noticeBoardFlag = r.flag;
           this.noticeBoardMsg = r.msg;
-        })
+        });
       }
     });
 

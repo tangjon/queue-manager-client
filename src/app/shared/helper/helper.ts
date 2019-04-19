@@ -6,7 +6,7 @@ import {throwError} from "rxjs";
 export class Helper {
 
   static deepCopy(obj) {
-    return Object.assign({}, obj)
+    return Object.assign({}, obj);
   }
 
   static flatCopy(obj) {
@@ -17,7 +17,7 @@ export class Helper {
     return moment(date).isBetween(start, end);
   }
 
-  static dateWithin(date: Date, range: unitOfTime.StartOf) : boolean {
+  static dateWithin(date: Date, range: unitOfTime.StartOf): boolean {
     return moment(date).isBetween(moment().startOf(range), moment().endOf(range));
   }
 
@@ -25,7 +25,7 @@ export class Helper {
     console.error(error);
     // DEFAULT ERROR MESSAGE
     if (message.length === 0) {
-      message = "Something went wrong"
+      message = "Something went wrong";
     }
     // DATA BASE IS DOWN
     if (error.status === 0) {
@@ -40,14 +40,14 @@ export class Helper {
       return throwError({
         "status": error.status,
         "message": `${message} : ${error.error.message}`
-      })
+      });
     } else {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.message);
       return throwError({
         "status": error.status,
         "message": `${message} : ${error.message}`
-      })
+      });
     }
 
   }

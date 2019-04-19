@@ -37,15 +37,10 @@ export class ModalConfirmComponent implements OnInit {
     this._bsModalRef.hide();
   }
 
-  public hide(){
+  public hide() {
     this.onHide.next();
     this._bsModalRef.hide();
   }
-
-
-
-
-
 
 
 }

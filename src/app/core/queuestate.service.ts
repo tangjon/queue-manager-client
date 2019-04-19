@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {WebSocketAbstractService} from "./websocketAbstract.service";
 import {Subject} from "rxjs/index";
-import {User} from "../shared/model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +10,9 @@ export class QueueStateService {
   state: Subject<any>;
   private key = "queue modified";
 
-  constructor(public webSocketAbstractService: WebSocketAbstractService){
+  constructor(public webSocketAbstractService: WebSocketAbstractService) {
     this.state = webSocketAbstractService
-      .connect(this.key)
+      .connect(this.key);
   }
 
   modifyQueue() {

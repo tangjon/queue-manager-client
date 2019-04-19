@@ -26,8 +26,8 @@ export class ModalServerErrorComponent implements OnInit {
   }
 
   public confirm(): void {
-      this.onConfirm.next();
-      this._bsModalRef.hide();
+    this.onConfirm.next();
+    this._bsModalRef.hide();
   }
 
   public cancel(): void {

@@ -1,4 +1,3 @@
-
 import {map} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../../core/product.service";
@@ -30,7 +29,7 @@ export class ComponentSettingsComponent implements OnInit {
         }
         // a must be equal to b
         return 0;
-      })
+      });
     })).subscribe(products => {
       this.productList = products;
       this.showSpinner = false;
@@ -52,7 +51,7 @@ export class ComponentSettingsComponent implements OnInit {
         this.showSpinner = false;
         this.snackBar.open(`Removed Support Product '${productShortName}'`, 'Close', {duration: 1000});
         this.productList.splice(this.productList.indexOf(productShortName), 1);
-      })
+      });
     }
   }
 
@@ -65,6 +64,6 @@ export class ComponentSettingsComponent implements OnInit {
     }, error => {
       this.showSpinner = false;
       this.snackBar.open(error.message, 'Close');
-    })
+    });
   }
 }

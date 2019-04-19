@@ -14,8 +14,9 @@
       <div class="card-body">
         <h5 class="card-title">Archive (May take a while)</h5>
         <p class="card-text">Archives to database and exports to a file</p>
-        <button disabled class="btn btn-danger" (click)="archive()"><span class="badge badge-light mr-1">1</span>Archive <i
-          *ngIf="resetProgressArr[0]" class="fa fa-check-circle" style="color:white;"></i></button>
+        <button disabled class="btn btn-danger" (click)="archive()"><span class="badge badge-light mr-1">1</span>Archive
+          <i
+            *ngIf="resetProgressArr[0]" class="fa fa-check-circle" style="color:white;"></i></button>
         <div id="btn-download"></div>
       </div>
     </div>
@@ -28,7 +29,7 @@
       </div>
     </div>
   </div>
-  <div  class="row" *ngIf="showAdvanceSettings">
+  <div class="row" *ngIf="showAdvanceSettings">
     <div class="col-sm-6 data-rest-btn">
       <div class="card-body">
         <h5 class="card-title">Reset Log Entries</h5>

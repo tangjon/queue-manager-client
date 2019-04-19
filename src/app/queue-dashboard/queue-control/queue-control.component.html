@@ -8,7 +8,7 @@
 </h1>
 <!--AVAILABLE TABLE-->
 <div class="table-responsive shadow">
-  <h6 id="available-title" class="qTable-title">{{ ( _userList | isAvailable:paramId: true)?.length }} Available</h6>
+  <h6 id="available-title" class="qTable-title">{{ (_userList | isAvailable:paramId: true)?.length }} Available</h6>
   <table class="table qTable text-center">
     <thead>
     <tr>
@@ -91,7 +91,7 @@
 
 <!--UNAVAILABLE TABLE-->
 <div class="table-responsive shadow">
-  <h6 id="unavailable-title" class="qTable-title">{{ ( _userList | isAvailable:paramId: false)?.length }}
+  <h6 id="unavailable-title" class="qTable-title">{{ (_userList | isAvailable:paramId: false)?.length }}
     Unavailable</h6>
   <table class="table qTable text-center">
     <thead>

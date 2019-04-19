@@ -28,11 +28,11 @@ export class ActionEntryLog {
     this.affectedInumber = options.affectedInumber;
     this.affectedUserName = options.affectedUserName;
     this.timestamp = options.timestamp ? new Date(options.timestamp) : new Date();
-    this.detail = options.detail || new Detail("","","");
+    this.detail = options.detail || new Detail("", "", "");
   }
 
   getDescription() {
-      return this.defaultDescription
+    return this.defaultDescription;
   }
 
   getLogger(): string {
@@ -40,15 +40,15 @@ export class ActionEntryLog {
   }
 
   getTimeFormatted(): string {
-    return moment(this.timestamp).format("kk:mm:ss")
+    return moment(this.timestamp).format("kk:mm:ss");
   }
 
   getDateFormatted(): string {
-    return moment(this.timestamp).format('MM/DD/YYYY')
+    return moment(this.timestamp).format('MM/DD/YYYY');
   }
 
   getSummary(): string {
-    return '[' + this.getDescription() + ']' + ' : ' + this.affectedUserName + '(' + this.affectedInumber + ')' + ' : ' + this.detail.toString()
+    return '[' + this.getDescription() + ']' + ' : ' + this.affectedUserName + '(' + this.affectedInumber + ')' + ' : ' + this.detail.toString();
   }
 
   getFullDate(): Date {
@@ -64,12 +64,12 @@ export class ActionEntryLog {
     this.timestamp = new Date(date);
   }
 
-  generatePostBody(){
+  generatePostBody() {
     return {
-      "logger_id" : this.loggerInumber,
-      "affected_user_id" : this.affectedInumber,
-      "action_id" : this.actionId,
+      "logger_id": this.loggerInumber,
+      "affected_user_id": this.affectedInumber,
+      "action_id": this.actionId,
       "detail": this.detail.toString()
-    }
+    };
   }
 }

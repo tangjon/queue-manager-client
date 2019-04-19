@@ -1,5 +1,9 @@
 import {
-  MatButtonModule, MatIconModule, MatSlideToggleModule, MatSnackBarModule, MatToolbarModule,
+  MatButtonModule,
+  MatIconModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
 import {NgModule} from "@angular/core";

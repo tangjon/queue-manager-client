@@ -10,9 +10,9 @@ export class NotificationService {
   notifications: Subject<any>;
   private key = "notifications";
 
-  constructor(webSocketAbstractService: WebSocketAbstractService){
+  constructor(webSocketAbstractService: WebSocketAbstractService) {
     this.notifications = webSocketAbstractService
-      .connect(this.key)
+      .connect(this.key);
   }
 
   sendMsg(msg) {

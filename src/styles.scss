@@ -1,15 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 //@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-
 @import '~@angular/material/theming';
+
 @include mat-core();
 
 $qm-app-primary: mat-palette($mat-blue, 600);
-$qm-app-accent:  mat-palette($mat-orange, A200, A100, A400);
+$qm-app-accent: mat-palette($mat-orange, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$qm-app-warn:    mat-palette($mat-red);
+$qm-app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $qm-app-theme: mat-light-theme($qm-app-primary, $qm-app-accent, $qm-app-warn);

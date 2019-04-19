@@ -24,19 +24,19 @@ export class User {
     this.incidentCounts = objIncidentCount;
     this.supportedProducts = this.setSupportProudct(objSupportProducts);
     this.name = function () {
-      return `${firstName} ${lastName}`.trim()
-    }
+      return `${firstName} ${lastName}`.trim();
+    };
   }
 
-  checkAvailability(){
+  checkAvailability() {
     return this.isAvailable != 0;
   }
 
   getStatus(): string {
     if (this.isAvailable) {
-      return "AVAILABLE"
+      return "AVAILABLE";
     } else {
-      return "BUSY"
+      return "BUSY";
     }
   }
 
@@ -60,7 +60,7 @@ export class User {
     let arr = [];
     Object.keys(this.supportedProducts).forEach(key => {
       if (this.supportedProducts[key] != false) {
-        arr.push(key)
+        arr.push(key);
       }
     });
     return arr;
@@ -89,8 +89,7 @@ export class User {
       Object.keys(objSupportProducts).forEach(key => {
         if (objSupportProducts[key] == null) {
           objSupportProducts[key] = false;
-        }
-        else {
+        } else {
           objSupportProducts[key] = true;
         }
       });
@@ -101,18 +100,18 @@ export class User {
   // Call this for saving the meta body to database. The database expects this body
   generateMetaBody() {
     return {
-      user_id : this.iNumber,
-      first_name : this.firstName,
-      last_name : this.lastName,
-      is_available : this.isAvailable,
-      usage_percent : this.usagePercent,
-      current_q_days : this.currentQDays,
-      incident_threshold : this.iThreshold
-    }
+      user_id: this.iNumber,
+      first_name: this.firstName,
+      last_name: this.lastName,
+      is_available: this.isAvailable,
+      usage_percent: this.usagePercent,
+      current_q_days: this.currentQDays,
+      incident_threshold: this.iThreshold
+    };
   }
 
-  static copy(user:User){
-    return new User(user.iNumber, user.firstName, user.lastName, user.isAvailable, user.currentQDays, user.iThreshold, user.usagePercent, user.incidentCounts, user.supportedProducts)
+  static copy(user: User) {
+    return new User(user.iNumber, user.firstName, user.lastName, user.isAvailable, user.currentQDays, user.iThreshold, user.usagePercent, user.incidentCounts, user.supportedProducts);
   }
 
 }

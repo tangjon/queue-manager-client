@@ -1,10 +1,10 @@
 export class BodyParser {
 
   static parseBody(body) {
-    if(body.d.results){
+    if (body.d.results) {
       return this.parseBodyResult(body);
     }
-    if(body.d){
+    if (body.d) {
       const {__metadata, ...newObject} = body.d;
       return newObject;
     }

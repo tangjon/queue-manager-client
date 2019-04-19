@@ -26,11 +26,11 @@ export class QmInfoComponent implements OnInit {
     if (uInput && uInput.length) {
       this.userService.setQM(uInput.toLowerCase()).subscribe(() => {
           this.qmUser = this.userService.getQM();
-          this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000})
+          this.snackBar.open("Welcome Queue Manager", "Close", {duration: 1000});
         },
         e => {
           alert(e.message);
-        })
+        });
     }
 
   }

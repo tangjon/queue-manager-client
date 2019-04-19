@@ -15,7 +15,6 @@ import {AboutComponent} from './about/about.component';
 import {RccDashboardModule} from "./rcc-dashboard/rcc-dashboard.module";
 import {TeamDashboardModule} from "./team-dashboard/team-dashboard.module";
 import {PatchNotesComponent} from './patch-notes/patch-notes.component';
-import {MaterialModule} from "./shared/material";
 
 @NgModule({
   declarations: [
@@ -40,4 +39,5 @@ import {MaterialModule} from "./shared/material";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

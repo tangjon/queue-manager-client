@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { QmInfoComponent } from './qm-info.component';
+import {QmInfoComponent} from './qm-info.component';
 
 describe('QmInfoComponent', () => {
   let component: QmInfoComponent;
@@ -8,9 +8,9 @@ describe('QmInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QmInfoComponent ]
+      declarations: [QmInfoComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

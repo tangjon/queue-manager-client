@@ -8,9 +8,9 @@ describe('NoticeBoardSettingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NoticeBoardSettingComponent ]
+      declarations: [NoticeBoardSettingComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

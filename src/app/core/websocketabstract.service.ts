@@ -19,12 +19,12 @@ export class WebSocketAbstractService {
     this.socket = io.connect(environment.ws_url);
   }
 
-  connect(key:string) : Subject<any>{
+  connect(key: string): Subject<any> {
     // If you aren't familiar with environment variables then
     // you can hard code `environment.ws_url` as `http://localhost:5000`
     // this.socket = io.connect(environment.ws_url);
 
-    this.socket.on("connect", ()=>{
+    this.socket.on("connect", () => {
     });
     // We define our observable which will observe any incoming messages
     // from our socket.io server.

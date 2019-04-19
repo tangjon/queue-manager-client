@@ -1,7 +1,6 @@
-import {TestBed, inject, async} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 import {LogService} from "./log.service";
 import {CoreModule} from "./core.module";
-import {User} from "../shared/model/user";
 
 
 describe('LogService', () => {

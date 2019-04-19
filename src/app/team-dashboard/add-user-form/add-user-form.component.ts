@@ -21,7 +21,7 @@ export class AddUserFormComponent implements OnInit {
     if (f.valid && f.value.name && f.value.affectedInumber) {
       this.userService.addUser(f.value.name, f.value.affectedInumber).subscribe((user: User) => {
         // this.userList.push(user);
-      })
+      });
     }
   }
 
