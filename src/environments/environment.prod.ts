@@ -4,6 +4,7 @@ export const environment = {
 
 
   // Meta Data
+  enableDemo: false,
   enableAuth: true,
   appVersion: '3.0',
   last_updated: 'July 2018',

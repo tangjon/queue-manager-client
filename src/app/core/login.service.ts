@@ -26,11 +26,7 @@ export class LoginService {
 
   constructor(public http: HttpClient, private userService: UserService,
               private modalService: BsModalService, public afAuth: AngularFireAuth) {
-    if (environment.enableAuth === false) {
-      this.hasAuth = true;
-    } else {
-      this.hasAuth = false;
-    }
+    this.hasAuth = environment.enableAuth === false;
   }
 
   authenticateWithUserNamePassword(username, password) {

@@ -21,7 +21,7 @@ export class ProductService {
   getProducts(): Observable<string[]> {
     return this.http.get(this.api, this.httpOptions).pipe(
       map((res: any) => {
-        let productList = [];
+        const productList = [];
         if (res.code === 200) {
           res.data.forEach(el => {
             productList.push(el.short_name);
