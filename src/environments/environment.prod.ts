@@ -4,6 +4,7 @@ export const environment = {
 
 
   // Meta Data
+  enableAuth: true,
   appVersion: '3.0',
   last_updated: 'July 2018',
   appName: 'Queue Manager Cloud Dispatcher',

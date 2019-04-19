@@ -5,6 +5,7 @@
 
 export const environment = {
   // Meta Data
+  enableAuth: false,
   appVersion: 'v3.0',
   last_updated: 'July 2018',
   appName: 'Queue Manager Cloud Dispatcher',
@@ -14,6 +15,7 @@ export const environment = {
   // LOCAL QM API
   api: 'http://localhost:8082/api',
   ws_url: 'http://localhost:8082',
+  // tslint:disable-next-line:max-line-length
   doc_url: 'https://queuemanagerdocumentation-p2000140239trial.dispatcher.hanatrial.ondemand.com/additional-documentation/introduction.html',
 
   // Firebase config and api

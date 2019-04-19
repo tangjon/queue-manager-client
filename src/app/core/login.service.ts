@@ -21,14 +21,16 @@ export class LoginService {
   public user: User;
 
   public api = environment.api + "/auth";
-
   public authToken;
+  public hasAuth;
 
-  public hasAuth = false;
-
-
-  constructor(public http: HttpClient, private userService: UserService, private modalService: BsModalService, public afAuth: AngularFireAuth) {
-
+  constructor(public http: HttpClient, private userService: UserService,
+              private modalService: BsModalService, public afAuth: AngularFireAuth) {
+    if (environment.enableAuth === false) {
+      this.hasAuth = true;
+    } else {
+      this.hasAuth = false;
+    }
   }
 
   authenticateWithUserNamePassword(username, password) {
