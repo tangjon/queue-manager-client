@@ -1,12 +1,8 @@
 # Queue Manager Web App 3.0
 
-This documentation is for setting up the EPM QM Tool. Refer to UserDocumentation for information on how to use this tool.
-
-Live link: https://queuemanager-p2000140239trial.dispatcher.hanatrial.ondemand.com/
-
-Outlines the following
-- Setup Front End
-- Setup Back End
+This is the frontend client that connects to a Node.js [server](https://github.com/tangjon/queue-manager-server)
+The application servers as work distribution tool that tracks tickets, users, logs. It will organize the queue such that
+the work load is evenly distributed.
 
 # Setup Front end (Angular 6)
 
