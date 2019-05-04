@@ -4,6 +4,9 @@ This is the frontend client that connects to a Node.js [server](https://github.c
 The application servers as work distribution tool that tracks tickets, users, logs. It will organize the queue such that
 the work load is evenly distributed.
 
+# User Documentation
+https://tangjon.github.io/queue-manager-client/additional-documentation/introduction.html
+
 # Setup Front end (Angular 6)
 
 ## Getting Started
