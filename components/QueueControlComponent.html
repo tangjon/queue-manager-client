@@ -1,0 +1,1897 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>EPMQMDocs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/postmark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">EPMQMDocs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>QueueControlComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/queue-dashboard/queue-control/queue-control.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-queue-control</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./queue-control.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./queue-control.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#_userList">_userList</a>
+                            </li>
+                            <li>
+                                <a href="#applicationChangeFlag">applicationChangeFlag</a>
+                            </li>
+                            <li>
+                                <a href="#errorMessage">errorMessage</a>
+                            </li>
+                            <li>
+                                <a href="#id$">id$</a>
+                            </li>
+                            <li>
+                                <a href="#MAX_INCIDENTS">MAX_INCIDENTS</a>
+                            </li>
+                            <li>
+                                <a href="#paramId">paramId</a>
+                            </li>
+                            <li>
+                                <a href="#showSpinner">showSpinner</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#snackBar">snackBar</a>
+                            </li>
+                            <li>
+                                <a href="#TIP_ADD_INCIDENT">TIP_ADD_INCIDENT</a>
+                            </li>
+                            <li>
+                                <a href="#TIP_AVAILABLE">TIP_AVAILABLE</a>
+                            </li>
+                            <li>
+                                <a href="#TIP_BUSY">TIP_BUSY</a>
+                            </li>
+                            <li>
+                                <a href="#TIP_FIREBALL">TIP_FIREBALL</a>
+                            </li>
+                            <li>
+                                <a href="#TIP_REFRESH">TIP_REFRESH</a>
+                            </li>
+                            <li>
+                                <a href="#TIP_REMOVE_INCIDENT">TIP_REMOVE_INCIDENT</a>
+                            </li>
+                            <li>
+                                <a href="#TIP_TOTAL_INCIDENTS">TIP_TOTAL_INCIDENTS</a>
+                            </li>
+                            <li>
+                                <a href="#todayUserIncidentDict">todayUserIncidentDict</a>
+                            </li>
+                            <li>
+                                <a href="#totalIncidents">totalIncidents</a>
+                            </li>
+                            <li>
+                                <a href="#totalIncidentsCtx">totalIncidentsCtx</a>
+                            </li>
+                            <li>
+                                <a href="#users">users</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userService">userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#errorHandler">errorHandler</a>
+                            </li>
+                            <li>
+                                <a href="#hardRefresh">hardRefresh</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onAddIncident">onAddIncident</a>
+                            </li>
+                            <li>
+                                <a href="#onRemoveIncident">onRemoveIncident</a>
+                            </li>
+                            <li>
+                                <a href="#populateTodayIncident">populateTodayIncident</a>
+                            </li>
+                            <li>
+                                <a href="#toggleAvailability">toggleAvailability</a>
+                            </li>
+                            <li>
+                                <a href="#updateSummary">updateSummary</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, userService: <a href="../injectables/UserService.html">UserService</a>, snackBar: MatSnackBar, modalService: BsModalService, queueStateService: <a href="../injectables/QueueStateService.html">QueueStateService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>snackBar</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatSnackBar</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>modalService</td>
+                                                  
+                                                        <td>
+                                                                    <code>BsModalService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>queueStateService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/QueueStateService.html" target="_self" >QueueStateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorHandler"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            errorHandler
+                        </b>
+                        <a href="#errorHandler"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>errorHandler(error)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:184</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>error</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hardRefresh"></a>
+                    <span class="name">
+                        <b>
+                            hardRefresh
+                        </b>
+                        <a href="#hardRefresh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hardRefresh()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="178"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:178</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onAddIncident"></a>
+                    <span class="name">
+                        <b>
+                            onAddIncident
+                        </b>
+                        <a href="#onAddIncident"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onAddIncident(user: <a href="../classes/User.html">User</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:105</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRemoveIncident"></a>
+                    <span class="name">
+                        <b>
+                            onRemoveIncident
+                        </b>
+                        <a href="#onRemoveIncident"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRemoveIncident(user: <a href="../classes/User.html">User</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="populateTodayIncident"></a>
+                    <span class="name">
+                        <b>
+                            populateTodayIncident
+                        </b>
+                        <a href="#populateTodayIncident"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>populateTodayIncident(user: <a href="../classes/User.html">User</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:96</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleAvailability"></a>
+                    <span class="name">
+                        <b>
+                            toggleAvailability
+                        </b>
+                        <a href="#toggleAvailability"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleAvailability(user: <a href="../classes/User.html">User</a>, event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:150</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                                <code><a href="../classes/User.html" target="_self" >User</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSummary"></a>
+                    <span class="name">
+                        <b>
+                            updateSummary
+                        </b>
+                        <a href="#updateSummary"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateSummary()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_userList"></a>
+                        <span class="name">
+                            <b>
+                            _userList</b>
+                            <a href="#_userList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/User.html" target="_self" >Array&lt;User&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="applicationChangeFlag"></a>
+                        <span class="name">
+                            <b>
+                            applicationChangeFlag</b>
+                            <a href="#applicationChangeFlag"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="errorMessage"></a>
+                        <span class="name">
+                            <b>
+                            errorMessage</b>
+                            <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="id$"></a>
+                        <span class="name">
+                            <b>
+                            id$</b>
+                            <a href="#id$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;string&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="MAX_INCIDENTS"></a>
+                        <span class="name">
+                            <b>
+                            MAX_INCIDENTS</b>
+                            <a href="#MAX_INCIDENTS"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>3</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="paramId"></a>
+                        <span class="name">
+                            <b>
+                            paramId</b>
+                            <a href="#paramId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showSpinner"></a>
+                        <span class="name">
+                            <b>
+                            showSpinner</b>
+                            <a href="#showSpinner"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="snackBar"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            snackBar</b>
+                            <a href="#snackBar"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MatSnackBar</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TIP_ADD_INCIDENT"></a>
+                        <span class="name">
+                            <b>
+                            TIP_ADD_INCIDENT</b>
+                            <a href="#TIP_ADD_INCIDENT"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;Assign user an incident&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TIP_AVAILABLE"></a>
+                        <span class="name">
+                            <b>
+                            TIP_AVAILABLE</b>
+                            <a href="#TIP_AVAILABLE"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;Ready for incident assignment&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:46</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TIP_BUSY"></a>
+                        <span class="name">
+                            <b>
+                            TIP_BUSY</b>
+                            <a href="#TIP_BUSY"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;Should ask user before assigning more&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:45</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TIP_FIREBALL"></a>
+                        <span class="name">
+                            <b>
+                            TIP_FIREBALL</b>
+                            <a href="#TIP_FIREBALL"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x60;User is on fire and has taken more than ${this.MAX_INCIDENTS} incidents&#x60;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TIP_REFRESH"></a>
+                        <span class="name">
+                            <b>
+                            TIP_REFRESH</b>
+                            <a href="#TIP_REFRESH"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;Green check mark is up to date. Orange is out sync&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TIP_REMOVE_INCIDENT"></a>
+                        <span class="name">
+                            <b>
+                            TIP_REMOVE_INCIDENT</b>
+                            <a href="#TIP_REMOVE_INCIDENT"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;Remove an incident from user&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TIP_TOTAL_INCIDENTS"></a>
+                        <span class="name">
+                            <b>
+                            TIP_TOTAL_INCIDENTS</b>
+                            <a href="#TIP_TOTAL_INCIDENTS"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;Displays number of incidents assigned today&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="todayUserIncidentDict"></a>
+                        <span class="name">
+                            <b>
+                            todayUserIncidentDict</b>
+                            <a href="#todayUserIncidentDict"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="totalIncidents"></a>
+                        <span class="name">
+                            <b>
+                            totalIncidents</b>
+                            <a href="#totalIncidents"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="totalIncidentsCtx"></a>
+                        <span class="name">
+                            <b>
+                            totalIncidentsCtx</b>
+                            <a href="#totalIncidentsCtx"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="users"></a>
+                        <span class="name">
+                            <b>
+                            users</b>
+                            <a href="#users"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;any[]&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:24</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            userService</b>
+                            <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/queue-dashboard/queue-control/queue-control.component.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {map, pluck, tap} from &#x27;rxjs/operators&#x27;;
+import {Component, OnInit} from &#x27;@angular/core&#x27;;
+import {Observable} from &#x27;rxjs&#x27;;
+import {ActivatedRoute} from &#x27;@angular/router&#x27;;
+
+import {UserService} from &#x27;../../core/user.service&#x27;;
+import {MatSnackBar} from &#x27;@angular/material/snack-bar&#x27;;
+import {User} from &quot;../../shared/model/user&quot;;
+import {BsModalService} from &quot;ngx-bootstrap/modal&quot;;
+import {ModalConfirmComponent} from &quot;../../shared/components/modals/modal-confirm/modal-confirm.component&quot;;
+import {ModalInterface} from &quot;../../shared/components/modals/modal-interface&quot;;
+import {Helper} from &quot;../../shared/helper/helper&quot;;
+import {QueueStateService} from &quot;../../core/queuestate.service&quot;;
+
+@Component({
+  selector: &#x27;app-queue-control&#x27;,
+  templateUrl: &#x27;./queue-control.component.html&#x27;,
+  styleUrls: [&#x27;./queue-control.component.css&#x27;]
+})
+export class QueueControlComponent implements OnInit {
+  // alert variable
+
+  // users
+  users: Observable&lt;any[]&gt;;
+  _userList: Array&lt;User&gt; &#x3D; [];
+
+  // Info variables
+  errorMessage: string;
+  showSpinner &#x3D; true;
+  id$: Observable&lt;string&gt;;
+  paramId: string;
+  totalIncidents: number;
+  totalIncidentsCtx: number;
+
+  todayUserIncidentDict: object &#x3D; {};
+  // Refresh Button Variables
+  applicationChangeFlag &#x3D; false;
+
+  // Fireball
+  MAX_INCIDENTS &#x3D; 3;
+
+  // Tool Tip Definitions
+  TIP_TOTAL_INCIDENTS &#x3D; &quot;Displays number of incidents assigned today&quot;;
+  TIP_FIREBALL &#x3D; &#x60;User is on fire and has taken more than ${this.MAX_INCIDENTS} incidents&#x60;;
+  TIP_BUSY &#x3D; &#x27;Should ask user before assigning more&#x27;;
+  TIP_AVAILABLE &#x3D; &#x27;Ready for incident assignment&#x27;;
+  TIP_ADD_INCIDENT &#x3D; &#x27;Assign user an incident&#x27;;
+  TIP_REMOVE_INCIDENT &#x3D; &#x27;Remove an incident from user&#x27;;
+  TIP_REFRESH &#x3D; &quot;Green check mark is up to date. Orange is out sync&quot;;
+
+  constructor(
+    private route: ActivatedRoute,
+    public userService: UserService,
+    public snackBar: MatSnackBar,
+    private modalService: BsModalService,
+    private queueStateService: QueueStateService) {
+  }
+
+  ngOnInit(): void {
+    this.applicationChangeFlag &#x3D; false;
+
+    // Listen to changes from other clients
+    // this.webSocketService.connect().subscribe((data)&#x3D;&gt;{
+    //   if(data.socket_id !&#x3D;&#x3D; this.webSocketService.socketId) {
+    //     this.applicationChangeFlag &#x3D; true;
+    //   }
+    // });
+
+    this.queueStateService.state.subscribe(data &#x3D;&gt; {
+      if (data.socket_id !&#x3D;&#x3D; this.queueStateService.webSocketAbstractService.socket.id) {
+        this.applicationChangeFlag &#x3D; true;
+      }
+    });
+
+    this.id$ &#x3D; this.route.params.pipe(pluck(&#x27;id&#x27;));
+    this.id$.subscribe(value &#x3D;&gt; {
+      this.paramId &#x3D; value;
+      this.showSpinner &#x3D; true;
+      this.userService.getUsers().pipe(
+        tap((users: Array&lt;User&gt;) &#x3D;&gt; {
+          users.forEach(user &#x3D;&gt; {
+            this.populateTodayIncident(user);
+          });
+        })
+      ).subscribe((users: Array&lt;User&gt;) &#x3D;&gt; {
+          this.showSpinner &#x3D; false;
+          this._userList &#x3D; users;
+          this.updateSummary();
+        },
+        (error) &#x3D;&gt; {
+          this.errorHandler(error);
+        });
+    });
+  }
+
+  populateTodayIncident(user: User) {
+    return this.userService.getUserIncidents(user.iNumber).pipe(map((t: any) &#x3D;&gt; {
+
+      return t.data.filter(i &#x3D;&gt; {
+        return Helper.dateWithin(new Date(i.timestamp), &#x27;day&#x27;);
+      });
+    })).subscribe(res &#x3D;&gt; this.todayUserIncidentDict[user.iNumber] &#x3D; res);
+  }
+
+  onAddIncident(user: User) {
+    let amount &#x3D; 1;
+    let bsModalRef: ModalInterface &#x3D; this.modalService.show(ModalConfirmComponent);
+    bsModalRef.content.title &#x3D; &quot;Incident Assignment&quot;;
+    bsModalRef.content.message &#x3D; &#x60;You are assigning +${amount} incident(s) to ${user.name()}(${user.iNumber})&#x60;;
+    bsModalRef.content.onCancel.subscribe(() &#x3D;&gt; {
+    });
+    bsModalRef.content.onConfirm.subscribe(() &#x3D;&gt; {
+      this.userService.addIncident(user, this.paramId).subscribe(() &#x3D;&gt; {
+          this.snackBar.open(&#x27;Incident Added&#x27;, &#x27;Close&#x27;, {duration: 1000});
+          user.incidentCounts[this.paramId]++;
+          this.updateSummary();
+          this.populateTodayIncident(user);
+          this.queueStateService.modifyQueue();
+
+        },
+        error &#x3D;&gt; {
+          this.errorHandler(error);
+        }
+      );
+    });
+  }
+
+  onRemoveIncident(user: User) {
+    let amount &#x3D; -1;
+    let bsModalRef: ModalInterface &#x3D; this.modalService.show(ModalConfirmComponent);
+    bsModalRef.content.title &#x3D; &quot;Incident Removal&quot;;
+    bsModalRef.content.message &#x3D; &#x60;You are removing ${amount} incident(s) from ${user.name()}(${user.iNumber})&#x60;;
+    bsModalRef.content.onCancel.subscribe(() &#x3D;&gt; {
+    });
+    bsModalRef.content.onConfirm.subscribe(() &#x3D;&gt; {
+      this.userService.removeIncident(user, this.paramId).subscribe(() &#x3D;&gt; {
+          this.snackBar.open(&#x27;Incident Removed&#x27;, &#x27;Close&#x27;, {duration: 1000});
+          user.incidentCounts[this.paramId]--;
+          this.updateSummary();
+          this.populateTodayIncident(user);
+          this.queueStateService.modifyQueue();
+
+        }, error &#x3D;&gt; {
+          this.errorHandler(error);
+        }
+      );
+    });
+  }
+
+  toggleAvailability(user: User, event) {
+    // Send toggle
+    this.userService.updateAvailability(user, !user.isAvailable).subscribe(() &#x3D;&gt; {
+      this.queueStateService.modifyQueue();
+      user.setStatus(!user.isAvailable);
+      this.snackBar.open(&quot;Toggle Successful&quot;, &quot;Close&quot;, {duration: 1000});
+    }, (error) &#x3D;&gt; alert(error.message));
+  }
+
+  updateSummary() {
+
+    // total of all products
+    let totalA &#x3D; 0;
+    this._userList.forEach(user &#x3D;&gt; {
+      totalA +&#x3D; user.getIncidentTotal();
+    });
+    this.totalIncidents &#x3D; totalA;
+
+    // total of product
+    let totalB &#x3D; 0;
+    this._userList.forEach(element &#x3D;&gt; {
+      if (element.incidentCounts[this.paramId]) {
+        totalB +&#x3D; element.incidentCounts[this.paramId];
+      }
+    });
+    this.totalIncidentsCtx &#x3D; totalB;
+  }
+
+  hardRefresh() {
+    this.ngOnInit();
+    this.userService.logService.refresh();
+    this.snackBar.open(&quot;Refreshing...&quot;, &quot;Close&quot;, {duration: 3000});
+  }
+
+  private errorHandler(error) {
+    this.errorMessage &#x3D; &#x60;Received an error: ${error.message}\nConsider the following:\n1.Are you using Chrome?\n2.Please Restart the Database&#x60;;
+    this.snackBar.open(error.message, &#x27;Close&#x27;);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;h3 class&#x3D;&quot;alert alert-danger error-message&quot; *ngIf&#x3D;&quot;errorMessage&quot;&gt;{{ errorMessage }}&lt;/h3&gt;
+&lt;h1 class&#x3D;&quot;component-header&quot;&gt;QM: {{id$ | async }}
+  &lt;button mat-raised-button color&#x3D;&quot;primary&quot; [matTooltip]&#x3D;&quot;TIP_REFRESH&quot; class&#x3D;&quot;qm-refresh btn&quot; (click)&#x3D;&quot;hardRefresh()&quot;&gt;
+    &lt;i class&#x3D;&quot;fa fa-check&quot; *ngIf&#x3D;&quot;!applicationChangeFlag&quot; style&#x3D;&quot;color: #1dca00;&quot;&gt;&lt;/i&gt;
+    &lt;i class&#x3D;&quot;fa fa-exclamation-circle&quot; *ngIf&#x3D;&quot;applicationChangeFlag&quot; style&#x3D;&quot;color: orange&quot;&gt;&lt;/i&gt;
+    Refresh
+  &lt;/button&gt;
+&lt;/h1&gt;
+&lt;!--AVAILABLE TABLE--&gt;
+&lt;div class&#x3D;&quot;table-responsive shadow&quot;&gt;
+  &lt;h6 id&#x3D;&quot;available-title&quot; class&#x3D;&quot;qTable-title&quot;&gt;{{ (_userList | isAvailable:paramId: true)?.length }} Available&lt;/h6&gt;
+  &lt;table class&#x3D;&quot;table qTable text-center&quot;&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;#&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Name&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Assign&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Remove&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;{{ paramId }} Incidents&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Total Incidents&lt;span [matTooltip]&#x3D;&quot;TIP_TOTAL_INCIDENTS&quot; matTooltipPosition&#x3D;&quot;above&quot;
+                                           class&#x3D;&quot;badge badge-success&quot;&gt;+24hrs&lt;/span&gt;
+      &lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;AVG Q-DAY&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Status&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Actions&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody *ngIf&#x3D;&quot;showSpinner&quot; class&#x3D;&quot;text-center&quot;&gt;
+    &lt;tr&gt;
+      &lt;td colspan&#x3D;&quot;9&quot;&gt;
+        &lt;app-loading-spinner&gt;&lt;/app-loading-spinner&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tbody *ngIf&#x3D;&quot;!showSpinner&quot;&gt;
+    &lt;tr
+      *ngFor&#x3D;&quot;let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i &#x3D; index&quot;
+      [class.high-workload]&#x3D;&quot;todayUserIncidentDict[user.iNumber]?.length &gt;&#x3D; user.iThreshold&quot;&gt;
+      &lt;th scope&#x3D;&quot;row&quot;&gt;
+        {{i + 1}}
+        &lt;img [matTooltip]&#x3D;&quot;TIP_FIREBALL&quot; matTooltipPosition&#x3D;&quot;left&quot;
+             *ngIf&#x3D;&quot;todayUserIncidentDict[user.iNumber]?.length &gt;&#x3D; user.iThreshold&quot;
+             class&#x3D;&quot;on-fire text-center&quot; src&#x3D;&quot;../../../assets/fireball.gif&quot;
+             style&#x3D;&quot;display: block&quot;&gt;
+      &lt;/th&gt;
+      &lt;td&gt;{{user.name() + &quot;(&quot; + user.iNumber + &quot;)&quot;}}&lt;/td&gt;
+      &lt;td&gt;
+
+        &lt;button [matTooltip]&#x3D;&quot;TIP_ADD_INCIDENT&quot; (click)&#x3D;&quot;onAddIncident(user)&quot; class&#x3D;&quot;btn btn-success&quot;&gt;
+          &lt;i class&#x3D;&quot;fa fa-plus-square fa-sm&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/td&gt;
+      &lt;td&gt;
+        &lt;button [matTooltip]&#x3D;&quot;TIP_REMOVE_INCIDENT&quot; (click)&#x3D;&quot;onRemoveIncident(user)&quot; class&#x3D;&quot;btn btn-danger&quot;
+                [disabled]&#x3D;&quot;user.incidentCounts[paramId] &#x3D;&#x3D; 0&quot;&gt;
+          &lt;i class&#x3D;&quot;fa fa-minus-square fa-sm&quot;&gt; &lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/td&gt;
+      &lt;td&gt;{{ user.getIncidentAmount(paramId) }}&lt;/td&gt;
+      &lt;td&gt;{{ user.getIncidentTotal() }}
+        &lt;!--Displays 24hr counter depending on assignment counter--&gt;
+        &lt;!--This is done to reduce calls of #getAssignmentCount--&gt;
+        &lt;span *ngIf&#x3D;&quot;this.todayUserIncidentDict[user.iNumber]?.length.toString()  as variable&quot;
+              class&#x3D;&quot;badge assigned-twenty-four&quot;
+              [ngClass]&#x3D;&quot;{
+        &#x27;badge-success&#x27;: variable &gt; 0,&#x27;badge-secondary&#x27;: variable &#x3D;&#x3D; 0, &#x27;badge-danger&#x27; : variable &lt; 0}&quot;&gt;
+          &lt;span *ngIf&#x3D;&quot;variable &gt; 0&quot;&gt;+&lt;/span&gt;{{variable}}
+        &lt;/span&gt;
+      &lt;/td&gt;
+      &lt;td&gt;{{ user.getAverageQDay() }}&lt;/td&gt;
+      &lt;td&gt;
+        &lt;i *ngIf&#x3D;&quot;this.todayUserIncidentDict[user.iNumber]?.length.toString() as variable&quot;
+           class&#x3D;&quot;fa fa-lg&quot;
+           [matTooltip]&#x3D;&quot;variable &gt;&#x3D; user.iThreshold ? TIP_BUSY : TIP_AVAILABLE&quot;
+           [ngClass]&#x3D;&quot;{&#x27;fa-check-circle&#x27;: variable &lt; user.iThreshold,&#x27;fa-minus-circle&#x27;: variable &gt;&#x3D; user.iThreshold}&quot;
+           [ngStyle]&#x3D;&quot;{&#x27;color&#x27; : variable &lt; user.iThreshold ? &#x27;green&#x27; : &#x27;#fb9121&#x27;  }&quot;&gt;
+        &lt;/i&gt;
+      &lt;/td&gt;
+      &lt;td&gt;
+        &lt;!--&lt;button mat-raised-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;toggleAvailability(user, $event)&quot;&gt;Toggle&lt;/button&gt;--&gt;
+        &lt;mat-slide-toggle
+          [checked]&#x3D;&quot;user.checkAvailability()&quot;
+          (change)&#x3D;&quot;toggleAvailability(user, $event)&quot;&gt;
+          Toggle
+        &lt;/mat-slide-toggle&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;!--UNAVAILABLE TABLE--&gt;
+&lt;div class&#x3D;&quot;table-responsive shadow&quot;&gt;
+  &lt;h6 id&#x3D;&quot;unavailable-title&quot; class&#x3D;&quot;qTable-title&quot;&gt;{{ (_userList | isAvailable:paramId: false)?.length }}
+    Unavailable&lt;/h6&gt;
+  &lt;table class&#x3D;&quot;table qTable text-center&quot;&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;#&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Name&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;{{ paramId }} Incidents&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Total&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;AVG Q-DAY&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Status&lt;/th&gt;
+      &lt;th scope&#x3D;&quot;col&quot;&gt;Actions&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+    &lt;tr *ngFor&#x3D;&quot;let bUser of _userList | isAvailable:paramId :false | sortByAlpha; let i &#x3D; index&quot;&gt;
+      &lt;th scope&#x3D;&quot;row&quot;&gt;{{i + 1}}&lt;/th&gt;
+      &lt;td&gt;{{bUser.name() + &quot;(&quot; + bUser.iNumber + &quot;)&quot;}}&lt;/td&gt;
+      &lt;td&gt;{{ bUser.getIncidentAmount(paramId) }}&lt;/td&gt;
+      &lt;td&gt;{{ bUser.getIncidentTotal() }}&lt;/td&gt;
+      &lt;td&gt;{{ bUser.getAverageQDay() }}&lt;/td&gt;
+      &lt;td&gt;
+        &lt;i class&#x3D;&quot;fa fa-times fa-lg&quot; style&#x3D;&quot;color:red;&quot;&gt;&lt;/i&gt;
+      &lt;/td&gt;
+      &lt;td&gt;
+        &lt;!--&lt;button (click)&#x3D;&quot;toggleAvailability(bUser, $event)&quot;&gt;Toggle&lt;/button&gt;--&gt;
+        &lt;mat-slide-toggle
+          [checked]&#x3D;&quot;bUser.checkAvailability()&quot;
+          (change)&#x3D;&quot;toggleAvailability(bUser, $event)&quot;&gt;
+          Toggle
+        &lt;/mat-slide-toggle&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+
+&lt;div class&#x3D;&quot;incident-detail text-center shadow&quot;&gt;{{id$ | async }} has
+  &lt;button class&#x3D;&quot;btn btn-primary&quot;&gt;{{ totalIncidentsCtx }}&lt;/button&gt;
+  incidents. Sum is
+  &lt;button class&#x3D;&quot;btn btn-primary&quot;&gt;{{ totalIncidents }}&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./queue-control.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">#unavailable-title {
+  background-color: rgb(218, 38, 38);
+}
+
+#available-title {
+  background-color: #1d75bc;;
+}
+
+#available-title, #unavailable-title {
+  padding: 5px 14px;
+}
+
+.incident-detail {
+  background-color: white;
+  padding: 11px;
+  margin: auto;
+  width: 50%;
+  margin-bottom: 19px;
+}
+
+.assigned-twenty-four {
+  margin-left: 2px;
+}
+
+.on-fire {
+  width: 13.5px;
+  margin: auto;
+}
+
+
+tr.high-workload {
+  border-width: 5px;
+  border-left: solid red;
+}
+
+.qm-refresh {
+  float: right;
+  margin: 3px;
+}
+
+/* Tooltips */
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><h3 class="alert alert-danger error-message" *ngIf="errorMessage">{{ errorMessage }}</h3><h1 class="component-header">QM: {{id$ | async }}  <button mat-raised-button color="primary" [matTooltip]="TIP_REFRESH" class="qm-refresh btn" (click)="hardRefresh()">    <i class="fa fa-check" *ngIf="!applicationChangeFlag" style="color: #1dca00;"></i>    <i class="fa fa-exclamation-circle" *ngIf="applicationChangeFlag" style="color: orange"></i>    Refresh  </button></h1><!--AVAILABLE TABLE--><div class="table-responsive shadow">  <h6 id="available-title" class="qTable-title">{{ (_userList | isAvailable:paramId: true)?.length }} Available</h6>  <table class="table qTable text-center">    <thead>    <tr>      <th scope="col">#</th>      <th scope="col">Name</th>      <th scope="col">Assign</th>      <th scope="col">Remove</th>      <th scope="col">{{ paramId }} Incidents</th>      <th scope="col">Total Incidents<span [matTooltip]="TIP_TOTAL_INCIDENTS" matTooltipPosition="above"                                           class="badge badge-success">+24hrs</span>      </th>      <th scope="col">AVG Q-DAY</th>      <th scope="col">Status</th>      <th scope="col">Actions</th>    </tr>    </thead>    <tbody *ngIf="showSpinner" class="text-center">    <tr>      <td colspan="9">        <app-loading-spinner></app-loading-spinner>      </td>    </tr>    </tbody>    <tbody *ngIf="!showSpinner">    <tr      *ngFor="let user of _userList | isAvailable:paramId :true | sortByAVGQDay | sortByPriority: totalIncidents; let i = index"      [class.high-workload]="todayUserIncidentDict[user.iNumber]?.length >= user.iThreshold">      <th scope="row">        {{i + 1}}        <img [matTooltip]="TIP_FIREBALL" matTooltipPosition="left"             *ngIf="todayUserIncidentDict[user.iNumber]?.length >= user.iThreshold"             class="on-fire text-center" src="../../../assets/fireball.gif"             style="display: block">      </th>      <td>{{user.name() + "(" + user.iNumber + ")"}}</td>      <td>        <button [matTooltip]="TIP_ADD_INCIDENT" (click)="onAddIncident(user)" class="btn btn-success">          <i class="fa fa-plus-square fa-sm"></i>        </button>      </td>      <td>        <button [matTooltip]="TIP_REMOVE_INCIDENT" (click)="onRemoveIncident(user)" class="btn btn-danger"                [disabled]="user.incidentCounts[paramId] == 0">          <i class="fa fa-minus-square fa-sm"> </i>        </button>      </td>      <td>{{ user.getIncidentAmount(paramId) }}</td>      <td>{{ user.getIncidentTotal() }}        <!--Displays 24hr counter depending on assignment counter-->        <!--This is done to reduce calls of #getAssignmentCount-->        <span *ngIf="this.todayUserIncidentDict[user.iNumber]?.length.toString()  as variable"              class="badge assigned-twenty-four"              [ngClass]="{        \'badge-success\': variable > 0,\'badge-secondary\': variable == 0, \'badge-danger\' : variable < 0}">          <span *ngIf="variable > 0">+</span>{{variable}}        </span>      </td>      <td>{{ user.getAverageQDay() }}</td>      <td>        <i *ngIf="this.todayUserIncidentDict[user.iNumber]?.length.toString() as variable"           class="fa fa-lg"           [matTooltip]="variable >= user.iThreshold ? TIP_BUSY : TIP_AVAILABLE"           [ngClass]="{\'fa-check-circle\': variable < user.iThreshold,\'fa-minus-circle\': variable >= user.iThreshold}"           [ngStyle]="{\'color\' : variable < user.iThreshold ? \'green\' : \'#fb9121\'  }">        </i>      </td>      <td>        <!--<button mat-raised-button color="primary" (click)="toggleAvailability(user, $event)">Toggle</button>-->        <mat-slide-toggle          [checked]="user.checkAvailability()"          (change)="toggleAvailability(user, $event)">          Toggle        </mat-slide-toggle>      </td>    </tr>    </tbody>  </table></div><!--UNAVAILABLE TABLE--><div class="table-responsive shadow">  <h6 id="unavailable-title" class="qTable-title">{{ (_userList | isAvailable:paramId: false)?.length }}    Unavailable</h6>  <table class="table qTable text-center">    <thead>    <tr>      <th scope="col">#</th>      <th scope="col">Name</th>      <th scope="col">{{ paramId }} Incidents</th>      <th scope="col">Total</th>      <th scope="col">AVG Q-DAY</th>      <th scope="col">Status</th>      <th scope="col">Actions</th>    </tr>    </thead>    <tbody>    <tr *ngFor="let bUser of _userList | isAvailable:paramId :false | sortByAlpha; let i = index">      <th scope="row">{{i + 1}}</th>      <td>{{bUser.name() + "(" + bUser.iNumber + ")"}}</td>      <td>{{ bUser.getIncidentAmount(paramId) }}</td>      <td>{{ bUser.getIncidentTotal() }}</td>      <td>{{ bUser.getAverageQDay() }}</td>      <td>        <i class="fa fa-times fa-lg" style="color:red;"></i>      </td>      <td>        <!--<button (click)="toggleAvailability(bUser, $event)">Toggle</button>-->        <mat-slide-toggle          [checked]="bUser.checkAvailability()"          (change)="toggleAvailability(bUser, $event)">          Toggle        </mat-slide-toggle>      </td>    </tr>    </tbody>  </table></div><div class="incident-detail text-center shadow">{{id$ | async }} has  <button class="btn btn-primary">{{ totalIncidentsCtx }}</button>  incidents. Sum is  <button class="btn btn-primary">{{ totalIncidents }}</button></div></div>'
+    var COMPONENTS = [{'name': 'AboutComponent', 'selector': 'app-about'},{'name': 'ActivityLogComponent', 'selector': 'app-activity-log'},{'name': 'AddUserFormComponent', 'selector': 'app-add-user-form'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ApplicationSettingsComponent', 'selector': 'app-application-settings'},{'name': 'ClipboardComponent', 'selector': 'app-clipboard'},{'name': 'ComponentBarComponent', 'selector': 'app-component-bar'},{'name': 'ComponentSettingsComponent', 'selector': 'app-component-settings'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ModalConfirmComponent', 'selector': 'app-modal-confirm'},{'name': 'ModalInfoComponent', 'selector': 'app-modal-info'},{'name': 'ModalInputComponent', 'selector': 'app-modal-input'},{'name': 'ModalServerErrorComponent', 'selector': 'app-modal-server-error'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NoticeBoardComponent', 'selector': 'app-notice-board'},{'name': 'NoticeBoardSettingComponent', 'selector': 'app-notice-board-setting'},{'name': 'NotificationComponent', 'selector': 'app-notification'},{'name': 'PatchNotesComponent', 'selector': 'app-patch-notes'},{'name': 'QmInfoComponent', 'selector': 'app-qm-info'},{'name': 'QueueControlComponent', 'selector': 'app-queue-control'},{'name': 'QueueDashboardComponent', 'selector': 'app-queue-dashboard'},{'name': 'RccDashboardComponent', 'selector': 'app-rcc-dashboard'},{'name': 'RccManagementComponent', 'selector': 'app-rcc-management'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'ShiftInfoComponent', 'selector': 'app-shift-info'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'TeamDashboardComponent', 'selector': 'app-team-dashboard'},{'name': 'TeamManagerComponent', 'selector': 'app-team-manager'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'QueueControlComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'QueueControlComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

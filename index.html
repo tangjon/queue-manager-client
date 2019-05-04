@@ -1,0 +1,245 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>EPMQMDocs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/postmark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">EPMQMDocs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="queue-manager-web-app-30">Queue Manager Web App 3.0</h1>
+<p>This is the frontend client that connects to a Node.js <a href="https://github.com/tangjon/queue-manager-server">server</a>
+The application servers as work distribution tool that tracks tickets, users, logs. It will organize the queue such that
+the work load is evenly distributed.</p>
+<h1 id="setup-front-end-angular-6">Setup Front end (Angular 6)</h1>
+<h2 id="getting-started">Getting Started</h2>
+<p>These instructions will get you a copy of the project up and running on your local machine for development. For deployment, refer to the deployment section below.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Things you need to install on your machine</p>
+<ol>
+<li>Node.js (https://nodejs.org/en/)</li>
+<li>Git (https://git-scm.com/)</li>
+</ol>
+<h3 id="installing">Installing</h3>
+<p>Through the Node.js command line run:</p>
+<p><code>npm install // This will install all dependencies</code></p>
+<p>Create a file &quot;qmtoolconfig.ts&quot; on the same level of &#39;angular.json&#39;. Paste the following </p>
+<p>```angular2html
+let VMIP = &quot;<IP ADDRESS>&quot; // VIRTUAL MACHINE IP ADDRESS
+export const qmtoolconfig = {
+  &#39;prod&#39; : {
+    api: VMIP + &#39;:8081/api&#39;,
+    ws_url : VMIP + &#39;:8081&#39;,
+  },
+  &#39;dev&#39; : {
+    api: VMIP + &#39;:8082/api&#39;,
+    ws_url : VMIP + &#39;:8082&#39;,
+  },
+  &#39;sandbox&#39;:{
+    api: VMIP + &#39;:8083/api&#39;,
+    ws_url : VMIP + &#39;:8083&#39;,
+  }
+};</p>
+<p>```</p>
+<h1 id="start-the-application--development-and-productions-environments">Start the application : Development and Productions Environments</h1>
+<h2 id="environments">Environments</h2>
+<p>These are following environments set up to be used for this project. Treat these environment as separate entities. No data is shared between them.</p>
+<p>All connections are managed in the src/environments folder separated by prod, dev, and sandbox</p>
+<p>DEVELOPMENT:</p>
+<p>Development Environment with local Database
+- requires MySQL database on local machine
+<code>$xslt
+ng serve OR npm run start</code></p>
+<p>Development Environment with VM Database
+- connects local front-end application to MySQL development database located on VM
+- Backend server located on VM PORT 8082 i.e http://&lt; vmip &gt;:8082
+<code>$xslt
+npm run start-vm</code></p>
+<p>PRODUCTION:</p>
+<p>Production Environment with VM Database - For production use.
+- do not develop on this
+<code>$xslt
+npm run build-prod // compiles the project for production. Outputs folder &#39;build-prod&#39;</code></p>
+<h2 id="compile-production-or-development-application-for-deployment">Compile Production or Development Application for Deployment</h2>
+<p>Compile the application into static folder with static files to server by an HTTP server. </p>
+<p>Currently an IIS server should be pointed to &#39;build-prod&#39;
+- this folder contains the production application users will see</p>
+<p>The following commands will compile the project files to served to the clients.
+```
+**For prod
+npm run build-prod // outputs &#39;build-prod&#39;</p>
+<p>**For dev
+npm run build-dev //ouputs &#39;build-dev&#39;
+```</p>
+<h2 id="included-bash-commands-that-can-be-ran">Included Bash Commands that can be ran:</h2>
+<p>Update.sh - Resets the project state and pulls the updates project files</p>
+<p>Deploy.sh - Compiles the production version of the app. Outputs &quot;build-prod folder&quot;</p>
+<p>=======================================</p>
+<h1 id="backend-end">Backend End</h1>
+<p>The front end needs a backend to talk to. Here it is. The backend with process the requests and query the database as needed.</p>
+<h2 id="getting-started-1">Getting Started</h2>
+<p>These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.</p>
+<h3 id="prerequisites-1">Prerequisites</h3>
+<p>What things you need to install the software and how to install them</p>
+<ol>
+<li>NodeJs</li>
+<li>Git Bash</li>
+<li>MySQL Community Server</li>
+</ol>
+<h3 id="installing-1">Installing</h3>
+<h2 id="install-mysql-community-server--workbench">Install MySQL Community Server &amp; Workbench</h2>
+<p>The files are present in the generate folder.
+- model.mwb: The containing the database structure for prod,dev,sandbox
+- initialize db tables.sql: Pure sql that creates the tables needed for application
+- generate.sql: Run this to initialize application with standard data. User: i100000
+- generate_test.sql: Run this to populate application with dummy data</p>
+<ol>
+<li><p>Install (https://dev.mysql.com/downloads/installer/)</p>
+</li>
+<li><p>Create a fie named &quot;SECRET.JS&quot; with the following
+<code>angular2html
+// 3 databases must exist on mysql dev,prod,sandbox
+const config = {
+ &quot;dev&quot;: {
+   host     : &#39;localhost&#39;,
+   user     : &#39;root&#39;,
+   password : &#39;password&#39;,
+   database : &#39;qmtooldb_dev&#39;
+ },
+ &quot;prod&quot; : {
+   host     : &#39;localhost&#39;,
+   user     : &#39;root&#39;,
+   password : &#39;password&#39;,
+   database : &#39;qmtooldb_prod&#39;
+ },
+ &#39;sandbox&#39; : {
+   host     : &#39;localhost&#39;,
+   user     : &#39;root&#39;,
+   password : &#39;password&#39;,
+   database : &#39;qmtooldb&#39;
+ }
+}
+module.exports = config</code></p>
+</li>
+</ol>
+<h2 id="install-dependencies">Install dependencies</h2>
+<ol>
+<li>Install <a href="https://nodejs.org/en/">Node.js</a></li>
+<li>Through the Node Js command line run:</li>
+</ol>
+<p><code>npm install // This will install all dependencies</code></p>
+<ol start="3">
+<li>Create a file in backend directory on the same level of app.js named &quot;SECRET.js&quot; (no quotes)</li>
+</ol>
+<p>paste the following </p>
+<h3 id="starting-production-server">Starting Production Server</h3>
+<p><code>npm run start-prod</code></p>
+<h3 id="starting-development-server">Starting Development Server</h3>
+<p><code>npm run start-dev</code></p>
+<h2 id="built-with">Built With</h2>
+<ul>
+<li><a href="https://firebase.google.com/">Google Firebase</a> - Realtime Actions</li>
+<li><a href="https://www.npmjs.com/package/angularfire2">AngularFire2</a></li>
+<li><a href="https://angular.io/">Angular</a> - Front-end web framework</li>
+<li><a href="https://nodejs.org/en/">NodeJs</a> - Dependency Management</li>
+<li><a href="https://getbootstrap.com/">Bootstrap</a> - Styling</li>
+<li><a href="https://fontawesome.com/">Font-Awesome</a> - Styling</li>
+<li><a href="https://dev.mysql.com/">MySQL</a> - Relational Database</li>
+</ul>
+<h2 id="license">License</h2>
+<p>This project is licensed under the MIT License - see the <a href="LICENSE.md">LICENSE.md</a> file for details</p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<ul>
+<li>https://github.com/qianyilun</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
